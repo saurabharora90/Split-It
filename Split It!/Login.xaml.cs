@@ -44,7 +44,9 @@ namespace Split_It_
 
         private void _onAccessTokenReceived(string accessToken, string accessTokenSecret)
         {
-
+            Util.setAccessToken(accessToken);
+            Util.setAccessTokenSecret(accessTokenSecret);
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
     }
 }

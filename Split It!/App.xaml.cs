@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Split_It_.Resources;
+using Split_It_.Utils;
 
 namespace Split_It_
 {
@@ -17,6 +18,8 @@ namespace Split_It_
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
+
+        public static string accessToken, accessTokenSecret;
 
         /// <summary>
         /// Constructor for the Application object.
@@ -125,6 +128,11 @@ namespace Split_It_
 
             // Ensure we don't initialize again
             phoneApplicationInitialized = true;
+
+            if(Util.getAccessToken() != null && Util.getAccessTokenSecret() !=null)
+                RootFrame.Navigate(new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute));
+            else
+                RootFrame.Navigate(new Uri("/LandingPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         // Do not add any additional code to this method
