@@ -10,18 +10,19 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Request
 {
-    class CurrentUserRequest : BaseRequest
+    class GetUserRequest : BaseRequest
     {
-        public static String currentUserURL = "get_current_user";
+        public static String getUserURL = "get_user/{id}";
 
-        public CurrentUserRequest()
+        public GetUserRequest()
             : base()
         {
         }
 
-        public void getCurrentUser()
+        public void getCurrentUser(int userId)
         {
-            var request = new RestRequest(currentUserURL);
+            var request = new RestRequest(getUserURL);
+            request.AddUrlSegment("id", userId.ToString());
             client.ExecuteAsync<RootObject>(request, reponse =>
                 {
                     User currentUser = reponse.Data.user;
