@@ -23,9 +23,10 @@ namespace Split_It_.Request
         {
             var request = new RestRequest(getUserURL);
             request.AddUrlSegment("id", userId.ToString());
-            client.ExecuteAsync<RootObject>(request, reponse =>
+            request.RootElement = "user";
+            client.ExecuteAsync<User>(request, reponse =>
                 {
-                    User currentUser = reponse.Data.user;
+                    User currentUser = reponse.Data;
                 });
         }
     }

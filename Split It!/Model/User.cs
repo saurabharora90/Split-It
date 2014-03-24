@@ -23,9 +23,4 @@ namespace Split_It_.Model
         public int notifications_count { get; set; }
         public Notifications notifications { get; set; }
     }
-
-    public class RootObject
-    {
-        public User user { get; set; }
-    }
 }
