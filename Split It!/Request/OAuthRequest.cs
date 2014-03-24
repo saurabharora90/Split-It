@@ -14,15 +14,13 @@ namespace Split_It_.Request
     {
         public static String reuqestTokenURL = "get_request_token";
         public static String accessTokenURL = "get_access_token";
-        public static String consumerKey = "wQukgHsUKubX5gal5rVKFXJ48lfvhxTXL9H12SkE";
-        public static String consumerSecret = "tt9wZlnI3MKOsvW3bKlrFflCEM5MvKtrOV4Ba8U8";
 
         private string _oAuthToken, _oAuthTokenSecret;
 
         public void getReuqestToken(Action<Uri> CallbackOnSuccess)
         {
             var client = new RestClient(Constants.SPLITWISE_API_URL);
-            client.Authenticator = OAuth1Authenticator.ForRequestToken(consumerKey, consumerSecret, Constants.OAUTH_CALLBACK);
+            client.Authenticator = OAuth1Authenticator.ForRequestToken(Constants.consumerKey, Constants.consumerSecret, Constants.OAUTH_CALLBACK);
             var request = new RestRequest(OAuthRequest.reuqestTokenURL, Method.POST);
             client.ExecuteAsync(request, response =>
             {
@@ -41,7 +39,7 @@ namespace Split_It_.Request
         {
             string oauth_veririfer = Util.GetQueryParameter(uri, "oauth_verifier");
             var client = new RestClient(Constants.SPLITWISE_API_URL);
-            client.Authenticator = OAuth1Authenticator.ForAccessToken(consumerKey, consumerSecret, _oAuthToken, _oAuthTokenSecret, oauth_veririfer);
+            client.Authenticator = OAuth1Authenticator.ForAccessToken(Constants.consumerKey, Constants.consumerSecret, _oAuthToken, _oAuthTokenSecret, oauth_veririfer);
             var request = new RestRequest(OAuthRequest.accessTokenURL, Method.POST);
             client.ExecuteAsync(request, response =>
             {
