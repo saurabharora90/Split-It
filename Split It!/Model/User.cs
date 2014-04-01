@@ -22,5 +22,8 @@ namespace Split_It_.Model
         public string notifications_read { get; set; }
         public int notifications_count { get; set; }
         public Notifications notifications { get; set; }
+        public List<Debt> balance { get; set; }
+        public List<Group> groups { get; set; }
+        public string updated_at { get; set; }
     }
 }
