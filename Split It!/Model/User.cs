@@ -22,7 +22,11 @@ namespace Split_It_.Model
         public string notifications_read { get; set; }
         public int notifications_count { get; set; }
         public Notifications notifications { get; set; }
+
+        //Store as JSON in database
         public List<Debt> balance { get; set; }
+
+        //Have a user_group table which stores the links between user and groups
         public List<Group> groups { get; set; }
         public string updated_at { get; set; }
     }

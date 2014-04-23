@@ -97,6 +97,10 @@
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Debt.cs" />
+    <Compile Include="Model\Expense.cs" />
+    <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Notifications.cs" />
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\User.cs" />

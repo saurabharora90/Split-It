@@ -26,16 +26,24 @@ namespace Split_It_.Model
         public bool transaction_confirmed { get; set; }
         public string cost { get; set; }
         public string currency_code { get; set; }
+
+        //Store as JSON in database
         public List<Debt> repayments { get; set; }
         public string date { get; set; }
         public string created_at { get; set; }
+
+        //Store id of user in database
         public User created_by { get; set; }
         public string updated_at { get; set; }
         public object updated_by { get; set; }
         public object deleted_at { get; set; }
         public object deleted_by { get; set; }
+
+        //Store id of category in database
         public Category category { get; set; }
         public Picture receipt { get; set; }
+
+        //Store as JSON in database
         public List<ExpenseUser> users { get; set; }
     }
 

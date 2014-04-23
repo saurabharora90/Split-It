@@ -53,5 +53,22 @@ namespace Split_It_.Utils
             }
             return String.Empty;
         }
+
+        public static void setLastUpdatedTime()
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            settings.Add(Constants.LAST_UPDATED_TIME, unixTimestamp);
+            settings.Save();
+        }
+
+        public static int getLastUpdatedTime()
+        {
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.LAST_UPDATED_TIME))
+            {
+                return Convert.ToInt32(IsolatedStorageSettings.ApplicationSettings[Constants.LAST_UPDATED_TIME]);
+            }
+            return 0;
+        }
     }
 }
