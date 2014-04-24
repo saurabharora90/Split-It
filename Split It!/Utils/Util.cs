@@ -70,6 +70,7 @@ namespace Split_It_.Utils
 
         public static int getLastUpdatedTime()
         {
+            //Last update time has to be returned in this format: 2014-04-22T12:35:16Z
             if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.LAST_UPDATED_TIME))
             {
                 return Convert.ToInt32(IsolatedStorageSettings.ApplicationSettings[Constants.LAST_UPDATED_TIME]);

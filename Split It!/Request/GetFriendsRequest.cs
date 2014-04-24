@@ -19,7 +19,7 @@ namespace Split_It_.Request
         {
         }
 
-        public void getAllFriends(int lastUpdatedTime, Action<List<User>> CallbackOnSuccess)
+        public void getAllFriends(Action<List<User>> CallbackOnSuccess)
         {
             var request = new RestRequest(getFriendsURL);
             request.RootElement = "friends";

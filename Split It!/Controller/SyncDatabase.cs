@@ -13,10 +13,10 @@ namespace Split_It_.Controller
     class SyncDatabase
     {
         bool firstSync;
-        Action<Uri> CallbackOnSuccess;
+        Action<bool> CallbackOnSuccess;
         SQLiteConnection dbConn;
 
-        public SyncDatabase(Action<Uri> callback, bool firstSync)
+        public SyncDatabase(Action<bool> callback, bool firstSync)
         {
             this.CallbackOnSuccess = callback;
             this.firstSync = firstSync;
@@ -37,11 +37,16 @@ namespace Split_It_.Controller
                 dbConn.DeleteAll<Debt_Group>();
                 dbConn.DeleteAll<Expense_Share>();
                 dbConn.DeleteAll<Group_Members>();
-            }
 
-            //Fetch current user details
-            CurrentUserRequest request = new CurrentUserRequest();
-            request.getCurrentUser(_CurrentUserDetailsReceived);   
+                //Fetch current user details
+                CurrentUserRequest request = new CurrentUserRequest();
+                request.getCurrentUser(_CurrentUserDetailsReceived);
+            }
+            else
+            {
+                GetFriendsRequest request = new GetFriendsRequest();
+                request.getAllFriends(_FriendsDetailsRecevied);
+            }
 
         }
 
@@ -59,7 +64,7 @@ namespace Split_It_.Controller
 
             //Fire next request, i.e. get list of friends
             GetFriendsRequest request = new GetFriendsRequest();
-            request.getAllFriends(Util.getLastUpdatedTime(), _FriendsDetailsRecevied);
+            request.getAllFriends(_FriendsDetailsRecevied);
         }
 
         private void _FriendsDetailsRecevied(List<User> friendsList)
@@ -124,6 +129,45 @@ namespace Split_It_.Controller
             }
 
             //fetch expenses
+            GetExpensesRequest request = new GetExpensesRequest();
+            request.getAllExpenses(_ExpensesDetailsReceived);
+        }
+
+        private void _ExpensesDetailsReceived(List<Expense> expensesList)
+        {
+            //Insert expenses
+            foreach (var expense in expensesList)
+            {
+                if(expense.created_by!=null)
+                    expense.created_by_user_id = expense.created_by.id;
+
+                if (expense.updated_by != null)
+                    expense.updated_by_user_id = expense.updated_by.id;
+
+                if (expense.deleted_by != null)
+                    expense.deleted_by_user_id = expense.deleted_by.id;
+            }
+
+            dbConn.InsertAll(expensesList);
+
+            //Insert debt of each expense (repayments)
+            //Insert expense share users
+            foreach (var expense in expensesList)
+            {
+                foreach (var repayment in expense.repayments)
+                {
+                    repayment.expense_id = expense.id;
+                }
+
+                foreach (var expenseUser in expense.users)
+                {
+                    expenseUser.expense_id = expense.id;
+                    expenseUser.user_id = expenseUser.user.id;
+                }
+
+                dbConn.InsertAll(expense.repayments);
+                dbConn.InsertAll(expense.users);
+            }
         }
     }
 }

@@ -110,6 +110,7 @@
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
+    <Compile Include="Request\GetExpensesRequest.cs" />
     <Compile Include="Request\GetGroupsRequest.cs" />
     <Compile Include="Request\GetFriendsRequest.cs" />
     <Compile Include="Request\GetUserRequest.cs" />
