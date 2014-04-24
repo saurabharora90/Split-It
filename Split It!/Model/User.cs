@@ -14,14 +14,8 @@ namespace Split_It_.Model
         public Picture picture { get; set; }
         public string email { get; set; }
         public string registration_status { get; set; }
-        public object locale { get; set; }
         public string country_code { get; set; }
-        public string date_format { get; set; }
         public string default_currency { get; set; }
-        public int default_group_id { get; set; }
-        public string notifications_read { get; set; }
-        public int notifications_count { get; set; }
-        public Notifications notifications { get; set; }
 
         //Store as JSON in database
         public List<Debt> balance { get; set; }

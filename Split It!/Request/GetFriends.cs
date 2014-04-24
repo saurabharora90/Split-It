@@ -10,23 +10,22 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Request
 {
-    class CurrentUserRequest : BaseRequest
+    class GetFriends : BaseRequest
     {
-        public static String currentUserURL = "get_current_user";
+        public static String getFriendsURL = "get_friends";
 
-        public CurrentUserRequest()
+        public GetFriends()
             : base()
         {
         }
 
-        public void getCurrentUser(Action<User> CallbackOnSuccess)
+        public void getAllFriends(String lastUpdatedTime)
         {
-            var request = new RestRequest(currentUserURL);
-            request.RootElement = "user";
+            var request = new RestRequest(getFriendsURL);
+            request.RootElement = "friends";
             client.ExecuteAsync<User>(request, reponse =>
                 {
                     User currentUser = reponse.Data;
-                    CallbackOnSuccess(currentUser);
                 });
         }
     }

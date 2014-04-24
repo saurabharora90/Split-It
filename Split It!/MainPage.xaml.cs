@@ -9,6 +9,12 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Split_It_.Utils;
 using Split_It_.Request;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.ApplicationModel;
+using Split_It_.Controller;
+using System.IO;
+using System.IO.IsolatedStorage;
 
 namespace Split_It_
 {
@@ -20,9 +26,24 @@ namespace Split_It_
 
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
+        }
 
-            CurrentUserRequest request = new CurrentUserRequest();
-            request.getCurrentUser();
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            String firstUse;
+            if (NavigationContext.QueryString.TryGetValue("afterLogin", out firstUse))
+            {
+                if (firstUse.Equals("true"))
+                {
+                    SetupFirstUse setutFirstUse = new SetupFirstUse(null);
+                    setutFirstUse.setup();
+                }
+                else
+                {
+                    //load details from database
+                }
+            }
         }
     }
 }
