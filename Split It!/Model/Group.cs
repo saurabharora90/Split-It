@@ -13,8 +13,8 @@ namespace Split_It_.Model
         public string updated_at { get; set; }
         public List<User> members { get; set; }
         public bool simplify_by_default { get; set; }
-        public List<Debt> original_debts { get; set; }
-        public List<Debt> simplified_debts { get; set; }
+        public List<Debt_Group> original_debts { get; set; }
+        public List<Debt_Group> simplified_debts { get; set; }
         public object whiteboard { get; set; }
         public string group_type { get; set; }
     }

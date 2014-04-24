@@ -22,7 +22,7 @@ namespace Split_It_.Model
         public string default_currency { get; set; }
 
         [Ignore]
-        public List<Debt> balance { get; set; }
+        public List<Balance_User> balance { get; set; }
         
         [Ignore]
         public List<Group> groups { get; set; }
