@@ -19,13 +19,14 @@ namespace Split_It_.Request
         {
         }
 
-        public void getAllFriends(String lastUpdatedTime)
+        public void getAllFriends(String lastUpdatedTime, Action<List<User>> CallbackOnSuccess)
         {
             var request = new RestRequest(getFriendsURL);
             request.RootElement = "friends";
-            client.ExecuteAsync<User>(request, reponse =>
+            client.ExecuteAsync<List<User>>(request, reponse =>
                 {
-                    User currentUser = reponse.Data;
+                    List<User> friends = reponse.Data;
+                    CallbackOnSuccess(friends);
                 });
         }
     }
