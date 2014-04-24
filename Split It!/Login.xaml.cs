@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using System.IO;
 using System.IO.IsolatedStorage;
+using Windows.ApplicationModel;
 
 namespace Split_It_
 {
@@ -33,6 +34,27 @@ namespace Split_It_
         }
 
         private async Task CopyDatabase()
+        {
+            bool isDatabaseExisting = false;
+
+            try
+            {
+                StorageFile storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync(Constants.DATABASE_NAME);
+                isDatabaseExisting = true;
+            }
+            catch
+            {
+                isDatabaseExisting = false;
+            }
+
+            if (!isDatabaseExisting)
+            {
+                StorageFile databaseFile = await Package.Current.InstalledLocation.GetFileAsync(Constants.DATABASE_NAME);
+                await databaseFile.CopyAsync(ApplicationData.Current.LocalFolder);
+            }
+        }
+
+        /*private async Task CopyDatabase()
         {
             StorageFile dbFile = null;
             try
@@ -67,7 +89,7 @@ namespace Split_It_
                     }
                 }
             }
-        }
+        }*/
 
         private void _requestTokenRetrieved(Uri uri)
         {
