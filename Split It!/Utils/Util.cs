@@ -58,6 +58,12 @@ namespace Split_It_.Utils
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.LAST_UPDATED_TIME))
+            {
+                settings.Remove(Constants.LAST_UPDATED_TIME);
+            }
+
             settings.Add(Constants.LAST_UPDATED_TIME, unixTimestamp);
             settings.Save();
         }
@@ -74,6 +80,12 @@ namespace Split_It_.Utils
         public static void setCurrentUserId(int userId)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.CURRENT_USER_ID))
+            {
+                settings.Remove(Constants.CURRENT_USER_ID);
+            }
+
             settings.Add(Constants.CURRENT_USER_ID, userId);
             settings.Save();
         }

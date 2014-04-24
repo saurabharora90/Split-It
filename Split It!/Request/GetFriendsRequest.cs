@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Request
 {
-    class GetFriends : BaseRequest
+    class GetFriendsRequest : BaseRequest
     {
         public static String getFriendsURL = "get_friends";
 
-        public GetFriends()
+        public GetFriendsRequest()
             : base()
         {
         }
 
-        public void getAllFriends(String lastUpdatedTime, Action<List<User>> CallbackOnSuccess)
+        public void getAllFriends(int lastUpdatedTime, Action<List<User>> CallbackOnSuccess)
         {
             var request = new RestRequest(getFriendsURL);
             request.RootElement = "friends";
