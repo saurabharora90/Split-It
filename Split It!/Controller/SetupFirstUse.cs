@@ -32,6 +32,7 @@ namespace Split_It_.Controller
             dbConn.DeleteAll<Debt_Expense>();
             dbConn.DeleteAll<Debt_Group>();
             dbConn.DeleteAll<Expense_Share>();
+            dbConn.DeleteAll<Group_Members>();
 
             //Fetch current user details
             CurrentUserRequest request = new CurrentUserRequest();
@@ -61,18 +62,36 @@ namespace Split_It_.Controller
         {
             dbConn.InsertAll(friendsList);
 
-            //Now insert each friends picture
+            //Now insert each friends picture and the balance of each user
             List<Picture> pictureList = new List<Picture>();
+            List<Balance_User> userBalanceList = new List<Balance_User>();
+
             foreach (var friend in friendsList)
             {
                 Picture picture = friend.picture;
                 picture.user_id = friend.id;
                 pictureList.Add(picture);
+
+                foreach (var balance in friend.balance)
+                {
+                    balance.user_id = friend.id;
+                    dbConn.Insert(balance);
+                }
             }
 
             dbConn.InsertAll(pictureList);
 
+
             //Fetch groups
+        }
+
+        private void _GroupsDetailsReceived(List<Group> groupsList)
+        {
+            //Insert all groups
+
+            //Insert group members
+
+            //Insert debt_group
         }
     }
 }
