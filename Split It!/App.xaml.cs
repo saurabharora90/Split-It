@@ -130,9 +130,9 @@ namespace Split_It_
             phoneApplicationInitialized = true;
 
             if(Util.getAccessToken() != null && Util.getAccessTokenSecret() !=null)
-                RootFrame.Navigate(new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute));
+                RootFrame.Navigate(new Uri("/MainPage.xaml?afterLogin=false", UriKind.RelativeOrAbsolute));
             else
-                RootFrame.Navigate(new Uri("/LandingPage.xaml", UriKind.RelativeOrAbsolute));
+                RootFrame.Navigate(new Uri("/WelcomePage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         // Do not add any additional code to this method
