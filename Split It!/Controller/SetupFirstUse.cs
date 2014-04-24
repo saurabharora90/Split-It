@@ -43,6 +43,7 @@ namespace Split_It_.Controller
             dbConn.Insert(currentUser);
 
             //Insert picture into database
+            currentUser.picture.user_id = currentUser.id;
             dbConn.Insert(currentUser.picture);
             
             //Save current user id in isolated storage
