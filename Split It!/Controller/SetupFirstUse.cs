@@ -47,8 +47,10 @@ namespace Split_It_.Controller
             dbConn.Insert(currentUser.picture);
             
             //Save current user id in isolated storage
+            Util.setCurrentUserId(currentUser.id);
 
             //Fire next request, i.e. get list of friends
+
         }
     }
 }

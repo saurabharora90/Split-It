@@ -23,5 +23,6 @@ namespace Split_It_.Utils
         public static String ACCESS_TOKEN_SECRET_TAG = "access_token_secret";
 
         public static String LAST_UPDATED_TIME = "last_update";
+        public static String CURRENT_USER_ID = "current_user_id";
     }
 }

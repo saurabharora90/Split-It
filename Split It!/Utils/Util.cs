@@ -70,5 +70,21 @@ namespace Split_It_.Utils
             }
             return 0;
         }
+
+        public static void setCurrentUserId(int userId)
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings.Add(Constants.CURRENT_USER_ID, userId);
+            settings.Save();
+        }
+
+        public static int getCurrentUserId()
+        {
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.CURRENT_USER_ID))
+            {
+                return Convert.ToInt32(IsolatedStorageSettings.ApplicationSettings[Constants.CURRENT_USER_ID]);
+            }
+            return 0;
+        }
     }
 }
