@@ -34,15 +34,13 @@ namespace Split_It_
             String firstUse;
             if (NavigationContext.QueryString.TryGetValue("afterLogin", out firstUse))
             {
+                SyncDatabase setupFirstUse;
                 if (firstUse.Equals("true"))
-                {
-                    SyncDatabase setutFirstUse = new SyncDatabase(null, true);
-                    setutFirstUse.performSync();
-                }
+                    setupFirstUse = new SyncDatabase(null, true);
                 else
-                {
-                    //load details from database
-                }
+                    setupFirstUse = new SyncDatabase(null, false);
+
+                setupFirstUse.performSync();
             }
         }
     }
