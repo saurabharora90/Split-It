@@ -10,35 +10,39 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Controller
 {
-    class SetupFirstUse
+    class SyncDatabase
     {
+        bool firstSync;
         Action<Uri> CallbackOnSuccess;
         SQLiteConnection dbConn;
 
-        public SetupFirstUse(Action<Uri> callback)
+        public SyncDatabase(Action<Uri> callback, bool firstSync)
         {
             this.CallbackOnSuccess = callback;
+            this.firstSync = firstSync;
         }
 
-        public void setup()
+        public void performSync()
         {
             dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
-            //Delete all the data in the database as first use will also be called after logout.
-            dbConn.DeleteAll<User>();
-            dbConn.DeleteAll<Expense>();
-            dbConn.DeleteAll<Group>();
-            dbConn.DeleteAll<Picture>();
-            dbConn.DeleteAll<Balance_User>();
-            dbConn.DeleteAll<Debt_Expense>();
-            dbConn.DeleteAll<Debt_Group>();
-            dbConn.DeleteAll<Expense_Share>();
-            dbConn.DeleteAll<Group_Members>();
+            if (firstSync)
+            {
+                //Delete all the data in the database as first use will also be called after logout.
+                dbConn.DeleteAll<User>();
+                dbConn.DeleteAll<Expense>();
+                dbConn.DeleteAll<Group>();
+                dbConn.DeleteAll<Picture>();
+                dbConn.DeleteAll<Balance_User>();
+                dbConn.DeleteAll<Debt_Expense>();
+                dbConn.DeleteAll<Debt_Group>();
+                dbConn.DeleteAll<Expense_Share>();
+                dbConn.DeleteAll<Group_Members>();
+            }
 
             //Fetch current user details
             CurrentUserRequest request = new CurrentUserRequest();
             request.getCurrentUser(_CurrentUserDetailsReceived);   
 
-            //Fetch expenses
         }
 
         private void _CurrentUserDetailsReceived(User currentUser)
@@ -75,23 +79,51 @@ namespace Split_It_.Controller
                 foreach (var balance in friend.balance)
                 {
                     balance.user_id = friend.id;
-                    dbConn.Insert(balance);
                 }
+                dbConn.InsertAll(friend.balance);
             }
 
             dbConn.InsertAll(pictureList);
 
 
             //Fetch groups
+            GetGroupsRequest request = new GetGroupsRequest();
+            request.getAllGroups(_GroupsDetailsReceived);
         }
 
         private void _GroupsDetailsReceived(List<Group> groupsList)
         {
             //Insert all groups
+            dbConn.InsertAll(groupsList);
 
             //Insert group members
-
             //Insert debt_group
+            foreach (var group in groupsList)
+            {
+                //only care about simplified debts as they are also returned if simplified debts are off
+
+                //Also don't need the details (group_members and debt_group) for expenses which are not in any group, i.e group_id = 0;
+                if (group.id == 0)
+                    continue;
+                else
+                {
+                    foreach (var debt in group.simplified_debts)
+                    {
+                        debt.group_id = group.id;
+                    }
+                    dbConn.InsertAll(group.simplified_debts);
+
+                    foreach (var member in group.members)
+                    {
+                        Group_Members group_member = new Group_Members();
+                        group_member.group_id = group.id;
+                        group_member.user_id = member.id;
+                        dbConn.Insert(group_member);
+                    }
+                }
+            }
+
+            //fetch expenses
         }
     }
 }

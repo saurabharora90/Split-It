@@ -94,7 +94,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controller\SetupFirstUse.cs" />
+    <Compile Include="Controller\SyncDatabase.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -105,10 +105,12 @@
     <Compile Include="Model\Debt_Expense.cs" />
     <Compile Include="Model\Expense.cs" />
     <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\Group_Members.cs" />
     <Compile Include="Model\Notifications.cs" />
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
+    <Compile Include="Request\GetGroupsRequest.cs" />
     <Compile Include="Request\GetFriendsRequest.cs" />
     <Compile Include="Request\GetUserRequest.cs" />
     <Compile Include="Request\CurrentUserRequest.cs" />

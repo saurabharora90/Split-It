@@ -36,8 +36,8 @@ namespace Split_It_
             {
                 if (firstUse.Equals("true"))
                 {
-                    SetupFirstUse setutFirstUse = new SetupFirstUse(null);
-                    setutFirstUse.setup();
+                    SyncDatabase setutFirstUse = new SyncDatabase(null, true);
+                    setutFirstUse.performSync();
                 }
                 else
                 {

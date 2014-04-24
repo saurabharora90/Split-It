@@ -23,9 +23,6 @@ namespace Split_It_.Model
 
         [Ignore]
         public List<Balance_User> balance { get; set; }
-        
-        [Ignore]
-        public List<Group> groups { get; set; }
 
         public string updated_at { get; set; }
     }
