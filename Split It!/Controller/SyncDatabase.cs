@@ -69,27 +69,32 @@ namespace Split_It_.Controller
 
         private void _FriendsDetailsRecevied(List<User> friendsList)
         {
-            dbConn.InsertAll(friendsList);
+            //dbConn.InsertAll(friendsList);
 
             //Now insert each friends picture and the balance of each user
             List<Picture> pictureList = new List<Picture>();
             List<Balance_User> userBalanceList = new List<Balance_User>();
-
+            
+            dbConn.BeginTransaction();
             foreach (var friend in friendsList)
             {
+                dbConn.InsertOrReplace(friend);
+
                 Picture picture = friend.picture;
                 picture.user_id = friend.id;
                 pictureList.Add(picture);
+                dbConn.InsertOrReplace(picture);
 
                 foreach (var balance in friend.balance)
                 {
                     balance.user_id = friend.id;
+                    dbConn.InsertOrReplace(balance);
                 }
-                dbConn.InsertAll(friend.balance);
+                //dbConn.InsertAll(friend.balance);
             }
 
-            dbConn.InsertAll(pictureList);
-
+            //dbConn.InsertAll(pictureList);
+            dbConn.Commit();
 
             //Fetch groups
             GetGroupsRequest request = new GetGroupsRequest();
@@ -99,12 +104,14 @@ namespace Split_It_.Controller
         private void _GroupsDetailsReceived(List<Group> groupsList)
         {
             //Insert all groups
-            dbConn.InsertAll(groupsList);
+            //dbConn.InsertAll(groupsList);
 
+            dbConn.BeginTransaction();
             //Insert group members
             //Insert debt_group
             foreach (var group in groupsList)
             {
+                dbConn.InsertOrReplace(group);
                 //only care about simplified debts as they are also returned if simplified debts are off
 
                 //Also don't need the details (group_members and debt_group) for expenses which are not in any group, i.e group_id = 0;
@@ -115,19 +122,21 @@ namespace Split_It_.Controller
                     foreach (var debt in group.simplified_debts)
                     {
                         debt.group_id = group.id;
+                        dbConn.InsertOrReplace(debt);
                     }
-                    dbConn.InsertAll(group.simplified_debts);
+                    //dbConn.InsertAll(group.simplified_debts);
 
                     foreach (var member in group.members)
                     {
                         Group_Members group_member = new Group_Members();
                         group_member.group_id = group.id;
                         group_member.user_id = member.id;
-                        dbConn.Insert(group_member);
+                        dbConn.InsertOrReplace(group_member);
                     }
                 }
             }
 
+            dbConn.Commit();
             //fetch expenses
             GetExpensesRequest request = new GetExpensesRequest();
             request.getAllExpenses(_ExpensesDetailsReceived);
@@ -135,6 +144,7 @@ namespace Split_It_.Controller
 
         private void _ExpensesDetailsReceived(List<Expense> expensesList)
         {
+            dbConn.BeginTransaction();
             //Insert expenses
             foreach (var expense in expensesList)
             {
@@ -146,9 +156,11 @@ namespace Split_It_.Controller
 
                 if (expense.deleted_by != null)
                     expense.deleted_by_user_id = expense.deleted_by.id;
+
+                dbConn.InsertOrReplace(expense);
             }
 
-            dbConn.InsertAll(expensesList);
+            //dbConn.InsertAll(expensesList);
 
             //Insert debt of each expense (repayments)
             //Insert expense share users
@@ -157,17 +169,21 @@ namespace Split_It_.Controller
                 foreach (var repayment in expense.repayments)
                 {
                     repayment.expense_id = expense.id;
+                    dbConn.InsertOrReplace(repayment);
                 }
 
                 foreach (var expenseUser in expense.users)
                 {
                     expenseUser.expense_id = expense.id;
                     expenseUser.user_id = expenseUser.user.id;
+                    dbConn.InsertOrReplace(expenseUser);
                 }
 
-                dbConn.InsertAll(expense.repayments);
-                dbConn.InsertAll(expense.users);
+                //dbConn.InsertAll(expense.repayments);
+                //dbConn.InsertAll(expense.users);
             }
+
+            dbConn.Commit();
         }
     }
 }
