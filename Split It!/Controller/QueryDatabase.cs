@@ -22,7 +22,7 @@ namespace Split_It_.Controller
         //Returns the list of friends along with the balance.
         public List<User> getFriends()
         {
-            List<User> friendsList = dbConn.Table<User>().ToList<User>();
+            List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
             //remove the current user from the list as the user table also contains his details.
             foreach (var friend in friendsList)
             {
