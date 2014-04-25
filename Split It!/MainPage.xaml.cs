@@ -10,14 +10,15 @@ using Microsoft.Phone.Shell;
 using Split_It_.Controller;
 using Split_It_.Utils;
 using Split_It_.Model;
+using System.Collections.ObjectModel;
 
 namespace Split_It_
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        List<User> friendsList;
-        List<Group> groupsList;
-        List<Expense> expensesList;
+        ObservableCollection<User> friendsList = new ObservableCollection<User>();
+        ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
+        ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
 
         public MainPage()
         {
@@ -25,6 +26,8 @@ namespace Split_It_
 
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
+
+            llsFriends.ItemsSource = friendsList;
 
             populateData();
         }
@@ -51,7 +54,10 @@ namespace Split_It_
         private void populateData()
         {
             QueryDatabase obj = new QueryDatabase();
-            friendsList = obj.getFriends();
+            foreach (var friend in obj.getFriends())
+            {
+                friendsList.Add(friend);
+            }
         }
     }
 }

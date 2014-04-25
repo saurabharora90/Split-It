@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Split_It_.Model
 {
     //[Ignore] for attributes that are not a part of the database
-    public class User : INotifyPropertyChanged
+    public class User
     {
         public int id { get; set; }
         public string first_name { get; set; }
