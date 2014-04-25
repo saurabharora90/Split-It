@@ -134,4 +134,19 @@
   <data name="AppBarMenuItemText" xml:space="preserve">
     <value>Menu Item</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>dashboard</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>expenses</value>
+  </data>
+  <data name="Friends" xml:space="preserve">
+    <value>friends</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>groups</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>more</value>
+  </data>
 </root>

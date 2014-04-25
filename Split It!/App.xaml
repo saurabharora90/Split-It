@@ -3,11 +3,25 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
 
     <!--Application Resources-->
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:Split_It_" x:Key="LocalizedStrings"/>
+        <SolidColorBrush x:Key="splitwiseGreen">#5BC5A7</SolidColorBrush>
+        <Color x:Key="black">#000000</Color>
+        <Color x:Key="white">#FFFFFF</Color>
+        <Color x:Key="youOwe">#FC7F53</Color>
+        <Color x:Key="splitwiseGrey">#ABABAB</Color>
+        <SolidColorBrush x:Key="splitwiseGreyBG">#EEEEEE</SolidColorBrush>
+        
+        
+        
+        <!--Text Sizes-->
+        <sys:Double x:Key="nameSize">24</sys:Double>
+        <sys:Double x:Key="amountSize">28</sys:Double>
+        <sys:Double x:Key="descriptionSize">20</sys:Double>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

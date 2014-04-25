@@ -7,25 +7,26 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using Split_It_.Utils;
-using Split_It_.Request;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.ApplicationModel;
 using Split_It_.Controller;
-using System.IO;
-using System.IO.IsolatedStorage;
+using Split_It_.Utils;
+using Split_It_.Model;
 
 namespace Split_It_
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        List<User> friendsList;
+        List<Group> groupsList;
+        List<Expense> expensesList;
+
         public MainPage()
         {
             InitializeComponent();
 
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
+
+            populateData();
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -45,8 +46,12 @@ namespace Split_It_
 
                 databaseSync.performSync();
             }
+        }
 
-            //setup the UI
+        private void populateData()
+        {
+            QueryDatabase obj = new QueryDatabase();
+            friendsList = obj.getFriends();
         }
     }
 }

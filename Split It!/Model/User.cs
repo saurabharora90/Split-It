@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace Split_It_.Model
 {
     //[Ignore] for attributes that are not a part of the database
-    public class User
+    public class User : INotifyPropertyChanged
     {
         public int id { get; set; }
         public string first_name { get; set; }
