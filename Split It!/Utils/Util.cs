@@ -57,25 +57,26 @@ namespace Split_It_.Utils
         public static void setLastUpdatedTime()
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            DateTime now = DateTime.UtcNow;
+            string lastUpdatedTime = now.ToString("yyyy-MM-ddTHH:mm:ssK");
 
             if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.LAST_UPDATED_TIME))
             {
                 settings.Remove(Constants.LAST_UPDATED_TIME);
             }
 
-            settings.Add(Constants.LAST_UPDATED_TIME, unixTimestamp);
+            settings.Add(Constants.LAST_UPDATED_TIME, lastUpdatedTime);
             settings.Save();
         }
 
-        public static int getLastUpdatedTime()
+        public static string getLastUpdatedTime()
         {
             //Last update time has to be returned in this format: 2014-04-22T12:35:16Z
             if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.LAST_UPDATED_TIME))
             {
-                return Convert.ToInt32(IsolatedStorageSettings.ApplicationSettings[Constants.LAST_UPDATED_TIME]);
+                return IsolatedStorageSettings.ApplicationSettings[Constants.LAST_UPDATED_TIME].ToString();
             }
-            return 0;
+            return "0";
         }
 
         public static void setCurrentUserId(int userId)

@@ -23,6 +23,7 @@ namespace Split_It_.Request
         {
             var request = new RestRequest(getExpensesURL);
             request.AddParameter("limit", 0, ParameterType.GetOrPost);
+            request.AddParameter("updated_after", Util.getLastUpdatedTime(), ParameterType.GetOrPost);
             request.RootElement = "expenses";
             client.ExecuteAsync<List<Expense>>(request, reponse =>
                 {

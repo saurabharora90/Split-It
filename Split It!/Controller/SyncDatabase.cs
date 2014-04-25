@@ -184,6 +184,8 @@ namespace Split_It_.Controller
             }
 
             dbConn.Commit();
+
+            Util.setLastUpdatedTime();
         }
     }
 }

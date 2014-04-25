@@ -32,16 +32,21 @@ namespace Split_It_
         {
             base.OnNavigatedTo(e);
             String firstUse;
+
+            //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
+            //if the page has been accessed from the back stack
             if (NavigationContext.QueryString.TryGetValue("afterLogin", out firstUse))
             {
-                SyncDatabase setupFirstUse;
+                SyncDatabase databaseSync;
                 if (firstUse.Equals("true"))
-                    setupFirstUse = new SyncDatabase(null, true);
+                    databaseSync = new SyncDatabase(null, true);
                 else
-                    setupFirstUse = new SyncDatabase(null, false);
+                    databaseSync = new SyncDatabase(null, false);
 
-                setupFirstUse.performSync();
+                databaseSync.performSync();
             }
+
+            //setup the UI
         }
     }
 }
