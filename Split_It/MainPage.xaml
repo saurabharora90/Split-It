@@ -66,11 +66,27 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock x:Name="tbTitle" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource descriptionSize}"/>
+                                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
+
+                                    </Grid>
+
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
+
+                                        <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="tbAmount" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
 
                                     </Grid>
                                 </Grid>
