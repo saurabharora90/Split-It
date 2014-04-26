@@ -19,7 +19,7 @@
         
         
         <!--Text Sizes-->
-        <sys:Double x:Key="nameSize">24</sys:Double>
+        <sys:Double x:Key="nameSize">26</sys:Double>
         <sys:Double x:Key="amountSize">28</sys:Double>
         <sys:Double x:Key="descriptionSize">20</sys:Double>
     </Application.Resources>

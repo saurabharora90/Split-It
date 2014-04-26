@@ -12,6 +12,6 @@ namespace Split_It_.Model
         public string small { get; set; }
         public string medium { get; set; }
         public string large { get; set; }
-        public object original { get; set; }
+        public string original { get; set; }
     }
 }

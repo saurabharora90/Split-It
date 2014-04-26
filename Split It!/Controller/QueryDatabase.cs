@@ -19,7 +19,7 @@ namespace Split_It_.Controller
         }
 
 
-        //Returns the list of friends along with the balance.
+        //Returns the list of friends along with the balance and their picture.
         public List<User> getFriends()
         {
             List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
@@ -34,6 +34,7 @@ namespace Split_It_.Controller
 
                 object[] param = { friendsList[x].id };
                 friendsList[x].balance = dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ?", param).ToList<Balance_User>();
+                friendsList[x].picture = dbConn.Query<Picture>("SELECT * FROM picture WHERE user_id= ?", param).First(); ;
             }
 
             return friendsList;

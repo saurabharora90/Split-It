@@ -42,6 +42,22 @@ namespace Split_It_.Model
             }
         }
 
+        [Ignore]
+        public Uri imageUrl
+        {
+            get
+            {
+                string url = @"Assets/Images/profilePhoto.png";
+                if(picture == null)
+                    return new Uri(url, UriKind.Relative);
+
+                if ( picture.medium != null)
+                    url = picture.medium;
+
+                return new Uri(url);
+            }
+        }
+
      
         private double getBalance()
         {
