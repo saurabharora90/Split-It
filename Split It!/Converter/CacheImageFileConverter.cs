@@ -18,11 +18,15 @@ namespace Split_It_.Converter
 /// </summary>
     public class CacheImageFileConverter : IValueConverter
     {
-        private static IsolatedStorageFile _storage = IsolatedStorageFile.GetUserStoreForApplication();
+        private IsolatedStorageFile _storage;
         private const string imageStorageFolder = "TempImages";
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            if (!System.ComponentModel.DesignerProperties.IsInDesignTool)
+            {
+                _storage = IsolatedStorageFile.GetUserStoreForApplication();
+            }
             Picture picture = value as Picture;
             
             if (picture == null)
@@ -74,7 +78,7 @@ namespace Split_It_.Converter
             }
         }
 
-        private static object DownloadFromWeb(Uri imageFileUri)
+        private object DownloadFromWeb(Uri imageFileUri)
         {
             WebClient m_webClient = new WebClient(); //Load from internet
             BitmapImage bm = new BitmapImage();
@@ -90,7 +94,7 @@ namespace Split_It_.Converter
             return bm;
         }
 
-        private static object ExtractFromLocalStorage(Uri imageFileUri)
+        private object ExtractFromLocalStorage(Uri imageFileUri)
         {
             string isolatedStoragePath = GetFileNameInIsolatedStorage(imageFileUri); //Load from local storage
             using (var sourceFile = _storage.OpenFile(isolatedStoragePath, FileMode.Open, FileAccess.Read))
@@ -106,7 +110,7 @@ namespace Split_It_.Converter
             throw new NotImplementedException();
         }
 
-        private static void WriteToIsolatedStorage(IsolatedStorageFile storage, System.IO.Stream inputStream, string fileName)
+        private void WriteToIsolatedStorage(IsolatedStorageFile storage, System.IO.Stream inputStream, string fileName)
         {
             IsolatedStorageFileStream outputStream = null;
             try
@@ -140,7 +144,7 @@ namespace Split_It_.Converter
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns></returns>
-        public static string GetFileNameInIsolatedStorage(Uri uri)
+        public string GetFileNameInIsolatedStorage(Uri uri)
         {
             return imageStorageFolder + "\\" + uri.AbsoluteUri.GetHashCode() + ".img";
         }

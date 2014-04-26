@@ -79,7 +79,7 @@ namespace Split_It_.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Split It!.
+        ///   Looks up a localized string similar to Split It.
         /// </summary>
         public static string ApplicationTitle {
             get {
