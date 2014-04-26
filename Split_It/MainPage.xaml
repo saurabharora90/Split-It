@@ -12,11 +12,13 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="false">
 
-    <Control.Resources>
+    <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
-    </Control.Resources>
+        <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
+        <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
+    </phone:PhoneApplicationPage.Resources>
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
+            <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreen}">
         <!--Pivot Control-->
         <phone:Pivot Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Foreground="White">
@@ -40,8 +42,8 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock x:Name="tbDescription" Foreground="Black" Text="{Binding description}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
-                                        <TextBlock x:Name="tbAmount" Foreground="Black" Text="{Binding}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Left"/>
+                                        <TextBlock x:Name="tbDescription" Foreground="Black" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
+                                        <TextBlock x:Name="tbAmount" Foreground="Black" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Left"/>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>

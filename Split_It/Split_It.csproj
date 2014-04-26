@@ -96,7 +96,9 @@
     </Compile>
     <Compile Include="Controller\QueryDatabase.cs" />
     <Compile Include="Controller\SyncDatabase.cs" />
+    <Compile Include="Converter\BalanceToDescriptionConverter.cs" />
     <Compile Include="Converter\CacheImageFileConverter.cs" />
+    <Compile Include="Converter\BalanceToAmountConverter.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
