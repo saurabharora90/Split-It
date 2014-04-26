@@ -20,45 +20,90 @@
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
-            <!--LayoutRoot is the root grid where all page content is placed-->
+    <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreen}">
         <!--Pivot Control-->
         <phone:Pivot Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Foreground="White">
             <!--Pivot item one-->
-            <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Dashboard, Source={StaticResource LocalizedStrings}}">
-                <Grid Background="White">
-                    <phone:LongListSelector Name="llsFriends">
-                        <phone:LongListSelector.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-                                    <Grid Margin="15,15,15,15">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
-                                        <TextBlock x:Name="tbName" Foreground="Black" Text="{Binding first_name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
-                                        <Grid Grid.Column="2">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
+            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Dashboard, Source={StaticResource LocalizedStrings}}">
+                <phone:LongListSelector Name="llsFriends">
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                                <Grid Margin="15,15,15,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <TextBlock x:Name="tbName" Foreground="Black" Text="{Binding first_name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                            <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                            <TextBlock x:Name="tbAmount" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
-                                        </Grid>
+                                        <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="tbAmount" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
                                     </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>
-                </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Header="{Binding Path=LocalizedResources.Expenses, Source={StaticResource LocalizedStrings}}">
-                <Grid/>
+            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Expenses, Source={StaticResource LocalizedStrings}}">
+                <phone:LongListSelector Name="llsExpenses">
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                                <Grid Margin="15,15,15,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+
+            <!--Pivot item three-->
+            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Groups, Source={StaticResource LocalizedStrings}}">
+                <phone:LongListSelector Name="llsGroups">
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                                <Grid Margin="15,15,15,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

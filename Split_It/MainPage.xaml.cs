@@ -28,6 +28,8 @@ namespace Split_It_
             App.accessTokenSecret = Util.getAccessTokenSecret();
 
             llsFriends.ItemsSource = friendsList;
+            llsExpenses.ItemsSource = expensesList;
+            llsGroups.ItemsSource = groupsList;
 
             populateData();
         }
