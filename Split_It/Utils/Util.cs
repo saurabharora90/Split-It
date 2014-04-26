@@ -1,4 +1,5 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
+using Split_It_.Model;
 using System;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
@@ -112,6 +113,22 @@ namespace Split_It_.Utils
             else if (ni == NetworkInterfaceType.None)
                 IsConnected = false;
             return IsConnected;
+        }
+
+        public static double getBalance(List<Balance_User> balance)
+        {
+            double finalBalance = 0;
+
+            if (balance == null)
+                return finalBalance;
+
+            foreach (var userBalance in balance)
+            {
+
+                finalBalance += System.Convert.ToDouble(userBalance.amount);
+            }
+
+            return finalBalance;
         }
     }
 }

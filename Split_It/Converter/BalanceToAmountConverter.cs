@@ -1,4 +1,5 @@
 ﻿using Split_It_.Model;
+using Split_It_.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,13 @@ namespace Split_It_.Converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             List<Balance_User> balance = value as List<Balance_User>;
-            double finalBalance = getBalance(balance);
+            double finalBalance = Util.getBalance(balance);
             if (finalBalance == 0)
                 return null;
             else
             {
                 string currency = balance[0].currency_code;
-                return currency + " " + Math.Abs(finalBalance);
+                return currency + " " + String.Format("{0:0.00}", Math.Abs(finalBalance));
             }
         }
 
@@ -28,20 +29,6 @@ namespace Split_It_.Converter
             throw new NotImplementedException();
         }
 
-        private double getBalance(List<Balance_User> balance)
-        {
-            double finalBalance = 0;
-
-            if (balance == null)
-                return finalBalance;
-
-            foreach (var userBalance in balance)
-            {
-                
-                finalBalance += System.Convert.ToDouble(userBalance.amount);
-            }
-
-            return finalBalance;
-        }
+        
     }
 }

@@ -12,15 +12,16 @@
         <SolidColorBrush x:Key="splitwiseGreen">#5BC5A7</SolidColorBrush>
         <Color x:Key="black">#000000</Color>
         <Color x:Key="white">#FFFFFF</Color>
-        <Color x:Key="youOwe">#FC7F53</Color>
-        <Color x:Key="splitwiseGrey">#ABABAB</Color>
+        <SolidColorBrush x:Key="negative">#FC7F53</SolidColorBrush>
+        <SolidColorBrush x:Key="positive">#5BC5A7</SolidColorBrush>
+        <SolidColorBrush x:Key="settled">#ABABAB</SolidColorBrush>
         <SolidColorBrush x:Key="splitwiseGreyBG">#EEEEEE</SolidColorBrush>
         
         
         
         <!--Text Sizes-->
         <sys:Double x:Key="nameSize">26</sys:Double>
-        <sys:Double x:Key="amountSize">28</sys:Double>
+        <sys:Double x:Key="amountSize">29</sys:Double>
         <sys:Double x:Key="descriptionSize">20</sys:Double>
     </Application.Resources>
 

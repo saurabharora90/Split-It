@@ -16,6 +16,8 @@
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
         <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
         <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
+        <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
+        <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
             <!--LayoutRoot is the root grid where all page content is placed-->
@@ -28,24 +30,26 @@
                     <phone:LongListSelector Name="llsFriends">
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="12,15,12,15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
-                                    <TextBlock x:Name="tbName" Foreground="Black" Text="{Binding first_name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
-                                    <Grid Grid.Column="2">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
+                                <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                                    <Grid Margin="15,15,15,15">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                        <TextBlock x:Name="tbName" Foreground="Black" Text="{Binding first_name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
+                                        <Grid Grid.Column="2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
 
-                                        <TextBlock x:Name="tbDescription" Foreground="Black" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
-                                        <TextBlock x:Name="tbAmount" Foreground="Black" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Left"/>
+                                            <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                            <TextBlock x:Name="tbAmount" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </Border>
                             </DataTemplate>
                         </phone:LongListSelector.ItemTemplate>
                     </phone:LongListSelector>

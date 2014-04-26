@@ -99,6 +99,8 @@
     <Compile Include="Converter\BalanceToDescriptionConverter.cs" />
     <Compile Include="Converter\CacheImageFileConverter.cs" />
     <Compile Include="Converter\BalanceToAmountConverter.cs" />
+    <Compile Include="Converter\BalanceToColorConverter.cs" />
+    <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
