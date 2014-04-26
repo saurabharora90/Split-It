@@ -24,6 +24,8 @@ namespace Split_It_.Controller
 
         public void performSync()
         {
+            if (!Util.checkNetworkConnection())
+                return;
             dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
             if (firstSync)
             {

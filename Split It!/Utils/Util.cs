@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Phone.Net.NetworkInformation;
+using System;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -99,6 +100,18 @@ namespace Split_It_.Utils
                 return Convert.ToInt32(IsolatedStorageSettings.ApplicationSettings[Constants.CURRENT_USER_ID]);
             }
             return 0;
+        }
+
+        public static bool checkNetworkConnection()
+        {
+            var ni = NetworkInterface.NetworkInterfaceType;
+
+            bool IsConnected = false;
+            if ((ni == NetworkInterfaceType.Wireless80211) || (ni == NetworkInterfaceType.MobileBroadbandCdma) || (ni == NetworkInterfaceType.MobileBroadbandGsm))
+                IsConnected = true;
+            else if (ni == NetworkInterfaceType.None)
+                IsConnected = false;
+            return IsConnected;
         }
     }
 }

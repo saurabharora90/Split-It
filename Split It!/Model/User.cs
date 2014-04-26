@@ -42,7 +42,7 @@ namespace Split_It_.Model
             }
         }
 
-        [Ignore]
+        /*[Ignore]
         public Uri imageUrl
         {
             get
@@ -56,7 +56,7 @@ namespace Split_It_.Model
 
                 return new Uri(url);
             }
-        }
+        }*/
 
      
         private double getBalance()
