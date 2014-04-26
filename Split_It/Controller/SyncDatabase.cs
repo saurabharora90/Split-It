@@ -190,6 +190,7 @@ namespace Split_It_.Controller
             Util.setLastUpdatedTime();
 
             dbConn.Close();
+            CallbackOnSuccess(true);
         }
     }
 }

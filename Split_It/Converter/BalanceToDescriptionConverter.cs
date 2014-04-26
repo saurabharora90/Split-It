@@ -14,7 +14,7 @@ namespace Split_It_.Converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             List<Balance_User> balance = value as List<Balance_User>;
-            string description = "Settled Up";
+            string description = "settled up";
             double finalBalance = Util.getBalance(balance);
             if (finalBalance > 0)
                 description = "owes you";

@@ -43,9 +43,9 @@ namespace Split_It_
             {
                 SyncDatabase databaseSync;
                 if (firstUse.Equals("true"))
-                    databaseSync = new SyncDatabase(null, true);
+                    databaseSync = new SyncDatabase(_SyncConpleted, true);
                 else
-                    databaseSync = new SyncDatabase(null, false);
+                    databaseSync = new SyncDatabase(_SyncConpleted, false);
 
                 databaseSync.performSync();
             }
@@ -58,6 +58,22 @@ namespace Split_It_
             {
                 friendsList.Add(friend);
             }
+        }
+
+        private void _SyncConpleted(bool success)
+        {
+            if (success)
+            {
+                emptyData();
+                populateData();
+            }
+        }
+
+        private void emptyData()
+        {
+            friendsList.Clear();
+            groupsList.Clear();
+            expensesList.Clear();
         }
     }
 }
