@@ -24,13 +24,16 @@ namespace Split_It_.Controller
         {
             List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
             //remove the current user from the list as the user table also contains his details.
-            foreach (var friend in friendsList)
+            for (var x = 0; x < friendsList.Count; x++)
             {
-                if (friend.id == Util.getCurrentUserId())
+                if (friendsList[x].id == Util.getCurrentUserId())
                 {
-                    friendsList.Remove(friend);
-                    break;
+                    friendsList.Remove(friendsList[x]);
+                    continue;
                 }
+
+                object[] param = { friendsList[x].id };
+                friendsList[x].balance = dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ?", param).ToList<Balance_User>();
             }
 
             return friendsList;

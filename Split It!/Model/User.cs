@@ -26,5 +26,48 @@ namespace Split_It_.Model
         public List<Balance_User> balance { get; set; }
 
         public string updated_at { get; set; }
+
+        [Ignore]
+        public string description
+        {
+            get {
+                string description = "Settled Up";
+                double finalBalance = getBalance();
+                if (finalBalance > 0)
+                    description = "owes you";
+                else if (finalBalance < 0)
+                    description = "you owe";
+
+                return description;
+            }
+        }
+
+     
+        private double getBalance()
+        {
+            double finalBalance = 0;
+            
+            if (balance == null)
+                return finalBalance;
+
+            foreach (var userBalance in balance)
+            {
+                finalBalance += Convert.ToDouble(userBalance.amount);
+            }
+
+            return finalBalance;
+        }
+
+        public override string ToString()
+        {
+            double finalBalance = getBalance();
+            if (finalBalance == 0)
+                return null;
+            else
+            {
+                string currency = balance[0].currency_code;
+                return currency + " " + Math.Abs(finalBalance);
+            }
+        }
     }
 }
