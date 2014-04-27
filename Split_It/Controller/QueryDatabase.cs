@@ -20,7 +20,7 @@ namespace Split_It_.Controller
 
 
         //Returns the list of friends along with the balance and their picture.
-        public List<User> getFriends()
+        public List<User> getAllFriends()
         {
             List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
             //remove the current user from the list as the user table also contains his details.
@@ -40,6 +40,11 @@ namespace Split_It_.Controller
             }
 
             return friendsList;
+        }
+
+        public List<Expense> getAllExpenses()
+        {
+            
         }
     }
 }

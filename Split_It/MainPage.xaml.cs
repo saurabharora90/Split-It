@@ -56,7 +56,7 @@ namespace Split_It_
         private void populateData()
         {
             QueryDatabase obj = new QueryDatabase();
-            foreach (var friend in obj.getFriends())
+            foreach (var friend in obj.getAllFriends())
             {
                 friendsList.Add(friend);
             }
