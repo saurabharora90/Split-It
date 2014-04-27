@@ -10,6 +10,7 @@
     xmlns:Utils="clr-namespace:Split_It_.Utils"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
+    Style="{StaticResource TransitionPageStyle}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"

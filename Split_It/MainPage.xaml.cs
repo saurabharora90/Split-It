@@ -37,6 +37,12 @@ namespace Split_It_
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                //populateData();
+                return;
+            }
+            
             String firstUse;
 
             //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
@@ -45,7 +51,11 @@ namespace Split_It_
             {
                 SyncDatabase databaseSync;
                 if (firstUse.Equals("true"))
+                {
+                    //do not allow him to go back to the Login Page. therefore clear the back stack
+                    while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
                     databaseSync = new SyncDatabase(_SyncConpleted, true);
+                }
                 else
                     databaseSync = new SyncDatabase(_SyncConpleted, false);
 
@@ -55,6 +65,7 @@ namespace Split_It_
 
         private void populateData()
         {
+            emptyData();
             QueryDatabase obj = new QueryDatabase();
             foreach (var friend in obj.getAllFriends())
             {
@@ -73,7 +84,6 @@ namespace Split_It_
         {
             if (success)
             {
-                emptyData();
                 populateData();
             }
         }
