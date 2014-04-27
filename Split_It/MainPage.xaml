@@ -23,6 +23,8 @@
         <app:ExpenseShareToColorConverter x:Key="ExpenseShareColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
         <app:BoolToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <app:ExpenseToTitleConverter x:Key="ExpenseTitleConverter" />
+        <app:ExpenseShareToWhoPaidConverter x:Key="ExpenseShareWhoPaidConverter"/>
         <app:ExpenseShareToDescriptionConverter x:Key="ExpenseShareDescriptionConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
@@ -80,8 +82,8 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock x:Name="tbTitle" TextTrimming="WordEllipsis" Text="{Binding description}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource expenseTitleSize}" HorizontalAlignment="Left"/>
-                                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource descriptionSize}"/>
+                                        <TextBlock x:Name="tbTitle" TextTrimming="WordEllipsis" Text="{Binding Converter={StaticResource ExpenseTitleConverter}}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource expenseTitleSize}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding Converter={StaticResource ExpenseShareWhoPaidConverter}}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                                     </Grid>
 

@@ -102,6 +102,8 @@
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\ExpenseToTitleConverter.cs" />
+    <Compile Include="Converter\ExpenseShareToWhoPaidConverter.cs" />
     <Compile Include="Converter\ExpenseShareToAmountConverter.cs" />
     <Compile Include="Converter\ExpenseShareToColorConverter.cs" />
     <Compile Include="Converter\ExpenseShareToDescriptionConverter.cs" />

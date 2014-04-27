@@ -21,7 +21,7 @@
         
         <!--Text Sizes-->
         <sys:Double x:Key="nameSize">26</sys:Double>
-        <sys:Double x:Key="expenseTitleSize">27.5</sys:Double>
+        <sys:Double x:Key="expenseTitleSize">25</sys:Double>
         <sys:Double x:Key="amountSize">29</sys:Double>
         <sys:Double x:Key="descriptionSize">20</sys:Double>
     </Application.Resources>

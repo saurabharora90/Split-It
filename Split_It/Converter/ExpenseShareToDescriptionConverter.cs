@@ -26,7 +26,7 @@ namespace Split_It_.Converter
             }
 
             string description = null;
-            if (currentUser == null)
+            if (currentUser == null || System.Convert.ToDouble(currentUser.owed_share) == 0)
                 description = "not involved";
 
             else if (System.Convert.ToDouble(currentUser.net_balance) > 0)
