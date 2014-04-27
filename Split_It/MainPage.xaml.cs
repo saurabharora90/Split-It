@@ -23,7 +23,10 @@ namespace Split_It_
 
         //Use a BackgroundWorker to load data from database (except for friends) as expenses
         //and groups are time consuming operations
-        BackgroundWorker bw;
+        BackgroundWorker dataLoadingBackgroundWorker;
+        BackgroundWorker syncDatabaseBackgroundWorker;
+
+        SyncDatabase databaseSync;
 
         public MainPage()
         {
@@ -36,9 +39,14 @@ namespace Split_It_
             llsExpenses.ItemsSource = expensesList;
             llsGroups.ItemsSource = groupsList;
 
-            bw = new BackgroundWorker();
-            bw.WorkerSupportsCancellation = true;
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            dataLoadingBackgroundWorker = new BackgroundWorker();
+            dataLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+            dataLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(dataLoadingBackgroundWorker_DoWork);
+
+            syncDatabaseBackgroundWorker = new BackgroundWorker();
+            syncDatabaseBackgroundWorker.WorkerSupportsCancellation = true;
+            syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);
+
             populateData();
         }
 
@@ -47,17 +55,16 @@ namespace Split_It_
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.Back)
             {
-                //populateData();
+                populateData();
                 return;
             }
-            
+
             String firstUse;
 
             //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
             //if the page has been accessed from the back stack
             if (NavigationContext.QueryString.TryGetValue("afterLogin", out firstUse))
             {
-                SyncDatabase databaseSync;
                 if (firstUse.Equals("true"))
                 {
                     //do not allow him to go back to the Login Page. therefore clear the back stack
@@ -67,13 +74,22 @@ namespace Split_It_
                 else
                     databaseSync = new SyncDatabase(_SyncConpleted, false);
 
-                databaseSync.performSync();
+                if (syncDatabaseBackgroundWorker.IsBusy != true)
+                {
+                    syncDatabaseBackgroundWorker.RunWorkerAsync();
+                }
+
             }
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        private void dataLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             loadExpensesAndGroups();
+        }
+
+        private void syncDatabaseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            databaseSync.performSync();
         }
 
         private void loadFriends()
@@ -90,9 +106,9 @@ namespace Split_It_
         private void populateData()
         {
             loadFriends();
-            if (bw.IsBusy != true)
+            if (dataLoadingBackgroundWorker.IsBusy != true)
             {
-                bw.RunWorkerAsync();
+                dataLoadingBackgroundWorker.RunWorkerAsync();
             }
         }
 
@@ -118,10 +134,13 @@ namespace Split_It_
         {
             if (success)
             {
-                if (bw.WorkerSupportsCancellation == true)
-                    bw.CancelAsync();
+                Dispatcher.BeginInvoke(() =>
+            {
+                if (dataLoadingBackgroundWorker.WorkerSupportsCancellation == true)
+                    dataLoadingBackgroundWorker.CancelAsync();
 
                 populateData();
+            });
             }
         }
 
