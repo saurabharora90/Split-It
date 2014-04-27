@@ -4,11 +4,67 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:app="clr-namespace:Split_It_.Converter"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
 
     <!--Application Resources-->
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:Split_It_" x:Key="LocalizedStrings"/>
+
+        <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
+        <app:ExpenseShareToAmountConverter x:Key="ExpenseShareAmountConverter"/>
+        <app:ExpenseShareToColorConverter x:Key="ExpenseShareColorConverter"/>
+        <app:BoolToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <app:ExpenseToTitleConverter x:Key="ExpenseTitleConverter" />
+        <app:ExpenseShareToWhoPaidConverter x:Key="ExpenseShareWhoPaidConverter"/>
+        <app:ExpenseShareToDescriptionConverter x:Key="ExpenseShareDescriptionConverter"/>
+
+        <!--App templates-->
+        <DataTemplate x:Key="expensesTemplate">
+            <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                <Grid Margin="5,15,5,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{Binding payment, Converter={StaticResource PaymentImageConverter}}" VerticalAlignment="Center" Width="45" Height="65" Margin="0,0,8,0"/>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock x:Name="tbTitle" TextTrimming="WordEllipsis" Text="{Binding Converter={StaticResource ExpenseTitleConverter}}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource expenseTitleSize}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding Converter={StaticResource ExpenseShareWhoPaidConverter}}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock x:Name="tbDescription" Text="{Binding users, Converter={StaticResource ExpenseShareDescriptionConverter}}" Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding currency_code}" Grid.Column="0" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                            <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding users, Converter={StaticResource ExpenseShareAmountConverter}}" Grid.Column="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+
+        <!--Colors-->
         <SolidColorBrush x:Key="splitwiseGreen">#5BC5A7</SolidColorBrush>
         <Color x:Key="black">#000000</Color>
         <Color x:Key="white">#FFFFFF</Color>
@@ -16,9 +72,9 @@
         <SolidColorBrush x:Key="positive">#5BC5A7</SolidColorBrush>
         <SolidColorBrush x:Key="settled">#ABABAB</SolidColorBrush>
         <SolidColorBrush x:Key="splitwiseGreyBG">#EEEEEE</SolidColorBrush>
-        
-        
-        
+
+
+
         <!--Text Sizes-->
         <sys:Double x:Key="nameSize">26</sys:Double>
         <sys:Double x:Key="expenseTitleSize">25</sys:Double>
