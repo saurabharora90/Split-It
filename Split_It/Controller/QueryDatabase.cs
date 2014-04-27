@@ -55,8 +55,7 @@ namespace Split_It_.Controller
             //Get the expense share per user. Within each expense user, fill in the user details.
             for (var x = 0; x < expensesList.Count; x++)
             {
-                object[] expenseParam = { expensesList[x].id };
-                expensesList[x].repayments = dbConn.Query<Debt_Expense>("SELECT * FROM debt_expense WHERE expense_id= ?", expenseParam).ToList<Debt_Expense>();
+                expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
                 expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
                 
                 if(expensesList[x].updated_by_user_id!=0)
@@ -64,8 +63,8 @@ namespace Split_It_.Controller
 
                 if (expensesList[x].deleted_by_user_id != 0)
                     expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
-                
-                expensesList[x].users = dbConn.Query<Expense_Share>("SELECT * FROM expense_share WHERE expense_id= ?", expenseParam).ToList<Expense_Share>();
+
+                expensesList[x].users = getExpenseShareUsers(expensesList[x].id);
 
                 for (var y = 0; y < expensesList[x].users.Count; y++)
                 {
@@ -76,9 +75,24 @@ namespace Split_It_.Controller
             return expensesList;
         }
 
+        public List<Expense> getExpensesForUser(int userId)
+        {
+            return null;
+        }
+
         public void closeDatabaseConnection()
         {
             dbConn.Close();
+        }
+
+        private List<Expense_Share> getExpenseShareUsers(int expenseId)
+        {
+            return dbConn.Query<Expense_Share>("SELECT * FROM expense_share WHERE expense_id= ?", new object[] { expenseId }).ToList<Expense_Share>();
+        }
+
+        private List<Debt_Expense> getExpenseRepayments(int expenseId)
+        {
+            return dbConn.Query<Debt_Expense>("SELECT * FROM debt_expense WHERE expense_id= ?", new object[] { expenseId }).ToList<Debt_Expense>();
         }
 
         private User getUserDetails(int userId)
