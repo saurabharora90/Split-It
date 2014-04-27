@@ -102,6 +102,9 @@
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\ExpenseShareToAmountConverter.cs" />
+    <Compile Include="Converter\ExpenseShareToColorConverter.cs" />
+    <Compile Include="Converter\ExpenseShareToDescriptionConverter.cs" />
     <Compile Include="Converter\PaymentImageFileConverter.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Login.xaml.cs">

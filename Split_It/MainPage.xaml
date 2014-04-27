@@ -18,9 +18,12 @@
         <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
         <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
         <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
+        <app:ExpenseShareToAmountConverter x:Key="ExpenseShareAmountConverter"/>
         <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
+        <app:ExpenseShareToColorConverter x:Key="ExpenseShareColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
         <app:BoolToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <app:ExpenseShareToDescriptionConverter x:Key="ExpenseShareDescriptionConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -77,8 +80,8 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock x:Name="tbTitle" Text="{Binding description}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource expenseTitleSize}"/>
-                                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
+                                        <TextBlock x:Name="tbTitle" TextTrimming="WordEllipsis" Text="{Binding description}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource expenseTitleSize}" HorizontalAlignment="Left"/>
+                                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource descriptionSize}"/>
 
                                     </Grid>
 
@@ -88,8 +91,8 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="tbAmount" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
+                                        <TextBlock x:Name="tbDescription" Text="{Binding users, Converter={StaticResource ExpenseShareDescriptionConverter}}" Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                                        <TextBlock x:Name="tbAmount" Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding users, Converter={StaticResource ExpenseShareAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                                     </Grid>
                                 </Grid>

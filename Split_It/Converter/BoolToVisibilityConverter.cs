@@ -17,7 +17,7 @@ namespace Split_It_.Converter
         {
             Visibility visibility;
             bool payment = (bool)value;
-            if (!payment)
+            if (payment)
                 visibility = Visibility.Collapsed;
             else
                 visibility = Visibility.Visible;
