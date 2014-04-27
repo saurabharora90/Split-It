@@ -29,6 +29,8 @@ namespace Split_It_.Controller
                 if (friendsList[x].id == Util.getCurrentUserId())
                 {
                     friendsList.Remove(friendsList[x]);
+                    //As one element has been removed
+                    x--;
                     continue;
                 }
 

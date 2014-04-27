@@ -163,6 +163,8 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Assets\Images\expense_general.png" />
+    <Content Include="Assets\Images\expense_payment.png" />
     <Content Include="Assets\Images\profilePhoto.png" />
     <Content Include="splitwise.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
