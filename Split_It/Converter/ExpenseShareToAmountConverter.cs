@@ -27,7 +27,7 @@ namespace Split_It_.Converter
 
             string amount = null;
             if (currentUser == null)
-                return amount;
+                return "0.00";
 
             amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance)));
             return amount;

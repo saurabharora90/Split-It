@@ -27,9 +27,9 @@ namespace Split_It_.Converter
 
             string description = null;
             if (currentUser == null)
-                return description;
+                description = "not involved";
 
-            if (System.Convert.ToDouble(currentUser.net_balance) > 0)
+            else if (System.Convert.ToDouble(currentUser.net_balance) > 0)
                 description = "you lent";
             else if (System.Convert.ToDouble(currentUser.net_balance) < 0)
                 description = "you borrowed";
