@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:app="clr-namespace:Split_It_.Converter"
+    xmlns:Utils="clr-namespace:Split_It_.Utils"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
@@ -14,10 +15,12 @@
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
         <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
         <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
         <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
+        <app:BoolToVisibilityConverter x:Key="BoolVisibilityConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -66,7 +69,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <Image Grid.Column="0" Source="{Binding payment, Converter={StaticResource PaymentImageConverter}}" VerticalAlignment="Center" Width="45" Height="65" Margin="0,0,8,0"/>
 
                                     <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
@@ -74,8 +77,8 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock x:Name="tbTitle" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource descriptionSize}"/>
-                                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
+                                        <TextBlock x:Name="tbTitle" Text="{Binding description}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource expenseTitleSize}"/>
+                                        <TextBlock x:Name="tbWhoPaid" Foreground="{StaticResource settled}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
 
                                     </Grid>
 

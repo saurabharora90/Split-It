@@ -60,6 +60,13 @@ namespace Split_It_
             {
                 friendsList.Add(friend);
             }
+
+            foreach (var expense in obj.getAllExpenses())
+            {
+                expensesList.Add(expense);
+            }
+
+            obj.closeDatabaseConnection();
         }
 
         private void _SyncConpleted(bool success)
