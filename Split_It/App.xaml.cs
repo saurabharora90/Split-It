@@ -118,6 +118,7 @@ namespace Split_It_
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
             RootFrame = new PhoneApplicationFrame();
+            RootFrame.Margin = new Thickness(0, -1, 0, 0);
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures

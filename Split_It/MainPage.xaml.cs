@@ -84,5 +84,12 @@ namespace Split_It_
             groupsList.Clear();
             expensesList.Clear();
         }
+
+        private void llsFriends_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListSelector selector = sender as LongListSelector;
+            User selectedUser = selector.SelectedItem as User;
+            NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
+        }
     }
 }

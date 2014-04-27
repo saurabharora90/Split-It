@@ -12,7 +12,8 @@
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="false">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.BackgroundColor="{StaticResource green}">
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
@@ -28,7 +29,7 @@
         <phone:Pivot Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Foreground="White">
             <!--Pivot item one-->
             <phone:PivotItem Background="White" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Dashboard, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsFriends">
+                <phone:LongListSelector Name="llsFriends" Tap="llsFriends_Tap">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
