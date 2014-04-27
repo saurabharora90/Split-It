@@ -48,7 +48,9 @@ namespace Split_It_.Controller
             int startLimit = EXPENSES_ROWS * pageNo;
             int endLimit = EXPENSES_ROWS * (pageNo + 1);
             object[] param = {startLimit, endLimit};
-            List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense ORDER BY datetime(created_at) DESC LIMIT ?,?", param).ToList<Expense>();
+
+            //Only retrieve expenses that have not been deleted
+            List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense WHERE deleted_by=0 ORDER BY datetime(created_at) DESC LIMIT ?,?", param).ToList<Expense>();
             
             //Get list of repayments for expense.
             //Get the created by, updated by and deleted by user
