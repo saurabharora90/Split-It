@@ -11,6 +11,7 @@ using Split_It_.Controller;
 using Split_It_.Utils;
 using Split_It_.Model;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Split_It_
 {
@@ -19,6 +20,10 @@ namespace Split_It_
         ObservableCollection<User> friendsList = new ObservableCollection<User>();
         ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
         ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
+
+        //Use a BackgroundWorker to load data from database (except for friends) as expenses
+        //and groups are time consuming operations
+        BackgroundWorker bw;
 
         public MainPage()
         {
@@ -31,6 +36,9 @@ namespace Split_It_
             llsExpenses.ItemsSource = expensesList;
             llsGroups.ItemsSource = groupsList;
 
+            bw = new BackgroundWorker();
+            bw.WorkerSupportsCancellation = true;
+            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
             populateData();
         }
 
@@ -63,19 +71,45 @@ namespace Split_It_
             }
         }
 
-        private void populateData()
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
-            emptyData();
+            loadExpensesAndGroups();
+        }
+
+        private void loadFriends()
+        {
+            friendsList.Clear();
             QueryDatabase obj = new QueryDatabase();
             foreach (var friend in obj.getAllFriends())
             {
                 friendsList.Add(friend);
             }
+            obj.closeDatabaseConnection();
+        }
 
-            foreach (var expense in obj.getAllExpenses())
+        private void populateData()
+        {
+            loadFriends();
+            if (bw.IsBusy != true)
             {
-                expensesList.Add(expense);
+                bw.RunWorkerAsync();
             }
+        }
+
+        private void loadExpensesAndGroups()
+        {
+            //the rest of the work is done in a backgroundworker
+            QueryDatabase obj = new QueryDatabase();
+            List<Expense> allExpenses = obj.getAllExpenses();
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                expensesList.Clear();
+                foreach (var expense in allExpenses)
+                {
+                    expensesList.Add(expense);
+                }
+            });
 
             obj.closeDatabaseConnection();
         }
@@ -84,15 +118,11 @@ namespace Split_It_
         {
             if (success)
             {
+                if (bw.WorkerSupportsCancellation == true)
+                    bw.CancelAsync();
+
                 populateData();
             }
-        }
-
-        private void emptyData()
-        {
-            friendsList.Clear();
-            groupsList.Clear();
-            expensesList.Clear();
         }
 
         private void llsFriends_Tap(object sender, System.Windows.Input.GestureEventArgs e)
