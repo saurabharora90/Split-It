@@ -17,7 +17,7 @@ namespace Split_It_
 {
     public partial class UserDetails : PhoneApplicationPage
     {
-        int selectedUserId;
+        User selectedUser;
         BackgroundWorker userExpensesBackgroundWorker;
         ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
 
@@ -25,29 +25,15 @@ namespace Split_It_
         {
             InitializeComponent();
 
-            //selectedUser = PhoneApplicationService.Current.State[Constants.SELECTED_USER] as User;
-
+            selectedUser = PhoneApplicationService.Current.State[Constants.SELECTED_USER] as User;
+            llsExpenses.ItemsSource = expensesList;
             userExpensesBackgroundWorker = new BackgroundWorker();
             userExpensesBackgroundWorker.WorkerSupportsCancellation = true;
             userExpensesBackgroundWorker.DoWork += new DoWorkEventHandler(userExpensesBackgroundWorker_DoWork);
-        }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            string userId;
-            //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
-            //if the page has been accessed from the back stack
-            if (NavigationContext.QueryString.TryGetValue("selectedUserId", out userId))
+            if (userExpensesBackgroundWorker.IsBusy != true)
             {
-                if (userId!=null)
-                {
-                    selectedUserId = Convert.ToInt32(userId);
-                    if (userExpensesBackgroundWorker.IsBusy != true)
-                    {
-                        userExpensesBackgroundWorker.RunWorkerAsync();
-                    }
-                }
+                userExpensesBackgroundWorker.RunWorkerAsync();
             }
         }
 
@@ -60,7 +46,7 @@ namespace Split_It_
         {
             //the rest of the work is done in a backgroundworker
             QueryDatabase obj = new QueryDatabase();
-            List<Expense> allExpenses = obj.getExpensesForUser(selectedUserId);
+            List<Expense> allExpenses = obj.getExpensesForUser(selectedUser.id);
 
             Dispatcher.BeginInvoke(() =>
             {
