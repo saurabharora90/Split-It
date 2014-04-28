@@ -148,6 +148,10 @@ namespace Split_It_
         {
             LongListSelector selector = sender as LongListSelector;
             User selectedUser = selector.SelectedItem as User;
+
+            if (selectedUser == null)
+                return;
+
             PhoneApplicationService.Current.State[Constants.SELECTED_USER] = selectedUser;
             NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
         }

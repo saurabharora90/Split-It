@@ -37,6 +37,13 @@ namespace Split_It_
             {
                 userExpensesBackgroundWorker.RunWorkerAsync();
             }
+
+            setUIDetails();
+        }
+
+        private void setUIDetails()
+        {
+            tbTile.Text = selectedUser.first_name;
         }
 
         private void userExpensesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

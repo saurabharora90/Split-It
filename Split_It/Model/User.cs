@@ -26,5 +26,14 @@ namespace Split_It_.Model
         public List<Balance_User> balance { get; set; }
 
         public string updated_at { get; set; }
+
+        [Ignore]
+        public string name
+        {
+            get
+            {
+                return first_name + " " + last_name;
+            }
+        }
     }
 }

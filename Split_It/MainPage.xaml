@@ -38,7 +38,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
-                                    <TextBlock x:Name="tbName" Foreground="Black" Text="{Binding first_name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="tbName" TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
