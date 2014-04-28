@@ -20,6 +20,9 @@ namespace Split_It_
         User selectedUser;
         BackgroundWorker userExpensesBackgroundWorker;
         ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
+        private int pageNo = 0;
+        private bool morePages = true;
+        private object o = new object();
 
         public UserDetails()
         {
@@ -55,11 +58,13 @@ namespace Split_It_
         {
             //the rest of the work is done in a backgroundworker
             QueryDatabase obj = new QueryDatabase();
-            List<Expense> allExpenses = obj.getExpensesForUser(selectedUser.id);
+            List<Expense> allExpenses = obj.getExpensesForUser(selectedUser.id, pageNo);
 
             Dispatcher.BeginInvoke(() =>
             {
-                expensesList.Clear();
+                if (allExpenses == null || allExpenses.Count == 0)
+                    morePages = false;
+
                 foreach (var expense in allExpenses)
                 {
                     expensesList.Add(expense);
@@ -67,6 +72,18 @@ namespace Split_It_
             });
 
             obj.closeDatabaseConnection();
+        }
+
+        private void llsExpenses_ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            lock (o)
+            {
+                if (userExpensesBackgroundWorker.IsBusy != true && morePages)
+                {
+                    pageNo++;
+                    userExpensesBackgroundWorker.RunWorkerAsync();
+                }
+            }
         }
     }
 }

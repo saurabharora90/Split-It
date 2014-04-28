@@ -27,6 +27,9 @@ namespace Split_It_
         BackgroundWorker syncDatabaseBackgroundWorker;
 
         SyncDatabase databaseSync;
+        private object o = new object();
+        private int pageNo = 0;
+        private bool morePages = true;
 
         public MainPage()
         {
@@ -116,11 +119,16 @@ namespace Split_It_
         {
             //the rest of the work is done in a backgroundworker
             QueryDatabase obj = new QueryDatabase();
-            List<Expense> allExpenses = obj.getAllExpenses();
+            List<Expense> allExpenses = obj.getAllExpenses(pageNo);
 
             Dispatcher.BeginInvoke(() =>
             {
-                expensesList.Clear();
+                if(pageNo == 0)
+                    expensesList.Clear();
+
+                if (allExpenses == null || allExpenses.Count == 0)
+                    morePages = false;
+
                 foreach (var expense in allExpenses)
                 {
                     expensesList.Add(expense);
@@ -154,6 +162,18 @@ namespace Split_It_
 
             PhoneApplicationService.Current.State[Constants.SELECTED_USER] = selectedUser;
             NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
+        }
+
+        private void llsExpenses_ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            lock (o)
+            {
+                if (dataLoadingBackgroundWorker.IsBusy != true && morePages)
+                {
+                    pageNo++;
+                    dataLoadingBackgroundWorker.RunWorkerAsync();
+                }
+            }
         }
     }
 }

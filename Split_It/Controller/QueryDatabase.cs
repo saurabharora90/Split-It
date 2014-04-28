@@ -11,7 +11,7 @@ namespace Split_It_.Controller
 {
     class QueryDatabase
     {
-        private static int EXPENSES_ROWS = 30;
+        private static int EXPENSES_ROWS = 10;
         SQLiteConnection dbConn;
 
         public QueryDatabase()
