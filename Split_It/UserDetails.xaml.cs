@@ -26,7 +26,9 @@ namespace Split_It_
             InitializeComponent();
 
             selectedUser = PhoneApplicationService.Current.State[Constants.SELECTED_USER] as User;
+
             llsExpenses.ItemsSource = expensesList;
+            
             userExpensesBackgroundWorker = new BackgroundWorker();
             userExpensesBackgroundWorker.WorkerSupportsCancellation = true;
             userExpensesBackgroundWorker.DoWork += new DoWorkEventHandler(userExpensesBackgroundWorker_DoWork);
