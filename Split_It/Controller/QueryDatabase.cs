@@ -77,31 +77,50 @@ namespace Split_It_.Controller
             return expensesList;
         }
 
-        public List<Expense> getExpensesForUser(int userId)
+        public List<Expense> getExpensesForUser(int userId, int pageNo=0)
         {
+            int startLimit = EXPENSES_ROWS * pageNo;
+            int endLimit = EXPENSES_ROWS * (pageNo + 1);
+
             //the expenses for for a user is a combination of expenses paid by him and owe by me
             //or
             //paid by me and owed by him
-            List<int> expensesId = getExpensesIdsPaidByMeAndOwedByUser(userId);
-            expensesId.AddRange(getExpensesIdsPaidByUserAndOwedByMe(userId));
-            return null;
+            //Only retrieve expenses that have not been deleted
+
+            object[] param = { Util.getCurrentUserId(), userId, userId, Util.getCurrentUserId(), startLimit, endLimit };
+            List<Expense> expensesList = dbConn.Query<Expense>("SELECT expense.id, expense.group_id, expense.description, expense.details, expense.payment, expense.transaction_confirmed, expense.creation_method, expense.cost, expense.currency_code, expense.date, expense.created_by, expense.created_at, expense.updated_by, expense.updated_at, expense.deleted_at, expense.deleted_by FROM expense INNER JOIN debt_expense ON expense.id = debt_expense.expense_id WHERE (debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?) OR (debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?) ORDER BY datetime(created_at) DESC LIMIT ?,?", param).ToList<Expense>();
+
+            if (expensesList == null && expensesList.Count == 0)
+                return null;
+
+            //Get list of repayments for expense.
+            //Get the created by, updated by and deleted by user
+            //Get the expense share per user. Within each expense user, fill in the user details.
+            for (var x = 0; x < expensesList.Count; x++)
+            {
+                expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
+                expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
+
+                if (expensesList[x].updated_by_user_id != 0)
+                    expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+
+                if (expensesList[x].deleted_by_user_id != 0)
+                    expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
+
+                expensesList[x].users = getExpenseShareUsers(expensesList[x].id);
+
+                for (var y = 0; y < expensesList[x].users.Count; y++)
+                {
+                    expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
+                }
+            }
+
+            return expensesList;
         }
 
         public void closeDatabaseConnection()
         {
             dbConn.Close();
-        }
-
-        private List<int> getExpensesIdsPaidByMeAndOwedByUser(int userId)
-        {
-            object[] param = { Util.getCurrentUserId(), userId };
-            return dbConn.Query<int>("SELECT expense_id FROM debt_expense WHERE \"to\"=? AND \"from\"=?", param).ToList<int>();
-        }
-
-        private List<int> getExpensesIdsPaidByUserAndOwedByMe(int userId)
-        {
-            object[] param = { Util.getCurrentUserId(), userId };
-            return dbConn.Query<int>("SELECT expense_id FROM debt_expense WHERE \"from\"= ? AND \"to\"= ?", param).ToList<int>();
         }
 
         private List<Expense_Share> getExpenseShareUsers(int expenseId)
@@ -116,9 +135,15 @@ namespace Split_It_.Controller
 
         private User getUserDetails(int userId)
         {
-            User user = dbConn.Query<User>("SELECT * FROM user WHERE id= ?", new object[] { userId }).First();
-            user.picture = getUserPicture(userId);
-            return user;
+            List<User> users = dbConn.Query<User>("SELECT * FROM user WHERE id= ?", new object[] { userId });
+            if (users != null && users.Count != 0)
+            {
+                User user = users.First();
+                user.picture = getUserPicture(userId);
+                return user;
+            }
+            else
+                return null;
         }
 
         private Picture getUserPicture(int userId)
