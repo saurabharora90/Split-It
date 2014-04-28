@@ -12,6 +12,7 @@ using Split_It_.Utils;
 using System.ComponentModel;
 using Split_It_.Controller;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace Split_It_
 {
@@ -41,13 +42,33 @@ namespace Split_It_
                 userExpensesBackgroundWorker.RunWorkerAsync();
             }
 
-            //setUIDetails();
+            createAppBar();
             this.DataContext = selectedUser;
         }
 
-        private void setUIDetails()
+        private void createAppBar()
         {
-            //tbTile.Text = selectedUser.first_name;
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = false;
+            ApplicationBar.BackgroundColor = (Color) Application.Current.Resources["green"];
+            ApplicationBar.ForegroundColor = Colors.White;
+
+            //Settle up button
+            ApplicationBarIconButton btnSettle = new ApplicationBarIconButton();
+            btnSettle.IconUri = new Uri("/Assets/Icons/feature.email.png", UriKind.Relative);
+            btnSettle.Text = "reminder";
+            if (Util.getBalance(selectedUser.balance) <= 0)
+                btnSettle.IsEnabled = false;
+            ApplicationBar.Buttons.Add(btnSettle);
+            btnSettle.Click += new EventHandler(btnSettle_Click);
+        }
+
+        private void btnSettle_Click(object sender, EventArgs e)
+        {
+            
         }
 
         private void userExpensesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
