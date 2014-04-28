@@ -79,12 +79,29 @@ namespace Split_It_.Controller
 
         public List<Expense> getExpensesForUser(int userId)
         {
+            //the expenses for for a user is a combination of expenses paid by him and owe by me
+            //or
+            //paid by me and owed by him
+            List<int> expensesId = getExpensesIdsPaidByMeAndOwedByUser(userId);
+            expensesId.AddRange(getExpensesIdsPaidByUserAndOwedByMe(userId));
             return null;
         }
 
         public void closeDatabaseConnection()
         {
             dbConn.Close();
+        }
+
+        private List<int> getExpensesIdsPaidByMeAndOwedByUser(int userId)
+        {
+            object[] param = { Util.getCurrentUserId(), userId };
+            return dbConn.Query<int>("SELECT expense_id FROM debt_expense WHERE \"to\"=? AND \"from\"=?", param).ToList<int>();
+        }
+
+        private List<int> getExpensesIdsPaidByUserAndOwedByMe(int userId)
+        {
+            object[] param = { Util.getCurrentUserId(), userId };
+            return dbConn.Query<int>("SELECT expense_id FROM debt_expense WHERE \"from\"= ? AND \"to\"= ?", param).ToList<int>();
         }
 
         private List<Expense_Share> getExpenseShareUsers(int expenseId)

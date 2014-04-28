@@ -148,7 +148,7 @@ namespace Split_It_
         {
             LongListSelector selector = sender as LongListSelector;
             User selectedUser = selector.SelectedItem as User;
-            NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/UserDetails.xaml?selectedUserId=" + selectedUser.id, UriKind.Relative));
         }
     }
 }
