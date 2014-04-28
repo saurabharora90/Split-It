@@ -9,6 +9,14 @@ namespace Split_It_.Model
 {
     class Expense
     {
+        public static int DISPLAY_FOR_ALL_USER = 1000;
+        public static int DISPLAY_FOR_SPECIFIC_USER = 1001;
+
+        public Expense()
+        {
+            displayType = DISPLAY_FOR_ALL_USER;
+        }
+
         public int id { get; set; }
         public int group_id { get; set; }
         public string description { get; set; }
@@ -48,6 +56,15 @@ namespace Split_It_.Model
         public Category category { get; set; }
         [Ignore]
         public List<Expense_Share> users { get; set; }
+
+        //The following is used to help the ExpenseShareToAmountConverter
+        //to determine if the amount is to be displayed as totaly for all users or as specific to one user
+        //Eg: You booked a flight to KL to 7 ppl and paid for 490.
+        //In all expenses, it will be shown as you lent 420 but in specific user it will be you lent 70
+        [Ignore]
+        public int specificUserId { get; set; }
+        [Ignore]
+        public int displayType { get; set; }
     }
 
     public class Expense_Share

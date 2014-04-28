@@ -56,7 +56,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding currency_code}" Grid.Column="0" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
-                            <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding users, Converter={StaticResource ExpenseShareAmountConverter}}" Grid.Column="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                            <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding Converter={StaticResource ExpenseShareAmountConverter}}" Grid.Column="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
                         </Grid>
 
                     </Grid>

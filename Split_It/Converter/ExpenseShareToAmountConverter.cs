@@ -13,7 +13,8 @@ namespace Split_It_.Converter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            List<Expense_Share> users = value as List<Expense_Share>;
+            Expense expense = value as Expense;
+            List<Expense_Share> users = expense.users;
 
             Expense_Share currentUser = null;
             foreach (var user in users)
@@ -29,7 +30,24 @@ namespace Split_It_.Converter
             if (currentUser == null)
                 return "0.00";
 
-            amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance)));
+            if(expense.displayType == Expense.DISPLAY_FOR_ALL_USER)
+                amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance)));
+
+            else
+            {
+                List<Debt_Expense> repayments = expense.repayments;
+                int currentUserId = Util.getCurrentUserId();
+                int specificUserId = expense.specificUserId;
+                foreach (var repayment in repayments)
+                {
+                    if ((repayment.from == currentUserId && repayment.to == specificUserId) || (repayment.to == currentUserId && repayment.from == specificUserId))
+                    {
+                        amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(repayment.amount)));
+                        break;
+                    }
+                }
+            }
+
             return amount;
         }
 
