@@ -9,9 +9,9 @@
     xmlns:app="clr-namespace:Split_It_.Converter"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
-    
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    shell:SystemTray.IsVisible="False">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.BackgroundColor="{StaticResource green}">
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>

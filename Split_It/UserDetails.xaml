@@ -5,6 +5,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:app="clr-namespace:Split_It_.Converter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -12,23 +13,56 @@
     Style="{StaticResource TransitionPageStyle}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="False">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.BackgroundColor="{StaticResource green}">
+
+    <phone:PhoneApplicationPage.Resources>
+        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
+        <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
+        <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
+        <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreen}">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreyBG}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Name="tbTile" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="120" Height="120" Margin="12"/>
 
+            <Grid Grid.Column="1" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Column="0" FontSize="{StaticResource userDetaildescriptionSize}" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="tbAmount" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Column="1" FontSize="{StaticResource userDetaildescriptionSize}" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}" Margin="4,0,0,0"/>
+                </Grid>
+            </Grid>
+
+        </Grid>
+        <Border BorderThickness="0,2,0,0" Grid.Row="1" BorderBrush="{StaticResource settled}">
+            <TextBlock Text="All Expenses" Foreground="Black"  FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left" Margin="10,3,0,3"/>
+        </Border>
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,5,0,0" Background="White">
+        <Grid x:Name="ContentPanel" Grid.Row="2" Margin="0,5,0,0" Background="White">
             <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized"/>
         </Grid>
     </Grid>

@@ -80,7 +80,10 @@
         <sys:Double x:Key="expenseTitleSize">25</sys:Double>
         <sys:Double x:Key="amountSize">29</sys:Double>
         <sys:Double x:Key="descriptionSize">20</sys:Double>
-        
+
+        <sys:Double x:Key="userDetailnameSize">29</sys:Double>
+        <sys:Double x:Key="userDetaildescriptionSize">26</sys:Double>
+
         <!--Page Animations-->
         <Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage">
             

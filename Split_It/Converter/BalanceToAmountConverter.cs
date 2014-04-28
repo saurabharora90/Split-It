@@ -20,7 +20,7 @@ namespace Split_It_.Converter
             else
             {
                 string currency = balance[0].currency_code;
-                return currency + " " + String.Format("{0:0.00}", Math.Abs(finalBalance));
+                return currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
             }
         }
 
