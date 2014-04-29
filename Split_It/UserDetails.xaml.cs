@@ -100,10 +100,16 @@ namespace Split_It_
         {
             lock (o)
             {
-                if (userExpensesBackgroundWorker.IsBusy != true && morePages)
+                Expense expense = e.Container.Content as Expense;
+                if (expense != null)
                 {
-                    pageNo++;
-                    userExpensesBackgroundWorker.RunWorkerAsync();
+                    int offset = 2;
+
+                    if (userExpensesBackgroundWorker.IsBusy != true && morePages && expensesList.Count - expensesList.IndexOf(expense) <= offset)
+                    {
+                        pageNo++;
+                        userExpensesBackgroundWorker.RunWorkerAsync();
+                    }
                 }
             }
         }
