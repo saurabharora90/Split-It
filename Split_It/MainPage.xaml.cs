@@ -146,7 +146,7 @@ namespace Split_It_
             {
                 if (dataLoadingBackgroundWorker.WorkerSupportsCancellation == true)
                     dataLoadingBackgroundWorker.CancelAsync();
-
+                pageNo = 0;
                 populateData();
             });
             }
@@ -174,6 +174,18 @@ namespace Split_It_
                     dataLoadingBackgroundWorker.RunWorkerAsync();
                 }
             }
+        }
+
+        private void llsExpenses_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListSelector selector = sender as LongListSelector;
+            Expense selectedExpense = selector.SelectedItem as Expense;
+
+            if (selectedExpense == null)
+                return;
+
+            PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
+            NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
         }
     }
 }
