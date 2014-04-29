@@ -194,6 +194,10 @@ namespace Split_It_
                     balanceFriends.Add(friend);
                 }
             }
+
+            if (App.currentUser == null)
+                return;
+
             netBalanceObj.setBalances(App.currentUser.default_currency, totalBalance, postiveBalance, negativeBalance);
             btnOwesYouFriends.Text = netBalanceObj.PositiveBalance;
             btnYouOweFriends.Text = netBalanceObj.NegativeBalance;
