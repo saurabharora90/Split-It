@@ -139,6 +139,11 @@ namespace Split_It_
 
                 if (syncDatabaseBackgroundWorker.IsBusy != true)
                 {
+                    SystemTray.ProgressIndicator = new ProgressIndicator();
+                    SystemTray.ProgressIndicator.IsIndeterminate = true;
+                    SystemTray.ProgressIndicator.IsVisible = true;
+                    SystemTray.ProgressIndicator.Text = "Syncing";
+
                     syncDatabaseBackgroundWorker.RunWorkerAsync();
                 }
 
@@ -235,6 +240,7 @@ namespace Split_It_
                     dataLoadingBackgroundWorker.CancelAsync();
                 //pageNo = 0;
                 populateData();
+                SystemTray.ProgressIndicator.IsVisible = false;
             });
             }
         }
