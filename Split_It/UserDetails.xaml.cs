@@ -108,7 +108,7 @@ namespace Split_It_
             }
         }
 
-        private void llsExpenses_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void llsExpenses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LongListSelector selector = sender as LongListSelector;
             Expense selectedExpense = selector.SelectedItem as Expense;

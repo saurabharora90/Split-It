@@ -239,18 +239,6 @@ namespace Split_It_
             }
         }
 
-        private void llsFriends_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            LongListSelector selector = sender as LongListSelector;
-            User selectedUser = selector.SelectedItem as User;
-
-            if (selectedUser == null)
-                return;
-
-            PhoneApplicationService.Current.State[Constants.SELECTED_USER] = selectedUser;
-            NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
-        }
-
         private void llsExpenses_ItemRealized(object sender, ItemRealizationEventArgs e)
         {
             lock (o)
@@ -261,18 +249,6 @@ namespace Split_It_
                     dataLoadingBackgroundWorker.RunWorkerAsync();
                 }
             }
-        }
-
-        private void llsExpenses_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            LongListSelector selector = sender as LongListSelector;
-            Expense selectedExpense = selector.SelectedItem as Expense;
-
-            if (selectedExpense == null)
-                return;
-
-            PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
-            NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
         }
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -291,6 +267,30 @@ namespace Split_It_
 
             ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
             ApplicationBar.ForegroundColor = Colors.White;
+        }
+
+        private void llsFriends_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LongListSelector selector = sender as LongListSelector;
+            User selectedUser = selector.SelectedItem as User;
+
+            if (selectedUser == null)
+                return;
+
+            PhoneApplicationService.Current.State[Constants.SELECTED_USER] = selectedUser;
+            NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
+        }
+
+        private void llsExpenses_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LongListSelector selector = sender as LongListSelector;
+            Expense selectedExpense = selector.SelectedItem as Expense;
+
+            if (selectedExpense == null)
+                return;
+
+            PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
+            NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
         }
     }
 }
