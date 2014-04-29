@@ -118,7 +118,7 @@ namespace Split_It_
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.Back)
             {
-                populateData();
+                //populateData();
                 return;
             }
 
