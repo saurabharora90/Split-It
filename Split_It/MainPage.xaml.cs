@@ -142,7 +142,10 @@ namespace Split_It_
                     SystemTray.ProgressIndicator = new ProgressIndicator();
                     SystemTray.ProgressIndicator.IsIndeterminate = true;
                     SystemTray.ProgressIndicator.IsVisible = true;
-                    SystemTray.ProgressIndicator.Text = "Syncing";
+                    if (firstUse.Equals("true"))
+                        SystemTray.ProgressIndicator.Text = "Setting up for first use";
+                    else
+                        SystemTray.ProgressIndicator.Text = "Syncing";
 
                     syncDatabaseBackgroundWorker.RunWorkerAsync();
                 }
