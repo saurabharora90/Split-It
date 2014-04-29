@@ -58,7 +58,7 @@ namespace Split_It_
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.Back)
             {
-                //populateData();
+                populateData();
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace Split_It_
             {
                 if (dataLoadingBackgroundWorker.WorkerSupportsCancellation == true)
                     dataLoadingBackgroundWorker.CancelAsync();
-                pageNo = 0;
+                //pageNo = 0;
                 populateData();
             });
             }

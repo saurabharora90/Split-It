@@ -11,22 +11,28 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
+    xmlns:app="clr-namespace:Split_It_.Converter"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.BackgroundColor="{StaticResource green}">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreen}">
         <!--Pivot Control-->
-        <phone:Pivot Title="MY APPLICATION">
+        <phone:Pivot Title="expense detail" Foreground="White">
             <!--Pivot item one-->
-            <phone:PivotItem Header="item1">
-                <Grid/>
+            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="summary">
+                
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Header="item2">
-                <Grid/>
+            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="details">
+            </phone:PivotItem>
+
+            <!--Pivot item three-->
+            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="comments">
+                
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
