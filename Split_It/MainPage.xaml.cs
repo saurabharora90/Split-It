@@ -227,6 +227,8 @@ namespace Split_It_
 
                 if (allExpenses == null || allExpenses.Count == 0)
                     morePages = false;
+                else
+                    morePages = true;
 
                 foreach (var expense in allExpenses)
                 {
