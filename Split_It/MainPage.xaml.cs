@@ -12,12 +12,17 @@ using Split_It_.Utils;
 using Split_It_.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace Split_It_
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        ObservableCollection<User> balanceFriends = new ObservableCollection<User>();
+        ObservableCollection<User> youOweFriends = new ObservableCollection<User>();
+        ObservableCollection<User> owesYouFriends = new ObservableCollection<User>();
         ObservableCollection<User> friendsList = new ObservableCollection<User>();
+
         ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
         ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
 
@@ -38,7 +43,7 @@ namespace Split_It_
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
 
-            llsFriends.ItemsSource = friendsList;
+            llsFriends.ItemsSource = balanceFriends;
             llsExpenses.ItemsSource = expensesList;
             llsGroups.ItemsSource = groupsList;
 
@@ -50,7 +55,59 @@ namespace Split_It_
             syncDatabaseBackgroundWorker.WorkerSupportsCancellation = true;
             syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);
 
+            createAppBar();
             populateData();
+        }
+
+        private void createAppBar()
+        {
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = true;
+            ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
+            ApplicationBar.ForegroundColor = Colors.White;
+
+            ApplicationBarMenuItem btnAllFriends = new ApplicationBarMenuItem();
+            btnAllFriends.Text = "all";
+            ApplicationBar.MenuItems.Add(btnAllFriends);
+            btnAllFriends.Click += new EventHandler(btnAllFriends_Click);
+
+            ApplicationBarMenuItem btnBalanceFriends = new ApplicationBarMenuItem();
+            btnBalanceFriends.Text = "balance";
+            ApplicationBar.MenuItems.Add(btnBalanceFriends);
+            btnBalanceFriends.Click += new EventHandler(btnBalanceFriends_Click);
+
+            ApplicationBarMenuItem btnYouOweFriends = new ApplicationBarMenuItem();
+            btnYouOweFriends.Text = "you owe";
+            ApplicationBar.MenuItems.Add(btnYouOweFriends);
+            btnYouOweFriends.Click += new EventHandler(btnYouOweFriends_Click);
+
+            ApplicationBarMenuItem btnOwesYouFriends = new ApplicationBarMenuItem();
+            btnOwesYouFriends.Text = "owes you";
+            ApplicationBar.MenuItems.Add(btnOwesYouFriends);
+            btnOwesYouFriends.Click += new EventHandler(btnOwesYouFriends_Click);
+        }
+        
+        private void btnAllFriends_Click(object sender, EventArgs e)
+        {
+            llsFriends.ItemsSource = friendsList;
+        }
+
+        private void btnYouOweFriends_Click(object sender, EventArgs e)
+        {
+            llsFriends.ItemsSource = youOweFriends;
+        }
+
+        private void btnOwesYouFriends_Click(object sender, EventArgs e)
+        {
+            llsFriends.ItemsSource = owesYouFriends;
+        }
+
+        private void btnBalanceFriends_Click(object sender, EventArgs e)
+        {
+            llsFriends.ItemsSource = balanceFriends;
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -98,10 +155,26 @@ namespace Split_It_
         private void loadFriends()
         {
             friendsList.Clear();
+            youOweFriends.Clear();
+            owesYouFriends.Clear();
+            balanceFriends.Clear();
+
             QueryDatabase obj = new QueryDatabase();
             foreach (var friend in obj.getAllFriends())
             {
                 friendsList.Add(friend);
+
+                if (Util.getBalance(friend.balance) > 0)
+                {
+                    owesYouFriends.Add(friend);
+                    balanceFriends.Add(friend);
+                }
+
+                if (Util.getBalance(friend.balance) < 0)
+                {
+                    youOweFriends.Add(friend);
+                    balanceFriends.Add(friend);
+                }
             }
             obj.closeDatabaseConnection();
         }
