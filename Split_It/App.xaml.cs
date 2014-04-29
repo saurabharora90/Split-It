@@ -8,6 +8,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Split_It_.Resources;
 using Split_It_.Utils;
+using Split_It_.Model;
 
 namespace Split_It_
 {
@@ -20,6 +21,7 @@ namespace Split_It_
         public static PhoneApplicationFrame RootFrame { get; private set; }
 
         public static string accessToken, accessTokenSecret;
+        public static User currentUser;
 
         /// <summary>
         /// Constructor for the Application object.

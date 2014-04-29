@@ -13,6 +13,7 @@ using Split_It_.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Media;
+using System.Windows.Data;
 
 namespace Split_It_
 {
@@ -36,6 +37,11 @@ namespace Split_It_
         private int pageNo = 0;
         private bool morePages = true;
 
+        private ApplicationBar dashBoardAppBar;
+        private ApplicationBarMenuItem btnAllFriends, btnBalanceFriends, btnYouOweFriends, btnOwesYouFriends;
+        private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
+        private NetBalances netBalanceObj = new NetBalances();
+
         public MainPage()
         {
             InitializeComponent();
@@ -55,38 +61,35 @@ namespace Split_It_
             syncDatabaseBackgroundWorker.WorkerSupportsCancellation = true;
             syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);
 
-            createAppBar();
+            setupAppBars();
             populateData();
         }
 
-        private void createAppBar()
+        private void setupAppBars()
         {
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.Mode = ApplicationBarMode.Minimized;
-            ApplicationBar.Opacity = 1.0;
-            ApplicationBar.IsVisible = true;
-            ApplicationBar.IsMenuEnabled = true;
-            ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
-            ApplicationBar.ForegroundColor = Colors.White;
+            dashBoardAppBar = new ApplicationBar();
+            dashBoardAppBar.Mode = ApplicationBarMode.Minimized;
+            dashBoardAppBar.Opacity = 1.0;
+            dashBoardAppBar.IsMenuEnabled = true;
 
-            ApplicationBarMenuItem btnAllFriends = new ApplicationBarMenuItem();
+            btnAllFriends = new ApplicationBarMenuItem();
             btnAllFriends.Text = "all";
-            ApplicationBar.MenuItems.Add(btnAllFriends);
+            dashBoardAppBar.MenuItems.Add(btnAllFriends);
             btnAllFriends.Click += new EventHandler(btnAllFriends_Click);
 
-            ApplicationBarMenuItem btnBalanceFriends = new ApplicationBarMenuItem();
+            btnBalanceFriends = new ApplicationBarMenuItem();
             btnBalanceFriends.Text = "balance";
-            ApplicationBar.MenuItems.Add(btnBalanceFriends);
+            dashBoardAppBar.MenuItems.Add(btnBalanceFriends);
             btnBalanceFriends.Click += new EventHandler(btnBalanceFriends_Click);
 
-            ApplicationBarMenuItem btnYouOweFriends = new ApplicationBarMenuItem();
+            btnYouOweFriends = new ApplicationBarMenuItem();
             btnYouOweFriends.Text = "you owe";
-            ApplicationBar.MenuItems.Add(btnYouOweFriends);
+            dashBoardAppBar.MenuItems.Add(btnYouOweFriends);
             btnYouOweFriends.Click += new EventHandler(btnYouOweFriends_Click);
 
-            ApplicationBarMenuItem btnOwesYouFriends = new ApplicationBarMenuItem();
+            btnOwesYouFriends = new ApplicationBarMenuItem();
             btnOwesYouFriends.Text = "owes you";
-            ApplicationBar.MenuItems.Add(btnOwesYouFriends);
+            dashBoardAppBar.MenuItems.Add(btnOwesYouFriends);
             btnOwesYouFriends.Click += new EventHandler(btnOwesYouFriends_Click);
         }
         
@@ -158,24 +161,35 @@ namespace Split_It_
             youOweFriends.Clear();
             owesYouFriends.Clear();
             balanceFriends.Clear();
+            postiveBalance = 0;
+            negativeBalance = 0;
+            totalBalance = 0;
 
             QueryDatabase obj = new QueryDatabase();
             foreach (var friend in obj.getAllFriends())
             {
                 friendsList.Add(friend);
-
-                if (Util.getBalance(friend.balance) > 0)
+                double balance = Util.getBalance(friend.balance);
+                if (balance > 0)
                 {
+                    postiveBalance += balance;
+                    totalBalance += balance;
                     owesYouFriends.Add(friend);
                     balanceFriends.Add(friend);
                 }
 
-                if (Util.getBalance(friend.balance) < 0)
+                if (balance < 0)
                 {
+                    negativeBalance += balance;
+                    totalBalance += balance;
                     youOweFriends.Add(friend);
                     balanceFriends.Add(friend);
                 }
             }
+            netBalanceObj.setBalances(App.currentUser.default_currency, totalBalance, postiveBalance, negativeBalance);
+            btnOwesYouFriends.Text = netBalanceObj.PositiveBalance;
+            btnYouOweFriends.Text = netBalanceObj.NegativeBalance;
+            btnBalanceFriends.Text = netBalanceObj.NetBalance;
             obj.closeDatabaseConnection();
         }
 
@@ -259,6 +273,24 @@ namespace Split_It_
 
             PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
             NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
+        }
+
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (((Pivot)sender).SelectedIndex)
+            {
+                case 0:
+                    ApplicationBar = dashBoardAppBar;
+                    ApplicationBar.IsVisible = true;
+                    break;
+
+                case 1:
+                    ApplicationBar.IsVisible = false;
+                    break;
+            }
+
+            ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
+            ApplicationBar.ForegroundColor = Colors.White;
         }
     }
 }

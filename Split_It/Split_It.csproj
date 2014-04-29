@@ -125,6 +125,7 @@
     <Compile Include="Model\Expense.cs" />
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Group_Members.cs" />
+    <Compile Include="Model\NetBalances.cs" />
     <Compile Include="Model\Notifications.cs" />
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\User.cs" />
