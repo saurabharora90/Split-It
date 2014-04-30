@@ -31,19 +31,25 @@ namespace Split_It_.Converter
                 return "You are not involved.";
 
             double netBalance = System.Convert.ToDouble(currentUser.net_balance);
-            string amount = String.Format("{0:0.00}", Math.Abs(netBalance));
+            string amount = expense.currency_code + String.Format("{0:0.00}", Math.Abs(netBalance));
 
             if (netBalance > 0)
             {
                 int peopleWhoOweYou = getNumberofPeopleWhoOweYou();
+               
                 if (peopleWhoOweYou > 1)
                 {
-                    return peopleWhoOweYou.ToString() + " people owe you " + expense.currency_code + amount + " for this.";
+                    return peopleWhoOweYou.ToString() + " people owe you " + amount + " for this.";
+                }
+                else if (expense.payment)
+                {
+                    User user = getUserWhoOwesYou();
+                    return "You paid " + user.name + " " + amount;
                 }
                 else
                 {
                     User user = getUserWhoOwesYou();
-                    return user.name + " owes you " + expense.currency_code + amount + " for this.";
+                    return user.name + " owes you " + amount + " for this.";
                 }
             }
             else
@@ -51,12 +57,17 @@ namespace Split_It_.Converter
                 int peopleYouOweTo = getNumberofPeopleYouOweTo();
                 if (peopleYouOweTo > 1)
                 {
-                    return "You owe " + peopleYouOweTo.ToString() + " people " + expense.currency_code + amount + " for this.";
+                    return "You owe " + peopleYouOweTo.ToString() + " people " + amount + " for this.";
+                }
+                else if (expense.payment)
+                {
+                    User user = getUserWhoYouOweTo();
+                    return user.name + " paid you " + amount;
                 }
                 else
                 {
                     User user = getUserWhoYouOweTo();
-                    return "You owe " + user.name + " " + expense.currency_code + amount + " for this.";
+                    return "You owe " + user.name + " " + amount + " for this.";
                 }
             }
         }
