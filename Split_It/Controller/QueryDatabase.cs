@@ -57,6 +57,7 @@ namespace Split_It_.Controller
             //Get the expense share per user. Within each expense user, fill in the user details.
             for (var x = 0; x < expensesList.Count; x++)
             {
+                expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
                 expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
                 expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
                 

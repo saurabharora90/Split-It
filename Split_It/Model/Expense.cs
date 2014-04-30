@@ -12,10 +12,10 @@ namespace Split_It_.Model
         public static int DISPLAY_FOR_ALL_USER = 1000;
         public static int DISPLAY_FOR_SPECIFIC_USER = 1001;
 
-        public Expense()
+        /*public Expense()
         {
             displayType = DISPLAY_FOR_ALL_USER;
-        }
+        }*/
 
         public int id { get; set; }
         public int group_id { get; set; }

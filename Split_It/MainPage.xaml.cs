@@ -62,7 +62,11 @@ namespace Split_It_
             syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);
 
             setupAppBars();
-            populateData();
+
+            if (Util.checkNetworkConnection())
+                loadFriends();
+            else
+                populateData();
         }
 
         private void setupAppBars()
@@ -270,9 +274,19 @@ namespace Split_It_
                 //pageNo = 0;
                 populateData();
 
-                if(SystemTray.ProgressIndicator!=null)
+                if (SystemTray.ProgressIndicator != null)
                     SystemTray.ProgressIndicator.IsVisible = false;
             });
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    if (SystemTray.ProgressIndicator != null)
+                        SystemTray.ProgressIndicator.IsVisible = false;
+
+                    MessageBox.Show("Unable to sync with splitwise. You can continue to browse cached data", "Error", MessageBoxButton.OK);
+                });
             }
         }
 
