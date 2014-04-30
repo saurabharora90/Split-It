@@ -63,6 +63,7 @@ namespace Split_It_
 
             setupAppBars();
 
+            //Only show friends in app launch while syncing the database for other details.
             if (Util.checkNetworkConnection())
                 loadFriends();
             else
