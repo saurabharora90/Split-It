@@ -102,6 +102,7 @@
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\ExpenseAmountInCurrencyConverter.cs" />
     <Compile Include="Converter\ExpenseToDateConverter.cs" />
     <Compile Include="Converter\ExpenseToTitleConverter.cs" />
     <Compile Include="Converter\ExpenseShareToWhoPaidConverter.cs" />
@@ -181,6 +182,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\add.png" />
+    <Content Include="Assets\Icons\delete.png" />
+    <Content Include="Assets\Icons\edit.png" />
     <Content Include="Assets\Icons\feature.email.png" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />

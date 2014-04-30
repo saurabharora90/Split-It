@@ -37,7 +37,7 @@ namespace Split_It_
         private int pageNo = 0;
         private bool morePages = true;
 
-        private ApplicationBar dashBoardAppBar;
+        private ApplicationBar dashBoardAppBar, expenseAppBar;
         private ApplicationBarMenuItem btnAllFriends, btnBalanceFriends, btnYouOweFriends, btnOwesYouFriends;
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
@@ -91,6 +91,26 @@ namespace Split_It_
             btnOwesYouFriends.Text = "owes you";
             dashBoardAppBar.MenuItems.Add(btnOwesYouFriends);
             btnOwesYouFriends.Click += new EventHandler(btnOwesYouFriends_Click);
+
+            expenseAppBar = new ApplicationBar();
+            expenseAppBar.Mode = ApplicationBarMode.Minimized;
+            expenseAppBar.Opacity = 1.0;
+            expenseAppBar.IsVisible = true;
+            expenseAppBar.IsMenuEnabled = false;
+            expenseAppBar.BackgroundColor = (Color)Application.Current.Resources["green"];
+            expenseAppBar.ForegroundColor = Colors.White;
+
+            //add expense button
+            ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
+            btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
+            btnAddExpense.Text = "add";
+            expenseAppBar.Buttons.Add(btnAddExpense);
+            btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
+        }
+
+        private void btnAddExpense_Click(object sender, EventArgs e)
+        {
+            llsFriends.ItemsSource = friendsList;
         }
         
         private void btnAllFriends_Click(object sender, EventArgs e)
@@ -284,7 +304,8 @@ namespace Split_It_
                     break;
 
                 case 1:
-                    ApplicationBar.IsVisible = false;
+                    ApplicationBar = expenseAppBar;
+                    ApplicationBar.IsVisible = true;
                     break;
             }
 
