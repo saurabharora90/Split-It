@@ -32,7 +32,7 @@ namespace Split_It_.Model
         {
             get
             {
-                if (last_name != null)
+                if (!String.IsNullOrEmpty(last_name))
                     return first_name + " " + last_name;
                 else
                     return first_name;

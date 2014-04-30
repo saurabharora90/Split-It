@@ -64,10 +64,10 @@ namespace Split_It_
             setupAppBars();
 
             //Only show friends in app launch while syncing the database for other details.
-            if (Util.checkNetworkConnection())
+            /*if (Util.checkNetworkConnection())
                 loadFriends();
-            else
-                populateData();
+            else*/
+                populateData(false);
         }
 
         private void setupAppBars()
@@ -180,7 +180,7 @@ namespace Split_It_
 
         private void dataLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            loadExpensesAndGroups();
+            loadExpensesAndGroups((bool) e.Argument);
         }
 
         private void syncDatabaseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -230,38 +230,44 @@ namespace Split_It_
             obj.closeDatabaseConnection();
         }
 
-        private void populateData()
+        private void populateData(bool afterSync)
         {
             loadFriends();
             if (dataLoadingBackgroundWorker.IsBusy != true)
             {
-                dataLoadingBackgroundWorker.RunWorkerAsync();
+                dataLoadingBackgroundWorker.RunWorkerAsync(afterSync);
             }
         }
 
-        private void loadExpensesAndGroups()
+        private void loadExpensesAndGroups(bool afterSync)
         {
-            //the rest of the work is done in a backgroundworker
-            QueryDatabase obj = new QueryDatabase();
-            List<Expense> allExpenses = obj.getAllExpenses(pageNo);
-
-            Dispatcher.BeginInvoke(() =>
+            lock (o)
             {
-                if(pageNo == 0)
-                    expensesList.Clear();
+                //the rest of the work is done in a backgroundworker
+                if (afterSync)
+                    pageNo = 0;
 
-                if (allExpenses == null || allExpenses.Count == 0)
-                    morePages = false;
-                else
-                    morePages = true;
+                QueryDatabase obj = new QueryDatabase();
+                List<Expense> allExpenses = obj.getAllExpenses(pageNo);
 
-                foreach (var expense in allExpenses)
+                Dispatcher.BeginInvoke(() =>
                 {
-                    expensesList.Add(expense);
-                }
-            });
+                    if (pageNo == 0)
+                        expensesList.Clear();
 
-            obj.closeDatabaseConnection();
+                    if (allExpenses == null || allExpenses.Count == 0)
+                        morePages = false;
+                    else
+                        morePages = true;
+
+                    foreach (var expense in allExpenses)
+                    {
+                        expensesList.Add(expense);
+                    }
+                });
+
+                obj.closeDatabaseConnection();
+            }
         }
 
         private void _SyncConpleted(bool success)
@@ -273,7 +279,7 @@ namespace Split_It_
                 if (dataLoadingBackgroundWorker.WorkerSupportsCancellation == true)
                     dataLoadingBackgroundWorker.CancelAsync();
                 //pageNo = 0;
-                populateData();
+                populateData(true);
 
                 if (SystemTray.ProgressIndicator != null)
                     SystemTray.ProgressIndicator.IsVisible = false;
@@ -303,7 +309,7 @@ namespace Split_It_
                     if (dataLoadingBackgroundWorker.IsBusy != true && morePages && expensesList.Count - expensesList.IndexOf(expense) <= offset)
                     {
                         pageNo++;
-                        dataLoadingBackgroundWorker.RunWorkerAsync();
+                        dataLoadingBackgroundWorker.RunWorkerAsync(false);
                     }
                 }
             }
