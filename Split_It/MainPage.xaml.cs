@@ -249,7 +249,9 @@ namespace Split_It_
                     dataLoadingBackgroundWorker.CancelAsync();
                 //pageNo = 0;
                 populateData();
-                SystemTray.ProgressIndicator.IsVisible = false;
+
+                if(SystemTray.ProgressIndicator!=null)
+                    SystemTray.ProgressIndicator.IsVisible = false;
             });
             }
         }

@@ -17,24 +17,33 @@
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.BackgroundColor="{StaticResource green}">
 
+    <phone:PhoneApplicationPage.Resources>
+        <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
+        <app:ExpenseToDateConverter x:Key="ExpenseDateConverter"/>
+    </phone:PhoneApplicationPage.Resources>
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreen}">
         <!--Pivot Control-->
         <phone:Pivot Title="expense detail" Foreground="White">
             <!--Pivot item one-->
             <phone:PivotItem Background="White" Margin="0,5,0,0" Header="summary">
-                
+                <StackPanel Orientation="Vertical" Margin="12,12,0,12">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding payment, Converter={StaticResource PaymentImageConverter}}" Width="60" Height="80" Margin="0,0,12,0"/>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="tbTitle" TextTrimming="WordEllipsis" Text="{Binding description}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
+                            <TextBlock x:Name="tbAmount" Text="{Binding cost}" Foreground="Black" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Left" FontWeight="Bold"/>
+                            <TextBlock x:Name="tbDate" Text="{Binding Converter={StaticResource ExpenseDateConverter}}" Foreground="{StaticResource settled}" Grid.Row="2" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="details">
-            </phone:PivotItem>
-
-            <!--Pivot item three-->
-            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="comments">
-                
+            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="notes">
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
-    
+
 </phone:PhoneApplicationPage>

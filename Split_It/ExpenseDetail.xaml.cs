@@ -21,6 +21,8 @@ namespace Split_It_
             InitializeComponent();
 
             selectedExpense = PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] as Expense;
+
+            this.DataContext = selectedExpense;
         }
     }
 }
