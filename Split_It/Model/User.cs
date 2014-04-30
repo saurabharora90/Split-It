@@ -32,7 +32,10 @@ namespace Split_It_.Model
         {
             get
             {
-                return first_name + " " + last_name;
+                if (last_name != null)
+                    return first_name + " " + last_name;
+                else
+                    return first_name;
             }
         }
     }
