@@ -221,7 +221,10 @@ namespace Split_It_
             }
 
             if (App.currentUser == null)
+            {
+                obj.closeDatabaseConnection();
                 return;
+            }
 
             netBalanceObj.setBalances(App.currentUser.default_currency, totalBalance, postiveBalance, negativeBalance);
             btnOwesYouFriends.Text = netBalanceObj.PositiveBalance;

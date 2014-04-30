@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,10 @@ namespace Split_It_.Model
         public string currency_code { get; set; }
         public string amount { get; set; }
         public int expense_id { get; set; }
+
+        [Ignore]
+        public User fromUser { get; set; }
+        [Ignore]
+        public User toUser { get; set; }
     }
 }

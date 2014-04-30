@@ -83,6 +83,7 @@
 
         <sys:Double x:Key="userDetailnameSize">29</sys:Double>
         <sys:Double x:Key="userDetaildescriptionSize">26</sys:Double>
+        <sys:Double x:Key="expenseDetailAmount">23</sys:Double>
 
         <!--Page Animations-->
         <Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage">

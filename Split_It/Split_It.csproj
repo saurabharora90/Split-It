@@ -102,6 +102,7 @@
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\CurrentUserRepaymentsConverter.cs" />
     <Compile Include="Converter\ExpenseAmountInCurrencyConverter.cs" />
     <Compile Include="Converter\ExpenseToDateConverter.cs" />
     <Compile Include="Converter\ExpenseToTitleConverter.cs" />

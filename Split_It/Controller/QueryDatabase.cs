@@ -134,7 +134,15 @@ namespace Split_It_.Controller
 
         private List<Debt_Expense> getExpenseRepayments(int expenseId)
         {
-            return dbConn.Query<Debt_Expense>("SELECT * FROM debt_expense WHERE expense_id= ?", new object[] { expenseId }).ToList<Debt_Expense>();
+            List<Debt_Expense> debtExpensesList = dbConn.Query<Debt_Expense>("SELECT * FROM debt_expense WHERE expense_id= ?", new object[] { expenseId }).ToList<Debt_Expense>();
+
+            for (var y = 0; y < debtExpensesList.Count; y++)
+            {
+                debtExpensesList[y].fromUser = getUserDetails(debtExpensesList[y].from);
+                debtExpensesList[y].toUser = getUserDetails(debtExpensesList[y].to);
+            }
+
+            return debtExpensesList;
         }
 
         private User getUserDetails(int userId)
