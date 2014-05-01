@@ -45,12 +45,16 @@
                         <TextBlock HorizontalAlignment="Center" Text="{Binding Converter={StaticResource CurrentUserRepaymentsConverter}}" Foreground="Black" FontSize="{StaticResource expenseDetailAmount}" Margin="0,12" />
                     </Border>
 
+                    <phone:LongListSelector Name="llsRepayments">
+                        
+                    </phone:LongListSelector>
+
                 </StackPanel>
             </phone:PivotItem>
 
             <!--Pivot item two-->
             <phone:PivotItem Background="White" Margin="0,5,0,0" Header="notes">
-                <TextBlock TextWrapping="Wrap" Text="{Binding detail}" Foreground="Black" FontSize="{StaticResource userDetaildescriptionSize}"/>
+                <TextBlock Margin="20" TextWrapping="Wrap" Text="{Binding details}" Foreground="Black" FontSize="{StaticResource userDetaildescriptionSize}"/>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
