@@ -16,7 +16,11 @@ namespace Split_It_.Converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             SolidColorBrush colorBrush;
-
+            bool expenseDetail = false;
+            if (parameter!=null && String.Equals(parameter.ToString(), "expenseDetail"))
+            {
+                expenseDetail = true;
+            }
             List<Expense_Share> users = value as List<Expense_Share>;
 
             Expense_Share currentUser = null;
@@ -30,16 +34,36 @@ namespace Split_It_.Converter
             }
 
             if (currentUser == null)
-                colorBrush = Application.Current.Resources["settled"] as SolidColorBrush;
+            {
+                if(expenseDetail)
+                    colorBrush = Application.Current.Resources["splitwiseGreyBG"] as SolidColorBrush;
+                else
+                    colorBrush = Application.Current.Resources["settled"] as SolidColorBrush;
+            }
 
             else if (System.Convert.ToDouble(currentUser.net_balance) > 0)
-                colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;
+            {
+                if (expenseDetail)
+                    colorBrush = Application.Current.Resources["positiveLight"] as SolidColorBrush;
+                else
+                    colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;
+            }
 
             else if (System.Convert.ToDouble(currentUser.net_balance) == 0)
-                colorBrush = Application.Current.Resources["settled"] as SolidColorBrush;
+            {
+                if (expenseDetail)
+                    colorBrush = Application.Current.Resources["splitwiseGreyBG"] as SolidColorBrush;
+                else
+                    colorBrush = Application.Current.Resources["settled"] as SolidColorBrush;
+            }
 
             else
-                colorBrush = Application.Current.Resources["negative"] as SolidColorBrush;
+            {
+                if (expenseDetail)
+                    colorBrush = Application.Current.Resources["negativeLight"] as SolidColorBrush;
+                else
+                    colorBrush = Application.Current.Resources["negative"] as SolidColorBrush;
+            }
 
             return colorBrush;
         }

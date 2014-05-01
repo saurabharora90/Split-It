@@ -73,7 +73,8 @@
         <SolidColorBrush x:Key="settled">#ABABAB</SolidColorBrush>
         <SolidColorBrush x:Key="splitwiseGreyBG">#EEEEEE</SolidColorBrush>
 
-
+        <SolidColorBrush x:Key="negativeLight">#FEECE5</SolidColorBrush>
+        <SolidColorBrush x:Key="positiveLight">#E7FFF9</SolidColorBrush>
 
         <!--Text Sizes-->
         <sys:Double x:Key="nameSize">26</sys:Double>
