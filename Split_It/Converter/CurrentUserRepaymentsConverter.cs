@@ -31,14 +31,14 @@ namespace Split_It_.Converter
                 }
             }
             if (currentUser == null)
-                return "You are not involved.";
+                return "You owe ";
 
             double netBalance = System.Convert.ToDouble(currentUser.net_balance);
             
             if(netBalance == 0)
-                return "You are not involved.";
+                return "You owe ";
             
-            string amount = expense.currency_code + String.Format("{0:0.00}", Math.Abs(netBalance));
+            //string amount = expense.currency_code + String.Format("{0:0.00}", Math.Abs(netBalance));
 
             if (netBalance > 0)
             {
@@ -46,17 +46,17 @@ namespace Split_It_.Converter
                
                 if (peopleWhoOweYou > 1)
                 {
-                    return peopleWhoOweYou.ToString() + " people owe you " + amount + " for this.";
+                    return peopleWhoOweYou.ToString() + " people owe you "; //+ amount + " for this.";
                 }
                 else if (expense.payment)
                 {
                     User user = getUserWhoOwesYou();
-                    return "You paid " + user.name + " " + amount;
+                    return "You paid " + user.name + " ";// + amount;
                 }
                 else
                 {
                     User user = getUserWhoOwesYou();
-                    return user.name + " owes you " + amount + " for this.";
+                    return user.name + " owes you ";// + amount + " for this.";
                 }
             }
             else
@@ -64,17 +64,17 @@ namespace Split_It_.Converter
                 int peopleYouOweTo = getNumberofPeopleYouOweTo();
                 if (peopleYouOweTo > 1)
                 {
-                    return "You owe " + peopleYouOweTo.ToString() + " people " + amount + " for this.";
+                    return "You owe " + peopleYouOweTo.ToString() + " people ";// + amount + " for this.";
                 }
                 else if (expense.payment)
                 {
                     User user = getUserWhoYouOweTo();
-                    return user.name + " paid you " + amount;
+                    return user.name + " paid you ";// + amount;
                 }
                 else
                 {
                     User user = getUserWhoYouOweTo();
-                    return "You owe " + user.name + " " + amount + " for this.";
+                    return "You owe " + user.name + " ";// + amount + " for this.";
                 }
             }
         }
