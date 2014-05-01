@@ -49,15 +49,7 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock x:Name="tbDescription" Text="{Binding users, Converter={StaticResource ExpenseShareDescriptionConverter}}" Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding currency_code}" Grid.Column="0" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
-                            <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding Converter={StaticResource ExpenseShareAmountConverter}}" Grid.Column="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
-                        </Grid>
+                        <TextBlock Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding Converter={StaticResource ExpenseShareAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding payment, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                     </Grid>
                 </Grid>
@@ -84,7 +76,7 @@
 
         <sys:Double x:Key="userDetailnameSize">29</sys:Double>
         <sys:Double x:Key="userDetaildescriptionSize">26</sys:Double>
-        <sys:Double x:Key="expenseDetailAmount">21.5</sys:Double>
+        <sys:Double x:Key="expenseDetailAmount">22</sys:Double>
 
         <!--Page Animations-->
         <Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage">

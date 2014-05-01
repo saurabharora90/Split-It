@@ -28,7 +28,7 @@ namespace Split_It_.Converter
 
             string amount = null;
             if (currentUser == null)
-                return "0.00";
+                return expense.currency_code + "0.00";
 
             if(expense.displayType == Expense.DISPLAY_FOR_ALL_USER)
                 amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance)));
@@ -48,7 +48,7 @@ namespace Split_It_.Converter
                 }
             }
 
-            return amount;
+            return expense.currency_code + amount;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
