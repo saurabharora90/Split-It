@@ -5,6 +5,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,10 +14,10 @@ namespace Split_It_.Controller
     class SyncDatabase
     {
         bool firstSync;
-        Action<bool> CallbackOnSuccess;
+        Action<bool, HttpStatusCode> CallbackOnSuccess;
         SQLiteConnection dbConn;
 
-        public SyncDatabase(Action<bool> callback, bool firstSync)
+        public SyncDatabase(Action<bool, HttpStatusCode> callback, bool firstSync)
         {
             this.CallbackOnSuccess = callback;
             this.firstSync = firstSync;
@@ -26,7 +27,7 @@ namespace Split_It_.Controller
         {
             if (!Util.checkNetworkConnection())
             {
-                CallbackOnSuccess(false);
+                CallbackOnSuccess(false, HttpStatusCode.ServiceUnavailable);
                 return;
             }
             dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
@@ -45,12 +46,12 @@ namespace Split_It_.Controller
 
                 //Fetch current user details
                 CurrentUserRequest request = new CurrentUserRequest();
-                request.getCurrentUser(_CurrentUserDetailsReceived);
+                request.getCurrentUser(_CurrentUserDetailsReceived, _OnErrorReceived);
             }
             else
             {
                 GetFriendsRequest request = new GetFriendsRequest();
-                request.getAllFriends(_FriendsDetailsRecevied);
+                request.getAllFriends(_FriendsDetailsRecevied, _OnErrorReceived);
             }
 
         }
@@ -69,7 +70,7 @@ namespace Split_It_.Controller
 
             //Fire next request, i.e. get list of friends
             GetFriendsRequest request = new GetFriendsRequest();
-            request.getAllFriends(_FriendsDetailsRecevied);
+            request.getAllFriends(_FriendsDetailsRecevied, _OnErrorReceived);
         }
 
         private void _FriendsDetailsRecevied(List<User> friendsList)
@@ -193,7 +194,20 @@ namespace Split_It_.Controller
             Util.setLastUpdatedTime();
 
             dbConn.Close();
-            CallbackOnSuccess(true);
+            CallbackOnSuccess(true, HttpStatusCode.OK);
+        }
+
+        private void _OnErrorReceived(HttpStatusCode statusCode)
+        {
+            switch (statusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    CallbackOnSuccess(false, HttpStatusCode.Unauthorized);
+                    break;
+                default:
+                    CallbackOnSuccess(false,statusCode);
+                    break;
+            }
         }
     }
 }

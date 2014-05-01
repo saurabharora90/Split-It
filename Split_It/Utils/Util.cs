@@ -130,5 +130,29 @@ namespace Split_It_.Utils
 
             return finalBalance;
         }
+
+        public static void logout()
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.CURRENT_USER_ID))
+            {
+                settings.Remove(Constants.CURRENT_USER_ID);
+            }
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.LAST_UPDATED_TIME))
+            {
+                settings.Remove(Constants.LAST_UPDATED_TIME);
+            }
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.ACCESS_TOKEN_TAG))
+            {
+                settings.Remove(Constants.ACCESS_TOKEN_TAG);
+            }
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.ACCESS_TOKEN_SECRET_TAG))
+            {
+                settings.Remove(Constants.ACCESS_TOKEN_SECRET_TAG);
+            }
+        }
     }
 }

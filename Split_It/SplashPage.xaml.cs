@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.ComponentModel;
 using Split_It_.Controller;
+using Split_It_.Utils;
 
 namespace Split_It_
 {
@@ -65,7 +66,7 @@ namespace Split_It_
             databaseSync.performSync();
         }
 
-        private void _SyncConpleted(bool success)
+        private void _SyncConpleted(bool success, HttpStatusCode errorCode)
         {
             if (success)
             {
@@ -84,8 +85,16 @@ namespace Split_It_
                     if (SystemTray.ProgressIndicator != null)
                         SystemTray.ProgressIndicator.IsVisible = false;
 
-                    MessageBox.Show("Unable to sync with splitwise. You can continue to browse cached data", "Error", MessageBoxButton.OK);
-                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                    if (errorCode == HttpStatusCode.Unauthorized)
+                    {
+                        Util.logout();
+                        NavigationService.Navigate(new Uri("/Login.xaml", UriKind.Relative));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to sync with splitwise. You can continue to browse cached data", "Error", MessageBoxButton.OK);
+                        NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                    }
                 });
             }
         }
