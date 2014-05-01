@@ -73,7 +73,10 @@ namespace Split_It_.Model
         
         [Ignore]
         public User user { get; set; }
-        
+
+        [Ignore]
+        public string currency { get; set; }
+
         public int user_id { get; set; }
         public string paid_share { get; set; }
         public string owed_share { get; set; }

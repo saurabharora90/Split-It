@@ -67,7 +67,7 @@ namespace Split_It_.Controller
                 if (expensesList[x].deleted_by_user_id != 0)
                     expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
 
-                expensesList[x].users = getExpenseShareUsers(expensesList[x].id);
+                expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
 
                 for (var y = 0; y < expensesList[x].users.Count; y++)
                 {
@@ -111,7 +111,7 @@ namespace Split_It_.Controller
                 if (expensesList[x].deleted_by_user_id != 0)
                     expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
 
-                expensesList[x].users = getExpenseShareUsers(expensesList[x].id);
+                expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
 
                 for (var y = 0; y < expensesList[x].users.Count; y++)
                 {
@@ -127,9 +127,15 @@ namespace Split_It_.Controller
             dbConn.Close();
         }
 
-        private List<Expense_Share> getExpenseShareUsers(int expenseId)
+        private List<Expense_Share> getExpenseShareUsers(int expenseId, string currencyCode)
         {
-            return dbConn.Query<Expense_Share>("SELECT * FROM expense_share WHERE expense_id= ?", new object[] { expenseId }).ToList<Expense_Share>();
+            List<Expense_Share> expenseShareList = dbConn.Query<Expense_Share>("SELECT * FROM expense_share WHERE expense_id= ?", new object[] { expenseId }).ToList<Expense_Share>();
+
+            for (var y = 0; y < expenseShareList.Count; y++)
+            {
+                expenseShareList[y].currency = currencyCode;
+            }
+            return expenseShareList;
         }
 
         private List<Debt_Expense> getExpenseRepayments(int expenseId)

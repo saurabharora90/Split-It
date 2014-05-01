@@ -22,6 +22,7 @@
         <app:ExpenseAmountInCurrencyConverter x:Key="ExpenseAmountCurrencyConverter"/>
         <app:ExpenseShareToColorConverter x:Key="ExpenseShareColorConverter"/>
         <app:CurrentUserRepaymentsConverter x:Key="CurrentUserRepaymentsConverter"/>
+        <app:ExpenseShareToRepaymentConverter x:Key="ExpenseShareRepaymentConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -30,8 +31,13 @@
         <phone:Pivot Title="expense detail" Foreground="White">
             <!--Pivot item one-->
             <phone:PivotItem Background="White" Margin="0,5,0,0" Header="summary">
-                <StackPanel Orientation="Vertical" Margin="0,12">
-                    <StackPanel Orientation="Horizontal">
+                <Grid Margin="0,12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <Image Source="{Binding payment, Converter={StaticResource PaymentImageConverter}}" Width="70" Height="80" Margin="8,0"/>
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Name="tbTitle" TextWrapping="Wrap" Text="{Binding description}" Foreground="Black" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
@@ -40,7 +46,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <Border Background="{Binding users, Converter={StaticResource ExpenseShareColorConverter}, ConverterParameter='expenseDetail'}" Margin="0,15">
+                    <Border Grid.Row="1" Background="{Binding users, Converter={StaticResource ExpenseShareColorConverter}, ConverterParameter='expenseDetail'}" Margin="0,15">
                         <TextBlock HorizontalAlignment="Center" FontSize="{StaticResource expenseDetailAmount}" Margin="0,12">
                             <TextBlock.Inlines>
                                 <Run Text="{Binding Converter={StaticResource CurrentUserRepaymentsConverter}}" Foreground="Black" />
@@ -50,17 +56,21 @@
                         </TextBlock>
                     </Border>
 
-                    <phone:LongListSelector Name="llsRepayments">
+                    <phone:LongListSelector Grid.Row="2" Name="llsRepayments">
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    
-                                </StackPanel>
+                                <Grid Margin="15,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding user.picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Converter={StaticResource ExpenseShareRepaymentConverter}}" FontSize="{StaticResource expenseDetailAmount}" VerticalAlignment="Center" Foreground="Black" TextWrapping="Wrap"/>
+                                </Grid>
                             </DataTemplate>
                         </phone:LongListSelector.ItemTemplate>
                     </phone:LongListSelector>
-
-                </StackPanel>
+                </Grid>
             </phone:PivotItem>
 
             <!--Pivot item two-->
