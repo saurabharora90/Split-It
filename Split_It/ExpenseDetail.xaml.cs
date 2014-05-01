@@ -22,7 +22,7 @@ namespace Split_It_
             InitializeComponent();
 
             selectedExpense = PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] as Expense;
-
+            selectedExpense.displayType = Expense.DISPLAY_FOR_ALL_USER;
             this.DataContext = selectedExpense;
             createAppBar();
         }

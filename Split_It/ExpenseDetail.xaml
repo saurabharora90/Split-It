@@ -6,18 +6,17 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:app="clr-namespace:Split_It_.Converter"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     Style="{StaticResource TransitionPageStyle}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    xmlns:app="clr-namespace:Split_It_.Converter"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.BackgroundColor="{StaticResource green}">
 
     <phone:PhoneApplicationPage.Resources>
+        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
         <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
         <app:ExpenseToDateConverter x:Key="ExpenseDateConverter"/>
         <app:ExpenseAmountInCurrencyConverter x:Key="ExpenseAmountCurrencyConverter"/>
@@ -46,7 +45,13 @@
                     </Border>
 
                     <phone:LongListSelector Name="llsRepayments">
-                        
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    
+                                </StackPanel>
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
                     </phone:LongListSelector>
 
                 </StackPanel>
