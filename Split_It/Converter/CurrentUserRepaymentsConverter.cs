@@ -19,12 +19,15 @@ namespace Split_It_.Converter
             List<Expense_Share> users = expense.users;
 
             Expense_Share currentUser = null;
-            foreach (var user in users)
+            if (users != null)
             {
-                if (user.user_id == Util.getCurrentUserId())
+                foreach (var user in users)
                 {
-                    currentUser = user;
-                    break;
+                    if (user.user_id == Util.getCurrentUserId())
+                    {
+                        currentUser = user;
+                        break;
+                    }
                 }
             }
             if (currentUser == null)
