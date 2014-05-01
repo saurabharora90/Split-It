@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Model
 {
-    class Expense
+    public class Expense
     {
         public static int DISPLAY_FOR_ALL_USER = 1000;
         public static int DISPLAY_FOR_SPECIFIC_USER = 1001;

@@ -75,7 +75,7 @@ namespace Split_It_
         {
             Util.setAccessToken(accessToken);
             Util.setAccessTokenSecret(accessTokenSecret);
-            NavigationService.Navigate(new Uri("/MainPage.xaml?afterLogin=true", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/SplashPage.xaml?afterLogin=true", UriKind.Relative));
         }
     }
 }

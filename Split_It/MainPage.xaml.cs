@@ -22,17 +22,11 @@ namespace Split_It_
         ObservableCollection<User> balanceFriends = new ObservableCollection<User>();
         ObservableCollection<User> youOweFriends = new ObservableCollection<User>();
         ObservableCollection<User> owesYouFriends = new ObservableCollection<User>();
-        ObservableCollection<User> friendsList = new ObservableCollection<User>();
-
-        ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
-        ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
 
         //Use a BackgroundWorker to load data from database (except for friends) as expenses
         //and groups are time consuming operations
         BackgroundWorker dataLoadingBackgroundWorker;
-        BackgroundWorker syncDatabaseBackgroundWorker;
-
-        SyncDatabase databaseSync;
+       
         private object o = new object();
         private int pageNo = 0;
         private bool morePages = true;
@@ -50,24 +44,15 @@ namespace Split_It_
             App.accessTokenSecret = Util.getAccessTokenSecret();
 
             llsFriends.ItemsSource = balanceFriends;
-            llsExpenses.ItemsSource = expensesList;
-            llsGroups.ItemsSource = groupsList;
+            llsExpenses.ItemsSource = App.expensesList;
+            llsGroups.ItemsSource = App.groupsList;
 
             dataLoadingBackgroundWorker = new BackgroundWorker();
             dataLoadingBackgroundWorker.WorkerSupportsCancellation = true;
             dataLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(dataLoadingBackgroundWorker_DoWork);
 
-            syncDatabaseBackgroundWorker = new BackgroundWorker();
-            syncDatabaseBackgroundWorker.WorkerSupportsCancellation = true;
-            syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);
-
             setupAppBars();
-
-            //Only show friends in app launch while syncing the database for other details.
-            /*if (Util.checkNetworkConnection())
-                loadFriends();
-            else*/
-                populateData(false);
+            populateData();
         }
 
         private void setupAppBars()
@@ -115,12 +100,12 @@ namespace Split_It_
 
         private void btnAddExpense_Click(object sender, EventArgs e)
         {
-            llsFriends.ItemsSource = friendsList;
+            
         }
         
         private void btnAllFriends_Click(object sender, EventArgs e)
         {
-            llsFriends.ItemsSource = friendsList;
+            llsFriends.ItemsSource = App.friendsList;
         }
 
         private void btnYouOweFriends_Click(object sender, EventArgs e)
@@ -146,51 +131,19 @@ namespace Split_It_
                 //populateData();
                 return;
             }
-
-            String firstUse;
-
-            //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
-            //if the page has been accessed from the back stack
-            if (NavigationContext.QueryString.TryGetValue("afterLogin", out firstUse))
-            {
-                if (firstUse.Equals("true"))
-                {
-                    //do not allow him to go back to the Login Page. therefore clear the back stack
-                    while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
-                    databaseSync = new SyncDatabase(_SyncConpleted, true);
-                }
-                else
-                    databaseSync = new SyncDatabase(_SyncConpleted, false);
-
-                if (syncDatabaseBackgroundWorker.IsBusy != true)
-                {
-                    SystemTray.ProgressIndicator = new ProgressIndicator();
-                    SystemTray.ProgressIndicator.IsIndeterminate = true;
-                    SystemTray.ProgressIndicator.IsVisible = true;
-                    if (firstUse.Equals("true"))
-                        SystemTray.ProgressIndicator.Text = "Setting up for first use";
-                    else
-                        SystemTray.ProgressIndicator.Text = "Syncing";
-
-                    syncDatabaseBackgroundWorker.RunWorkerAsync();
-                }
-
-            }
+            else
+                //do not allow him to go back to the Splash Page. therefore clear the back stack
+                while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
         }
 
         private void dataLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            loadExpensesAndGroups((bool) e.Argument);
-        }
-
-        private void syncDatabaseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            databaseSync.performSync();
+            loadExpensesAndGroups();
         }
 
         private void loadFriends()
         {
-            friendsList.Clear();
+            App.friendsList.Clear();
             youOweFriends.Clear();
             owesYouFriends.Clear();
             balanceFriends.Clear();
@@ -201,7 +154,7 @@ namespace Split_It_
             QueryDatabase obj = new QueryDatabase();
             foreach (var friend in obj.getAllFriends())
             {
-                friendsList.Add(friend);
+                App.friendsList.Add(friend);
                 double balance = Util.getBalance(friend.balance);
                 if (balance > 0)
                 {
@@ -233,30 +186,26 @@ namespace Split_It_
             obj.closeDatabaseConnection();
         }
 
-        private void populateData(bool afterSync)
+        private void populateData()
         {
             loadFriends();
             if (dataLoadingBackgroundWorker.IsBusy != true)
             {
-                dataLoadingBackgroundWorker.RunWorkerAsync(afterSync);
+                dataLoadingBackgroundWorker.RunWorkerAsync();
             }
         }
 
-        private void loadExpensesAndGroups(bool afterSync)
+        private void loadExpensesAndGroups()
         {
             lock (o)
             {
-                //the rest of the work is done in a backgroundworker
-                if (afterSync)
-                    pageNo = 0;
-
                 QueryDatabase obj = new QueryDatabase();
                 List<Expense> allExpenses = obj.getAllExpenses(pageNo);
 
                 Dispatcher.BeginInvoke(() =>
                 {
                     if (pageNo == 0)
-                        expensesList.Clear();
+                        App.expensesList.Clear();
 
                     if (allExpenses == null || allExpenses.Count == 0)
                         morePages = false;
@@ -265,38 +214,11 @@ namespace Split_It_
 
                     foreach (var expense in allExpenses)
                     {
-                        expensesList.Add(expense);
+                        App.expensesList.Add(expense);
                     }
                 });
 
                 obj.closeDatabaseConnection();
-            }
-        }
-
-        private void _SyncConpleted(bool success)
-        {
-            if (success)
-            {
-                Dispatcher.BeginInvoke(() =>
-            {
-                if (dataLoadingBackgroundWorker.WorkerSupportsCancellation == true)
-                    dataLoadingBackgroundWorker.CancelAsync();
-                //pageNo = 0;
-                populateData(true);
-
-                if (SystemTray.ProgressIndicator != null)
-                    SystemTray.ProgressIndicator.IsVisible = false;
-            });
-            }
-            else
-            {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    if (SystemTray.ProgressIndicator != null)
-                        SystemTray.ProgressIndicator.IsVisible = false;
-
-                    MessageBox.Show("Unable to sync with splitwise. You can continue to browse cached data", "Error", MessageBoxButton.OK);
-                });
             }
         }
 
@@ -309,7 +231,7 @@ namespace Split_It_
                 {
                     int offset = 2;
 
-                    if (dataLoadingBackgroundWorker.IsBusy != true && morePages && expensesList.Count - expensesList.IndexOf(expense) <= offset)
+                    if (dataLoadingBackgroundWorker.IsBusy != true && morePages && App.expensesList.Count - App.expensesList.IndexOf(expense) <= offset)
                     {
                         pageNo++;
                         dataLoadingBackgroundWorker.RunWorkerAsync(false);

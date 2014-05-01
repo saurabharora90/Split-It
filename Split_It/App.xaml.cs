@@ -9,6 +9,7 @@ using Microsoft.Phone.Shell;
 using Split_It_.Resources;
 using Split_It_.Utils;
 using Split_It_.Model;
+using System.Collections.ObjectModel;
 
 namespace Split_It_
 {
@@ -22,6 +23,11 @@ namespace Split_It_
 
         public static string accessToken, accessTokenSecret;
         public static User currentUser;
+
+        //App data models
+        public static ObservableCollection<User> friendsList = new ObservableCollection<User>();
+        public static ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
+        public static ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
 
         /// <summary>
         /// Constructor for the Application object.
@@ -134,7 +140,7 @@ namespace Split_It_
             phoneApplicationInitialized = true;
 
             if(Util.getAccessToken() != null && Util.getAccessTokenSecret() !=null)
-                RootFrame.Navigate(new Uri("/MainPage.xaml?afterLogin=false", UriKind.RelativeOrAbsolute));
+                RootFrame.Navigate(new Uri("/SplashPage.xaml?afterLogin=false", UriKind.RelativeOrAbsolute));
             else
                 RootFrame.Navigate(new Uri("/WelcomePage.xaml", UriKind.RelativeOrAbsolute));
         }
