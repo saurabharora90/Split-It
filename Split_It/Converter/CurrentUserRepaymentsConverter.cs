@@ -34,6 +34,10 @@ namespace Split_It_.Converter
                 return "You are not involved.";
 
             double netBalance = System.Convert.ToDouble(currentUser.net_balance);
+            
+            if(netBalance == 0)
+                return "You are not involved.";
+            
             string amount = expense.currency_code + String.Format("{0:0.00}", Math.Abs(netBalance));
 
             if (netBalance > 0)

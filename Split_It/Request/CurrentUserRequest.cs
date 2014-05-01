@@ -26,7 +26,7 @@ namespace Split_It_.Request
             request.RootElement = "user";
             client.ExecuteAsync<User>(request, reponse =>
                 {
-                    if (reponse.StatusCode != HttpStatusCode.OK || reponse.StatusCode != HttpStatusCode.NotModified)
+                    if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
                     {
                         CallbackOnFailure(reponse.StatusCode);
                         return;

@@ -40,9 +40,6 @@ namespace Split_It_
         {
             InitializeComponent();
 
-            App.accessToken = Util.getAccessToken();
-            App.accessTokenSecret = Util.getAccessTokenSecret();
-
             llsFriends.ItemsSource = balanceFriends;
             llsExpenses.ItemsSource = App.expensesList;
             llsGroups.ItemsSource = App.groupsList;
