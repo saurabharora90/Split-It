@@ -60,7 +60,9 @@ namespace Split_It_
             ApplicationBarIconButton btnSettle = new ApplicationBarIconButton();
             btnSettle.IconUri = new Uri("/Assets/Icons/feature.email.png", UriKind.Relative);
             btnSettle.Text = "reminder";
-            if (Util.getBalance(selectedUser.balance) <= 0)
+            Balance_User defaultBalance = Util.getDefaultBalance(selectedUser.balance);
+            double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
+            if (finalBalance <= 0)
                 btnSettle.IsEnabled = false;
             ApplicationBar.Buttons.Add(btnSettle);
             btnSettle.Click += new EventHandler(btnSettle_Click);

@@ -14,13 +14,18 @@ namespace Split_It_.Converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             List<Balance_User> balance = value as List<Balance_User>;
-            double finalBalance = Util.getBalance(balance);
+            Balance_User defaultBalance = Util.getDefaultBalance(balance);
+            double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
             if (finalBalance == 0)
                 return null;
             else
             {
-                string currency = balance[0].currency_code;
-                return currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
+                string currency = defaultBalance.currency_code;
+                string amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
+                if (Util.hasMultipleBalances(balance))
+                    return amount + "*";
+                else
+                    return amount;
             }
         }
 

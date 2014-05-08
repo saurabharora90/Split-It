@@ -15,7 +15,8 @@ namespace Split_It_.Converter
         {
             List<Balance_User> balance = value as List<Balance_User>;
             string description = "settled up";
-            double finalBalance = Util.getBalance(balance);
+            Balance_User defaultBalance = Util.getDefaultBalance(balance);
+            double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
             if (finalBalance > 0)
                 description = "owes you";
             else if (finalBalance < 0)

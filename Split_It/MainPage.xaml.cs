@@ -154,7 +154,8 @@ namespace Split_It_
             foreach (var friend in obj.getAllFriends())
             {
                 App.friendsList.Add(friend);
-                double balance = Util.getBalance(friend.balance);
+                Balance_User defaultBalance = Util.getDefaultBalance(friend.balance);
+                double balance = System.Convert.ToDouble(defaultBalance.amount);
                 if (balance > 0)
                 {
                     postiveBalance += balance;

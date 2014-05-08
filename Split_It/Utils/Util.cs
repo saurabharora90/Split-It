@@ -115,20 +115,40 @@ namespace Split_It_.Utils
             return IsConnected;
         }
 
-        public static double getBalance(List<Balance_User> balance)
+        public static Balance_User getDefaultBalance(List<Balance_User> balance)
         {
-            double finalBalance = 0;
+            //Each balance entry represents a balance in a seperate currency
+            string currency = App.currentUser.default_currency;
 
-            if (balance == null)
-                return finalBalance;
+            if (balance == null || balance.Count == 0)
+            {
+                Balance_User noBalance = new Balance_User();
+                noBalance.amount = "0";
+                return noBalance;
+            }
+
+            if (currency == null)
+            {
+                return balance[0];
+            }
 
             foreach (var userBalance in balance)
             {
-
-                finalBalance += System.Convert.ToDouble(userBalance.amount);
+                if (userBalance.currency_code.Equals(currency))
+                {
+                    return userBalance;
+                }
             }
 
-            return finalBalance;
+            return balance[0];
+        }
+
+        public static bool hasMultipleBalances(List<Balance_User> balance)
+        {
+            if (balance.Count > 1)
+                return true;
+            else
+                return false;
         }
 
         public static void logout()
