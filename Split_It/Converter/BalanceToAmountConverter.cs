@@ -13,19 +13,43 @@ namespace Split_It_.Converter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            List<Balance_User> balance = value as List<Balance_User>;
-            Balance_User defaultBalance = Util.getDefaultBalance(balance);
-            double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
-            if (finalBalance == 0)
-                return null;
+            List<Balance_User> balanceList = value as List<Balance_User>;
+            bool hasMultipleBalances = Util.hasMultipleBalances(balanceList);
+
+            if (parameter!=null && parameter.ToString().Equals("userdetail") && hasMultipleBalances)
+            {
+                string plus = " + ";
+                string result = "";
+                for (int i = 0; i<balanceList.Count; i++)
+                {
+                    string currency = balanceList[i].currency_code;
+                    double amount = System.Convert.ToDouble(balanceList[i].amount);
+                    result = result + currency + String.Format("{0:0.00}", Math.Abs(amount));
+
+                    if (i != balanceList.Count - 1)
+                    {
+                        result = result + plus;
+                    }
+                }
+
+                return result;
+            }
+
             else
             {
-                string currency = defaultBalance.currency_code;
-                string amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
-                if (Util.hasMultipleBalances(balance))
-                    return amount + "*";
+                Balance_User defaultBalance = Util.getDefaultBalance(balanceList);
+                double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
+                if (finalBalance == 0)
+                    return null;
                 else
-                    return amount;
+                {
+                    string currency = defaultBalance.currency_code;
+                    string amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
+                    if (hasMultipleBalances)
+                        return amount + "*";
+                    else
+                        return amount;
+                }
             }
         }
 
@@ -33,7 +57,5 @@ namespace Split_It_.Converter
         {
             throw new NotImplementedException();
         }
-
-        
     }
 }
