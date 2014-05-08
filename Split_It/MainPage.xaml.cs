@@ -149,6 +149,8 @@ namespace Split_It_
             totalBalance = 0;
 
             QueryDatabase obj = new QueryDatabase();
+
+            //only show balance below in the user's default currency
             foreach (var friend in obj.getAllFriends())
             {
                 App.friendsList.Add(friend);
