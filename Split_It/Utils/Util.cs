@@ -56,6 +56,14 @@ namespace Split_It_.Utils
             return String.Empty;
         }
 
+        public static string getCurrentTimeString()
+        {
+            DateTime now = DateTime.UtcNow;
+            string time = now.ToString("yyyy-MM-ddTHH:mm:ssK");
+
+            return time;
+        }
+
         public static void setLastUpdatedTime()
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;

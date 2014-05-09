@@ -10,12 +10,15 @@ using Microsoft.Phone.Shell;
 using Split_It_.Model;
 using Split_It_.Utils;
 using System.Windows.Media;
+using Split_It_.Controller;
+using System.ComponentModel;
 
 namespace Split_It_
 {
     public partial class ExpenseDetail : PhoneApplicationPage
     {
         Expense selectedExpense;
+        BackgroundWorker deleteExpenseBackgroundWorker;
 
         public ExpenseDetail()
         {
@@ -26,6 +29,10 @@ namespace Split_It_
             this.DataContext = selectedExpense;
             llsRepayments.ItemsSource = selectedExpense.users;
             createAppBar();
+
+            deleteExpenseBackgroundWorker = new BackgroundWorker();
+            deleteExpenseBackgroundWorker.WorkerSupportsCancellation = true;
+            deleteExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(deleteExpenseBackgroundWorker_DoWork);
         }
 
         private void createAppBar()
@@ -55,7 +62,79 @@ namespace Split_It_
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            CustomMessageBox messageBox = new CustomMessageBox()
+            {
+                Caption = "Delete Expense",
+                Message = "Are you sure?",
+                LeftButtonContent = "yes",
+                RightButtonContent = "no",
+                IsFullScreen = false
+            };
 
+            messageBox.Dismissed += (s1, e1) =>
+            {
+                switch (e1.Result)
+                {
+                    case CustomMessageBoxResult.LeftButton:
+                        if (deleteExpenseBackgroundWorker.IsBusy != true)
+                        {
+                            SystemTray.ProgressIndicator = new ProgressIndicator();
+                            SystemTray.ProgressIndicator.IsIndeterminate = true;
+                            SystemTray.ProgressIndicator.IsVisible = true;
+
+                            deleteExpenseBackgroundWorker.RunWorkerAsync();
+                        }
+                        break;
+                    case CustomMessageBoxResult.RightButton:
+                        // Do something.
+                        break;
+                    case CustomMessageBoxResult.None:
+                        // Do something.
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            messageBox.Show();
+        }
+
+        private void deleteExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ModifyDatabase modify = new ModifyDatabase(_deleteExpenseCompleted);
+            modify.deleteExpense(selectedExpense.id);
+        }
+
+        private void _deleteExpenseCompleted(bool success, HttpStatusCode errorCode)
+        {
+            if (success)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    if (SystemTray.ProgressIndicator != null)
+                        SystemTray.ProgressIndicator.IsVisible = false;
+
+                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                });
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    if (SystemTray.ProgressIndicator != null)
+                        SystemTray.ProgressIndicator.IsVisible = false;
+
+                    if (errorCode == HttpStatusCode.Unauthorized)
+                    {
+                        Util.logout();
+                        NavigationService.Navigate(new Uri("/Login.xaml", UriKind.Relative));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to delete expense", "Error", MessageBoxButton.OK);
+                    }
+                });
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)

@@ -94,6 +94,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controller\ModifyDatabase.cs" />
     <Compile Include="Controller\QueryDatabase.cs" />
     <Compile Include="Controller\SyncDatabase.cs" />
     <Compile Include="Converter\BalanceToDescriptionConverter.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
+    <Compile Include="Request\DeleteExpenseRequest.cs" />
     <Compile Include="Request\GetExpensesRequest.cs" />
     <Compile Include="Request\GetGroupsRequest.cs" />
     <Compile Include="Request\GetFriendsRequest.cs" />
