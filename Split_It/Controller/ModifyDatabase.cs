@@ -26,6 +26,11 @@ namespace Split_It_.Controller
             request.deleteExpense(_ExpenseDeleted, _ExpenseDeletedFailed);
         }
 
+        public void editExpense(Expense editedExpenseDetail)
+        {
+
+        }
+
         private void _ExpenseDeleted(bool status)
         {
             syncDatabase();
