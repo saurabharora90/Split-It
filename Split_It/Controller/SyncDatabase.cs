@@ -162,6 +162,8 @@ namespace Split_It_.Controller
             //Insert expenses
             foreach (var expense in expensesList)
             {
+                //The api returns the entire user details of the created by, updated by and deleted by users.
+                //But we only need to store their id's into the database
                 if(expense.created_by!=null)
                     expense.created_by_user_id = expense.created_by.id;
 
@@ -174,12 +176,15 @@ namespace Split_It_.Controller
                 dbConn.InsertOrReplace(expense);
             }
 
-            //dbConn.InsertAll(expensesList);
-
             //Insert debt of each expense (repayments)
             //Insert expense share users
             foreach (var expense in expensesList)
             {
+                //delete users and repayments for this specific expense id as they might have been edited since the last update
+                object[] param = { expense.id };
+                dbConn.Query<Debt_Expense>("Delete FROM debt_expense WHERE expense_id= ?", param);
+                dbConn.Query<Expense_Share>("Delete FROM expense_share WHERE expense_id= ?", param);
+
                 foreach (var repayment in expense.repayments)
                 {
                     repayment.expense_id = expense.id;
