@@ -18,7 +18,7 @@
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
         <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
-        <app:ExpenseToDateConverter x:Key="ExpenseDateConverter"/>
+        <app:DateStringToDateConverter x:Key="ExpenseDateConverter"/>
         <app:ExpenseAmountInCurrencyConverter x:Key="ExpenseAmountCurrencyConverter"/>
         <app:ExpenseShareToColorConverter x:Key="ExpenseShareColorConverter"/>
         <app:CurrentUserRepaymentsConverter x:Key="CurrentUserRepaymentsConverter"/>
@@ -42,7 +42,14 @@
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Name="tbTitle" TextWrapping="Wrap" Text="{Binding description}" Foreground="Black" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left" MaxWidth="350"/>
                             <TextBlock x:Name="tbAmount" Text="{Binding Converter={StaticResource ExpenseAmountCurrencyConverter}}" Foreground="Black" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Left" FontWeight="Bold"/>
-                            <TextBlock x:Name="tbDate" Text="{Binding Converter={StaticResource ExpenseDateConverter}}" Foreground="{StaticResource settled}" Grid.Row="2" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
+                            <TextBlock Foreground="{StaticResource settled}" Grid.Row="2" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left">
+                                <TextBlock.Inlines>
+                                    <Run Text="Added by" />
+                                    <Run Text="{Binding created_by.name}" />
+                                    <Run Text="on" />
+                                    <Run Text="{Binding created_at, Converter={StaticResource ExpenseDateConverter}}"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
                         </StackPanel>
                     </StackPanel>
 

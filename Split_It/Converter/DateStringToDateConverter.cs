@@ -9,19 +9,15 @@ using System.Windows.Data;
 
 namespace Split_It_.Converter
 {
-    public class ExpenseToDateConverter : IValueConverter
+    public class DateStringToDateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            Expense expense = value as Expense;
-            string addedBy = "Added by ";
-            string on = " on ";
-
-            string name = expense.created_by.name;
-            DateTime createdDate = DateTime.Parse(expense.created_at, System.Globalization.CultureInfo.InvariantCulture);
+            string created_at = value as string;
+            DateTime createdDate = DateTime.Parse(created_at, System.Globalization.CultureInfo.InvariantCulture);
             string dateString = createdDate.ToString("dd MMMM, yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
-            return addedBy + name + on + dateString;
+            return dateString;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

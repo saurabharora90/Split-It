@@ -106,7 +106,7 @@
     <Compile Include="Converter\ExpenseShareToRepaymentConverter.cs" />
     <Compile Include="Converter\CurrentUserRepaymentsConverter.cs" />
     <Compile Include="Converter\ExpenseAmountInCurrencyConverter.cs" />
-    <Compile Include="Converter\ExpenseToDateConverter.cs" />
+    <Compile Include="Converter\DateStringToDateConverter.cs" />
     <Compile Include="Converter\ExpenseToTitleConverter.cs" />
     <Compile Include="Converter\ExpenseShareToWhoPaidConverter.cs" />
     <Compile Include="Converter\ExpenseShareToAmountConverter.cs" />
