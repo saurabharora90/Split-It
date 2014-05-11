@@ -6,6 +6,7 @@
     xmlns:app="clr-namespace:Split_It_.Converter"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" xmlns:Primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
     x:Class="Split_It_.App"
     >
 
@@ -124,6 +125,7 @@
     			</Setter.Value>
     		</Setter>
     	</Style>
+        
     	<Style TargetType="phone:PivotItem">
     		<Setter Property="Background" Value="Transparent"/>
     		<Setter Property="Margin" Value="{StaticResource PivotItemMargin}"/>
@@ -142,6 +144,40 @@
     							</VisualStateGroup>
     						</VisualStateManager.VisualStateGroups>
     						<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    					</Grid>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
+    	
+        <Style TargetType="phone:LongListSelector">
+    		<Setter Property="Background" Value="Transparent"/>
+    		<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+    		<Setter Property="Template">
+    			<Setter.Value>
+    				<ControlTemplate TargetType="phone:LongListSelector">
+    					<Grid Background="{TemplateBinding Background}" d:DesignWidth="480" d:DesignHeight="800">
+    						<VisualStateManager.VisualStateGroups>
+    							<VisualStateGroup x:Name="ScrollStates">
+    								<VisualStateGroup.Transitions>
+    									<VisualTransition GeneratedDuration="00:00:00.5"/>
+    								</VisualStateGroup.Transitions>
+    								<VisualState x:Name="Scrolling">
+    									<Storyboard>
+    										<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="VerticalScrollBar"/>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="NotScrolling"/>
+    							</VisualStateGroup>
+    						</VisualStateManager.VisualStateGroups>
+    						<Grid Margin="{TemplateBinding Padding}">
+    							<Grid.ColumnDefinitions>
+    								<ColumnDefinition Width="*"/>
+    								<ColumnDefinition Width="auto"/>
+    							</Grid.ColumnDefinitions>
+    							<ViewportControl x:Name="ViewportControl" HorizontalContentAlignment="Stretch" VerticalAlignment="Top"/>
+    							<ScrollBar x:Name="VerticalScrollBar" Grid.Column="1" Margin="4,0,4,0" Opacity="0" Orientation="Vertical" Background="Gray"/>
+    						</Grid>
     					</Grid>
     				</ControlTemplate>
     			</Setter.Value>
