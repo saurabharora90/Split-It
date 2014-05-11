@@ -26,11 +26,11 @@
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreen}">
+    <Grid x:Name="LayoutRoot">
         <!--Pivot Control-->
-        <phone:Pivot Title="expense detail" Foreground="White">
+        <phone:Pivot Title="expense detail">
             <!--Pivot item one-->
-            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="summary">
+            <phone:PivotItem Margin="0,5,0,0" Header="summary">
                 <Grid Margin="0,12">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -81,7 +81,7 @@
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="notes">
+            <phone:PivotItem Margin="0,5,0,0" Header="notes">
                 <TextBlock Margin="20" TextWrapping="Wrap" Text="{Binding details}" Foreground="Black" FontSize="{StaticResource userDetaildescriptionSize}"/>
             </phone:PivotItem>
         </phone:Pivot>

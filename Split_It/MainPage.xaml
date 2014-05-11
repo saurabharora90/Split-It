@@ -22,11 +22,11 @@
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreen}">
+    <Grid x:Name="LayoutRoot">
         <!--Pivot Control-->
-        <phone:Pivot Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Foreground="White" SelectionChanged="Pivot_SelectionChanged">
+        <phone:Pivot Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
-            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Dashboard, Source={StaticResource LocalizedStrings}}">
+            <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Dashboard, Source={StaticResource LocalizedStrings}}">
                 <phone:LongListSelector Name="llsFriends" Tap="llsFriends_Tap">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
@@ -56,12 +56,12 @@
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Expenses, Source={StaticResource LocalizedStrings}}">
+            <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Expenses, Source={StaticResource LocalizedStrings}}">
                 <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" Tap="llsExpenses_Tap"/>
             </phone:PivotItem>
 
             <!--Pivot item three-->
-            <phone:PivotItem Background="White" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Groups, Source={StaticResource LocalizedStrings}}">
+            <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Groups, Source={StaticResource LocalizedStrings}}">
                 <phone:LongListSelector Name="llsGroups">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
