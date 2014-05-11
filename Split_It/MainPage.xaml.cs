@@ -79,6 +79,13 @@ namespace Split_It_
             dashBoardAppBar.MenuItems.Add(btnOwesYouFriends);
             btnOwesYouFriends.Click += new EventHandler(btnOwesYouFriends_Click);
 
+            //add expense button
+            ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
+            btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
+            btnAddExpense.Text = "add";
+            dashBoardAppBar.Buttons.Add(btnAddExpense);
+            btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
+
             expenseAppBar = new ApplicationBar();
             expenseAppBar.Mode = ApplicationBarMode.Minimized;
             expenseAppBar.Opacity = 1.0;
@@ -88,16 +95,16 @@ namespace Split_It_
             expenseAppBar.ForegroundColor = Colors.White;
 
             //add expense button
-            ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
-            btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
-            btnAddExpense.Text = "add";
+            //ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
+            //btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
+            //btnAddExpense.Text = "add";
             expenseAppBar.Buttons.Add(btnAddExpense);
-            btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
+            //btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
         }
 
         private void btnAddExpense_Click(object sender, EventArgs e)
         {
-            
+            NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddExpense.xaml", UriKind.Relative));
         }
         
         private void btnAllFriends_Click(object sender, EventArgs e)
