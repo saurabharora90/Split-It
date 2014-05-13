@@ -19,7 +19,6 @@ namespace Split_It_.Controller
             dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
         }
 
-
         //Returns the list of friends along with the balance and their picture.
         public List<User> getAllFriends()
         {
@@ -124,7 +123,29 @@ namespace Split_It_.Controller
 
         public List<Group> getAllGroups()
         {
-            return null;
+            List<Group> groupsList = dbConn.Query<Group>("SELECT * FROM [group] WHERE id <> 0 ORDER BY name").ToList<Group>();
+            if (groupsList != null)
+            {
+                for (var x = 0; x < groupsList.Count; x++)
+                {
+                    object[] param = { groupsList[x].id };
+                    List<Group_Members> groupMembers = dbConn.Query<Group_Members>("SELECT * FROM group_members WHERE group_id= ?", param).ToList<Group_Members>();
+                    foreach (var member in groupMembers)
+                    {
+                        groupsList[x].members.Add(getUserDetails(member.user_id));
+                    }
+
+                    List<Debt_Group> groupSimplifiedDebts = dbConn.Query<Debt_Group>("SELECT * FROM debt_group WHERE group_id= ?", param).ToList<Debt_Group>();
+                    foreach (var groupDebt in groupSimplifiedDebts)
+                    {
+                        groupDebt.fromUser = getUserDetails(groupDebt.from);
+                        groupDebt.toUser = getUserDetails(groupDebt.to);
+
+                        groupsList[x].simplified_debts.Add(groupDebt);
+                    }
+                }
+            }
+            return groupsList;
         }
         
         public void closeDatabaseConnection()

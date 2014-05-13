@@ -25,7 +25,8 @@ namespace Split_It_
 
         //Use a BackgroundWorker to load data from database (except for friends) as expenses
         //and groups are time consuming operations
-        BackgroundWorker dataLoadingBackgroundWorker;
+        BackgroundWorker expenseLoadingBackgroundWorker;
+        BackgroundWorker groupLoadingBackgroundWorker;
        
         private object o = new object();
         private int pageNo = 0;
@@ -44,9 +45,13 @@ namespace Split_It_
             llsExpenses.ItemsSource = App.expensesList;
             llsGroups.ItemsSource = App.groupsList;
 
-            dataLoadingBackgroundWorker = new BackgroundWorker();
-            dataLoadingBackgroundWorker.WorkerSupportsCancellation = true;
-            dataLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(dataLoadingBackgroundWorker_DoWork);
+            expenseLoadingBackgroundWorker = new BackgroundWorker();
+            expenseLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+            expenseLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(expenseLoadingBackgroundWorker_DoWork);
+
+            groupLoadingBackgroundWorker = new BackgroundWorker();
+            groupLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+            groupLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(groupLoadingBackgroundWorker_DoWork);
 
             setupAppBars();
             populateData();
@@ -140,9 +145,14 @@ namespace Split_It_
                 while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
         }
 
-        private void dataLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void expenseLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            loadExpensesAndGroups();
+            loadExpenses();
+        }
+
+        private void groupLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            loadGroups();
         }
 
         private void loadFriends()
@@ -196,19 +206,23 @@ namespace Split_It_
         private void populateData()
         {
             loadFriends();
-            if (dataLoadingBackgroundWorker.IsBusy != true)
+            if (expenseLoadingBackgroundWorker.IsBusy != true)
             {
-                dataLoadingBackgroundWorker.RunWorkerAsync();
+                expenseLoadingBackgroundWorker.RunWorkerAsync();
+            }
+
+            if (groupLoadingBackgroundWorker.IsBusy != true)
+            {
+                groupLoadingBackgroundWorker.RunWorkerAsync();
             }
         }
 
-        private void loadExpensesAndGroups()
+        private void loadExpenses()
         {
             lock (o)
             {
                 QueryDatabase obj = new QueryDatabase();
                 List<Expense> allExpenses = obj.getAllExpenses(pageNo);
-                List<Group> allGroups = obj.getAllGroups();
 
                 Dispatcher.BeginInvoke(() =>
                 {
@@ -227,18 +241,27 @@ namespace Split_It_
                             App.expensesList.Add(expense);
                         }
                     }
-
-                    if (allGroups != null)
-                    {
-                        foreach (var group in allGroups)
-                        {
-                            App.groupsList.Add(group);
-                        }
-                    }
                 });
 
                 obj.closeDatabaseConnection();
             }
+        }
+
+        private void loadGroups()
+        {
+            QueryDatabase obj = new QueryDatabase();
+            List<Group> allGroups = obj.getAllGroups();
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (allGroups != null)
+                {
+                    foreach (var group in allGroups)
+                    {
+                        App.groupsList.Add(group);
+                    }
+                }
+            });
+            obj.closeDatabaseConnection();
         }
 
         private void llsExpenses_ItemRealized(object sender, ItemRealizationEventArgs e)
@@ -250,10 +273,10 @@ namespace Split_It_
                 {
                     int offset = 2;
 
-                    if (dataLoadingBackgroundWorker.IsBusy != true && morePages && App.expensesList.Count - App.expensesList.IndexOf(expense) <= offset)
+                    if (expenseLoadingBackgroundWorker.IsBusy != true && morePages && App.expensesList.Count - App.expensesList.IndexOf(expense) <= offset)
                     {
                         pageNo++;
-                        dataLoadingBackgroundWorker.RunWorkerAsync(false);
+                        expenseLoadingBackgroundWorker.RunWorkerAsync(false);
                     }
                 }
             }

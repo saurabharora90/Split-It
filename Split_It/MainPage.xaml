@@ -19,6 +19,7 @@
         <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
         <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
+        <app:DateStringToDateConverter x:Key="ExpenseDateConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -72,12 +73,21 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}"/>
+                                        <TextBlock Foreground="{StaticResource settled}" Grid.Row="2" FontSize="{StaticResource descriptionSize}" Text="{Binding updated_at, Converter={StaticResource ExpenseDateConverter}}"/>
+                                    </Grid>
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-
+                                        
                                     </Grid>
                                 </Grid>
                             </Border>
