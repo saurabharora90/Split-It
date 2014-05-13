@@ -208,6 +208,7 @@ namespace Split_It_
             {
                 QueryDatabase obj = new QueryDatabase();
                 List<Expense> allExpenses = obj.getAllExpenses(pageNo);
+                List<Group> allGroups = obj.getAllGroups();
 
                 Dispatcher.BeginInvoke(() =>
                 {
@@ -222,6 +223,11 @@ namespace Split_It_
                     foreach (var expense in allExpenses)
                     {
                         App.expensesList.Add(expense);
+                    }
+
+                    foreach (var group in allGroups)
+                    {
+                        App.groupsList.Add(group);
                     }
                 });
 

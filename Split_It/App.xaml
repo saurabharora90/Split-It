@@ -126,30 +126,6 @@
     		</Setter>
     	</Style>
         
-    	<Style TargetType="phone:PivotItem">
-    		<Setter Property="Background" Value="Transparent"/>
-    		<Setter Property="Margin" Value="{StaticResource PivotItemMargin}"/>
-    		<Setter Property="Padding" Value="0"/>
-    		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-    		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
-    		<Setter Property="Template">
-    			<Setter.Value>
-    				<ControlTemplate TargetType="phone:PivotItem">
-    					<Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="White">
-    						<VisualStateManager.VisualStateGroups>
-    							<VisualStateGroup x:Name="Pivot">
-    								<VisualState x:Name="Right"/>
-    								<VisualState x:Name="Left"/>
-    								<VisualState x:Name="Center"/>
-    							</VisualStateGroup>
-    						</VisualStateManager.VisualStateGroups>
-    						<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-    					</Grid>
-    				</ControlTemplate>
-    			</Setter.Value>
-    		</Setter>
-    	</Style>
-    	
         <Style TargetType="phone:LongListSelector">
     		<Setter Property="Background" Value="Transparent"/>
     		<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>

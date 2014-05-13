@@ -85,6 +85,10 @@
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
             </phone:PivotItem>
+
+            <!--Pivot item four-->
+            <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.More, Source={StaticResource LocalizedStrings}}">
+            </phone:PivotItem>
         </phone:Pivot>
     </Grid>
 

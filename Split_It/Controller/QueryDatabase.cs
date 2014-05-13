@@ -50,7 +50,7 @@ namespace Split_It_.Controller
             object[] param = { offset, EXPENSES_ROWS };
 
             //Only retrieve expenses that have not been deleted
-            List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense WHERE deleted_by=0 ORDER BY datetime(created_at) DESC LIMIT ?,?", param).ToList<Expense>();
+            List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense WHERE deleted_by=0 ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
             
             //Get list of repayments for expense.
             //Get the created by, updated by and deleted by user
@@ -88,7 +88,7 @@ namespace Split_It_.Controller
             //Only retrieve expenses that have not been deleted
 
             object[] param = { Util.getCurrentUserId(), userId, userId, Util.getCurrentUserId(), offset, EXPENSES_ROWS };
-            List<Expense> expensesList = dbConn.Query<Expense>("SELECT expense.id, expense.group_id, expense.description, expense.details, expense.payment, expense.transaction_confirmed, expense.creation_method, expense.cost, expense.currency_code, expense.date, expense.created_by, expense.created_at, expense.updated_by, expense.updated_at, expense.deleted_at, expense.deleted_by FROM expense INNER JOIN debt_expense ON expense.id = debt_expense.expense_id WHERE expense.deleted_by=0 AND expense.group_id = 0 AND  ((debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?) OR (debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?)) ORDER BY datetime(created_at) DESC LIMIT ?,?", param).ToList<Expense>();
+            List<Expense> expensesList = dbConn.Query<Expense>("SELECT expense.id, expense.group_id, expense.description, expense.details, expense.payment, expense.transaction_confirmed, expense.creation_method, expense.cost, expense.currency_code, expense.date, expense.created_by, expense.created_at, expense.updated_by, expense.updated_at, expense.deleted_at, expense.deleted_by FROM expense INNER JOIN debt_expense ON expense.id = debt_expense.expense_id WHERE expense.deleted_by=0 AND expense.group_id = 0 AND  ((debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?) OR (debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?)) ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
 
             if (expensesList == null && expensesList.Count == 0)
                 return null;
@@ -122,6 +122,11 @@ namespace Split_It_.Controller
             return expensesList;
         }
 
+        public List<Group> getAllGroups()
+        {
+            return null;
+        }
+        
         public void closeDatabaseConnection()
         {
             dbConn.Close();
