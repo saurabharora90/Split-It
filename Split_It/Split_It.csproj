@@ -115,6 +115,7 @@
     <Compile Include="Converter\ExpenseShareToAmountConverter.cs" />
     <Compile Include="Converter\ExpenseShareToColorConverter.cs" />
     <Compile Include="Converter\ExpenseShareToDescriptionConverter.cs" />
+    <Compile Include="Converter\GroupDebtConverter.cs" />
     <Compile Include="Converter\PaymentImageFileConverter.cs" />
     <Compile Include="ExpenseDetail.xaml.cs">
       <DependentUpon>ExpenseDetail.xaml</DependentUpon>
@@ -204,6 +205,9 @@
     <Content Include="Assets\Icons\delete.png" />
     <Content Include="Assets\Icons\edit.png" />
     <Content Include="Assets\Icons\feature.email.png" />
+    <Content Include="Assets\Images\groupIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="README_FIRST.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />

@@ -128,6 +128,9 @@ namespace Split_It_.Controller
             {
                 for (var x = 0; x < groupsList.Count; x++)
                 {
+                    groupsList[x].members = new List<User>();
+                    groupsList[x].simplified_debts = new List<Debt_Group>();
+
                     object[] param = { groupsList[x].id };
                     List<Group_Members> groupMembers = dbConn.Query<Group_Members>("SELECT * FROM group_members WHERE group_id= ?", param).ToList<Group_Members>();
                     foreach (var member in groupMembers)

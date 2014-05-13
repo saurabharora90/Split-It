@@ -20,6 +20,7 @@
         <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
         <app:DateStringToDateConverter x:Key="ExpenseDateConverter"/>
+        <app:GroupDebtConverter x:Key="GroupDebtsConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -63,31 +64,37 @@
 
             <!--Pivot item three-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Groups, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsGroups">
+                <phone:LongListSelector Name="llsGroups" Tap="llsGroups_Tap">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-                                <Grid Margin="15,15,15,15">
+                                <Grid Margin="15,15,15,15" toolkit:TiltEffect.IsTiltEnabled="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <Image Grid.Column="0" Source="Assets/Images/groupIcon.png" VerticalAlignment="Center" Width="50" Height="50" Margin="0,0,15,0"/>
                                     <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}"/>
-                                        <TextBlock Foreground="{StaticResource settled}" Grid.Row="2" FontSize="{StaticResource descriptionSize}" Text="{Binding updated_at, Converter={StaticResource ExpenseDateConverter}}"/>
+                                        <TextBlock TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Row="0" FontSize="{StaticResource nameSize}"/>
+                                        <TextBlock Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource groupTimeSize}" HorizontalAlignment="Left">
+                                            <TextBlock.Inlines>
+                                                <Run Text="Last updated:" />
+                                                <Run Text="{Binding updated_at, Converter={StaticResource ExpenseDateConverter}}"/>
+                                            </TextBlock.Inlines>
+                                        </TextBlock>
                                     </Grid>
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        
+                                        <TextBlock Text="{Binding simplified_debts, Converter={StaticResource BalanceDescriptionConverter}, ConverterParameter='group'}" Foreground="{Binding simplified_debts, Converter={StaticResource BalanceColorConverter}, ConverterParameter='group'}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding simplified_debts, Converter={StaticResource GroupDebtsConverter}}" Foreground="{Binding simplified_debts, Converter={StaticResource BalanceColorConverter}, ConverterParameter='group'}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding simplified_debts, Converter={StaticResource BalanceVisibilityConverter}, ConverterParameter='group'}"/>
                                     </Grid>
                                 </Grid>
                             </Border>

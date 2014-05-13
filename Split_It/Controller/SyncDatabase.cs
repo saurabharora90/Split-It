@@ -133,6 +133,11 @@ namespace Split_It_.Controller
                     continue;
                 else
                 {
+                    //delete simplified debts and group member as they might have changed since the last update
+                    object[] param = { group.id };
+                    dbConn.Query<Group_Members>("Delete FROM group_members WHERE group_id= ?", param);
+                    dbConn.Query<Debt_Group>("Delete FROM debt_group WHERE group_id= ?", param);
+
                     foreach (var debt in group.simplified_debts)
                     {
                         debt.group_id = group.id;

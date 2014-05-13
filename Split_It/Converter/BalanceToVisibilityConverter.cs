@@ -16,9 +16,19 @@ namespace Split_It_.Converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             Visibility visibility;
-            List<Balance_User> balance = value as List<Balance_User>;
-            Balance_User defaultBalance = Util.getDefaultBalance(balance);
-            double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
+            double finalBalance = 0;
+            if (parameter != null && parameter.ToString().Equals("group"))
+            {
+                List<Debt_Group> allDebts = value as List<Debt_Group>;
+                finalBalance = Util.getCurrentUserGroupDebtAmount(allDebts);
+            }
+            else
+            {
+                List<Balance_User> balance = value as List<Balance_User>;
+                Balance_User defaultBalance = Util.getDefaultBalance(balance);
+                finalBalance = System.Convert.ToDouble(defaultBalance.amount);
+            }
+
             if (finalBalance == 0)
                 visibility = Visibility.Collapsed;
             else

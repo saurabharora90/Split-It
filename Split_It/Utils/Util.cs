@@ -159,6 +159,33 @@ namespace Split_It_.Utils
                 return false;
         }
 
+        public static List<Debt_Group> getCurrentUsersGroupDebtsList(List<Debt_Group> allDebts)
+        {
+            List<Debt_Group> currentUserDebts = new List<Debt_Group>();
+            foreach (var debt in allDebts)
+            {
+                if (debt.from == App.currentUser.id || debt.to == App.currentUser.id)
+                    currentUserDebts.Add(debt);
+            }
+            return currentUserDebts;
+        }
+
+        public static double getCurrentUserGroupDebtAmount(List<Debt_Group> allDebts)
+        {
+            double amount = 0;
+            List<Debt_Group> currentUserDebts = new List<Debt_Group>();
+            currentUserDebts = getCurrentUsersGroupDebtsList(allDebts);
+            foreach (var debt in currentUserDebts)
+            {
+                if (debt.from == App.currentUser.id)
+                    amount -= Convert.ToDouble(debt.amount);
+                else
+                    amount += Convert.ToDouble(debt.amount);
+            }
+
+            return amount;
+        }
+
         public static void logout()
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
