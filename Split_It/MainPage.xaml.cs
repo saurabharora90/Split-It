@@ -220,14 +220,20 @@ namespace Split_It_
                     else
                         morePages = true;
 
-                    foreach (var expense in allExpenses)
+                    if (allExpenses != null)
                     {
-                        App.expensesList.Add(expense);
+                        foreach (var expense in allExpenses)
+                        {
+                            App.expensesList.Add(expense);
+                        }
                     }
 
-                    foreach (var group in allGroups)
+                    if (allGroups != null)
                     {
-                        App.groupsList.Add(group);
+                        foreach (var group in allGroups)
+                        {
+                            App.groupsList.Add(group);
+                        }
                     }
                 });
 
