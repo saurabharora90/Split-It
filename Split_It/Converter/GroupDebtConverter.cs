@@ -13,10 +13,16 @@ namespace Split_It_.Converter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            string amount = "";
             List<Debt_Group> allDebts = value as List<Debt_Group>;
             double finalBalance = Util.getCurrentUserGroupDebtAmount(allDebts);
-            string currency = allDebts[0].currency_code;
-            string amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
+
+            //if final balance is 0, then anyways we are not shwoing the balance.
+            if (finalBalance != 0)
+            {
+                string currency = allDebts[0].currency_code;
+                amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
+            }
 
             return amount;
         }

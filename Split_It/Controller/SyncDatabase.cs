@@ -91,13 +91,12 @@ namespace Split_It_.Controller
                 pictureList.Add(picture);
                 dbConn.InsertOrReplace(picture);
 
-                //This user does not have any balance
-                //Need to delete as the balance coz have become null after an update
-                if (friend.balance == null || friend.balance.Count == 0)
-                {
+                //delete all the balances of the friends as they might have changed since the last update
+                //if (friend.balance == null || friend.balance.Count == 0)
+                //{
                     object[] param = { friend.id };
                     dbConn.Query<Balance_User>("Delete FROM balance_user WHERE user_id= ?", param);
-                }
+                //}
 
                 foreach (var balance in friend.balance)
                 {
