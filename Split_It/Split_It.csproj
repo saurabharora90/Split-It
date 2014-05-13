@@ -120,6 +120,9 @@
     <Compile Include="ExpenseDetail.xaml.cs">
       <DependentUpon>ExpenseDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GroupDetail.xaml.cs">
+      <DependentUpon>GroupDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -176,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExpenseDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GroupDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

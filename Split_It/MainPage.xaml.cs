@@ -324,5 +324,17 @@ namespace Split_It_
             PhoneApplicationService.Current.State[Constants.SELECTED_USER] = selectedUser;
             NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
         }
+
+        private void llsGroups_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListSelector selector = sender as LongListSelector;
+            Group selectedGroup = selector.SelectedItem as Group;
+
+            if (selectedGroup == null)
+                return;
+
+            PhoneApplicationService.Current.State[Constants.SELECTED_GROUP] = selectedGroup;
+            NavigationService.Navigate(new Uri("/GroupDetail.xaml", UriKind.Relative));
+        }
     }
 }

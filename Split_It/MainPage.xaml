@@ -68,7 +68,7 @@
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-                                <Grid Margin="15,15,15,15" toolkit:TiltEffect.IsTiltEnabled="True">
+                                <Grid Margin="15,20,15,20" toolkit:TiltEffect.IsTiltEnabled="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
