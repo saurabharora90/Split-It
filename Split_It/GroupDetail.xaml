@@ -6,6 +6,9 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helper="clr-namespace:Split_It_.ExpandableListHelper"
+    xmlns:app="clr-namespace:Split_It_.Converter"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     Style="{StaticResource TransitionPageStyle}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -15,12 +18,57 @@
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.BackgroundColor="{StaticResource green}">
 
+    <phone:PhoneApplicationPage.Resources>
+        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <helper:DebtTextConverter x:Key="DebtTextConverter"/>
+        <helper:DebtAmountConverter x:Key="DebtAmountConverter"/>
+        <helper:DebtColorConverter x:Key="DebtColorConverter"/>
+
+        <DataTemplate x:Key="CustomHeaderTemplate">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource splitwiseGreyBG}">
+                <Grid Margin="15" toolkit:TiltEffect.IsTiltEnabled="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{Binding 'groupUser.picture', Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                    <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="{Binding 'groupUser.name'}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
+                    <TextBlock TextWrapping="Wrap" Grid.Column="2" Text="{Binding Converter={StaticResource DebtTextConverter}}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
+                    <TextBlock TextWrapping="Wrap" Grid.Column="3" Text="{Binding Converter={StaticResource DebtAmountConverter}}" Foreground="{Binding Converter={StaticResource DebtColorConverter}}" FontSize="{StaticResource nameSize}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <phone:Pivot Title="MY APPLICATION">
+        <phone:Pivot Title="{Binding name}">
             <!--Pivot item one-->
             <phone:PivotItem Margin="0,5,0,0" Header="summary">
+                <ListBox x:Name="listBox">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <toolkit:ExpanderView 
+                                Header="{Binding}"
+                                ItemsSource="{Binding debt}"
+                                IsNonExpandable="{Binding isNonExpandable}"
+                                HeaderTemplate="{StaticResource CustomHeaderTemplate}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </phone:PivotItem>
 
             <!--Pivot item two-->
@@ -29,5 +77,5 @@
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
-    
+
 </phone:PhoneApplicationPage>

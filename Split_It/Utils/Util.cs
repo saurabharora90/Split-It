@@ -177,7 +177,7 @@ namespace Split_It_.Utils
             currentUserDebts = getUsersGroupDebtsList(allDebts, userId);
             foreach (var debt in currentUserDebts)
             {
-                if (debt.from == App.currentUser.id)
+                if (debt.from == userId)
                     amount -= Convert.ToDouble(debt.amount);
                 else
                     amount += Convert.ToDouble(debt.amount);

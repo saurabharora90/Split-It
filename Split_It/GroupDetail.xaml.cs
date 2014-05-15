@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Split_It_.Utils;
 using Split_It_.Controller;
+using Split_It_.ExpandableListHelper;
 
 namespace Split_It_
 {
@@ -20,6 +21,7 @@ namespace Split_It_
         Group selectedGroup;
         BackgroundWorker groupExpensesBackgroundWorker;
         ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
+        ObservableCollection<ExpandableListModel> expanderList = new ObservableCollection<ExpandableListModel>();
         private int pageNo = 0;
         private bool morePages = true;
         private object o = new object();
@@ -40,8 +42,28 @@ namespace Split_It_
                 groupExpensesBackgroundWorker.RunWorkerAsync();
             }
 
+            setupExpandableList();
             //createAppBar();
             this.DataContext = selectedGroup;
+            listBox.ItemsSource = expanderList;
+        }
+
+        private void setupExpandableList()
+        {
+            foreach (var user in selectedGroup.members)
+            {
+                ExpandableListModel expanderItem = new ExpandableListModel();
+                expanderItem.groupUser = user;
+                if(selectedGroup.simplify_by_default)
+                    expanderItem.debtList = Util.getUsersGroupDebtsList(selectedGroup.simplified_debts, user.id);
+                else
+                    expanderItem.debtList = Util.getUsersGroupDebtsList(selectedGroup.original_debts, user.id);
+
+                if (expanderItem.debtList.Count == 0)
+                    expanderItem.isNonExpandable = true;
+
+                expanderList.Add(expanderItem);
+            }
         }
 
         private void groupExpensesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
