@@ -263,6 +263,7 @@
                                     <Grid x:Name="ExpanderPanel" Background="Transparent" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
                                 </Grid>
                             </ListBoxItem>
+                            <Line x:Name="Line" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="2" Stretch="Fill" Stroke="White" StrokeThickness="3" X1="0" X2="0" Y1="0" Y2="1" Visibility="Collapsed"/>
                             <ContentControl x:Name="NonExpandableContent" Grid.ColumnSpan="2" ContentTemplate="{TemplateBinding NonExpandableHeaderTemplate}" Content="{TemplateBinding NonExpandableHeader}" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2" Visibility="Collapsed"/>
                             <Canvas x:Name="ItemsCanvas" Grid.Column="1" Margin="11,0,0,0" Opacity="0.0" Grid.Row="2">
                                 <Canvas.RenderTransform>
