@@ -29,17 +29,24 @@
                 <Grid Margin="15" toolkit:TiltEffect.IsTiltEnabled="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Source="{Binding 'groupUser.picture', Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
-                    <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="{Binding 'groupUser.name'}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
-                    <TextBlock TextWrapping="Wrap" Grid.Column="2" Text="{Binding Converter={StaticResource DebtTextConverter}}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
-                    <TextBlock TextWrapping="Wrap" Grid.Column="3" Text="{Binding Converter={StaticResource DebtAmountConverter}}" Foreground="{Binding Converter={StaticResource DebtColorConverter}}" FontSize="{StaticResource nameSize}"/>
+                    <Grid Grid.Column="1" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" Grid.Column="0" Text="{Binding 'groupUser.name'}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
+                        <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="{Binding Converter={StaticResource DebtTextConverter}}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
+                        <TextBlock TextWrapping="Wrap" Grid.Column="2" Text="{Binding Converter={StaticResource DebtAmountConverter}}" Foreground="{Binding Converter={StaticResource DebtColorConverter}}" FontSize="{StaticResource nameSize}"/>
+                    </Grid>
                 </Grid>
             </Border>
         </DataTemplate>
+        
+        
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -63,9 +70,12 @@
                         <DataTemplate>
                             <toolkit:ExpanderView 
                                 Header="{Binding}"
+                                NonExpandableHeader="{Binding}"
                                 ItemsSource="{Binding debt}"
                                 IsNonExpandable="{Binding isNonExpandable}"
-                                HeaderTemplate="{StaticResource CustomHeaderTemplate}"/>
+                                IsExpanded="False"
+                                HeaderTemplate="{StaticResource CustomHeaderTemplate}"
+                                NonExpandableHeaderTemplate="{StaticResource CustomHeaderTemplate}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
