@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using Split_It_.Utils;
 using Split_It_.Controller;
 using Split_It_.ExpandableListHelper;
+using System.Windows.Media;
 
 namespace Split_It_
 {
@@ -43,7 +44,7 @@ namespace Split_It_
             }
 
             setupExpandableList();
-            //createAppBar();
+            createAppBar();
             this.DataContext = selectedGroup;
             listBox.ItemsSource = expanderList;
         }
@@ -64,6 +65,24 @@ namespace Split_It_
 
                 expanderList.Add(expanderItem);
             }
+        }
+
+        private void createAppBar()
+        {
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = false;
+            ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
+            ApplicationBar.ForegroundColor = Colors.White;
+
+            //Settle up button
+            ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
+            btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
+            btnAddExpense.Text = "add";
+            ApplicationBar.Buttons.Add(btnAddExpense);
+            btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
         }
 
         private void groupExpensesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -119,6 +138,11 @@ namespace Split_It_
 
             PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
             NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
+        }
+
+        private void btnAddExpense_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddExpense.xaml", UriKind.Relative));
         }
     }
 }
