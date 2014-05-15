@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace Split_It_.ExpandableListHelper
 {
-    public class DebtAmountConverter : IValueConverter
+    public class AllDebtAmountConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

@@ -5,28 +5,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Split_It_.ExpandableListHelper
 {
-    public class DebtTextConverter : IValueConverter
+    public class AllDebtColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string text = "";
+            SolidColorBrush colorBrush;
             ExpandableListModel expandableModel = value as ExpandableListModel;
             List<Debt_Group> allDebts = expandableModel.debtList;
             double finalBalance = Util.getUserGroupDebtAmount(allDebts, expandableModel.groupUser.id);
 
-            //if final balance is 0, then anyways we are not shwoing the balance.
-            if (finalBalance == 0)
-                text = " is ";
-            else if (finalBalance > 0)
-                text = " is owed ";
-            else if (finalBalance < 0)
-                text = " owes ";
+            if (finalBalance > 0)
+                colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;
+            else if (finalBalance == 0)
+                colorBrush = Application.Current.Resources["settled"] as SolidColorBrush;
+            else
+                colorBrush = Application.Current.Resources["negative"] as SolidColorBrush;
 
-            return text;
+            return colorBrush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -20,12 +20,13 @@
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
-        <helper:DebtTextConverter x:Key="DebtTextConverter"/>
-        <helper:DebtAmountConverter x:Key="DebtAmountConverter"/>
-        <helper:DebtColorConverter x:Key="DebtColorConverter"/>
+        <helper:AllDebtTextConverter x:Key="AllDebtTextConverter"/>
+        <helper:AllDebtAmountConverter x:Key="AllDebtAmountConverter"/>
+        <helper:AllDebtColorConverter x:Key="AllDebtColorConverter"/>
+        <helper:SpecificDebtAmountConverter x:Key="SpecificDebtAmountConverter"/>
+        <helper:SpecificDebtColorConverter x:Key="SpecificDebtColorConverter"/>
 
         <DataTemplate x:Key="CustomHeaderTemplate">
-            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource splitwiseGreyBG}">
                 <Grid Margin="15" toolkit:TiltEffect.IsTiltEnabled="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -39,14 +40,23 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock TextWrapping="Wrap" Grid.Column="0" Text="{Binding 'groupUser.name'}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
-                        <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="{Binding Converter={StaticResource DebtTextConverter}}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
-                        <TextBlock TextWrapping="Wrap" Grid.Column="2" Text="{Binding Converter={StaticResource DebtAmountConverter}}" Foreground="{Binding Converter={StaticResource DebtColorConverter}}" FontSize="{StaticResource nameSize}"/>
+                        <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="{Binding Converter={StaticResource AllDebtTextConverter}}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
+                        <TextBlock TextWrapping="Wrap" Grid.Column="2" Text="{Binding Converter={StaticResource AllDebtAmountConverter}}" Foreground="{Binding Converter={StaticResource AllDebtColorConverter}}" FontSize="{StaticResource nameSize}"/>
                     </Grid>
                 </Grid>
-            </Border>
         </DataTemplate>
-        
-        
+
+        <DataTemplate x:Key="CustomItemTemplate">
+            <TextBlock Margin="0,10" TextWrapping="Wrap" FontSize="{StaticResource expenseDetailAmount}" Foreground="Black">
+                <TextBlock.Inlines>
+                    <Run x:Name="from_user" Text="{Binding 'fromUser.name'}"/>
+                    <Run Text="owes"/>
+                    <Run x:Name="amount" Text="{Binding Converter={StaticResource SpecificDebtAmountConverter}}" Foreground="{Binding Converter={StaticResource SpecificDebtColorConverter}}"/>
+                    <Run Text="to"/>
+                    <Run x:Name="to_user" Text="{Binding 'toUser.name'}"/>
+                </TextBlock.Inlines>
+            </TextBlock>
+        </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -68,14 +78,17 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <toolkit:ExpanderView 
-                                Header="{Binding}"
-                                NonExpandableHeader="{Binding}"
-                                ItemsSource="{Binding debt}"
-                                IsNonExpandable="{Binding isNonExpandable}"
-                                IsExpanded="False"
-                                HeaderTemplate="{StaticResource CustomHeaderTemplate}"
-                                NonExpandableHeaderTemplate="{StaticResource CustomHeaderTemplate}"/>
+                            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource splitwiseGreyBG}">
+                                <toolkit:ExpanderView 
+                                    Header="{Binding}"
+                                    NonExpandableHeader="{Binding}"
+                                    ItemsSource="{Binding debtList}"
+                                    IsNonExpandable="{Binding isNonExpandable}"
+                                    IsExpanded="False"
+                                    HeaderTemplate="{StaticResource CustomHeaderTemplate}"
+                                    ItemTemplate="{StaticResource CustomItemTemplate}"
+                                    NonExpandableHeaderTemplate="{StaticResource CustomHeaderTemplate}"/>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

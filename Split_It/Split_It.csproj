@@ -106,9 +106,9 @@
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
-    <Compile Include="ExpandableListHelper\DebtColorConverter.cs" />
-    <Compile Include="ExpandableListHelper\DebtAmountConverter.cs" />
-    <Compile Include="ExpandableListHelper\DebtTextConverter.cs" />
+    <Compile Include="ExpandableListHelper\AllDebtColorConverter.cs" />
+    <Compile Include="ExpandableListHelper\AllDebtAmountConverter.cs" />
+    <Compile Include="ExpandableListHelper\AllDebtTextConverter.cs" />
     <Compile Include="Converter\ExpenseShareToRepaymentConverter.cs" />
     <Compile Include="Converter\CurrentUserRepaymentsConverter.cs" />
     <Compile Include="Converter\ExpenseAmountInCurrencyConverter.cs" />
@@ -120,6 +120,8 @@
     <Compile Include="Converter\ExpenseShareToDescriptionConverter.cs" />
     <Compile Include="Converter\GroupDebtConverter.cs" />
     <Compile Include="Converter\PaymentImageFileConverter.cs" />
+    <Compile Include="ExpandableListHelper\SpecificDebtColorConverter.cs" />
+    <Compile Include="ExpandableListHelper\SpecificDebtAmountConverter.cs" />
     <Compile Include="ExpandableListHelper\ExpandableListModel.cs" />
     <Compile Include="ExpenseDetail.xaml.cs">
       <DependentUpon>ExpenseDetail.xaml</DependentUpon>
