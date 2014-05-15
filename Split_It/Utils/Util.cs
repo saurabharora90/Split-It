@@ -159,22 +159,22 @@ namespace Split_It_.Utils
                 return false;
         }
 
-        public static List<Debt_Group> getCurrentUsersGroupDebtsList(List<Debt_Group> allDebts)
+        public static List<Debt_Group> getUsersGroupDebtsList(List<Debt_Group> allDebts, int userId)
         {
             List<Debt_Group> currentUserDebts = new List<Debt_Group>();
             foreach (var debt in allDebts)
             {
-                if (debt.from == App.currentUser.id || debt.to == App.currentUser.id)
+                if (debt.from == userId || debt.to == userId)
                     currentUserDebts.Add(debt);
             }
             return currentUserDebts;
         }
 
-        public static double getCurrentUserGroupDebtAmount(List<Debt_Group> allDebts)
+        public static double getUserGroupDebtAmount(List<Debt_Group> allDebts, int userId)
         {
             double amount = 0;
             List<Debt_Group> currentUserDebts = new List<Debt_Group>();
-            currentUserDebts = getCurrentUsersGroupDebtsList(allDebts);
+            currentUserDebts = getUsersGroupDebtsList(allDebts, userId);
             foreach (var debt in currentUserDebts)
             {
                 if (debt.from == App.currentUser.id)

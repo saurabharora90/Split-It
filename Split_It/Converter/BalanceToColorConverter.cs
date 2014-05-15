@@ -20,7 +20,7 @@ namespace Split_It_.Converter
             if (parameter != null && parameter.ToString().Equals("group"))
             {
                 List<Debt_Group> allDebts = value as List<Debt_Group>;
-                finalBalance = Util.getCurrentUserGroupDebtAmount(allDebts);
+                finalBalance = Util.getUserGroupDebtAmount(allDebts, App.currentUser.id);
             }
             else
             {

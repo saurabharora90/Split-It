@@ -15,7 +15,7 @@ namespace Split_It_.Converter
         {
             string amount = "";
             List<Debt_Group> allDebts = value as List<Debt_Group>;
-            double finalBalance = Util.getCurrentUserGroupDebtAmount(allDebts);
+            double finalBalance = Util.getUserGroupDebtAmount(allDebts, App.currentUser.id);
 
             //if final balance is 0, then anyways we are not shwoing the balance.
             if (finalBalance != 0)
