@@ -57,20 +57,42 @@ namespace Split_It_
             ApplicationBar.ForegroundColor = Colors.White;
 
             //Settle up button
+            ApplicationBarIconButton btnReminder = new ApplicationBarIconButton();
+            btnReminder.IconUri = new Uri("/Assets/Icons/feature.email.png", UriKind.Relative);
+            btnReminder.Text = "reminder";
+
             ApplicationBarIconButton btnSettle = new ApplicationBarIconButton();
-            btnSettle.IconUri = new Uri("/Assets/Icons/feature.email.png", UriKind.Relative);
-            btnSettle.Text = "reminder";
+            btnSettle.IconUri = new Uri("/Assets/Icons/settle.png", UriKind.Relative);
+            btnSettle.Text = "settle";
+
+
             Balance_User defaultBalance = Util.getDefaultBalance(selectedUser.balance);
             double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
             if (finalBalance <= 0)
+            {
+                btnReminder.IsEnabled = false;
+                btnSettle.IsEnabled = true;
+            }
+            else
+            {
+                btnReminder.IsEnabled = true;
                 btnSettle.IsEnabled = false;
+            }
+
+            ApplicationBar.Buttons.Add(btnReminder);
             ApplicationBar.Buttons.Add(btnSettle);
+            btnReminder.Click += new EventHandler(btnReminder_Click);
             btnSettle.Click += new EventHandler(btnSettle_Click);
         }
 
         private void btnSettle_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void btnReminder_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void userExpensesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
