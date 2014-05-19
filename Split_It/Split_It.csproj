@@ -218,6 +218,7 @@
     <Content Include="Assets\Icons\delete.png" />
     <Content Include="Assets\Icons\edit.png" />
     <Content Include="Assets\Icons\feature.email.png" />
+    <Content Include="Assets\Icons\save.png" />
     <Content Include="Assets\Icons\settle.png" />
     <Content Include="Assets\Images\groupIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

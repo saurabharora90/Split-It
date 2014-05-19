@@ -13,6 +13,7 @@ using System.ComponentModel;
 using Split_It_.Controller;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using Microsoft.Phone.Tasks;
 
 namespace Split_It_
 {
@@ -92,7 +93,21 @@ namespace Split_It_
 
         private void btnReminder_Click(object sender, EventArgs e)
         {
+            string appUrl = "";
+            string reminderText = "Hey there,\n\nThis is just a note to settle up on Splitwise as soon as you get the chance.\n\n";
+            string thanks = "Thanks,\n";
+            string userName = App.currentUser.first_name;
+            string sentVia = "\n\nSent via,\n";
+            string appName = "Split it! A splitwise client for windows phone\n";
+            string downloadApp = "Download app at: " + appUrl;
 
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+
+            emailComposeTask.Subject = "Settle up on Splitwise";
+            emailComposeTask.Body = reminderText + thanks + userName + sentVia + appName + downloadApp;
+            emailComposeTask.To = selectedUser.email;
+
+            emailComposeTask.Show();
         }
 
         private void userExpensesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
