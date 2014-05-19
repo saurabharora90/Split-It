@@ -32,7 +32,6 @@ namespace Split_It_
         private int pageNo = 0;
         private bool morePages = true;
 
-        private ApplicationBar dashBoardAppBar, expenseAppBar;
         private ApplicationBarMenuItem btnAllFriends, btnBalanceFriends, btnYouOweFriends, btnOwesYouFriends;
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
@@ -59,52 +58,38 @@ namespace Split_It_
 
         private void setupAppBars()
         {
-            dashBoardAppBar = new ApplicationBar();
-            dashBoardAppBar.Mode = ApplicationBarMode.Minimized;
-            dashBoardAppBar.Opacity = 1.0;
-            dashBoardAppBar.IsMenuEnabled = true;
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
 
             btnAllFriends = new ApplicationBarMenuItem();
             btnAllFriends.Text = "all";
-            dashBoardAppBar.MenuItems.Add(btnAllFriends);
             btnAllFriends.Click += new EventHandler(btnAllFriends_Click);
 
             btnBalanceFriends = new ApplicationBarMenuItem();
             btnBalanceFriends.Text = "balance";
-            dashBoardAppBar.MenuItems.Add(btnBalanceFriends);
             btnBalanceFriends.Click += new EventHandler(btnBalanceFriends_Click);
 
             btnYouOweFriends = new ApplicationBarMenuItem();
             btnYouOweFriends.Text = "you owe";
-            dashBoardAppBar.MenuItems.Add(btnYouOweFriends);
             btnYouOweFriends.Click += new EventHandler(btnYouOweFriends_Click);
 
             btnOwesYouFriends = new ApplicationBarMenuItem();
             btnOwesYouFriends.Text = "owes you";
-            dashBoardAppBar.MenuItems.Add(btnOwesYouFriends);
             btnOwesYouFriends.Click += new EventHandler(btnOwesYouFriends_Click);
 
             //add expense button
             ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
             btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
             btnAddExpense.Text = "add";
-            dashBoardAppBar.Buttons.Add(btnAddExpense);
+            ApplicationBar.Buttons.Add(btnAddExpense);
             btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
 
-            expenseAppBar = new ApplicationBar();
-            expenseAppBar.Mode = ApplicationBarMode.Minimized;
-            expenseAppBar.Opacity = 1.0;
-            expenseAppBar.IsVisible = true;
-            expenseAppBar.IsMenuEnabled = false;
-            expenseAppBar.BackgroundColor = (Color)Application.Current.Resources["green"];
-            expenseAppBar.ForegroundColor = Colors.White;
-
-            //add expense button
-            //ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
-            //btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
-            //btnAddExpense.Text = "add";
-            expenseAppBar.Buttons.Add(btnAddExpense);
-            //btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
+            ApplicationBar.MenuItems.Add(btnAllFriends);
+            ApplicationBar.MenuItems.Add(btnBalanceFriends);
+            ApplicationBar.MenuItems.Add(btnYouOweFriends);
+            ApplicationBar.MenuItems.Add(btnOwesYouFriends);
         }
 
         private void btnAddExpense_Click(object sender, EventArgs e)
@@ -287,13 +272,11 @@ namespace Split_It_
             switch (((Pivot)sender).SelectedIndex)
             {
                 case 0:
-                    ApplicationBar = dashBoardAppBar;
-                    ApplicationBar.IsVisible = true;
+                    ApplicationBar.IsMenuEnabled = true;
                     break;
 
-                case 1:
-                    ApplicationBar = expenseAppBar;
-                    ApplicationBar.IsVisible = true;
+                default:
+                    ApplicationBar.IsMenuEnabled = false;
                     break;
             }
 

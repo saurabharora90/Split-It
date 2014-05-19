@@ -31,6 +31,11 @@ namespace Split_It_.Controller
 
         }
 
+        public void addExpense(Expense newExpense)
+        {
+
+        }
+
         private void _ExpenseDeleted(bool status)
         {
             syncDatabase();

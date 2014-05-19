@@ -38,7 +38,7 @@ namespace Split_It_
         private void createAppBar()
         {
             ApplicationBar = new ApplicationBar();
-            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            ApplicationBar.Mode = ApplicationBarMode.Default;
             ApplicationBar.Opacity = 1.0;
             ApplicationBar.IsVisible = true;
             ApplicationBar.IsMenuEnabled = false;
