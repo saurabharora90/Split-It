@@ -98,7 +98,7 @@ namespace Split_It_
             string thanks = "Thanks,\n";
             string userName = App.currentUser.first_name;
             string sentVia = "\n\nSent via,\n";
-            string appName = "Split it! A splitwise client for windows phone\n";
+            string appName = "Split it! A splitwise client for windows phone\n\n";
             string downloadApp = "Download app at: " + appUrl;
 
             EmailComposeTask emailComposeTask = new EmailComposeTask();
