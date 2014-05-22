@@ -28,6 +28,7 @@ namespace Split_It_.Utils
         public static string SELECTED_USER = "selected_user";
         public static string SELECTED_EXPENSE = "selected_expense";
         public static string SELECTED_GROUP = "selected_group";
+        public static string PAYMENT_TO_USER = "payment_to_user";
 
         public static string CRITTERCISM_ID = "5360ad740729df4d95000002";
     }

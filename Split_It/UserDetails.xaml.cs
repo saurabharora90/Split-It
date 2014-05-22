@@ -88,7 +88,8 @@ namespace Split_It_
 
         private void btnSettle_Click(object sender, EventArgs e)
         {
-            
+            PhoneApplicationService.Current.State[Constants.PAYMENT_TO_USER] = selectedUser;
+            NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddPayment.xaml", UriKind.Relative));
         }
 
         private void btnReminder_Click(object sender, EventArgs e)
