@@ -10,12 +10,14 @@ using Microsoft.Phone.Shell;
 using Split_It_.Model;
 using Split_It_.Utils;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace Split_It_.Add_Expense_Pages
 {
     public partial class AddPayment : PhoneApplicationPage
     {
         User paymentUser;
+        BackgroundWorker addPaymentBackgroundWorker;
         public double transferAmount { get; set; }
         public string currency { get; set; }
 
@@ -24,7 +26,10 @@ namespace Split_It_.Add_Expense_Pages
             InitializeComponent();
 
             paymentUser = PhoneApplicationService.Current.State[Constants.PAYMENT_TO_USER] as User;
-            
+            addPaymentBackgroundWorker = new BackgroundWorker();
+            addPaymentBackgroundWorker.WorkerSupportsCancellation = true;
+            addPaymentBackgroundWorker.DoWork += new DoWorkEventHandler(addPaymentBackgroundWorker_DoWork);
+
             createAppBar();
             setupData();
 
@@ -46,13 +51,24 @@ namespace Split_It_.Add_Expense_Pages
             ApplicationBarIconButton btnOk = new ApplicationBarIconButton();
             btnOk.IconUri = new Uri("/Assets/Icons/ok.png", UriKind.Relative);
             btnOk.Text = "ok";
+            btnOk.Click += new EventHandler(btnOk_Click);
 
             ApplicationBarIconButton btnCanel = new ApplicationBarIconButton();
             btnCanel.IconUri = new Uri("/Assets/Icons/cancel.png", UriKind.Relative);
             btnCanel.Text = "cancel";
+            btnCanel.Click += new EventHandler(btnCanel_Click);
 
             ApplicationBar.Buttons.Add(btnOk);
             ApplicationBar.Buttons.Add(btnCanel);
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnCanel_Click(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
         }
 
         private void setupData()
@@ -60,6 +76,14 @@ namespace Split_It_.Add_Expense_Pages
             Balance_User defaultBalance = Util.getDefaultBalance(paymentUser.balance);
             transferAmount = System.Convert.ToDouble(defaultBalance.amount);
             currency = defaultBalance.currency_code;
+
+            tbCurrency.Text = currency;
+            tbAmount.Text = Math.Abs(transferAmount).ToString();
+        }
+
+        private void addPaymentBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
         }
     }
 }
