@@ -47,7 +47,7 @@ namespace Split_It_.Request
                 request.AddParameter("date", paymentExpense.date, ParameterType.GetOrPost);
             }
 
-            if (paymentExpense.group_id != null || paymentExpense.group_id!=0)
+            if (paymentExpense.group_id!=0)
             {
                 request.AddParameter("group_id", paymentExpense.group_id, ParameterType.GetOrPost);
             }
@@ -72,7 +72,7 @@ namespace Split_It_.Request
                     if (expenseList != null)
                     {
                         Expense payment = expenseList[0];
-                        if (payment.id!=null)
+                        if (payment.id!=0)
                             CallbackOnSuccess(true);
                         else
                             CallbackOnFailure(reponse.StatusCode);

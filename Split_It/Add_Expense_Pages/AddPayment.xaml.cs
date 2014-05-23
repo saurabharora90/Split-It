@@ -154,5 +154,10 @@ namespace Split_It_.Add_Expense_Pages
                 });
             }
         }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbAmount.Focus();
+        }
     }
 }
