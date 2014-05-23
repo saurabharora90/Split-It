@@ -27,7 +27,11 @@ namespace Split_It_.Request
             var request = new RestRequest(deleteExpenseURL, Method.POST);
             request.RootElement = "expenses";
 
-            request.AddParameter("payment", paymentExpense.payment, ParameterType.GetOrPost);
+            if(paymentExpense.payment)
+                request.AddParameter("payment", "true", ParameterType.GetOrPost);
+            else
+                request.AddParameter("payment", "false", ParameterType.GetOrPost);
+
             request.AddParameter("cost", paymentExpense.cost, ParameterType.GetOrPost);
             request.AddParameter("description", paymentExpense.description, ParameterType.GetOrPost);
             request.AddParameter("currency_code", paymentExpense.currency_code, ParameterType.GetOrPost);

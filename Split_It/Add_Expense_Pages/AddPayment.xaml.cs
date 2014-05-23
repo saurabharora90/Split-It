@@ -102,7 +102,7 @@ namespace Split_It_.Add_Expense_Pages
             paymentExpense.cost = transferAmount.ToString();
             paymentExpense.currency_code = currency;
             paymentExpense.creation_method = "payment";
-            paymentExpense.description = "payment";
+            paymentExpense.description = "Payment";
             paymentExpense.details = details;
             paymentExpense.users = new List<Expense_Share>();
 
