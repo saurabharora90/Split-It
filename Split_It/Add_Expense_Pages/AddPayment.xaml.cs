@@ -11,6 +11,7 @@ using Split_It_.Model;
 using Split_It_.Utils;
 using System.Windows.Media;
 using System.ComponentModel;
+using Split_It_.Controller;
 
 namespace Split_It_.Add_Expense_Pages
 {
@@ -20,6 +21,7 @@ namespace Split_It_.Add_Expense_Pages
         BackgroundWorker addPaymentBackgroundWorker;
         public double transferAmount { get; set; }
         public string currency { get; set; }
+        public string details { get; set; }
 
         public AddPayment()
         {
@@ -64,6 +66,17 @@ namespace Split_It_.Add_Expense_Pages
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            transferAmount = Convert.ToDouble(tbAmount.Text);
+            currency = tbCurrency.Text;
+
+            if (addPaymentBackgroundWorker.IsBusy != true && transferAmount!=0 && !String.IsNullOrEmpty(currency))
+            {
+                SystemTray.ProgressIndicator = new ProgressIndicator();
+                SystemTray.ProgressIndicator.IsIndeterminate = true;
+                SystemTray.ProgressIndicator.IsVisible = true;
+
+                addPaymentBackgroundWorker.RunWorkerAsync();
+            }
         }
 
         private void btnCanel_Click(object sender, EventArgs e)
@@ -83,7 +96,63 @@ namespace Split_It_.Add_Expense_Pages
 
         private void addPaymentBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            //only setup the needed details.
+            Expense paymentExpense = new Expense();
+            paymentExpense.payment = true;
+            paymentExpense.cost = transferAmount.ToString();
+            paymentExpense.currency_code = currency;
+            paymentExpense.creation_method = "payment";
+            paymentExpense.description = "payment";
+            paymentExpense.details = details;
+            paymentExpense.users = new List<Expense_Share>();
 
+            Expense_Share fromUser = new Expense_Share();
+            fromUser.user_id = App.currentUser.id;
+            fromUser.owed_share = "0";
+            fromUser.paid_share = transferAmount.ToString();
+
+            Expense_Share toUser = new Expense_Share();
+            toUser.user_id = paymentUser.id;
+            toUser.paid_share = "0";
+            toUser.owed_share = transferAmount.ToString();
+
+            paymentExpense.users.Add(fromUser);
+            paymentExpense.users.Add(toUser);
+
+            ModifyDatabase modify = new ModifyDatabase(_recordPaymentCompleted);
+            modify.recordPayment(paymentExpense);
+        }
+
+        private void _recordPaymentCompleted(bool success, HttpStatusCode errorCode)
+        {
+            if (success)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    if (SystemTray.ProgressIndicator != null)
+                        SystemTray.ProgressIndicator.IsVisible = false;
+
+                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                });
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    if (SystemTray.ProgressIndicator != null)
+                        SystemTray.ProgressIndicator.IsVisible = false;
+
+                    if (errorCode == HttpStatusCode.Unauthorized)
+                    {
+                        Util.logout();
+                        NavigationService.Navigate(new Uri("/Login.xaml", UriKind.Relative));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to record payment", "Error", MessageBoxButton.OK);
+                    }
+                });
+            }
         }
     }
 }

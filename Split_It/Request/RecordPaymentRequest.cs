@@ -11,32 +11,57 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Request
 {
-    class RecordPaymentRequesr : BaseRequest
+    class RecordPaymentRequest : BaseRequest
     {
         public static String deleteExpenseURL = "create_expense";
-        private int toUserId;
-        private double amount;
-        private string description, currencyCode, date;
+        Expense paymentExpense;
 
-        public RecordPaymentRequesr(int userId, double amount, string desc, string currency, string date)
+        public RecordPaymentRequest(Expense expense)
             : base()
         {
-            this.toUserId = userId;
-            this.amount = amount;
-            this.description = desc;
-            this.currencyCode = currency;
-            this.date = date;
+            this.paymentExpense = expense;
         }
 
         public void deleteExpense(Action<bool> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(deleteExpenseURL, Method.POST);
-            //request.AddParameter("limit", 0, ParameterType.GetOrPost);
-            client.ExecuteAsync<Boolean>(request, reponse =>
+            request.RootElement = "expenses";
+
+            request.AddParameter("payment", paymentExpense.payment, ParameterType.GetOrPost);
+            request.AddParameter("cost", paymentExpense.cost, ParameterType.GetOrPost);
+            request.AddParameter("description", paymentExpense.description, ParameterType.GetOrPost);
+            request.AddParameter("currency_code", paymentExpense.currency_code, ParameterType.GetOrPost);
+            request.AddParameter("creation_method", paymentExpense.creation_method, ParameterType.GetOrPost);
+            if (!String.IsNullOrEmpty(paymentExpense.details))
+            {
+                request.AddParameter("details", paymentExpense.details, ParameterType.GetOrPost);
+            }
+
+            int count = 0;
+            foreach (var user in paymentExpense.users)
+            {
+                string idKey = String.Format("users__array_{0}__user_id", count);
+                string paidKey = String.Format("users__array_{0}__paid_share", count);
+                string owedKey = String.Format("users__array_{0}__owed_share", count);
+                request.AddParameter(idKey, user.user_id, ParameterType.GetOrPost);
+                request.AddParameter(paidKey, user.paid_share, ParameterType.GetOrPost);
+                request.AddParameter(owedKey, user.owed_share, ParameterType.GetOrPost);
+
+                count++;
+            }
+
+
+            client.ExecuteAsync<List<Expense>>(request, reponse =>
                 {
-                    //somehow this API returns false when the expense has been deleted
-                    if (!reponse.Data)
-                        CallbackOnSuccess(reponse.Data);
+                    List<Expense> expenseList = reponse.Data;
+                    if (expenseList != null)
+                    {
+                        Expense payment = expenseList[0];
+                        if (payment.id!=null)
+                            CallbackOnSuccess(true);
+                        else
+                            CallbackOnFailure(reponse.StatusCode);
+                    }
                     else
                         CallbackOnFailure(reponse.StatusCode);
                 });

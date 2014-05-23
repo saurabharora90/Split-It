@@ -23,7 +23,7 @@ namespace Split_It_.Controller
         public void deleteExpense(int expenseId)
         {
             DeleteExpenseRequest request = new DeleteExpenseRequest(expenseId);
-            request.deleteExpense(_ExpenseDeleted, _ExpenseDeletedFailed);
+            request.deleteExpense(_OperationSucceded, _OperationFailed);
         }
 
         public void editExpense(Expense editedExpenseDetail)
@@ -36,12 +36,18 @@ namespace Split_It_.Controller
 
         }
 
-        private void _ExpenseDeleted(bool status)
+        public void recordPayment(Expense paymentExpense)
+        {
+            RecordPaymentRequest request = new RecordPaymentRequest(paymentExpense);
+            request.deleteExpense(_OperationSucceded, _OperationFailed);
+        }
+        
+        private void _OperationSucceded(bool status)
         {
             syncDatabase();
         }
 
-        private void _ExpenseDeletedFailed(HttpStatusCode statusCode)
+        private void _OperationFailed(HttpStatusCode statusCode)
         {
             callback(false, statusCode);
         }
