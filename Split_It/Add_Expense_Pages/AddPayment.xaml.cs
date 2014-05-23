@@ -120,7 +120,7 @@ namespace Split_It_.Add_Expense_Pages
             paymentExpense.users.Add(toUser);
 
             ModifyDatabase modify = new ModifyDatabase(_recordPaymentCompleted);
-            modify.recordPayment(paymentExpense);
+            modify.addExpense(paymentExpense);
         }
 
         private void _recordPaymentCompleted(bool success, HttpStatusCode errorCode)

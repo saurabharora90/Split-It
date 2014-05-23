@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Request
 {
-    class RecordPaymentRequest : BaseRequest
+    class AddExpenseRequest : BaseRequest
     {
         public static String deleteExpenseURL = "create_expense";
         Expense paymentExpense;
 
-        public RecordPaymentRequest(Expense expense)
+        public AddExpenseRequest(Expense expense)
             : base()
         {
             this.paymentExpense = expense;
@@ -36,9 +36,20 @@ namespace Split_It_.Request
             request.AddParameter("description", paymentExpense.description, ParameterType.GetOrPost);
             request.AddParameter("currency_code", paymentExpense.currency_code, ParameterType.GetOrPost);
             request.AddParameter("creation_method", paymentExpense.creation_method, ParameterType.GetOrPost);
+            
             if (!String.IsNullOrEmpty(paymentExpense.details))
             {
                 request.AddParameter("details", paymentExpense.details, ParameterType.GetOrPost);
+            }
+
+            if (!String.IsNullOrEmpty(paymentExpense.date))
+            {
+                request.AddParameter("date", paymentExpense.date, ParameterType.GetOrPost);
+            }
+
+            if (paymentExpense.group_id != null || paymentExpense.group_id!=0)
+            {
+                request.AddParameter("group_id", paymentExpense.group_id, ParameterType.GetOrPost);
             }
 
             int count = 0;

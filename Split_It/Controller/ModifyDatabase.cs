@@ -31,14 +31,9 @@ namespace Split_It_.Controller
 
         }
 
-        public void addExpense(Expense newExpense)
+        public void addExpense(Expense expense)
         {
-
-        }
-
-        public void recordPayment(Expense paymentExpense)
-        {
-            RecordPaymentRequest request = new RecordPaymentRequest(paymentExpense);
+            AddExpenseRequest request = new AddExpenseRequest(expense);
             request.deleteExpense(_OperationSucceded, _OperationFailed);
         }
         
