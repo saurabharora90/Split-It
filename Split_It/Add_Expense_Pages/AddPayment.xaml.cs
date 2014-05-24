@@ -68,6 +68,7 @@ namespace Split_It_.Add_Expense_Pages
         {
             transferAmount = Convert.ToDouble(tbAmount.Text);
             currency = tbCurrency.Text;
+            details = tbDetails.Text;
 
             if (addPaymentBackgroundWorker.IsBusy != true && transferAmount!=0 && !String.IsNullOrEmpty(currency))
             {
@@ -92,6 +93,10 @@ namespace Split_It_.Add_Expense_Pages
 
             tbCurrency.Text = currency;
             tbAmount.Text = Math.Abs(transferAmount).ToString();
+
+            DateTime now = DateTime.UtcNow;
+            string dateString = now.ToString("dd MMMM, yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            tbDate.Text = "on " + dateString;
         }
 
         private void addPaymentBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

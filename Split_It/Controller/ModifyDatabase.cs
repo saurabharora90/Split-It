@@ -34,7 +34,7 @@ namespace Split_It_.Controller
         public void addExpense(Expense expense)
         {
             AddExpenseRequest request = new AddExpenseRequest(expense);
-            request.deleteExpense(_OperationSucceded, _OperationFailed);
+            request.addExpense(_OperationSucceded, _OperationFailed);
         }
         
         private void _OperationSucceded(bool status)

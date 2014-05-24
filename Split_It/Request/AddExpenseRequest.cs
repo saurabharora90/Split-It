@@ -13,7 +13,7 @@ namespace Split_It_.Request
 {
     class AddExpenseRequest : BaseRequest
     {
-        public static String deleteExpenseURL = "create_expense";
+        public static String addExpenseURL = "create_expense";
         Expense paymentExpense;
 
         public AddExpenseRequest(Expense expense)
@@ -22,9 +22,9 @@ namespace Split_It_.Request
             this.paymentExpense = expense;
         }
 
-        public void deleteExpense(Action<bool> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
+        public void addExpense(Action<bool> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
-            var request = new RestRequest(deleteExpenseURL, Method.POST);
+            var request = new RestRequest(addExpenseURL, Method.POST);
             request.RootElement = "expenses";
 
             if(paymentExpense.payment)
