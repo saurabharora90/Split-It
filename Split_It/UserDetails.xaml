@@ -13,8 +13,7 @@
     Style="{StaticResource TransitionPageStyle}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True"
-    shell:SystemTray.BackgroundColor="{StaticResource green}">
+    shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>

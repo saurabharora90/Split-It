@@ -11,7 +11,7 @@
     x:Class="Split_It_.Add_Expense_Pages.AddPayment"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.IsVisible="False"
     Loaded="PhoneApplicationPage_Loaded">
 
     <phone:PhoneApplicationPage.Resources>
@@ -229,9 +229,6 @@
 	<phone:PhoneApplicationPage.Foreground>
 		<StaticResource ResourceKey="PhoneForegroundBrush"/>
 	</phone:PhoneApplicationPage.Foreground>
-	<shell:SystemTray.BackgroundColor>
-		<StaticResource ResourceKey="green"/>
-	</shell:SystemTray.BackgroundColor>
 <!--LayoutRoot is the root grid where all page content is placed-->
 	<Grid x:Name="LayoutRoot" Background="Transparent">
 		<Grid.RowDefinitions>
@@ -280,7 +277,14 @@
 			</Grid>
 
 			<telerikPrimitives:RadTextBox Grid.Row="1" x:Name="tbDetails" BorderThickness="0" Foreground="Black" Watermark="Enter additional details" AcceptsReturn="True" TextWrapping="Wrap" Padding="10" Height="250" VerticalAlignment="Top" Style="{StaticResource RadTextBoxStyle1}"/>
-		</Grid>
+
+            <telerikPrimitives:RadBusyIndicator Background="#CC000000"
+                                                Foreground="White"
+                                                x:Name="busyIndicator" 
+                                                Grid.Row="0" 
+                                                Grid.RowSpan="2"
+                                                AnimationStyle="AnimationStyle9"/>
+        </Grid>
 	</Grid>
 
 </phone:PhoneApplicationPage>

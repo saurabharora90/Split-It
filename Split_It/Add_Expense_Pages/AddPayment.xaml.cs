@@ -72,9 +72,8 @@ namespace Split_It_.Add_Expense_Pages
 
             if (addPaymentBackgroundWorker.IsBusy != true && transferAmount!=0 && !String.IsNullOrEmpty(currency))
             {
-                SystemTray.ProgressIndicator = new ProgressIndicator();
-                SystemTray.ProgressIndicator.IsIndeterminate = true;
-                SystemTray.ProgressIndicator.IsVisible = true;
+                busyIndicator.Content = "";
+                busyIndicator.IsRunning = true;
 
                 addPaymentBackgroundWorker.RunWorkerAsync();
             }
@@ -134,9 +133,7 @@ namespace Split_It_.Add_Expense_Pages
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    if (SystemTray.ProgressIndicator != null)
-                        SystemTray.ProgressIndicator.IsVisible = false;
-
+                    busyIndicator.IsRunning = false;
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 });
             }
@@ -144,8 +141,7 @@ namespace Split_It_.Add_Expense_Pages
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    if (SystemTray.ProgressIndicator != null)
-                        SystemTray.ProgressIndicator.IsVisible = false;
+                    busyIndicator.IsRunning = false;
 
                     if (errorCode == HttpStatusCode.Unauthorized)
                     {

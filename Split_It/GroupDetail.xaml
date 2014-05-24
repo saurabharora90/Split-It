@@ -15,8 +15,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True"
-    shell:SystemTray.BackgroundColor="{StaticResource green}">
+    shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>

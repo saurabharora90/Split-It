@@ -10,8 +10,7 @@
     xmlns:ListPicker="clr-namespace:Telerik.Windows.Controls.ListPicker;assembly=Telerik.Windows.Controls.Input" xmlns:PhoneTextBox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives" xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     x:Class="Split_It_.Add_Expense_Pages.AddExpense"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True"
-    >
+    shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="PhoneTextBoxStyle1" TargetType="toolkit:PhoneTextBox">
         	<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
@@ -305,9 +304,6 @@
 	<phone:PhoneApplicationPage.FontFamily>
 		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
 	</phone:PhoneApplicationPage.FontFamily>
-	<shell:SystemTray.BackgroundColor>
-		<StaticResource ResourceKey="green"/>
-	</shell:SystemTray.BackgroundColor>
 <!--LayoutRoot is the root grid where all page content is placed-->
 	<Grid x:Name="LayoutRoot" Background="Transparent">
 		<Grid.RowDefinitions>

@@ -40,6 +40,11 @@ namespace Split_It_
         {
             InitializeComponent();
 
+            //clear all the lists.
+            App.friendsList.Clear();
+            App.expensesList.Clear();
+            App.groupsList.Clear();
+
             llsFriends.ItemsSource = balanceFriends;
             llsExpenses.ItemsSource = App.expensesList;
             llsGroups.ItemsSource = App.groupsList;

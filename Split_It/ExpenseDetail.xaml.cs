@@ -78,9 +78,7 @@ namespace Split_It_
                     case CustomMessageBoxResult.LeftButton:
                         if (deleteExpenseBackgroundWorker.IsBusy != true)
                         {
-                            SystemTray.ProgressIndicator = new ProgressIndicator();
-                            SystemTray.ProgressIndicator.IsIndeterminate = true;
-                            SystemTray.ProgressIndicator.IsVisible = true;
+                            busyIndicator.IsRunning = true;
 
                             deleteExpenseBackgroundWorker.RunWorkerAsync();
                         }
@@ -111,9 +109,7 @@ namespace Split_It_
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    if (SystemTray.ProgressIndicator != null)
-                        SystemTray.ProgressIndicator.IsVisible = false;
-
+                    busyIndicator.IsRunning = true;
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 });
             }

@@ -7,13 +7,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:app="clr-namespace:Split_It_.Converter"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     Style="{StaticResource TransitionPageStyle}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True"
-    shell:SystemTray.BackgroundColor="{StaticResource green}">
+    shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
@@ -85,6 +85,14 @@
                 <TextBlock Margin="20" TextWrapping="Wrap" Text="{Binding details}" Foreground="Black" FontSize="{StaticResource userDetaildescriptionSize}"/>
             </phone:PivotItem>
         </phone:Pivot>
+
+        <telerikPrimitives:RadBusyIndicator Background="#CC000000"
+                                            Content="Deleting expense"
+                                            Foreground="White"
+                                            x:Name="busyIndicator" 
+                                            Grid.Row="0" 
+                                            Grid.RowSpan="2"
+                                            AnimationStyle="AnimationStyle9"/>
     </Grid>
 
 </phone:PhoneApplicationPage>
