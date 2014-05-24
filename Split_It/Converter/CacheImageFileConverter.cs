@@ -18,6 +18,7 @@ namespace Split_It_.Converter
 /// </summary>
     public class CacheImageFileConverter : IValueConverter
     {
+        public static string DEFAULT_PROFILE_IMAGE_URL = @"https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-5eb999e2b4b24b823a9d82c29d42e9b2.png";
         private IsolatedStorageFile _storage;
         private const string imageStorageFolder = "TempImages";
 
@@ -29,7 +30,7 @@ namespace Split_It_.Converter
             }
             Picture picture = value as Picture;
             
-            if (picture == null)
+            if (picture == null || picture.medium.Equals(DEFAULT_PROFILE_IMAGE_URL))
             {
                 return LoadDefaultIfPassed(null, (parameter ?? string.Empty).ToString());
             }
