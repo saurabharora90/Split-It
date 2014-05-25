@@ -300,6 +300,79 @@
     			</Setter.Value>
     		</Setter>
     	</Style>
+    	
+        <Style x:Key="InputControlHeaderStyle" TargetType="ContentControl">
+    		<Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}"/>
+    		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeNormal}"/>
+    		<Setter Property="Margin" Value="12,12,12,-4"/>
+    		<Setter Property="HorizontalAlignment" Value="Left"/>
+    	</Style>
+    	<telerik:RadPlaneProjectionAnimation x:Key="CloseAnimation" Axes="X" Duration="0:0:.2" EndAngleX="90" StartAngleX="0">
+    		<telerik:RadPlaneProjectionAnimation.Easing>
+    			<ExponentialEase EasingMode="EaseIn" Exponent="4"/>
+    		</telerik:RadPlaneProjectionAnimation.Easing>
+    	</telerik:RadPlaneProjectionAnimation>
+    	<telerik:RadPlaneProjectionAnimation x:Key="OpenAnimation" Axes="X" Duration="0:0:.2" EndAngleX="0" StartAngleX="-90">
+    		<telerik:RadPlaneProjectionAnimation.Easing>
+    			<ExponentialEase EasingMode="EaseOut" Exponent="4"/>
+    		</telerik:RadPlaneProjectionAnimation.Easing>
+    	</telerik:RadPlaneProjectionAnimation>
+    	<telerikInput:EnumerableToCountConverter x:Key="countConverter"/>
+    	<Style x:Key="RadDatePickerStyle1" TargetType="telerikInput:RadDatePicker">
+    		<Setter Property="SelectorStyle">
+    			<Setter.Value>
+    				<Style TargetType="telerikInput:RadDateSelector">
+    					<Setter Property="Background" Value="{StaticResource PhoneChromeBrush}"/>
+    					<Setter Property="HorizontalAlignment" Value="Stretch"/>
+    				</Style>
+    			</Setter.Value>
+    		</Setter>
+    		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+    		<Setter Property="VerticalAlignment" Value="Top"/>
+    		<Setter Property="HeaderStyle" Value="{StaticResource InputControlHeaderStyle}"/>
+    		<Setter Property="HorizontalContentAlignment" Value="Left"/>
+    		<Setter Property="VerticalContentAlignment" Value="Center"/>
+    		<Setter Property="Template">
+    			<Setter.Value>
+    				<ControlTemplate TargetType="telerikInput:RadDatePicker">
+    					<telerikPrimitives:RadPickerBox x:Name="PART_PickerBox" ContentTemplate="{TemplateBinding EmptyContentTemplate}" HeaderTemplate="{TemplateBinding HeaderTemplate}" HeaderStyle="{TemplateBinding HeaderStyle}" Header="{TemplateBinding Header}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PopupCloseAnimation="{StaticResource CloseAnimation}" PickerButtonStyle="{TemplateBinding PickerButtonStyle}" PopupOpenAnimation="{StaticResource OpenAnimation}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+    						<telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                                <telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}">
+    								<telerikPrimitives:ApplicationBarButton x:Name="PART_OKButton"/>
+                                    <telerikPrimitives:ApplicationBarButton x:Name="PART_CancelButton"/>
+    							</telerikPrimitives:ApplicationBarInfo>
+    						</telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+    						<Grid Background="{StaticResource splitwiseGreen}">
+    							<Grid.RowDefinitions>
+    								<RowDefinition Height="Auto"/>
+    								<RowDefinition/>
+    							</Grid.RowDefinitions>
+    							<ContentControl x:Name="PART_PopupHeader" ContentTemplate="{TemplateBinding PopupHeaderTemplate}" Content="{TemplateBinding PopupHeader}" FontWeight="SemiBold" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" HorizontalContentAlignment="Left" Margin="24, 55, 0, 24" Grid.Row="0" Foreground="White"/>
+    							<telerikInput:RadDateSelector x:Name="PART_Selector" AppointmentSource="{TemplateBinding AppointmentSource}" DayStepBehavior="{TemplateBinding DayStepBehavior}" ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}" MonthStepBehavior="{TemplateBinding MonthStepBehavior}" Grid.Row="1" Style="{TemplateBinding SelectorStyle}" Step="{TemplateBinding Step}" YearStepBehavior="{TemplateBinding YearStepBehavior}" Background="White"/>
+    						</Grid>
+    					</telerikPrimitives:RadPickerBox>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    		<Setter Property="ItemTemplateSelector">
+    			<Setter.Value>
+    				<telerikInput:AppointmentTemplateSelector>
+    					<DataTemplate>
+    						<Grid>
+    							<Grid HorizontalAlignment="Right" Margin="2" VerticalAlignment="Top">
+    								<Ellipse Fill="{StaticResource PhoneAccentBrush}" Height="25" Width="25"/>
+    								<TextBlock FontSize="16" HorizontalAlignment="Center" Text="{Binding Appointments, Converter={StaticResource countConverter}}" VerticalAlignment="Center"/>
+    							</Grid>
+    							<StackPanel HorizontalAlignment="Left" Margin="4" MinHeight="100" VerticalAlignment="Bottom">
+    								<TextBlock FontSize="54" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="0,0,0,-8" Text="{Binding HeaderText}"/>
+    								<TextBlock Foreground="{StaticResource PhoneSubtleBrush}" FontSize="20" FontFamily="{StaticResource PhoneFontFamilyNormal}" Text="{Binding ContentText}"/>
+    							</StackPanel>
+    						</Grid>
+    					</DataTemplate>
+    				</telerikInput:AppointmentTemplateSelector>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
     </phone:PhoneApplicationPage.Resources>
 
 	<phone:PhoneApplicationPage.FontFamily>
@@ -314,7 +387,10 @@
 
 		<!--TitlePanel contains the name of the application and page title-->
 		<StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="0">
-			<TextBlock Foreground="White" Text="add expense" Margin="15,25" FontSize="{StaticResource PivotTitleFontSize}"/>
+			<TextBlock Foreground="White" 
+                       Text="add expense" 
+                       Margin="15,25" 
+                       FontSize="{StaticResource PivotTitleFontSize}"/>
 		</StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -379,16 +455,33 @@
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						<Image Grid.Column="0" Source="/Assets/Images/expense_general.png" VerticalAlignment="Center" Margin="15,0"/>
+						<Image Grid.Column="0" 
+                               Source="/Assets/Images/expense_general.png" 
+                               VerticalAlignment="Center" 
+                               Margin="15,0"/>
 						<Grid Grid.Column="1">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="*"/>
 							</Grid.RowDefinitions>
-							<toolkit:PhoneTextBox Grid.Row="0" x:Name="tbDescription" AcceptsReturn="False" InputScope="Text" Hint="Enter Description" BorderThickness="0" />
+							<toolkit:PhoneTextBox Grid.Row="0" 
+                                                  x:Name="tbDescription" 
+                                                  AcceptsReturn="False" 
+                                                  InputScope="Text" 
+                                                  Hint="Enter Description" 
+                                                  BorderThickness="0" />
 							<StackPanel Orientation="Horizontal" Grid.Row="1">
-								<TextBlock x:Name="tbCurrency" FontSize="{StaticResource nameSize}" Foreground="Black" VerticalAlignment="Center" FontWeight="Bold" Text="SGD" Margin="4,0,0,0"/>
-                                <toolkit:PhoneTextBox x:Name="tbAmount" AcceptsReturn="False" Hint="0.00" InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
+								<TextBlock x:Name="tbCurrency" 
+                                           FontSize="{StaticResource nameSize}" 
+                                           Foreground="Black" 
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Bold" 
+                                           Text="SGD" 
+                                           Margin="4,0,0,0"/>
+                                <toolkit:PhoneTextBox x:Name="tbAmount" 
+                                                      AcceptsReturn="False" 
+                                                      Hint="0.00" 
+                                                      InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
 							</StackPanel>
 						</Grid>
 					</Grid>
@@ -401,7 +494,23 @@
 				</Grid>
 			</Border>
 
-            <telerikPrimitives:RadTextBox Grid.Row="3" x:Name="tbDetails" BorderThickness="0" Foreground="Black" Watermark="Enter additional details" AcceptsReturn="True" TextWrapping="Wrap" Padding="10" Height="200" VerticalAlignment="Top" Style="{StaticResource GreyBGRadTextBoxStyle}"/>
+            <telerikInput:RadDatePicker x:Name="radDatePicker" 
+                                        Grid.Row="2"
+                                        OkButtonIconUri="/Assets/Icons/ok.png"
+						                CancelButtonIconUri="/Assets/Icons/cancel.png"
+                                        DisplayValueFormat="{}{0:dd MMMM, yyyy}" 
+                                        Style="{StaticResource RadDatePickerStyle1}"/>
+            
+            <telerikPrimitives:RadTextBox Grid.Row="3" 
+                                          x:Name="tbDetails" 
+                                          BorderThickness="0" 
+                                          Foreground="Black" 
+                                          Watermark="Enter additional details" 
+                                          AcceptsReturn="True" 
+                                          TextWrapping="Wrap" 
+                                          Padding="10"
+                                          VerticalAlignment="Top" 
+                                          Style="{StaticResource GreyBGRadTextBoxStyle}"/>
         </Grid>
 	</Grid>
 
