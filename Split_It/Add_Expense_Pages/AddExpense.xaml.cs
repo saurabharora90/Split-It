@@ -78,7 +78,9 @@ namespace Split_It_.Add_Expense_Pages
         private void btnOk_Click(object sender, EventArgs e)
         {
             //after you get a successful response from the server, make sure to set PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as null
-
+            
+            //to hide the keyboard if any
+            this.Focus();
             if (addExpenseBackgroundWorker.IsBusy != true)
             {
                 busyIndicator.Content = "adding expense";

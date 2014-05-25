@@ -67,6 +67,9 @@ namespace Split_It_.Add_Expense_Pages
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            //to hide the keyboard if any
+            this.Focus();
+
             transferAmount = Convert.ToDouble(tbAmount.Text);
             currency = tbCurrency.Text;
             details = tbDetails.Text;
