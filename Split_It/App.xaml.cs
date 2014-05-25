@@ -25,9 +25,9 @@ namespace Split_It_
         public static User currentUser;
 
         //App data models
-        public static ObservableCollection<User> friendsList = new ObservableCollection<User>();
-        public static ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
-        public static ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
+        public static ObservableCollection<User> friendsList;
+        public static ObservableCollection<Group> groupsList;
+        public static ObservableCollection<Expense> expensesList;
 
         /// <summary>
         /// Constructor for the Application object.

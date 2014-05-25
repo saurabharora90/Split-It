@@ -35,7 +35,11 @@ namespace Split_It_.Request
             request.AddParameter("cost", paymentExpense.cost, ParameterType.GetOrPost);
             request.AddParameter("description", paymentExpense.description, ParameterType.GetOrPost);
             request.AddParameter("currency_code", paymentExpense.currency_code, ParameterType.GetOrPost);
-            request.AddParameter("creation_method", paymentExpense.creation_method, ParameterType.GetOrPost);
+
+            if (!String.IsNullOrEmpty(paymentExpense.creation_method))
+            {
+                request.AddParameter("creation_method", paymentExpense.creation_method, ParameterType.GetOrPost);
+            }
             
             if (!String.IsNullOrEmpty(paymentExpense.details))
             {

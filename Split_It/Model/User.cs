@@ -38,5 +38,24 @@ namespace Split_It_.Model
                     return first_name;
             }
         }
+
+        public override bool Equals(System.Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            User p = obj as User;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            return p.id == id;
+        }
+
+        public override int GetHashCode()
+        {
+            return id;
+        }
     }
 }

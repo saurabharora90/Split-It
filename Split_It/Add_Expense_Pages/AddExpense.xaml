@@ -475,6 +475,7 @@
 						x:Name="friendListPicker"
 						ActionButtonVisibility="Visible"
 						SelectionMode="Multiple"
+                        SelectionChanged="friendListPicker_SelectionChanged"
 						OkButtonIconUri="/Assets/Icons/ok.png"
 						CancelButtonIconUri="/Assets/Icons/cancel.png" PopupHeader="SELECT FRIENDS" Style="{StaticResource RadListPickerStyle1}">
 						<telerikInput:RadListPicker.PopupItemTemplate>
@@ -491,6 +492,7 @@
 						x:Name="groupListPicker"
 						ActionButtonVisibility="Visible"
 						SelectionMode="Multiple"
+                        SelectionChanged="groupListPicker_SelectionChanged"
 						OkButtonIconUri="/Assets/Icons/ok.png"
 						CancelButtonIconUri="/Assets/Icons/cancel.png" PopupHeader="SELECT GROUPS" Style="{StaticResource RadListPickerStyle1}">
 						<telerikInput:RadListPicker.PopupItemTemplate>
@@ -526,7 +528,8 @@
 								x:Name="tbDescription" 
 								AcceptsReturn="False" 
 								InputScope="Text" 
-								Hint="Enter Description" 
+								Hint="Enter Description"
+                                TextChanged="tbDescription_TextChanged"
 								BorderThickness="0" />
 							<StackPanel Orientation="Horizontal" Grid.Row="1">
 								<TextBlock x:Name="tbCurrency" 
@@ -538,12 +541,14 @@
 									Margin="4,0,0,0"/>
 								<toolkit:PhoneTextBox x:Name="tbAmount" 
 									AcceptsReturn="False" 
-									Hint="0.00" 
+									Hint="0.00"
+                                    Width="220"
+                                    TextChanged="tbAmount_TextChanged"
 									InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
 							</StackPanel>
 						</Grid>
 					</Grid>
-					<TextBlock Grid.Row="1" Margin="0,15" HorizontalAlignment="Center" Foreground="Black" FontSize="{StaticResource nameSize}">
+					<TextBlock Grid.Row="1" Margin="0,15" HorizontalAlignment="Center" Foreground="Black" FontSize="{StaticResource nameSize}" toolkit:TiltEffect.IsTiltEnabled="True" Tap="TextBlock_Tap">
 						<Run Text="Paid by"/>
 						<Run Text="you" Foreground="{StaticResource positive}"/>
 						<Run Text="and"/>
@@ -571,6 +576,13 @@
 				VerticalAlignment="Top" 
 				Style="{StaticResource GreyBGRadTextBoxStyle}"/>
 		</Grid>
-	</Grid>
+
+        <telerikPrimitives:RadBusyIndicator Background="#CC000000"
+                                            Foreground="White"
+                                            x:Name="busyIndicator" 
+                                            Grid.Row="0" 
+                                            Grid.RowSpan="2"
+                                            AnimationStyle="AnimationStyle9"/>
+    </Grid>
 
 </phone:PhoneApplicationPage>

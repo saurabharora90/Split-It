@@ -132,11 +132,7 @@ namespace Split_It_
         {
             if (llsExpenses.SelectedItem == null)
                 return;
-            //LongListSelector selector = sender as LongListSelector;
             Expense selectedExpense = llsExpenses.SelectedItem as Expense;
-
-            //if (selectedExpense == null)
-            //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
             NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
@@ -146,6 +142,10 @@ namespace Split_It_
 
         private void btnAddExpense_Click(object sender, EventArgs e)
         {
+            Expense expenseToAdd = new Expense();
+            expenseToAdd.group_id = selectedGroup.id;
+
+            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
             NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddExpense.xaml", UriKind.Relative));
         }
     }

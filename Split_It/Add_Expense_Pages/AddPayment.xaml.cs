@@ -28,6 +28,7 @@ namespace Split_It_.Add_Expense_Pages
             InitializeComponent();
 
             paymentUser = PhoneApplicationService.Current.State[Constants.PAYMENT_TO_USER] as User;
+            
             addPaymentBackgroundWorker = new BackgroundWorker();
             addPaymentBackgroundWorker.WorkerSupportsCancellation = true;
             addPaymentBackgroundWorker.DoWork += new DoWorkEventHandler(addPaymentBackgroundWorker_DoWork);

@@ -40,10 +40,9 @@ namespace Split_It_
         {
             InitializeComponent();
 
-            //clear all the lists.
-            App.friendsList.Clear();
-            App.expensesList.Clear();
-            App.groupsList.Clear();
+            App.friendsList = new ObservableCollection<User>();
+            App.groupsList = new ObservableCollection<Group>();
+            App.expensesList = new ObservableCollection<Expense>();
 
             llsFriends.ItemsSource = balanceFriends;
             llsExpenses.ItemsSource = App.expensesList;
@@ -99,6 +98,7 @@ namespace Split_It_
 
         private void btnAddExpense_Click(object sender, EventArgs e)
         {
+            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
             NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddExpense.xaml", UriKind.Relative));
         }
         
@@ -293,11 +293,7 @@ namespace Split_It_
         {
             if (llsExpenses.SelectedItem == null)
                 return;
-            //LongListSelector selector = sender as LongListSelector;
             Expense selectedExpense = llsExpenses.SelectedItem as Expense;
-
-            //if (selectedExpense == null)
-                //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
             NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
@@ -309,11 +305,7 @@ namespace Split_It_
         {
             if (llsFriends.SelectedItem == null)
                 return;
-            //LongListSelector selector = sender as LongListSelector;
             User selectedUser = llsFriends.SelectedItem as User;
-
-            //if (selectedUser == null)
-                //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_USER] = selectedUser;
             NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
@@ -325,11 +317,7 @@ namespace Split_It_
         {
             if (llsGroups.SelectedItem == null)
                 return;
-            //LongListSelector selector = sender as LongListSelector;
             Group selectedGroup = llsGroups.SelectedItem as Group;
-
-            //if (selectedGroup == null)
-                //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_GROUP] = selectedGroup;
             NavigationService.Navigate(new Uri("/GroupDetail.xaml", UriKind.Relative));
