@@ -9,6 +9,7 @@
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:ListPicker="clr-namespace:Telerik.Windows.Controls.ListPicker;assembly=Telerik.Windows.Controls.Input" xmlns:PhoneTextBox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives" xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:PickerBox="clr-namespace:Telerik.Windows.Controls.PickerBox;assembly=Telerik.Windows.Controls.Primitives"
     x:Class="Split_It_.Add_Expense_Pages.AddExpense"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
@@ -302,10 +303,10 @@
     	</Style>
     	
         <Style x:Key="InputControlHeaderStyle" TargetType="ContentControl">
-    		<Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}"/>
-    		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeNormal}"/>
-    		<Setter Property="Margin" Value="12,12,12,-4"/>
-    		<Setter Property="HorizontalAlignment" Value="Left"/>
+        	<Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}"/>
+        	<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeNormal}"/>
+        	<Setter Property="Margin" Value="12,12,12,-4"/>
+        	<Setter Property="HorizontalAlignment" Value="Left"/>
     	</Style>
     	<telerik:RadPlaneProjectionAnimation x:Key="CloseAnimation" Axes="X" Duration="0:0:.2" EndAngleX="90" StartAngleX="0">
     		<telerik:RadPlaneProjectionAnimation.Easing>
@@ -337,9 +338,9 @@
     				<ControlTemplate TargetType="telerikInput:RadDatePicker">
     					<telerikPrimitives:RadPickerBox x:Name="PART_PickerBox" ContentTemplate="{TemplateBinding EmptyContentTemplate}" HeaderTemplate="{TemplateBinding HeaderTemplate}" HeaderStyle="{TemplateBinding HeaderStyle}" Header="{TemplateBinding Header}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PopupCloseAnimation="{StaticResource CloseAnimation}" PickerButtonStyle="{TemplateBinding PickerButtonStyle}" PopupOpenAnimation="{StaticResource OpenAnimation}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
     						<telerikPrimitives:RadPickerBox.ApplicationBarInfo>
-                                <telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}">
+    							<telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}">
     								<telerikPrimitives:ApplicationBarButton x:Name="PART_OKButton"/>
-                                    <telerikPrimitives:ApplicationBarButton x:Name="PART_CancelButton"/>
+    								<telerikPrimitives:ApplicationBarButton x:Name="PART_CancelButton"/>
     							</telerikPrimitives:ApplicationBarInfo>
     						</telerikPrimitives:RadPickerBox.ApplicationBarInfo>
     						<Grid Background="{StaticResource splitwiseGreen}">
@@ -373,6 +374,63 @@
     			</Setter.Value>
     		</Setter>
     	</Style>
+    	<Style x:Key="PickerBoxToggleButtonStyle1" TargetType="PickerBox:PickerBoxToggleButton">
+    		<Setter Property="telerik:InteractionEffectManager.IsInteractionEnabled" Value="True"/>
+    		<Setter Property="Padding" Value="8, 8, 8, 7"/>
+    		<Setter Property="BorderThickness" Value="3"/>
+    		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+    		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+    		<Setter Property="Background" Value="Transparent"/>
+    		<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+    		<Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+    		<Setter Property="Template">
+    			<Setter.Value>
+    				<ControlTemplate TargetType="PickerBox:PickerBoxToggleButton">
+    					<Grid>
+    						<VisualStateManager.VisualStateGroups>
+    							<VisualStateGroup x:Name="CommonStates">
+    								<VisualState x:Name="Normal"/>
+    								<VisualState x:Name="Disabled">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBackground">
+    											<DiscreteObjectKeyFrame KeyTime="0">
+    												<DiscreteObjectKeyFrame.Value>
+    													<Visibility>Collapsed</Visibility>
+    												</DiscreteObjectKeyFrame.Value>
+    											</DiscreteObjectKeyFrame>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledBackground">
+    											<DiscreteObjectKeyFrame KeyTime="0">
+    												<DiscreteObjectKeyFrame.Value>
+    													<Visibility>Visible</Visibility>
+    												</DiscreteObjectKeyFrame.Value>
+    											</DiscreteObjectKeyFrame>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="Pressed">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBackground">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneForegroundBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    							</VisualStateGroup>
+    							<VisualStateGroup x:Name="CheckStates">
+    								<VisualState x:Name="Unchecked"/>
+    							</VisualStateGroup>
+    						</VisualStateManager.VisualStateGroups>
+    						<Border x:Name="EnabledBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="{StaticResource PhoneTouchTargetOverhang}" Background="{StaticResource splitwiseGreyBG}">
+    							<ContentControl x:Name="EnabledContent" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Foreground="Black"/>
+    						</Border>
+    						<Border x:Name="DisabledBackground" BorderBrush="{StaticResource PhoneDisabledBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" IsHitTestVisible="False" Margin="{StaticResource PhoneTouchTargetOverhang}" Visibility="Collapsed">
+    							<ContentControl x:Name="DisabledContent" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{StaticResource PhoneDisabledBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+    						</Border>
+    					</Grid>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
     </phone:PhoneApplicationPage.Resources>
 
 	<phone:PhoneApplicationPage.FontFamily>
@@ -388,9 +446,9 @@
 		<!--TitlePanel contains the name of the application and page title-->
 		<StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="0">
 			<TextBlock Foreground="White" 
-                       Text="add expense" 
-                       Margin="15,25" 
-                       FontSize="{StaticResource PivotTitleFontSize}"/>
+				Text="add expense" 
+				Margin="15,25" 
+				FontSize="{StaticResource PivotTitleFontSize}"/>
 		</StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -456,32 +514,32 @@
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<Image Grid.Column="0" 
-                               Source="/Assets/Images/expense_general.png" 
-                               VerticalAlignment="Center" 
-                               Margin="15,0"/>
+							Source="/Assets/Images/expense_general.png" 
+							VerticalAlignment="Center" 
+							Margin="15,0"/>
 						<Grid Grid.Column="1">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="*"/>
 							</Grid.RowDefinitions>
 							<toolkit:PhoneTextBox Grid.Row="0" 
-                                                  x:Name="tbDescription" 
-                                                  AcceptsReturn="False" 
-                                                  InputScope="Text" 
-                                                  Hint="Enter Description" 
-                                                  BorderThickness="0" />
+								x:Name="tbDescription" 
+								AcceptsReturn="False" 
+								InputScope="Text" 
+								Hint="Enter Description" 
+								BorderThickness="0" />
 							<StackPanel Orientation="Horizontal" Grid.Row="1">
 								<TextBlock x:Name="tbCurrency" 
-                                           FontSize="{StaticResource nameSize}" 
-                                           Foreground="Black" 
-                                           VerticalAlignment="Center" 
-                                           FontWeight="Bold" 
-                                           Text="SGD" 
-                                           Margin="4,0,0,0"/>
-                                <toolkit:PhoneTextBox x:Name="tbAmount" 
-                                                      AcceptsReturn="False" 
-                                                      Hint="0.00" 
-                                                      InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
+									FontSize="{StaticResource nameSize}" 
+									Foreground="Black" 
+									VerticalAlignment="Center" 
+									FontWeight="Bold" 
+									Text="SGD" 
+									Margin="4,0,0,0"/>
+								<toolkit:PhoneTextBox x:Name="tbAmount" 
+									AcceptsReturn="False" 
+									Hint="0.00" 
+									InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
 							</StackPanel>
 						</Grid>
 					</Grid>
@@ -494,24 +552,25 @@
 				</Grid>
 			</Border>
 
-            <telerikInput:RadDatePicker x:Name="radDatePicker" 
-                                        Grid.Row="2"
-                                        OkButtonIconUri="/Assets/Icons/ok.png"
-						                CancelButtonIconUri="/Assets/Icons/cancel.png"
-                                        DisplayValueFormat="{}{0:dd MMMM, yyyy}" 
-                                        Style="{StaticResource RadDatePickerStyle1}"/>
+			<telerikInput:RadDatePicker x:Name="expenseDate" 
+				                        Grid.Row="2"
+				                        OkButtonIconUri="/Assets/Icons/ok.png"
+				                        CancelButtonIconUri="/Assets/Icons/cancel.png"
+				                        DisplayValueFormat="{}{0:dd MMMM, yyyy}"
+				                        Style="{StaticResource RadDatePickerStyle1}" 
+                                        PickerButtonStyle="{StaticResource PickerBoxToggleButtonStyle1}"/>
             
-            <telerikPrimitives:RadTextBox Grid.Row="3" 
-                                          x:Name="tbDetails" 
-                                          BorderThickness="0" 
-                                          Foreground="Black" 
-                                          Watermark="Enter additional details" 
-                                          AcceptsReturn="True" 
-                                          TextWrapping="Wrap" 
-                                          Padding="10"
-                                          VerticalAlignment="Top" 
-                                          Style="{StaticResource GreyBGRadTextBoxStyle}"/>
-        </Grid>
+			<telerikPrimitives:RadTextBox Grid.Row="3" 
+				x:Name="tbDetails" 
+				BorderThickness="0" 
+				Foreground="Black" 
+				Watermark="Enter additional details" 
+				AcceptsReturn="True" 
+				TextWrapping="Wrap" 
+				Padding="10"
+				VerticalAlignment="Top" 
+				Style="{StaticResource GreyBGRadTextBoxStyle}"/>
+		</Grid>
 	</Grid>
 
 </phone:PhoneApplicationPage>

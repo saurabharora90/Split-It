@@ -25,6 +25,8 @@ namespace Split_It_.Add_Expense_Pages
 
             this.groupListPicker.ItemsSource = App.groupsList;
             this.groupListPicker.SummaryForSelectedItemsDelegate = this.GroupSummaryDelegate;
+
+            expenseDate.Value = DateTime.Now;
         }
 
         private void createAppBar()
