@@ -8,144 +8,11 @@
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:ListPicker="clr-namespace:Telerik.Windows.Controls.ListPicker;assembly=Telerik.Windows.Controls.Input" xmlns:PhoneTextBox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives" xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
     x:Class="Split_It_.Add_Expense_Pages.AddExpense"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources>
-        <Style x:Key="PhoneTextBoxStyle1" TargetType="toolkit:PhoneTextBox">
-        	<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
-        	<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
-        	<Setter Property="Background" Value="{StaticResource PhoneTextBoxBrush}"/>
-        	<Setter Property="Foreground" Value="{StaticResource PhoneTextBoxForegroundBrush}"/>
-        	<Setter Property="BorderBrush" Value="{StaticResource PhoneTextBoxBrush}"/>
-        	<Setter Property="SelectionBackground" Value="{StaticResource PhoneAccentBrush}"/>
-        	<Setter Property="SelectionForeground" Value="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
-        	<Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
-        	<Setter Property="Padding" Value="{StaticResource PhoneBorderThickness}"/>
-        	<Setter Property="Template">
-        		<Setter.Value>
-        			<ControlTemplate TargetType="toolkit:PhoneTextBox">
-        				<Grid x:Name="RootGrid" Background="Transparent">
-        					<VisualStateManager.VisualStateGroups>
-        						<VisualStateGroup x:Name="CommonStates">
-        							<VisualState x:Name="Normal"/>
-        							<VisualState x:Name="Disabled">
-        								<Storyboard>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="HintBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0">
-        											<DiscreteObjectKeyFrame.Value>
-        												<Visibility>Collapsed</Visibility>
-        											</DiscreteObjectKeyFrame.Value>
-        										</DiscreteObjectKeyFrame>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="TextBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0">
-        											<DiscreteObjectKeyFrame.Value>
-        												<Visibility>Visible</Visibility>
-        											</DiscreteObjectKeyFrame.Value>
-        										</DiscreteObjectKeyFrame>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="TextBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TextBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="HorizontalAlignment" Storyboard.TargetName="Text">
-        										<DiscreteObjectKeyFrame KeyTime="0">
-        											<DiscreteObjectKeyFrame.Value>
-        												<HorizontalAlignment>Stretch</HorizontalAlignment>
-        											</DiscreteObjectKeyFrame.Value>
-        										</DiscreteObjectKeyFrame>
-        									</ObjectAnimationUsingKeyFrames>
-        								</Storyboard>
-        							</VisualState>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="FocusStates">
-        							<VisualState x:Name="Focused">
-        								<Storyboard>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="HintBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBackgroundBrush}"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="HintBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBorderBrush}"/>
-        									</ObjectAnimationUsingKeyFrames>
-        								</Storyboard>
-        							</VisualState>
-        							<VisualState x:Name="Unfocused"/>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="LengthIndicatorStates">
-        							<VisualState x:Name="LengthIndicatorVisible">
-        								<Storyboard>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="LengthIndicator">
-        										<DiscreteObjectKeyFrame KeyTime="0:0:0">
-        											<DiscreteObjectKeyFrame.Value>
-        												<Visibility>Visible</Visibility>
-        											</DiscreteObjectKeyFrame.Value>
-        										</DiscreteObjectKeyFrame>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="RootGrid">
-        										<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0, 0, 0, 27"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LengthIndicator">
-        										<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0.6"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<DoubleAnimation Duration="0:0:0.350" To="32" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" Storyboard.TargetName="LengthIndicator">
-        										<DoubleAnimation.EasingFunction>
-        											<ExponentialEase Exponent="6"/>
-        										</DoubleAnimation.EasingFunction>
-        									</DoubleAnimation>
-        								</Storyboard>
-        							</VisualState>
-        							<VisualState x:Name="LengthIndicatorHidden">
-        								<Storyboard>
-        									<DoubleAnimation Duration="0:0:0.350" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" Storyboard.TargetName="LengthIndicator">
-        										<DoubleAnimation.EasingFunction>
-        											<ExponentialEase Exponent="6"/>
-        										</DoubleAnimation.EasingFunction>
-        									</DoubleAnimation>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="RootGrid">
-        										<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0, 0, 0, 0"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="LengthIndicator">
-        										<DiscreteObjectKeyFrame KeyTime="0:0:0.350" Value="0"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="LengthIndicator">
-        										<DiscreteObjectKeyFrame KeyTime="0:0:0.350">
-        											<DiscreteObjectKeyFrame.Value>
-        												<Visibility>Collapsed</Visibility>
-        											</DiscreteObjectKeyFrame.Value>
-        										</DiscreteObjectKeyFrame>
-        									</ObjectAnimationUsingKeyFrames>
-        								</Storyboard>
-        							</VisualState>
-        						</VisualStateGroup>
-        					</VisualStateManager.VisualStateGroups>
-        					<Border x:Name="LengthIndicatorBorder">
-        						<TextBlock x:Name="LengthIndicator" Foreground="{StaticResource PhoneContrastBackgroundBrush}" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Right" Margin="{StaticResource PhoneMargin}" Opacity="0" TextAlignment="Right" VerticalAlignment="Bottom">
-        							<TextBlock.RenderTransform>
-        								<TranslateTransform/>
-        							</TextBlock.RenderTransform>
-        						</TextBlock>
-        					</Border>
-        					<Border x:Name="HintBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="0">
-        						<Grid>
-        							<ContentControl x:Name="HintContent" Background="Transparent" Content="{TemplateBinding Hint}" HorizontalAlignment="Left" Margin="3,0,3,0" Style="{TemplateBinding HintStyle}" Visibility="{TemplateBinding ActualHintVisibility}" VerticalAlignment="Center"/>
-        							<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
-        						</Grid>
-        					</Border>
-        					<Border x:Name="TextBorder" BorderBrush="{StaticResource PhoneDisabledBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Margin="0" Visibility="Collapsed">
-        						<TextBox x:Name="Text" Foreground="{StaticResource PhoneDisabledBrush}" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalAlignment="Left" SelectionForeground="{TemplateBinding SelectionForeground}" SelectionBackground="{TemplateBinding SelectionBackground}" TextAlignment="{TemplateBinding TextAlignment}" TextWrapping="{TemplateBinding TextWrapping}" Text="{TemplateBinding Text}"/>
-        					</Border>
-        					<Border x:Name="ActionIconBorder" Background="Transparent" HorizontalAlignment="Right" Height="72" VerticalAlignment="Bottom" Width="84">
-        						<Image x:Name="ActionIcon" Height="26" Source="{TemplateBinding ActionIcon}" Width="26"/>
-        					</Border>
-        					<TextBlock x:Name="MeasurementTextBlock" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" IsHitTestVisible="False" Margin="8" Opacity="0" TextAlignment="{TemplateBinding TextAlignment}" TextWrapping="{TemplateBinding TextWrapping}" Text="{TemplateBinding Text}"/>
-        				</Grid>
-        			</ControlTemplate>
-        		</Setter.Value>
-        	</Setter>
-        </Style>
     	<Style x:Key="PopupHeaderStyle" TargetType="ContentControl">
     		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
     		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
@@ -252,7 +119,7 @@
     						</Border>
     						<telerikPrimitives:RadWindow x:Name="Popup" CloseAnimation="{TemplateBinding PopupCloseAnimation}" IsFullScreen="True" IsAnimationEnabled="{TemplateBinding IsAnimationEnabled}" OpenAnimation="{TemplateBinding PopupOpenAnimation}" Background="{StaticResource splitwiseGreen}" Foreground="White">
     							<telerikPrimitives:RadWindow.ApplicationBarInfo>
-                                    <telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}">
+    								<telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}">
     									<telerikPrimitives:ApplicationBarButton x:Name="PART_OKButton"/>
     									<telerikPrimitives:ApplicationBarButton x:Name="PART_CancelButton"/>
     								</telerikPrimitives:ApplicationBarInfo>
@@ -299,6 +166,208 @@
     			</Setter.Value>
     		</Setter>
     	</Style>
+    	<Style x:Key="HeaderedContentControlHeaderStyle" TargetType="ContentControl">
+    		<Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}"/>
+    		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeNormal}"/>
+    		<Setter Property="HorizontalAlignment" Value="Left"/>
+    	</Style>
+    	<Style x:Key="TextBoxHeaderStyle" BasedOn="{StaticResource HeaderedContentControlHeaderStyle}" TargetType="ContentControl">
+    		<Setter Property="Padding" Value="0,0,0,8"/>
+    	</Style>
+    	<PhoneTextBox:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
+    	<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
+    		<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
+    	</ControlTemplate>
+    	<SolidColorBrush x:Key="RedBrush" Color="#BF0000"/>
+    	<SolidColorBrush x:Key="GreenBrush" Color="#00813D"/>
+    	<Style TargetType="telerikPrimitives:RadTextBox">
+    		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+    		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
+    		<Setter Property="Background" Value="{StaticResource PhoneTextBoxBrush}"/>
+    		<Setter Property="Foreground" Value="{StaticResource PhoneTextBoxForegroundBrush}"/>
+    		<Setter Property="BorderBrush" Value="{StaticResource PhoneTextBoxBrush}"/>
+    		<Setter Property="SelectionBackground" Value="{StaticResource PhoneAccentBrush}"/>
+    		<Setter Property="SelectionForeground" Value="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
+    		<Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
+    		<Setter Property="HeaderStyle" Value="{StaticResource TextBoxHeaderStyle}"/>
+    		<Setter Property="Padding" Value="2"/>
+    		<Setter Property="ClearButtonVisibility" Value="Visible"/>
+    		<Setter Property="ActionButtonVisibility" Value="Collapsed"/>
+    		<Setter Property="Template">
+    			<Setter.Value>
+    				<ControlTemplate TargetType="telerikPrimitives:RadTextBox">
+    					<Grid Background="Transparent" Margin="5">
+    						<Grid.RowDefinitions>
+    							<RowDefinition Height="Auto"/>
+    							<RowDefinition Height="*"/>
+    						</Grid.RowDefinitions>
+    						<VisualStateManager.VisualStateGroups>
+    							<VisualStateGroup x:Name="CommonStates">
+    								<VisualState x:Name="Normal"/>
+    								<VisualState x:Name="MouseOver"/>
+    								<VisualState x:Name="Disabled">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0">
+    												<DiscreteObjectKeyFrame.Value>
+    													<Visibility>Collapsed</Visibility>
+    												</DiscreteObjectKeyFrame.Value>
+    											</DiscreteObjectKeyFrame>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0">
+    												<DiscreteObjectKeyFrame.Value>
+    													<Visibility>Visible</Visibility>
+    												</DiscreteObjectKeyFrame.Value>
+    											</DiscreteObjectKeyFrame>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="ReadOnly">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0">
+    												<DiscreteObjectKeyFrame.Value>
+    													<Visibility>Collapsed</Visibility>
+    												</DiscreteObjectKeyFrame.Value>
+    											</DiscreteObjectKeyFrame>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DisabledOrReadonlyBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0">
+    												<DiscreteObjectKeyFrame.Value>
+    													<Visibility>Visible</Visibility>
+    												</DiscreteObjectKeyFrame.Value>
+    											</DiscreteObjectKeyFrame>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="DisabledOrReadonlyBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="DisabledOrReadonlyBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DisabledOrReadonlyContent">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxReadOnlyBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    							</VisualStateGroup>
+    							<VisualStateGroup x:Name="FocusStates">
+    								<VisualState x:Name="Focused">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBackgroundBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBorderBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="FocusedInvalid">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBackgroundBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource RedBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="FocusedValid">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBackgroundBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="EnabledBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource GreenBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="Unfocused"/>
+    							</VisualStateGroup>
+    							<VisualStateGroup x:Name="ValidationStates">
+    								<VisualState x:Name="NotValidated"/>
+    								<VisualState x:Name="Validating">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ValidationMessage">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneSubtleBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Storyboard.TargetName="ValidationImage">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsRunning" Storyboard.TargetName="BusyIndicator">
+    											<DiscreteObjectKeyFrame KeyTime="0">
+    												<DiscreteObjectKeyFrame.Value>
+    													<System:Boolean>True</System:Boolean>
+    												</DiscreteObjectKeyFrame.Value>
+    											</DiscreteObjectKeyFrame>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="Valid">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ValidationMessage">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource GreenBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Storyboard.TargetName="ValidationImage">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="/Telerik.Windows.Controls.Primitives;Component/TextBox/Images/valid.png"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ValidationBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource GreenBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="Invalid">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ValidationMessage">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource RedBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Storyboard.TargetName="ValidationImage">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="/Telerik.Windows.Controls.Primitives;Component/TextBox/Images/invalid.png"/>
+    										</ObjectAnimationUsingKeyFrames>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ValidationBorder">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource RedBrush}"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    							</VisualStateGroup>
+    						</VisualStateManager.VisualStateGroups>
+    						<Grid Visibility="Collapsed">
+    							<Grid.ColumnDefinitions>
+    								<ColumnDefinition/>
+    								<ColumnDefinition Width="Auto"/>
+    								<ColumnDefinition Width="Auto"/>
+    							</Grid.ColumnDefinitions>
+    							<ContentControl x:Name="HeaderPresenter" CacheMode="BitmapCache" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Style="{TemplateBinding HeaderStyle}"/>
+    							<TextBlock x:Name="ValidationMessage" Grid.Column="1" FontSize="{StaticResource PhoneFontSizeNormal}" Padding="0,0,0,2" Text="{TemplateBinding ValidationMessage}" Visibility="{Binding ValidationMessage, Converter={StaticResource TextToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+    							<Image x:Name="ValidationImage" Grid.Column="2" Margin="8,0,0,0"/>
+    						</Grid>
+    						<Border x:Name="EnabledBorder" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Grid.Row="1">
+    							<Grid>
+    								<Grid.ColumnDefinitions>
+    									<ColumnDefinition/>
+    									<ColumnDefinition Width="Auto"/>
+    									<ColumnDefinition Width="Auto"/>
+    								</Grid.ColumnDefinitions>
+    								<Grid.RowDefinitions>
+    									<RowDefinition/>
+    									<RowDefinition Height="Auto"/>
+    								</Grid.RowDefinitions>
+    								<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,2"/>
+    								<TextBlock x:Name="PART_Watermark" Foreground="Gray" TextAlignment="{TemplateBinding TextAlignment}" Text="{TemplateBinding Watermark}" Margin="0,2"/>
+    								<PhoneTextBox:TextBoxSecondaryButton x:Name="PART_ClearButton" ButtonType="Clear" Grid.Column="1" Style="{TemplateBinding ClearButtonStyle}"/>
+    								<PhoneTextBox:TextBoxActionButton x:Name="PART_ActionButton" Grid.Column="2" Style="{TemplateBinding ActionButtonStyle}" Visibility="{TemplateBinding ActionButtonVisibility}"/>
+    							</Grid>
+    						</Border>
+    						<Border x:Name="ValidationBorder" BorderThickness="0 0 0 3" Grid.Row="1"/>
+    						<telerikPrimitives:RadBusyIndicator x:Name="BusyIndicator" AnimationStyle="AnimationStyle9" Content="{x:Null}" Foreground="Black" Margin="0,0,0,-10" Grid.Row="1" VerticalAlignment="Bottom" Visibility="Collapsed"/>
+    						<Border x:Name="DisabledOrReadonlyBorder" BorderBrush="{StaticResource PhoneDisabledBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Grid.Row="1" Visibility="Collapsed">
+    							<TextBox x:Name="DisabledOrReadonlyContent" Background="Transparent" Foreground="{StaticResource PhoneDisabledBrush}" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" IsReadOnly="True" SelectionForeground="{TemplateBinding SelectionForeground}" SelectionBackground="{TemplateBinding SelectionBackground}" TextAlignment="{TemplateBinding TextAlignment}" TextWrapping="{TemplateBinding TextWrapping}" Text="{TemplateBinding Text}" Template="{StaticResource PhoneDisabledTextBoxTemplate}"/>
+    						</Border>
+    					</Grid>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
     </phone:PhoneApplicationPage.Resources>
 
 	<phone:PhoneApplicationPage.FontFamily>
@@ -332,46 +401,75 @@
 						<Run Text="you" FontWeight="Bold"/>
 						<Run Text="and:"/>
 					</TextBlock>
+					
 					<telerikInput:RadListPicker
 						Header="Friends"
-						BorderBrush="Black"
+						BorderBrush="{StaticResource splitwiseGreyBG}"
 						Foreground="Black"
 						x:Name="friendListPicker"
-						ActionButtonVisibility="Collapsed"
+						ActionButtonVisibility="Visible"
 						SelectionMode="Multiple"
 						OkButtonIconUri="/Assets/Icons/ok.png"
 						CancelButtonIconUri="/Assets/Icons/cancel.png" PopupHeader="SELECT FRIENDS" Style="{StaticResource RadListPickerStyle1}">
 						<telerikInput:RadListPicker.PopupItemTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding first_name}" HorizontalAlignment="Left" Margin="20 0 0 0" />
+								<TextBlock Text="{Binding name}"/>
+							</DataTemplate>
+						</telerikInput:RadListPicker.PopupItemTemplate>
+					</telerikInput:RadListPicker>
+
+					<telerikInput:RadListPicker
+						Header="Groups"
+						BorderBrush="{StaticResource splitwiseGreyBG}"
+						Foreground="Black"
+						x:Name="groupListPicker"
+						ActionButtonVisibility="Visible"
+						SelectionMode="Multiple"
+						OkButtonIconUri="/Assets/Icons/ok.png"
+						CancelButtonIconUri="/Assets/Icons/cancel.png" PopupHeader="SELECT GROUPS" Style="{StaticResource RadListPickerStyle1}">
+						<telerikInput:RadListPicker.PopupItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding name}" />
 							</DataTemplate>
 						</telerikInput:RadListPicker.PopupItemTemplate>
 					</telerikInput:RadListPicker>
 				</StackPanel>
 			</Border>
 
-			<Border Grid.Row="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-				<StackPanel Orientation="Vertical" Margin="15">
-					<toolkit:PhoneTextBox x:Name="tbDescription" AcceptsReturn="False" InputScope="Text" Hint="Enter Description" BorderThickness="0,0,0,3" BorderBrush="LightBlue" Style="{StaticResource PhoneTextBoxStyle1}"/>
-					<Border BorderThickness="0,0,0,3" BorderBrush="LightBlue" Margin="0,10,0,20">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock x:Name="tbCurrency" FontSize="{StaticResource nameSize}" Foreground="Black" VerticalAlignment="Center" FontWeight="Bold" Text="SGD"/>
-							<toolkit:PhoneTextBox x:Name="tbAmount" AcceptsReturn="False" Hint="0.00" InputScope="Number" BorderThickness="0" Style="{StaticResource PhoneTextBoxStyle1}" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
-						</StackPanel>
-					</Border>
-				</StackPanel>
+			<Border Margin="0,7" Grid.Row="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+					<Grid Grid.Row="0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Image Grid.Column="0" Source="/Assets/Images/expense_general.png" VerticalAlignment="Center" Margin="15,0"/>
+						<Grid Grid.Column="1">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="*"/>
+							</Grid.RowDefinitions>
+							<telerikPrimitives:RadTextBox Grid.Row="0" x:Name="tbDescription" AcceptsReturn="False" InputScope="Text" Watermark="Enter Description" BorderThickness="0" />
+							<StackPanel Orientation="Horizontal" Grid.Row="1">
+								<TextBlock x:Name="tbCurrency" FontSize="{StaticResource nameSize}" Foreground="Black" VerticalAlignment="Center" FontWeight="Bold" Text="SGD" Margin="4,0,0,0"/>
+								<telerikPrimitives:RadTextBox x:Name="tbAmount" AcceptsReturn="False" Watermark="0.00" InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
+							</StackPanel>
+						</Grid>
+					</Grid>
+					<TextBlock Grid.Row="1" Margin="0,15" HorizontalAlignment="Center" Foreground="Black" FontSize="{StaticResource nameSize}">
+						<Run Text="Paid by"/>
+						<Run Text="you" Foreground="{StaticResource positive}"/>
+						<Run Text="and"/>
+						<Run Text="split equally" Foreground="{StaticResource positive}"/>
+					</TextBlock>
+				</Grid>
 			</Border>
 
-			<Border Grid.Row="2" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-				<TextBlock Margin="15,30" Foreground="Black" FontSize="{StaticResource nameSize}">
-					<Run Text="Paid by"/>
-					<Run Text="you" Foreground="{StaticResource positive}"/>
-					<Run Text="and"/>
-					<Run Text="split equally" Foreground="{StaticResource positive}"/>
-				</TextBlock>
-			</Border>
-
-			<StackPanel Grid.Row="3" Orientation="Vertical" Margin="15,15"/>
+			<StackPanel Grid.Row="2" Orientation="Vertical" Margin="15,15"/>
 		</Grid>
 	</Grid>
 

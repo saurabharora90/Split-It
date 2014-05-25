@@ -22,6 +22,9 @@ namespace Split_It_.Add_Expense_Pages
             createAppBar();
             this.friendListPicker.ItemsSource = App.friendsList;
             this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
+
+            this.groupListPicker.ItemsSource = App.groupsList;
+            this.groupListPicker.SummaryForSelectedItemsDelegate = this.GroupSummaryDelegate;
         }
 
         private void createAppBar()
@@ -70,7 +73,26 @@ namespace Split_It_.Add_Expense_Pages
             }
             if (summary == String.Empty)
             {
-                summary = "none";
+                summary = "no friends selected";
+            }
+            return summary;
+        }
+
+        private object GroupSummaryDelegate(IList list)
+        {
+            string summary = String.Empty;
+            for (int i = 0; i < list.Count; i++)
+            {
+                // check if the last item has been reached so we don't put a "," at the end
+                bool isLast = i == list.Count - 1;
+
+                Group group = (Group)list[i];
+                summary = String.Concat(summary, group.name);
+                summary += isLast ? string.Empty : ", ";
+            }
+            if (summary == String.Empty)
+            {
+                summary = "no groups selected";
             }
             return summary;
         }
