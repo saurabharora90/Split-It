@@ -63,7 +63,7 @@
         </Border>
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="2" Margin="0,5,0,0" Background="White">
-            <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" Tap="llsExpenses_Tap"/>
+            <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" SelectionChanged="llsExpenses_Tap"/>
         </Grid>
     </Grid>
 

@@ -289,40 +289,52 @@ namespace Split_It_
             ApplicationBar.ForegroundColor = Colors.White;
         }
 
-        private void llsExpenses_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void llsExpenses_Tap(object sender, SelectionChangedEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
-            Expense selectedExpense = selector.SelectedItem as Expense;
-
-            if (selectedExpense == null)
+            if (llsExpenses.SelectedItem == null)
                 return;
+            //LongListSelector selector = sender as LongListSelector;
+            Expense selectedExpense = llsExpenses.SelectedItem as Expense;
+
+            //if (selectedExpense == null)
+                //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
             NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
+            
+            llsExpenses.SelectedItem = null;
         }
 
-        private void llsFriends_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void llsFriends_Tap(object sender, SelectionChangedEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
-            User selectedUser = selector.SelectedItem as User;
-
-            if (selectedUser == null)
+            if (llsFriends.SelectedItem == null)
                 return;
+            //LongListSelector selector = sender as LongListSelector;
+            User selectedUser = llsFriends.SelectedItem as User;
+
+            //if (selectedUser == null)
+                //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_USER] = selectedUser;
             NavigationService.Navigate(new Uri("/UserDetails.xaml", UriKind.Relative));
+
+            llsFriends.SelectedItem = null;
         }
 
-        private void llsGroups_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void llsGroups_Tap(object sender, SelectionChangedEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
-            Group selectedGroup = selector.SelectedItem as Group;
-
-            if (selectedGroup == null)
+            if (llsGroups.SelectedItem == null)
                 return;
+            //LongListSelector selector = sender as LongListSelector;
+            Group selectedGroup = llsGroups.SelectedItem as Group;
+
+            //if (selectedGroup == null)
+                //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_GROUP] = selectedGroup;
             NavigationService.Navigate(new Uri("/GroupDetail.xaml", UriKind.Relative));
+
+            llsGroups.SelectedItem = null;
         }
     }
 }

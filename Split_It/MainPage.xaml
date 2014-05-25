@@ -28,7 +28,7 @@
         <phone:Pivot Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Dashboard, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsFriends" Tap="llsFriends_Tap">
+                <phone:LongListSelector Name="llsFriends" SelectionChanged="llsFriends_Tap">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
@@ -58,12 +58,12 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Expenses, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" Tap="llsExpenses_Tap"/>
+                <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" SelectionChanged="llsExpenses_Tap"/>
             </phone:PivotItem>
 
             <!--Pivot item three-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Groups, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsGroups" Tap="llsGroups_Tap">
+                <phone:LongListSelector Name="llsGroups" SelectionChanged="llsGroups_Tap">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">

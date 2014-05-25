@@ -95,7 +95,7 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="expenses">
-                <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" Tap="llsExpenses_Tap"/>
+                <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" SelectionChanged="llsExpenses_Tap"/>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

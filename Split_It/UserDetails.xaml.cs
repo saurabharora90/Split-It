@@ -154,16 +154,20 @@ namespace Split_It_
             }
         }
 
-        private void llsExpenses_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void llsExpenses_Tap(object sender, SelectionChangedEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
-            Expense selectedExpense = selector.SelectedItem as Expense;
-
-            if (selectedExpense == null)
+            if (llsExpenses.SelectedItem == null)
                 return;
+            //LongListSelector selector = sender as LongListSelector;
+            Expense selectedExpense = llsExpenses.SelectedItem as Expense;
+
+            //if (selectedExpense == null)
+            //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
             NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));
+
+            llsExpenses.SelectedItem = null;
         }
     }
 }
