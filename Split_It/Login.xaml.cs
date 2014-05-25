@@ -69,6 +69,8 @@ namespace Split_It_
                     return;
                 request.getAccessToken(arguments[1], _onAccessTokenReceived);
             }
+
+            busyIndicator.IsRunning = true;
         }
 
         private void _onAccessTokenReceived(string accessToken, string accessTokenSecret)
@@ -76,6 +78,24 @@ namespace Split_It_
             Util.setAccessToken(accessToken);
             Util.setAccessTokenSecret(accessTokenSecret);
             NavigationService.Navigate(new Uri("/SplashPage.xaml?afterLogin=true", UriKind.Relative));
+        }
+
+        private void loginBrowser_Navigated(object sender, NavigationEventArgs e)
+        {
+            busyIndicator.IsRunning = false;
+        }
+
+        private void loginBrowser_NavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            busyIndicator.IsRunning = false;
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            string hey = "Hey there!";
+            string message = "Thank you for downloading Split It, a splitwise client for windows phone. Please login to splitwise below and authorize the app to access your account securely.";
+
+            MessageBox.Show(message, hey, MessageBoxButton.OK);
         }
     }
 }

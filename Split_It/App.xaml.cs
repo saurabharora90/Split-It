@@ -142,7 +142,7 @@ namespace Split_It_
             if(Util.getAccessToken() != null && Util.getAccessTokenSecret() !=null)
                 RootFrame.Navigate(new Uri("/SplashPage.xaml?afterLogin=false", UriKind.RelativeOrAbsolute));
             else
-                RootFrame.Navigate(new Uri("/WelcomePage.xaml", UriKind.RelativeOrAbsolute));
+                RootFrame.Navigate(new Uri("/Login.xaml", UriKind.RelativeOrAbsolute));
         }
 
         // Do not add any additional code to this method
