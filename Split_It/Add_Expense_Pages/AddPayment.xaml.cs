@@ -95,7 +95,7 @@ namespace Split_It_.Add_Expense_Pages
             currency = defaultBalance.currency_code;
 
             tbCurrency.Text = currency;
-            tbAmount.Text = Math.Abs(transferAmount).ToString();
+            tbAmount.Text = String.Format("{0:0.00}", Math.Abs(transferAmount));
 
             DateTime now = DateTime.UtcNow;
             string dateString = now.ToString("dd MMMM, yyyy", System.Globalization.CultureInfo.InvariantCulture);
