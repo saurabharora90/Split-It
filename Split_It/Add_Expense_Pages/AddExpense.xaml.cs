@@ -214,18 +214,30 @@ namespace Split_It_.Add_Expense_Pages
             int numberOfExpenseMembers = expenseToAdd.users.Count;
             double amountToSplit = Convert.ToDouble(expenseToAdd.cost);
             double perPersonShare = amountToSplit / numberOfExpenseMembers;
+            perPersonShare = Math.Round(perPersonShare, 2, MidpointRounding.AwayFromZero);
+
+            //now make sure that the total is the same, else take care of the difference (should be very minimal)
+            double currentUsersShare = perPersonShare;
+            double total = perPersonShare * numberOfExpenseMembers;
+            if (total == amountToSplit)
+                currentUsersShare = perPersonShare;
+            else
+                currentUsersShare = currentUsersShare + (amountToSplit - total);
 
             for (int i = 0; i < numberOfExpenseMembers; i++)
             {
                 //the amount is paid by the user
                 if (expenseToAdd.users[i].user_id == App.currentUser.id)
+                {
                     expenseToAdd.users[i].paid_share = amountToSplit.ToString();
+                    expenseToAdd.users[i].owed_share = currentUsersShare.ToString();
+
+                }
                 else
                 {
                     expenseToAdd.users[i].paid_share = "0";
+                    expenseToAdd.users[i].owed_share = perPersonShare.ToString();
                 }
-
-                expenseToAdd.users[i].owed_share = perPersonShare.ToString();
             }
         }
 
