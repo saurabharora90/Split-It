@@ -90,7 +90,7 @@ namespace Split_It_.Add_Expense_Pages
 
         private void setupData()
         {
-            Balance_User defaultBalance = Util.getDefaultBalance(paymentUser.balance);
+            Balance_User defaultBalance = getYouOweBalance();
             transferAmount = System.Convert.ToDouble(defaultBalance.amount);
             currency = defaultBalance.currency_code;
 
@@ -100,6 +100,17 @@ namespace Split_It_.Add_Expense_Pages
             DateTime now = DateTime.UtcNow;
             string dateString = now.ToString("dd MMMM, yyyy", System.Globalization.CultureInfo.InvariantCulture);
             tbDate.Text = "on " + dateString;
+        }
+
+        private Balance_User getYouOweBalance()
+        {
+            foreach (var balance in paymentUser.balance)
+            {
+                if (System.Convert.ToDouble(balance.amount) < 0)
+                    return balance;
+            }
+
+            return null;
         }
 
         private void addPaymentBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

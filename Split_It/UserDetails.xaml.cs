@@ -45,6 +45,7 @@ namespace Split_It_
 
             createAppBar();
             this.DataContext = selectedUser;
+            this.balanceList.ItemsSource = selectedUser.balance;
         }
 
         private void createAppBar()
@@ -66,8 +67,11 @@ namespace Split_It_
             btnSettle.IconUri = new Uri("/Assets/Icons/settle.png", UriKind.Relative);
             btnSettle.Text = "settle";
 
-
-            Balance_User defaultBalance = Util.getDefaultBalance(selectedUser.balance);
+            //disable both by default
+            btnReminder.IsEnabled = false;
+            btnSettle.IsEnabled = false;
+            
+            /*Balance_User defaultBalance = Util.getDefaultBalance(selectedUser.balance);
             double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
             if (finalBalance <= 0)
             {
@@ -78,12 +82,40 @@ namespace Split_It_
             {
                 btnReminder.IsEnabled = true;
                 btnSettle.IsEnabled = false;
-            }
+            }*/
+
+            if (hasOwesYouBalance())
+                btnReminder.IsEnabled = true;
+
+            if (hasYouOweBalance())
+                btnSettle.IsEnabled = true;
 
             ApplicationBar.Buttons.Add(btnReminder);
             ApplicationBar.Buttons.Add(btnSettle);
             btnReminder.Click += new EventHandler(btnReminder_Click);
             btnSettle.Click += new EventHandler(btnSettle_Click);
+        }
+
+        private bool hasYouOweBalance()
+        {
+            foreach (var balance in selectedUser.balance)
+            {
+                if (System.Convert.ToDouble(balance.amount) < 0)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool hasOwesYouBalance()
+        {
+            foreach (var balance in selectedUser.balance)
+            {
+                if (System.Convert.ToDouble(balance.amount) > 0)
+                    return true;
+            }
+
+            return false;
         }
 
         private void btnSettle_Click(object sender, EventArgs e)

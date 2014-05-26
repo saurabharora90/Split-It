@@ -109,6 +109,8 @@
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\UserDetails\UserDetailsExpenseColorConverter.cs" />
+    <Compile Include="Converter\UserDetails\UserDetailsExpensesConverter.cs" />
     <Compile Include="ExpandableListHelper\AllDebtColorConverter.cs" />
     <Compile Include="ExpandableListHelper\AllDebtAmountConverter.cs" />
     <Compile Include="ExpandableListHelper\AllDebtTextConverter.cs" />

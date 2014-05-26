@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:app="clr-namespace:Split_It_.Converter"
+    xmlns:userDetailConverter="clr-namespace:Split_It_.Converter.UserDetails"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -17,9 +18,8 @@
 
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
-        <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
-        <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
-        <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
+        <userDetailConverter:UserDetailsExpensesConverter x:Key="UserDetailsExpensesConverter"/>
+        <userDetailConverter:UserDetailsExpenseColorConverter x:Key="UserDetailsExpenseColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
     </phone:PhoneApplicationPage.Resources>
 
@@ -48,12 +48,13 @@
                 <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
                 <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Column="0" FontSize="{StaticResource userDetaildescriptionSize}" HorizontalAlignment="Left"/>
-                    <TextBlock x:Name="tbAmount" TextWrapping="Wrap" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}, ConverterParameter='userdetail'}" Grid.Column="1" FontSize="{StaticResource userDetaildescriptionSize}" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}" Margin="4,0,0,0"/>
+                    <phone:LongListSelector x:Name="balanceList">
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource UserDetailsExpensesConverter}}" Foreground="{Binding Converter={StaticResource UserDetailsExpenseColorConverter}}" FontSize="{StaticResource userDetaildescriptionSize}" HorizontalAlignment="Left"/>
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
                 </Grid>
             </Grid>
 
