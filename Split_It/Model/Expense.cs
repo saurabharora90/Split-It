@@ -20,7 +20,21 @@ namespace Split_It_.Model
         public int id { get; set; }
         public int group_id { get; set; }
         public string description { get; set; }
-        public string details { get; set; }
+
+        private string _details;
+        public string details
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_details))
+                    return "No details associated with this expense.";
+                else
+                    return _details;
+            }
+            set { _details = value; }
+        }
+
+        //public string details { get; set; }
         public bool payment { get; set; }
         public string creation_method { get; set; }
         public bool transaction_confirmed { get; set; }
