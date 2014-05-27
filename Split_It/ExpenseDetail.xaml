@@ -167,6 +167,7 @@
                                     </primitives:RadPointerContentControl.PointerTemplate>
 
                                     <telerikPrimitives:RadTextBox x:Name="PART_TextBox"
+                                                          InputScope="Text"
                                                           Watermark="type a comment"
                                                           ActionButtonVisibility="Visible"
                                                           Style="{StaticResource GreyBGRadTextBoxStyle}"
@@ -191,7 +192,7 @@
         </phone:Pivot>
 
         <telerikPrimitives:RadBusyIndicator Background="#CC000000"
-                                            Content="Deleting expense"
+                                            Content="Performing operation"
                                             Foreground="White"
                                             x:Name="busyIndicator" 
                                             Grid.Row="0" 

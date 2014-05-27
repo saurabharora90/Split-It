@@ -181,12 +181,16 @@ namespace Split_It_
                         }
                     }
                 }
+
+                busyIndicator.IsRunning = false;
             });
         }
 
         private void addCommentBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            string content = (e.Argument as CustomCommentView).Text;
+            CommentDatabase commentsObj = new CommentDatabase(_CommentsReceived);
+            commentsObj.addComment(selectedExpense.id, content);
         }
 
         private void OnSendingMessage(object sender, ConversationViewMessageEventArgs e)
@@ -197,7 +201,12 @@ namespace Split_It_
             }
 
             //send this message to the api via the add comment background worker
-            this.comments.Add(e.Message as CustomCommentView);
+            if (!addCommentBackgroundWorker.IsBusy)
+            {
+                this.Focus();
+                busyIndicator.IsRunning = true;
+                addCommentBackgroundWorker.RunWorkerAsync(e.Message);
+            }
         }
 
         public class CustomCommentView : ConversationViewMessage

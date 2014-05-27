@@ -156,6 +156,7 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
     <Compile Include="Request\AddExpenseRequest.cs" />
+    <Compile Include="Request\CreateCommentRequest.cs" />
     <Compile Include="Request\GetCommentsRequest.cs" />
     <Compile Include="Request\DeleteExpenseRequest.cs" />
     <Compile Include="Request\GetExpensesRequest.cs" />

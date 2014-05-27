@@ -26,9 +26,10 @@ namespace Split_It_.Controller
             request.getComments(callback);
         }
 
-        public void addComment()
+        public void addComment(int expenseId, string content)
         {
-
+            CreateCommentRequest request = new CreateCommentRequest(expenseId, content);
+            request.postComment(callback);
         }
     }
 }

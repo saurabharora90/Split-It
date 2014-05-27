@@ -11,22 +11,25 @@ using System.Threading.Tasks;
 
 namespace Split_It_.Request
 {
-    class GetCommentsRequest : BaseRequest
+    class CreateCommentRequest : BaseRequest
     {
-        public static String getCommentsURL = "get_comments";
+        public static String createCommentURL = "create_comment";
         private int expenseId;
+        private string content;
 
-        public GetCommentsRequest(int expenseId)
+        public CreateCommentRequest(int expenseId, string content)
             : base()
         {
             this.expenseId = expenseId;
+            this.content = content;
         }
 
-        public void getComments(Action<List<Comment>> Callback)
+        public void postComment(Action<List<Comment>> Callback)
         {
-            var request = new RestRequest(getCommentsURL);
+            var request = new RestRequest(createCommentURL);
             request.AddParameter("expense_id", expenseId, ParameterType.GetOrPost);
-            request.RootElement = "comments";
+            request.AddParameter("content", content, ParameterType.GetOrPost);
+            request.RootElement = "comment";
             client.ExecuteAsync<List<Comment>>(request, reponse =>
                 {
                     if(reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
