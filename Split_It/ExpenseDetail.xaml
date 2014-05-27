@@ -28,7 +28,7 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
         <!--Pivot Control-->
-        <phone:Pivot Title="expense detail">
+        <phone:Pivot Title="expense detail" SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem Margin="0,5,0,0" Header="summary">
                 <Grid Margin="0,12">
@@ -83,6 +83,11 @@
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="notes">
                 <TextBlock Margin="20" TextWrapping="Wrap" Text="{Binding details}" Foreground="Black" FontSize="{StaticResource userDetaildescriptionSize}"/>
+            </phone:PivotItem>
+
+            <!--Pivot item two-->
+            <phone:PivotItem Margin="0,5,0,0" Header="comments">
+                
             </phone:PivotItem>
         </phone:Pivot>
 

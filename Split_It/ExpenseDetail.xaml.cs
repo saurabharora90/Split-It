@@ -19,6 +19,7 @@ namespace Split_It_
     {
         Expense selectedExpense;
         BackgroundWorker deleteExpenseBackgroundWorker;
+        ApplicationBarIconButton btnAddComment;
 
         public ExpenseDetail()
         {
@@ -58,6 +59,13 @@ namespace Split_It_
             btnEdit.Text = "edit";
             ApplicationBar.Buttons.Add(btnEdit);
             btnEdit.Click += new EventHandler(btnEdit_Click);
+
+            //add comment button
+            btnAddComment = new ApplicationBarIconButton();
+            btnAddComment.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
+            btnAddComment.Text = "add";
+            ApplicationBar.Buttons.Add(btnAddComment);
+            btnAddComment.Click += new EventHandler(btnAddComment_Click);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -136,6 +144,25 @@ namespace Split_It_
         private void btnEdit_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAddComment_Click(object sender, EventArgs e)
+        {
+            
+        }
+        
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (((Pivot)sender).SelectedIndex)
+            {
+                case 2:
+                    ApplicationBar.Buttons.Add(btnAddComment);
+                    break;
+
+                default:
+                    ApplicationBar.Buttons.Remove(btnAddComment);
+                    break;
+            }
         }
     }
 }
