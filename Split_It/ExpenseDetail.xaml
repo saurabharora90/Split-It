@@ -87,7 +87,12 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="comments">
-                
+                <telerikPrimitives:RadBusyIndicator Background="#CC000000"
+                                                    IsRunning="True"
+                                                    Content="Loading comments"
+                                                    Foreground="White"
+                                                    x:Name="commentBusyIndicator"
+                                                    AnimationStyle="AnimationStyle9"/>
             </phone:PivotItem>
         </phone:Pivot>
 

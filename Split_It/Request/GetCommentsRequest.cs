@@ -22,20 +22,20 @@ namespace Split_It_.Request
             this.expenseId = expenseId;
         }
 
-        public void getAllFriends(Action<List<User>> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
+        public void getComments(Action<List<Comment>> Callback)
         {
             var request = new RestRequest(getFriendsURL);
             request.AddParameter("expense_id", expenseId, ParameterType.GetOrPost);
-            //request.RootElement = "friends";
-            client.ExecuteAsync<List<User>>(request, reponse =>
+            request.RootElement = "comments";
+            client.ExecuteAsync<List<Comment>>(request, reponse =>
                 {
                     if(reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
                     {
-                        CallbackOnFailure(reponse.StatusCode);
+                        Callback(null);
                         return;
                     }
-                    List<User> friends = reponse.Data;
-                    CallbackOnSuccess(friends);
+                    List<Comment> comments = reponse.Data;
+                    Callback(comments);
                 });
         }
     }

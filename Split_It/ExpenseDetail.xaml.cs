@@ -12,6 +12,7 @@ using Split_It_.Utils;
 using System.Windows.Media;
 using Split_It_.Controller;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Split_It_
 {
@@ -19,7 +20,11 @@ namespace Split_It_
     {
         Expense selectedExpense;
         BackgroundWorker deleteExpenseBackgroundWorker;
+        BackgroundWorker commentLoadingBackgroundWorker;
+        BackgroundWorker addCommentBackgroundWorker;
         ApplicationBarIconButton btnAddComment;
+
+        ObservableCollection<Comment> comments;
 
         public ExpenseDetail()
         {
@@ -34,6 +39,19 @@ namespace Split_It_
             deleteExpenseBackgroundWorker = new BackgroundWorker();
             deleteExpenseBackgroundWorker.WorkerSupportsCancellation = true;
             deleteExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(deleteExpenseBackgroundWorker_DoWork);
+
+            commentLoadingBackgroundWorker = new BackgroundWorker();
+            commentLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+            commentLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(commentLoadingBackgroundWorker_DoWork);
+
+            if (!commentLoadingBackgroundWorker.IsBusy)
+            {
+                commentLoadingBackgroundWorker.RunWorkerAsync();
+            }
+
+            addCommentBackgroundWorker = new BackgroundWorker();
+            addCommentBackgroundWorker.WorkerSupportsCancellation = true;
+            addCommentBackgroundWorker.DoWork += new DoWorkEventHandler(addCommentBackgroundWorker_DoWork);
         }
 
         private void createAppBar()
@@ -146,9 +164,34 @@ namespace Split_It_
 
         }
 
+        private void commentLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            CommentDatabase commentsObj = new CommentDatabase(null);
+            commentsObj.getComments(selectedExpense.id);
+        }
+
+        private void _CommentsReceived(List<Comment> commentList, HttpStatusCode statusCode)
+        {
+            if (commentList != null && commentList.Count!=0)
+            {
+                comments = new ObservableCollection<Comment>();
+                foreach (var comment in commentList)
+                {
+                    comments.Add(comment);
+                }
+            }
+
+            commentBusyIndicator.IsRunning = false;
+        }
+        
         private void btnAddComment_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void addCommentBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
         }
         
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)

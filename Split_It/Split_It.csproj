@@ -100,6 +100,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controller\CommentDatabase.cs" />
     <Compile Include="Controller\ModifyDatabase.cs" />
     <Compile Include="Controller\QueryDatabase.cs" />
     <Compile Include="Controller\SyncDatabase.cs" />
@@ -143,6 +144,7 @@
     </Compile>
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Balance_User.cs" />
+    <Compile Include="Model\Comment.cs" />
     <Compile Include="Model\Debt_Group.cs" />
     <Compile Include="Model\Debt_Expense.cs" />
     <Compile Include="Model\Expense.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
     <Compile Include="Request\AddExpenseRequest.cs" />
+    <Compile Include="Request\GetCommentsRequest.cs" />
     <Compile Include="Request\DeleteExpenseRequest.cs" />
     <Compile Include="Request\GetExpensesRequest.cs" />
     <Compile Include="Request\GetGroupsRequest.cs" />
