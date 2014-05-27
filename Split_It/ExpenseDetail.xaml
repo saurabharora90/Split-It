@@ -7,7 +7,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:app="clr-namespace:Split_It_.Converter"
+    xmlns:telerikData="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Data"
+    xmlns:primitives="clr-namespace:Telerik.Windows.Controls.Primitives;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikTextBox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     Style="{StaticResource TransitionPageStyle}"
@@ -28,7 +31,7 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
         <!--Pivot Control-->
-        <phone:Pivot Title="expense detail" SelectionChanged="Pivot_SelectionChanged">
+        <phone:Pivot Title="expense detail">
             <!--Pivot item one-->
             <phone:PivotItem Margin="0,5,0,0" Header="summary">
                 <Grid Margin="0,12">
@@ -87,12 +90,101 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="comments">
-                <telerikPrimitives:RadBusyIndicator Background="#CC000000"
-                                                    IsRunning="True"
-                                                    Content="Loading comments"
-                                                    Foreground="White"
-                                                    x:Name="commentBusyIndicator"
-                                                    AnimationStyle="AnimationStyle9"/>
+                <telerikData:RadConversationView
+                                         x:Name="conversationView"
+                                         SendingMessage="OnSendingMessage">
+                    <telerikData:RadConversationView.IncomingMessageTemplate>
+                        <DataTemplate>
+                            <Grid Margin="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel>
+                                    <TextBlock
+                                       Margin="0, 0, 0, 4"
+                                       HorizontalAlignment="Right"
+                                       Foreground="Black" FontSize="17">
+                                        <TextBlock.Inlines>
+                                            <Run Text="{Binding Path=name}"/>
+                                        </TextBlock.Inlines>
+                                    </TextBlock>
+
+                                    <primitives:RadPointerContentControl Background="{StaticResource settled}"
+                                                                 TargetPoint="-120,-300"
+                                                                 Foreground="Black">
+                                        <primitives:RadPointerContentControl.PointerTemplate>
+                                            <DataTemplate>
+                                                <Polygon Width="12"
+                                                 Height="24"
+                                                 Points="0,0 12,0 12,12 0,24"
+                                                 StrokeThickness="0"
+                                                 Fill="{StaticResource settled}"
+                                                 RenderTransformOrigin="0.5, 0.5">
+                                                    <Polygon.RenderTransform>
+                                                        <ScaleTransform ScaleX="-1"/>
+                                                    </Polygon.RenderTransform>
+                                                </Polygon>
+                                            </DataTemplate>
+                                        </primitives:RadPointerContentControl.PointerTemplate>
+
+                                        <TextBlock Text="{Binding Path=Text}"
+                                           TextWrapping="Wrap"
+                                           Margin="12, 6, 12, 12" FontSize="23"/>
+
+                                    </primitives:RadPointerContentControl>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </telerikData:RadConversationView.IncomingMessageTemplate>
+
+                    <telerikData:RadConversationView.TextBoxTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0, 24, 0, 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <primitives:RadPointerContentControl Grid.ColumnSpan="2"
+                                                             TargetPoint="200, -300">
+                                    <primitives:RadPointerContentControl.PointerTemplate>
+                                        <DataTemplate>
+                                            <Polygon Width="12"
+                                             Height="24"
+                                             Points="0,0 12,0 12,12"
+                                             StrokeThickness="0"
+                                             RenderTransformOrigin="0.5, 0.5">
+                                                <Polygon.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform ScaleX="-1"/>
+                                                        <TranslateTransform Y="-8"/>
+                                                    </TransformGroup>
+                                                </Polygon.RenderTransform>
+                                            </Polygon>
+                                        </DataTemplate>
+                                    </primitives:RadPointerContentControl.PointerTemplate>
+
+                                    <telerikPrimitives:RadTextBox x:Name="PART_TextBox"
+                                                          Watermark="type a message"
+                                                          ActionButtonVisibility="Visible"
+                                                          Style="{StaticResource GreyBGRadTextBoxStyle}"
+                                                          AcceptsReturn="True" Padding="10">
+                                        <telerikPrimitives:RadTextBox.ActionButtonStyle>
+                                            <Style TargetType="telerikTextBox:TextBoxActionButton">
+                                                <Setter Property="ButtonType"
+                                                Value="Custom"/>
+                                                <Setter Property="RestStateImageSource"
+                                                Value="/Telerik.Windows.Controls.Data;component/ConversationView/Images/SendIcon.png"/>
+                                            </Style>
+                                        </telerikPrimitives:RadTextBox.ActionButtonStyle>
+                                    </telerikPrimitives:RadTextBox>
+                                </primitives:RadPointerContentControl>
+                            </Grid>
+                        </DataTemplate>
+                    </telerikData:RadConversationView.TextBoxTemplate>
+                </telerikData:RadConversationView>
             </phone:PivotItem>
         </phone:Pivot>
 

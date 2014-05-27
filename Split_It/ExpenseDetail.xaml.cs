@@ -13,6 +13,7 @@ using System.Windows.Media;
 using Split_It_.Controller;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using Telerik.Windows.Controls;
 
 namespace Split_It_
 {
@@ -22,9 +23,8 @@ namespace Split_It_
         BackgroundWorker deleteExpenseBackgroundWorker;
         BackgroundWorker commentLoadingBackgroundWorker;
         BackgroundWorker addCommentBackgroundWorker;
-        ApplicationBarIconButton btnAddComment;
 
-        ObservableCollection<Comment> comments;
+        ObservableCollection<CustomCommentView> comments = new ObservableCollection<CustomCommentView>();
 
         public ExpenseDetail()
         {
@@ -52,6 +52,9 @@ namespace Split_It_
             addCommentBackgroundWorker = new BackgroundWorker();
             addCommentBackgroundWorker.WorkerSupportsCancellation = true;
             addCommentBackgroundWorker.DoWork += new DoWorkEventHandler(addCommentBackgroundWorker_DoWork);
+
+            this.conversationView.ItemsSource = this.comments;
+            this.conversationView.CreateMessage = (string text) => new CustomCommentView(text, DateTime.Now, App.currentUser.name);
         }
 
         private void createAppBar()
@@ -77,13 +80,6 @@ namespace Split_It_
             btnEdit.Text = "edit";
             ApplicationBar.Buttons.Add(btnEdit);
             btnEdit.Click += new EventHandler(btnEdit_Click);
-
-            //add comment button
-            btnAddComment = new ApplicationBarIconButton();
-            btnAddComment.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
-            btnAddComment.Text = "add";
-            ApplicationBar.Buttons.Add(btnAddComment);
-            btnAddComment.Click += new EventHandler(btnAddComment_Click);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -176,38 +172,50 @@ namespace Split_It_
             {
                 if (commentList != null && commentList.Count != 0)
                 {
-                    comments = new ObservableCollection<Comment>();
                     foreach (var comment in commentList)
                     {
-                        comments.Add(comment);
+                        if (String.IsNullOrEmpty(comment.deleted_at))
+                        {
+                            DateTime createdDate = DateTime.Parse(comment.created_at, System.Globalization.CultureInfo.InvariantCulture);
+                            comments.Add(new CustomCommentView(comment.content, createdDate, comment.user.name));
+                        }
                     }
                 }
-
-                commentBusyIndicator.IsRunning = false;
             });
-        }
-        
-        private void btnAddComment_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void addCommentBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
 
         }
-        
-        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch (((Pivot)sender).SelectedIndex)
-            {
-                case 2:
-                    ApplicationBar.Buttons.Add(btnAddComment);
-                    break;
 
-                default:
-                    ApplicationBar.Buttons.Remove(btnAddComment);
-                    break;
+        private void OnSendingMessage(object sender, ConversationViewMessageEventArgs e)
+        {
+            if (string.IsNullOrEmpty((e.Message as CustomCommentView).Text))
+            {
+                return;
+            }
+
+            //send this message to the api via the add comment background worker
+            this.comments.Add(e.Message as CustomCommentView);
+        }
+
+        public class CustomCommentView : ConversationViewMessage
+        {
+            public string name { get; set; }
+
+            public CustomCommentView(string text, DateTime timeStamp, string userName)
+                : base(text, timeStamp, ConversationViewMessageType.Incoming)
+            {
+                this.name = userName;
+            }
+
+            public string FormattedTimeStamp
+            {
+                get
+                {
+                    return this.TimeStamp.ToLongDateString();
+                }
             }
         }
     }
