@@ -167,7 +167,7 @@
                                     </primitives:RadPointerContentControl.PointerTemplate>
 
                                     <telerikPrimitives:RadTextBox x:Name="PART_TextBox"
-                                                          Watermark="type a message"
+                                                          Watermark="type a comment"
                                                           ActionButtonVisibility="Visible"
                                                           Style="{StaticResource GreyBGRadTextBoxStyle}"
                                                           AcceptsReturn="True" Padding="10">
@@ -175,6 +175,8 @@
                                             <Style TargetType="telerikTextBox:TextBoxActionButton">
                                                 <Setter Property="ButtonType"
                                                 Value="Custom"/>
+                                                <Setter Property="VerticalAlignment"
+                                                        Value="Center"/>
                                                 <Setter Property="RestStateImageSource"
                                                 Value="/Telerik.Windows.Controls.Data;component/ConversationView/Images/SendIcon.png"/>
                                             </Style>
