@@ -166,22 +166,25 @@ namespace Split_It_
 
         private void commentLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            CommentDatabase commentsObj = new CommentDatabase(null);
+            CommentDatabase commentsObj = new CommentDatabase(_CommentsReceived);
             commentsObj.getComments(selectedExpense.id);
         }
 
-        private void _CommentsReceived(List<Comment> commentList, HttpStatusCode statusCode)
+        private void _CommentsReceived(List<Comment> commentList)
         {
-            if (commentList != null && commentList.Count!=0)
+            Dispatcher.BeginInvoke(() =>
             {
-                comments = new ObservableCollection<Comment>();
-                foreach (var comment in commentList)
+                if (commentList != null && commentList.Count != 0)
                 {
-                    comments.Add(comment);
+                    comments = new ObservableCollection<Comment>();
+                    foreach (var comment in commentList)
+                    {
+                        comments.Add(comment);
+                    }
                 }
-            }
 
-            commentBusyIndicator.IsRunning = false;
+                commentBusyIndicator.IsRunning = false;
+            });
         }
         
         private void btnAddComment_Click(object sender, EventArgs e)
