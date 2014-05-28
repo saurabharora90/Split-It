@@ -13,6 +13,7 @@ using System.Windows.Media;
 using Split_It_.Utils;
 using System.ComponentModel;
 using Split_It_.Controller;
+using System.Collections.ObjectModel;
 
 namespace Split_It_.Add_Expense_Pages
 {
@@ -22,6 +23,8 @@ namespace Split_It_.Add_Expense_Pages
         ApplicationBarIconButton btnOkay;
         bool isAmountSet = false;
         BackgroundWorker addExpenseBackgroundWorker;
+        BackgroundWorker getSupportedCurrenciesBackgroundWorker;
+        ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
         
         public AddExpense()
         {
@@ -33,6 +36,13 @@ namespace Split_It_.Add_Expense_Pages
             addExpenseBackgroundWorker = new BackgroundWorker();
             addExpenseBackgroundWorker.WorkerSupportsCancellation = true;
             addExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(addExpenseBackgroundWorker_DoWork);
+
+            getSupportedCurrenciesBackgroundWorker = new BackgroundWorker();
+            getSupportedCurrenciesBackgroundWorker.WorkerSupportsCancellation = true;
+            getSupportedCurrenciesBackgroundWorker.DoWork += new DoWorkEventHandler(getSupportedCurrenciesBackgroundWorker_DoWork);
+
+            if (!getSupportedCurrenciesBackgroundWorker.IsBusy)
+                getSupportedCurrenciesBackgroundWorker.RunWorkerAsync();
 
             (App.Current.Resources["PhoneRadioCheckBoxCheckBrush"] as SolidColorBrush).Color = Colors.Black;
             createAppBar();
@@ -313,6 +323,24 @@ namespace Split_It_.Add_Expense_Pages
                     }
                 });
             }
+        }
+
+        private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Currency defaultCurrency;
+            QueryDatabase query = new QueryDatabase();
+            foreach (var item in query.getSupportedCurrencies())
+            {
+                currenciesList.Add(item);
+
+                if (item.currency_code == App.currentUser.default_currency && String.IsNullOrEmpty(expenseToAdd.currency_code))
+                    defaultCurrency = item;
+
+                else if (item.currency_code == expenseToAdd.currency_code)
+                    defaultCurrency = item;
+            }
+
+
         }
     }
 }

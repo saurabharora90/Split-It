@@ -185,6 +185,11 @@ namespace Split_It_.Controller
 
             return expensesList;
         }
+
+        public List<Currency> getSupportedCurrencies()
+        {
+            return dbConn.Query<Currency>("SELECT * FROM currency");
+        }
         
         public void closeDatabaseConnection()
         {

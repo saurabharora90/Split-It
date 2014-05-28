@@ -141,14 +141,14 @@
     		<Setter Property="PopupItemStyle">
     			<Setter.Value>
     				<Style TargetType="telerikPrimitives:RadDataBoundListBoxItem">
-    					<Setter Property="Padding" Value="24, 26, 0, 26"/>
+    					<Setter Property="Padding" Value="24,17,0,17"/>
     				</Style>
     			</Setter.Value>
     		</Setter>
     		<Setter Property="PopupStyle">
     			<Setter.Value>
     				<Style TargetType="telerikPrimitives:RadDataBoundListBox">
-    					<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}"/>
+                        <Setter Property="FontSize" Value="{StaticResource userDetailnameSize}"/>
     					<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}"/>
     					<Setter Property="Background" Value="{StaticResource PhoneChromeBrush}"/>
     					<Setter Property="HorizontalAlignment" Value="Stretch"/>

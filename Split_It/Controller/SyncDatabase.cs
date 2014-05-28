@@ -216,9 +216,8 @@ namespace Split_It_.Controller
 
         private void _CurrenciesReceived(List<Currency> currencyList)
         {
-            dbConn.BeginTransaction();
+            dbConn.DeleteAll<Currency>();
             dbConn.InsertAll(currencyList);
-            dbConn.Commit();
             dbConn.Close();
             CallbackOnSuccess(true, HttpStatusCode.OK);
         }
