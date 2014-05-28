@@ -278,7 +278,7 @@ namespace Split_It_.Add_Expense_Pages
 
         private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text) && !String.IsNullOrEmpty(tbDescription.Text))
+            if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
             {
                 divideExpenseEqually();
                 PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
@@ -288,7 +288,7 @@ namespace Split_It_.Add_Expense_Pages
 
             else
             {
-                MessageBox.Show("Please enter all the necessary details", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Please select friends and enter expense amount", "Error", MessageBoxButton.OK);
             }
         }
 
