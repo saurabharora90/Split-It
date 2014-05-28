@@ -50,7 +50,7 @@
                 <TextBlock.Inlines>
                     <Run x:Name="from_user" Text="{Binding 'fromUser.name'}"/>
                     <Run Text="owes"/>
-                    <Run x:Name="amount" Text="{Binding Converter={StaticResource SpecificDebtAmountConverter}}" Foreground="{Binding Converter={StaticResource SpecificDebtColorConverter}}"/>
+                    <Run x:Name="amount" Text="{Binding Converter={StaticResource SpecificDebtAmountConverter}}"/> <!-- Foreground="{Binding Converter={StaticResource SpecificDebtColorConverter}}"-->
                     <Run Text="to"/>
                     <Run x:Name="to_user" Text="{Binding 'toUser.name'}"/>
                 </TextBlock.Inlines>
