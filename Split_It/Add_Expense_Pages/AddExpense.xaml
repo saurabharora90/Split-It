@@ -473,7 +473,7 @@
 						BorderBrush="{StaticResource splitwiseGreyBG}"
 						Foreground="Black"
 						x:Name="friendListPicker"
-						ActionButtonVisibility="Visible"
+						ActionButtonVisibility="Collapsed"
 						SelectionMode="Multiple"
                         SelectionChanged="friendListPicker_SelectionChanged"
 						OkButtonIconUri="/Assets/Icons/ok.png"
@@ -490,7 +490,7 @@
 						BorderBrush="{StaticResource splitwiseGreyBG}"
 						Foreground="Black"
 						x:Name="groupListPicker"
-						ActionButtonVisibility="Visible"
+						ActionButtonVisibility="Collapsed"
 						SelectionMode="Multiple"
                         SelectionChanged="groupListPicker_SelectionChanged"
 						OkButtonIconUri="/Assets/Icons/ok.png"
@@ -530,16 +530,31 @@
 								InputScope="Text" 
 								Hint="Enter Description"
                                 TextChanged="tbDescription_TextChanged"
-								BorderThickness="0" />
+								BorderThickness="0" Margin="4,0,0,0" />
 							<StackPanel Orientation="Horizontal" Grid.Row="1">
-								<TextBlock x:Name="tbCurrency" 
-									FontSize="{StaticResource nameSize}" 
-									Foreground="Black" 
-									VerticalAlignment="Center" 
-									FontWeight="Bold" 
-									Text="SGD" 
-									Margin="4,0,0,0"/>
-								<toolkit:PhoneTextBox x:Name="tbAmount" 
+                                <telerikInput:RadListPicker
+						            Header="Currency"
+						            BorderThickness="0"
+                                    Padding="0"
+                                    Margin="0"
+						            Foreground="Black"
+                                    FontSize="{StaticResource nameSize}"
+                                    FontWeight="Bold" 
+						            x:Name="currencyListPicker"
+						            ActionButtonVisibility="Collapsed"
+						            SelectionMode="Single"
+						            OkButtonIconUri="/Assets/Icons/ok.png"
+						            CancelButtonIconUri="/Assets/Icons/cancel.png" 
+                                    PopupHeader="SELECT CURRENCY" 
+                                    Style="{StaticResource RadListPickerStyle1}" 
+                                    HorizontalAlignment="Left">
+                                    <telerikInput:RadListPicker.PopupItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding currency_code}"/>
+                                        </DataTemplate>
+                                    </telerikInput:RadListPicker.PopupItemTemplate>
+                                </telerikInput:RadListPicker>
+                                <toolkit:PhoneTextBox x:Name="tbAmount" 
 									AcceptsReturn="False" 
 									Hint="0.00"
                                     Width="220"

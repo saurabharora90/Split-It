@@ -188,7 +188,8 @@ namespace Split_It_.Controller
 
         public List<Currency> getSupportedCurrencies()
         {
-            return dbConn.Query<Currency>("SELECT * FROM currency");
+            List<Currency> currencyList = dbConn.Query<Currency>("SELECT * FROM currency ORDER BY currency_code");
+            return currencyList;
         }
         
         public void closeDatabaseConnection()

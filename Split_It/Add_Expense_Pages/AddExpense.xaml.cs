@@ -54,6 +54,9 @@ namespace Split_It_.Add_Expense_Pages
             this.groupListPicker.SummaryForSelectedItemsDelegate = this.GroupSummaryDelegate;
             this.groupListPicker.SelectedItem = getFromGroup();
 
+            this.currencyListPicker.ItemsSource = this.currenciesList;
+            this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
+
             if (expenseToAdd == null)
                 expenseToAdd = new Expense();
 
@@ -98,7 +101,7 @@ namespace Split_It_.Add_Expense_Pages
                 if (!isAmountSet)
                     divideExpenseEqually();
 
-                expenseToAdd.currency_code = tbCurrency.Text;
+                expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
                 expenseToAdd.payment = false;
                 DateTime dateTime = expenseDate.Value ?? DateTime.Now;
                 expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
@@ -327,20 +330,44 @@ namespace Split_It_.Add_Expense_Pages
 
         private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Currency defaultCurrency;
+            Currency defaultCurrency = null;
             QueryDatabase query = new QueryDatabase();
             foreach (var item in query.getSupportedCurrencies())
             {
-                currenciesList.Add(item);
-
                 if (item.currency_code == App.currentUser.default_currency && String.IsNullOrEmpty(expenseToAdd.currency_code))
                     defaultCurrency = item;
 
                 else if (item.currency_code == expenseToAdd.currency_code)
                     defaultCurrency = item;
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    currenciesList.Add(item);
+                });
             }
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.currencyListPicker.SelectedItem = defaultCurrency;
+            });
+        }
 
+        private object CurrencySummaryDelegate(IList list)
+        {
+            string summary = String.Empty;
+            for (int i = 0; i < list.Count; i++)
+            {
+                // check if the last item has been reached so we don't put a "," at the end
+                bool isLast = i == list.Count - 1;
 
+                Currency currency = (Currency)list[i];
+                summary = String.Concat(summary, currency.currency_code);
+                summary += isLast ? string.Empty : ", ";
+            }
+            if (String.IsNullOrEmpty(summary))
+            {
+                summary = "select currency";
+            }
+            return summary;
         }
     }
 }
