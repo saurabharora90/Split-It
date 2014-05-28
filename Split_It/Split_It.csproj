@@ -145,6 +145,7 @@
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Balance_User.cs" />
     <Compile Include="Model\Comment.cs" />
+    <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\Debt_Group.cs" />
     <Compile Include="Model\Debt_Expense.cs" />
     <Compile Include="Model\Expense.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
     <Compile Include="Request\AddExpenseRequest.cs" />
+    <Compile Include="Request\GetCurrenciesRequest.cs" />
     <Compile Include="Request\CreateCommentRequest.cs" />
     <Compile Include="Request\GetCommentsRequest.cs" />
     <Compile Include="Request\DeleteExpenseRequest.cs" />

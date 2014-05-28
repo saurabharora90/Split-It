@@ -210,6 +210,15 @@ namespace Split_It_.Controller
 
             Util.setLastUpdatedTime();
 
+            GetCurrenciesRequest request = new GetCurrenciesRequest();
+            request.getSupportedCurrencies(_CurrenciesReceived);
+        }
+
+        private void _CurrenciesReceived(List<Currency> currencyList)
+        {
+            dbConn.BeginTransaction();
+            dbConn.InsertAll(currencyList);
+            dbConn.Commit();
             dbConn.Close();
             CallbackOnSuccess(true, HttpStatusCode.OK);
         }

@@ -105,13 +105,13 @@
                                     <TextBlock
                                        Margin="0, 0, 0, 4"
                                        HorizontalAlignment="Right"
-                                       Foreground="Black" FontSize="17">
+                                       Foreground="Black" FontSize="19">
                                         <TextBlock.Inlines>
                                             <Run Text="{Binding Path=name}"/>
                                         </TextBlock.Inlines>
                                     </TextBlock>
 
-                                    <primitives:RadPointerContentControl Background="{StaticResource settled}"
+                                    <primitives:RadPointerContentControl Background="{StaticResource splitwiseGreyBG}"
                                                                  TargetPoint="-120,-300"
                                                                  Foreground="Black">
                                         <primitives:RadPointerContentControl.PointerTemplate>
@@ -120,7 +120,7 @@
                                                  Height="24"
                                                  Points="0,0 12,0 12,12 0,24"
                                                  StrokeThickness="0"
-                                                 Fill="{StaticResource settled}"
+                                                 Fill="{StaticResource splitwiseGreyBG}"
                                                  RenderTransformOrigin="0.5, 0.5">
                                                     <Polygon.RenderTransform>
                                                         <ScaleTransform ScaleX="-1"/>
