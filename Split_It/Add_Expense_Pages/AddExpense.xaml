@@ -494,13 +494,13 @@
 						SelectionMode="Multiple"
                         SelectionChanged="groupListPicker_SelectionChanged"
 						OkButtonIconUri="/Assets/Icons/ok.png"
-						CancelButtonIconUri="/Assets/Icons/cancel.png" PopupHeader="SELECT GROUPS" Style="{StaticResource RadListPickerStyle1}">
+						CancelButtonIconUri="/Assets/Icons/cancel.png" PopupHeader="SELECT GROUP" Style="{StaticResource RadListPickerStyle1}">
 						<telerikInput:RadListPicker.PopupItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding name}" />
 							</DataTemplate>
 						</telerikInput:RadListPicker.PopupItemTemplate>
-					</telerikInput:RadListPicker>
+                    </telerikInput:RadListPicker>
 				</StackPanel>
 			</Border>
 
@@ -563,11 +563,11 @@
 							</StackPanel>
 						</Grid>
 					</Grid>
-					<TextBlock Grid.Row="1" Margin="0,15" HorizontalAlignment="Center" Foreground="Black" FontSize="{StaticResource nameSize}" toolkit:TiltEffect.IsTiltEnabled="True" Tap="TextBlock_Tap">
-						<Run Text="Paid by"/>
-						<Run Text="you" Foreground="{StaticResource positive}"/>
-						<Run Text="and"/>
-						<Run Text="split equally" Foreground="{StaticResource positive}"/>
+					<TextBlock TextWrapping="Wrap" Grid.Row="1" Margin="15" HorizontalAlignment="Center" Foreground="Black" FontSize="{StaticResource nameSize}" toolkit:TiltEffect.IsTiltEnabled="True" Tap="TextBlock_Tap">
+						<Run x:Name="tbPaidBy" Text="You" Foreground="{StaticResource positive}"/>
+						<Run Text="paid and" />
+                        <Run x:Name="tbPaidTo" Text="split equally." Foreground="{StaticResource positive}"/>
+						<Run x:Name="tbFullAmount"/>
 					</TextBlock>
 				</Grid>
 			</Border>

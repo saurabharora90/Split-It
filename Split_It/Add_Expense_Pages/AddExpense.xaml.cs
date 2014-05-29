@@ -19,17 +19,20 @@ namespace Split_It_.Add_Expense_Pages
 {
     public partial class AddExpense : PhoneApplicationPage
     {
+        enum AmountSplit { You_owe, You_are_owed, Split_equally, Split_unequally };
+
         Expense expenseToAdd;
         ApplicationBarIconButton btnOkay;
-        bool isAmountSet = false;
         BackgroundWorker addExpenseBackgroundWorker;
         BackgroundWorker getSupportedCurrenciesBackgroundWorker;
         ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
+        AmountSplit amountSplit = AmountSplit.Split_equally;
 
-        public static string EQUALLY = "equally";
-        public static string UNEQUALLY = "unequally";
-        public static string YOU_OWE = "";
-        public static string YOU_ARE_OWED = "";
+        public static string EQUALLY = "split equally.";
+        public static string UNEQUALLY = "split unequally.";
+        public static string FULL_AMOUNT = "the full amount.";
+        public static string OWES = "owes ";
+        public static string OWE = "owe ";
         
         public AddExpense()
         {
@@ -97,23 +100,32 @@ namespace Split_It_.Add_Expense_Pages
         {
             //to hide the keyboard if any
             this.Focus();
-            if (!isAmountSet)
-                divideExpenseEqually();
-
-            expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
-            expenseToAdd.payment = false;
-            DateTime dateTime = expenseDate.Value ?? DateTime.Now;
-            expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
-
-            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
-            NavigationService.Navigate(new Uri("/Add_Expense_Pages/SplitUnequally.xaml", UriKind.Relative));
-
-            /*if (addExpenseBackgroundWorker.IsBusy != true)
+            if (addExpenseBackgroundWorker.IsBusy != true)
             {
                 busyIndicator.Content = "adding expense";
                 busyIndicator.IsRunning = true;
+                switch (amountSplit)
+                {
+                    case AmountSplit.You_owe:
+                        break;
+                    case AmountSplit.You_are_owed:
+                        break;
+                    case AmountSplit.Split_equally:
+                        divideExpenseEqually();
+                        break;
+                    case AmountSplit.Split_unequally:
+                        break;
+                    default:
+                        break;
+                }
+
+                expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
+                expenseToAdd.payment = false;
+                DateTime dateTime = expenseDate.Value ?? DateTime.Now;
+                expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
+
                 addExpenseBackgroundWorker.RunWorkerAsync();
-            }*/
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -179,7 +191,7 @@ namespace Split_It_.Add_Expense_Pages
             }
             if (summary == String.Empty)
             {
-                summary = "no groups selected";
+                summary = "select all members of group";
             }
             return summary;
         }
@@ -196,7 +208,7 @@ namespace Split_It_.Add_Expense_Pages
                 foreach (var member in selectedGroup.members)
                 {
                     //you don't need to add yourself as you will be added by default.
-                    if (member.id == App.currentUser.id)
+                    if (member.id == App.currentUser.id || this.friendListPicker.SelectedItems.Contains(member))
                         continue;
                     this.friendListPicker.SelectedItems.Add(member);
                 }
@@ -205,7 +217,7 @@ namespace Split_It_.Add_Expense_Pages
             else
             {
                 MessageBox.Show("Sorry you can only select one group", "Error", MessageBoxButton.OK);
-                this.friendListPicker.SelectedItems.Clear();
+                //this.friendListPicker.SelectedItems.Clear();
                 this.groupListPicker.SelectedItems.Clear();
                 expenseToAdd.group_id = 0;
             }
@@ -229,7 +241,6 @@ namespace Split_It_.Add_Expense_Pages
 
         private void divideExpenseEqually()
         {
-            isAmountSet = true;
             int numberOfExpenseMembers = expenseToAdd.users.Count;
             double amountToSplit = Convert.ToDouble(expenseToAdd.cost);
             double perPersonShare = amountToSplit / numberOfExpenseMembers;
@@ -284,7 +295,95 @@ namespace Split_It_.Add_Expense_Pages
 
         private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            
+            if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
+            {
+                //PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
+                //NavigationService.Navigate(new Uri("/Add_Expense_Pages/SplitUnequally.xaml", UriKind.Relative));
+                toggle();
+                showUnequalSectionIfNeeded();
+            }
+
+            else
+            {
+                MessageBox.Show("Please select friends and enter expense amount", "Error", MessageBoxButton.OK);
+            }
+        }
+
+        private void toggle()
+        {
+            if (this.friendListPicker.SelectedItems.Count == 1)
+            {
+                User selectedUser = this.friendListPicker.SelectedItem as User;
+                switch (amountSplit)
+                {
+                        //By default we have split equally, so follow the follwoing pattern
+                        // a) If You owe then show stuff for you are owed
+                        // b) If you are owed then show for split unequally
+                        // c) If split equally then show stuff for you owe
+                        // d) If split unequally then show stuff for split equally
+
+                    case AmountSplit.You_owe:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = selectedUser.first_name;
+                        tbFullAmount.Text = OWES + FULL_AMOUNT;
+                        amountSplit = AmountSplit.You_are_owed;
+                        break;
+                    case AmountSplit.You_are_owed:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = UNEQUALLY;
+                        tbFullAmount.Text = "";
+                        amountSplit = AmountSplit.Split_unequally;
+                        break;
+                    case AmountSplit.Split_equally:
+                        tbPaidBy.Text = selectedUser.first_name;
+                        tbPaidTo.Text = "You";
+                        tbFullAmount.Text = OWE + FULL_AMOUNT;
+                        amountSplit = AmountSplit.You_owe;
+                        break;
+                    case AmountSplit.Split_unequally:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = EQUALLY;
+                        tbFullAmount.Text = "";
+                        amountSplit = AmountSplit.Split_equally;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (amountSplit)
+                {
+                    case AmountSplit.Split_equally:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = UNEQUALLY;
+                        tbFullAmount.Text = "";
+                        amountSplit = AmountSplit.Split_unequally;
+                        break;
+                    case AmountSplit.Split_unequally:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = EQUALLY;
+                        tbFullAmount.Text = "";
+                        amountSplit = AmountSplit.Split_equally;
+                        break;
+                    default:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = EQUALLY;
+                        tbFullAmount.Text = "";
+                        amountSplit = AmountSplit.Split_equally;
+                        break;
+                }
+            }
+        }
+
+        private void showUnequalSectionIfNeeded()
+        {
+            if (amountSplit != AmountSplit.Split_unequally)
+                return;
+            else
+            {
+
+            }
         }
 
         private void addExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
