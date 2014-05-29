@@ -308,7 +308,7 @@ namespace Split_It_.Add_Expense_Pages
         private void divideExpenseOwesYou()
         {
             //only you and one more user should be there to access this feature
-            if (expenseShareUsers.Count != 1)
+            if (expenseShareUsers.Count != 2)
                 throw new IndexOutOfRangeException();
 
             int numberOfExpenseMembers = expenseShareUsers.Count;
