@@ -45,7 +45,7 @@ namespace Split_It_.Add_Expense_Pages
             ApplicationBarIconButton btnOkay = new ApplicationBarIconButton();
             btnOkay.IconUri = new Uri("/Assets/Icons/ok.png", UriKind.Relative);
             btnOkay.Text = "ok";
-            btnOkay.IsEnabled = false;
+            btnOkay.IsEnabled = true;
             ApplicationBar.Buttons.Add(btnOkay);
             btnOkay.Click += new EventHandler(btnOk_Click);
         }

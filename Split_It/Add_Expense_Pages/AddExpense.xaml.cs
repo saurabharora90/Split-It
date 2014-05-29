@@ -97,6 +97,13 @@ namespace Split_It_.Add_Expense_Pages
         {
             //to hide the keyboard if any
             this.Focus();
+            if (!isAmountSet)
+                divideExpenseEqually();
+
+            expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
+            expenseToAdd.payment = false;
+            DateTime dateTime = expenseDate.Value ?? DateTime.Now;
+            expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
 
             PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
             NavigationService.Navigate(new Uri("/Add_Expense_Pages/SplitUnequally.xaml", UriKind.Relative));
@@ -105,14 +112,6 @@ namespace Split_It_.Add_Expense_Pages
             {
                 busyIndicator.Content = "adding expense";
                 busyIndicator.IsRunning = true;
-                if (!isAmountSet)
-                    divideExpenseEqually();
-
-                expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
-                expenseToAdd.payment = false;
-                DateTime dateTime = expenseDate.Value ?? DateTime.Now;
-                expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
-
                 addExpenseBackgroundWorker.RunWorkerAsync();
             }*/
         }
@@ -285,18 +284,7 @@ namespace Split_It_.Add_Expense_Pages
 
         private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
-            {
-                divideExpenseEqually();
-                PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
-
-                //pass the expense to other page where user has more option to split the bill
-            }
-
-            else
-            {
-                MessageBox.Show("Please select friends and enter expense amount", "Error", MessageBoxButton.OK);
-            }
+            
         }
 
         private void addExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
