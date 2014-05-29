@@ -558,6 +558,7 @@
 									AcceptsReturn="False" 
 									Hint="0.00"
                                     Width="220"
+                                    KeyDown="tbAmount_KeyDown"
                                     TextChanged="tbAmount_TextChanged"
 									InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
 							</StackPanel>

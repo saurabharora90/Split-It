@@ -14,6 +14,7 @@ using Split_It_.Utils;
 using System.ComponentModel;
 using Split_It_.Controller;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace Split_It_.Add_Expense_Pages
 {
@@ -28,6 +29,7 @@ namespace Split_It_.Add_Expense_Pages
         ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
         AmountSplit amountSplit = AmountSplit.Split_equally;
 
+        string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
         public static string EQUALLY = "split equally.";
         public static string UNEQUALLY = "split unequally.";
         public static string FULL_AMOUNT = "the full amount.";
@@ -297,8 +299,6 @@ namespace Split_It_.Add_Expense_Pages
         {
             if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
             {
-                //PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
-                //NavigationService.Navigate(new Uri("/Add_Expense_Pages/SplitUnequally.xaml", UriKind.Relative));
                 toggle();
                 showUnequalSectionIfNeeded();
             }
@@ -462,6 +462,15 @@ namespace Split_It_.Add_Expense_Pages
                 summary = "select currency";
             }
             return summary;
+        }
+
+        private void tbAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            PhoneTextBox textBox = sender as PhoneTextBox;
+
+            //do not llow user to input more than one decimal point
+            if (textBox.Text.Contains(decimalsep) && e.PlatformKeyCode == 190)
+                e.Handled = true;
         }
     }
 }
