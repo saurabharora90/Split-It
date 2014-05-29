@@ -41,7 +41,7 @@ namespace Split_It_.Request
                 request.AddParameter("creation_method", paymentExpense.creation_method, ParameterType.GetOrPost);
             }
             
-            if (!String.IsNullOrEmpty(paymentExpense.details))
+            if (!String.IsNullOrEmpty(paymentExpense.details) && !paymentExpense.details.Equals(Expense.DEFAULT_DETAILS))
             {
                 request.AddParameter("details", paymentExpense.details, ParameterType.GetOrPost);
             }

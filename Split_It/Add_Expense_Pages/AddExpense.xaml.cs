@@ -27,6 +27,7 @@ namespace Split_It_.Add_Expense_Pages
         BackgroundWorker addExpenseBackgroundWorker;
         BackgroundWorker getSupportedCurrenciesBackgroundWorker;
         ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
+        ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
         AmountSplit amountSplit = AmountSplit.Split_equally;
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
@@ -109,8 +110,10 @@ namespace Split_It_.Add_Expense_Pages
                 switch (amountSplit)
                 {
                     case AmountSplit.You_owe:
+                        divideExpenseYouOwe();
                         break;
                     case AmountSplit.You_are_owed:
+                        divideExpenseOwesYou();
                         break;
                     case AmountSplit.Split_equally:
                         divideExpenseEqually();
@@ -227,9 +230,9 @@ namespace Split_It_.Add_Expense_Pages
 
         private void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            expenseToAdd.users = new List<Expense_Share>();
+            expenseShareUsers.Clear();
             //add yourself to the the list of expense users.
-            expenseToAdd.users.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
+            expenseShareUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
             enableOkButton();
 
             if (this.friendListPicker.SelectedItems == null)
@@ -237,13 +240,13 @@ namespace Split_It_.Add_Expense_Pages
             foreach (var item in this.friendListPicker.SelectedItems)
             {
                 User user = item as User;
-                expenseToAdd.users.Add(new Expense_Share() { user = user, user_id = user.id });
+                expenseShareUsers.Add(new Expense_Share() { user = user, user_id = user.id });
             }
         }
 
         private void divideExpenseEqually()
         {
-            int numberOfExpenseMembers = expenseToAdd.users.Count;
+            int numberOfExpenseMembers = expenseShareUsers.Count;
             double amountToSplit = Convert.ToDouble(expenseToAdd.cost);
             double perPersonShare = amountToSplit / numberOfExpenseMembers;
             perPersonShare = Math.Round(perPersonShare, 2, MidpointRounding.AwayFromZero);
@@ -259,20 +262,75 @@ namespace Split_It_.Add_Expense_Pages
             for (int i = 0; i < numberOfExpenseMembers; i++)
             {
                 //the amount is paid by the user
-                if (expenseToAdd.users[i].user_id == App.currentUser.id)
+                if (expenseShareUsers[i].user_id == App.currentUser.id)
                 {
-                    expenseToAdd.users[i].paid_share = amountToSplit.ToString();
-                    expenseToAdd.users[i].owed_share = currentUsersShare.ToString();
+                    expenseShareUsers[i].paid_share = amountToSplit.ToString();
+                    expenseShareUsers[i].owed_share = currentUsersShare.ToString();
 
                 }
                 else
                 {
-                    expenseToAdd.users[i].paid_share = "0";
-                    expenseToAdd.users[i].owed_share = perPersonShare.ToString();
+                    expenseShareUsers[i].paid_share = "0";
+                    expenseShareUsers[i].owed_share = perPersonShare.ToString();
                 }
             }
+
+            expenseToAdd.users = expenseShareUsers.ToList();
         }
 
+        //This means that the other person paid and you owe the full amount
+        private void divideExpenseYouOwe()
+        {
+            //only you and one more user should be there to access this feature
+            if (expenseShareUsers.Count != 2)
+                throw new IndexOutOfRangeException();
+            int numberOfExpenseMembers = expenseShareUsers.Count;
+            for (int i = 0; i < numberOfExpenseMembers; i++)
+            {
+                //the amount is owed by the user
+                if (expenseShareUsers[i].user_id == App.currentUser.id)
+                {
+                    expenseShareUsers[i].paid_share = "0";
+                    expenseShareUsers[i].owed_share = tbAmount.Text;
+
+                }
+                else
+                {
+                    expenseShareUsers[i].paid_share = tbAmount.Text;
+                    expenseShareUsers[i].owed_share = "0";
+                }
+            }
+
+            expenseToAdd.users = expenseShareUsers.ToList();
+        }
+
+        //This means that you paid and the other person owes you the full amount
+        private void divideExpenseOwesYou()
+        {
+            //only you and one more user should be there to access this feature
+            if (expenseShareUsers.Count != 1)
+                throw new IndexOutOfRangeException();
+
+            int numberOfExpenseMembers = expenseShareUsers.Count;
+            for (int i = 0; i < numberOfExpenseMembers; i++)
+            {
+                //the amount is paid by the user
+                if (expenseShareUsers[i].user_id == App.currentUser.id)
+                {
+                    expenseShareUsers[i].owed_share = "0";
+                    expenseShareUsers[i].paid_share = tbAmount.Text;
+
+                }
+                else
+                {
+                    expenseShareUsers[i].paid_share = "0";
+                    expenseShareUsers[i].owed_share = tbAmount.Text;
+                }
+            }
+
+            expenseToAdd.users = expenseShareUsers.ToList();
+        }
+        
         private void enableOkButton()
         {
             if (this.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(tbAmount.Text) && !String.IsNullOrEmpty(tbDescription.Text))
