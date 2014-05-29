@@ -88,7 +88,7 @@
                 <TextBlock Margin="20" TextWrapping="Wrap" Text="{Binding details}" Foreground="Black" FontSize="{StaticResource userDetaildescriptionSize}"/>
             </phone:PivotItem>
 
-            <!--Pivot item two-->
+            <!--Pivot item three-->
             <phone:PivotItem Margin="0,5,0,0" Header="comments">
                 <telerikData:RadConversationView
                                          x:Name="conversationView"

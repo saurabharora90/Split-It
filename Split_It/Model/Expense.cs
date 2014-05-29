@@ -11,6 +11,7 @@ namespace Split_It_.Model
     {
         public static int DISPLAY_FOR_ALL_USER = 1000;
         public static int DISPLAY_FOR_SPECIFIC_USER = 1001;
+        public static string DEFAULT_DETAILS = "No details associated with this expense.";
 
         /*public Expense()
         {
@@ -27,7 +28,7 @@ namespace Split_It_.Model
             get
             {
                 if (String.IsNullOrEmpty(_details))
-                    return "No details associated with this expense.";
+                    return DEFAULT_DETAILS;
                 else
                     return _details;
             }

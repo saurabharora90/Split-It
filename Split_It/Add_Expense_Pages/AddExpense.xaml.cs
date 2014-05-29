@@ -25,6 +25,11 @@ namespace Split_It_.Add_Expense_Pages
         BackgroundWorker addExpenseBackgroundWorker;
         BackgroundWorker getSupportedCurrenciesBackgroundWorker;
         ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
+
+        public static string EQUALLY = "equally";
+        public static string UNEQUALLY = "unequally";
+        public static string YOU_OWE = "";
+        public static string YOU_ARE_OWED = "";
         
         public AddExpense()
         {
@@ -90,11 +95,13 @@ namespace Split_It_.Add_Expense_Pages
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            //after you get a successful response from the server, make sure to set PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as null
-            
             //to hide the keyboard if any
             this.Focus();
-            if (addExpenseBackgroundWorker.IsBusy != true)
+
+            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
+            NavigationService.Navigate(new Uri("/Add_Expense_Pages/SplitUnequally.xaml", UriKind.Relative));
+
+            /*if (addExpenseBackgroundWorker.IsBusy != true)
             {
                 busyIndicator.Content = "adding expense";
                 busyIndicator.IsRunning = true;
@@ -107,7 +114,7 @@ namespace Split_It_.Add_Expense_Pages
                 expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
 
                 addExpenseBackgroundWorker.RunWorkerAsync();
-            }
+            }*/
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
