@@ -45,6 +45,8 @@ namespace Split_It_
 
             createAppBar();
             this.DataContext = selectedUser;
+            if (selectedUser.balance.Count == 0)
+                selectedUser.balance.Add(new Balance_User() { amount = "0", currency_code = App.currentUser.default_currency, user_id = selectedUser.id });
             this.balanceList.ItemsSource = selectedUser.balance;
         }
 

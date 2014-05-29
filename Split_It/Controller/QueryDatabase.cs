@@ -37,7 +37,7 @@ namespace Split_It_.Controller
                 }
 
                 object[] param = { friendsList[x].id };
-                friendsList[x].balance = dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ? AND amount <> '0.0' AND amount <> '-0.0'", param).ToList<Balance_User>();
+                friendsList[x].balance = dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ? ", param).ToList<Balance_User>();
                 friendsList[x].picture = getUserPicture(friendsList[x].id);
             }
 
