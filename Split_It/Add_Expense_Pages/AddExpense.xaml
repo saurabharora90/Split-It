@@ -586,7 +586,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
@@ -814,7 +814,7 @@
 
                 <telerikPrimitives:RadTextBox Grid.Row="4" 
 				x:Name="tbDetails"
-                Height="150"
+                MinHeight="150"
 				BorderThickness="0" 
 				Foreground="Black" 
 				Watermark="Enter additional details" 
