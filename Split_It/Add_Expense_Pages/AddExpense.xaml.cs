@@ -386,7 +386,7 @@ namespace Split_It_.Add_Expense_Pages
                             expenseShareUsers[i].paid_share = expenseAmount.ToString();
                             currentUserIndex = i;
                         }
-                        double shareAmount = expenseShareUsers[i].percentage % expenseAmount;
+                        double shareAmount = expenseAmount * expenseShareUsers[i].percentage / 100;
 
                         //round off amount to digits
                         double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
