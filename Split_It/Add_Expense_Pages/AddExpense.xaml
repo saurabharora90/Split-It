@@ -702,17 +702,107 @@
                     </Grid>
                 </Border>
 
-                <StackPanel x:Name="spUnequally" Margin="15,10,15,0" Grid.Row="2" Orientation="Vertical" Visibility="Collapsed">
-                    <TextBlock Text="Split by:" Foreground="Black" FontSize="25"/>
-                    <StackPanel  Orientation="Horizontal">
-                        <RadioButton x:Name="rbExactAmounts" Content="amount" GroupName="Group1" 
+                <Border x:Name="spUnequally" Grid.Row="2" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}" Visibility="Collapsed">
+                    <StackPanel Margin="15,10,15,0" Orientation="Vertical">
+                        <TextBlock Text="Split by:" Foreground="Black" FontSize="25"/>
+
+                        <StackPanel  Orientation="Horizontal">
+                            <RadioButton x:Name="rbExactAmounts" Content="amount" GroupName="Group1" 
                    Checked="RadioButton_Checked" IsChecked="True"/>
-                        <RadioButton x:Name="rbPercentage" Content="percentage" GroupName="Group1" 
+                            <RadioButton x:Name="rbPercentage" Content="percentage" GroupName="Group1" 
                    Checked="RadioButton_Checked"/>
-                        <RadioButton x:Name="rbShares" Content="shares" GroupName="Group1" 
+                            <RadioButton x:Name="rbShares" Content="share" GroupName="Group1" 
                    Checked="RadioButton_Checked"/>
+                        </StackPanel>
+
+                        <phone:LongListSelector Name="llsExactAmount">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" 
+                                                   Text="{Binding 'user.name'}" 
+                                                   FontSize="{StaticResource nameSize}" 
+                                                   VerticalAlignment="Center" 
+                                                   HorizontalAlignment="Left" 
+                                                   Foreground="Black" 
+                                                   TextWrapping="Wrap"/>
+                                        
+                                        <TextBox Grid.Column="1" 
+                                                 Text="{Binding owed_share, Mode=TwoWay}" 
+                                                 FontSize="{StaticResource expenseDetailAmount}" 
+                                                 HorizontalAlignment="Right" 
+                                                 Foreground="Black" 
+                                                 Background="{StaticResource splitwiseGreyBG}" 
+                                                 Width="100" KeyDown="tbUnequal_KeyDown"
+                                                 InputScope="Number"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+
+                        <phone:LongListSelector Name="llsPercentage" Visibility="Collapsed">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" 
+                                                   Text="{Binding 'user.name'}" 
+                                                   FontSize="{StaticResource nameSize}" 
+                                                   VerticalAlignment="Center" 
+                                                   HorizontalAlignment="Left" 
+                                                   Foreground="Black" 
+                                                   TextWrapping="Wrap"/>
+
+                                        <TextBox Grid.Column="1" 
+                                                 Text="{Binding percentage, Mode=TwoWay}" 
+                                                 FontSize="{StaticResource expenseDetailAmount}" 
+                                                 HorizontalAlignment="Right" 
+                                                 Foreground="Black" 
+                                                 Background="{StaticResource splitwiseGreyBG}" 
+                                                 Width="100" KeyDown="tbUnequal_KeyDown"
+                                                 InputScope="Number"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+
+                        <phone:LongListSelector Name="llsShares" Visibility="Collapsed">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" 
+                                                   Text="{Binding 'user.name'}" 
+                                                   FontSize="{StaticResource nameSize}" 
+                                                   VerticalAlignment="Center" 
+                                                   HorizontalAlignment="Left" 
+                                                   Foreground="Black" 
+                                                   TextWrapping="Wrap"/>
+
+                                        <TextBox Grid.Column="1" 
+                                                 Text="{Binding share, Mode=TwoWay}" 
+                                                 FontSize="{StaticResource expenseDetailAmount}" 
+                                                 HorizontalAlignment="Right" 
+                                                 Foreground="Black" 
+                                                 Background="{StaticResource splitwiseGreyBG}" 
+                                                 Width="100" KeyDown="tbUnequal_KeyDown"
+                                                 InputScope="Number"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
                     </StackPanel>
-                </StackPanel>
+                </Border>
 
                 <telerikInput:RadDatePicker x:Name="expenseDate" 
 				                        Grid.Row="3"

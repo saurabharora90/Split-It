@@ -96,5 +96,12 @@ namespace Split_It_.Model
         public string paid_share { get; set; }
         public string owed_share { get; set; }
         public string net_balance { get; set; }
+
+
+        //to help with spliting expense unequally
+        [Ignore]
+        public double percentage { get; set; }
+        [Ignore]
+        public double share { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace Split_It_.Add_Expense_Pages
     public partial class AddExpense : PhoneApplicationPage
     {
         enum AmountSplit { You_owe, You_are_owed, Split_equally, Split_unequally };
+        enum SplitUnequally { EXACT_AMOUNTS, PERCENTAGES, SHARES };
 
         Expense expenseToAdd;
         ApplicationBarIconButton btnOkay;
@@ -29,6 +30,7 @@ namespace Split_It_.Add_Expense_Pages
         ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
         ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
         AmountSplit amountSplit = AmountSplit.Split_equally;
+        SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
         public static string EQUALLY = "split equally.";
@@ -72,6 +74,10 @@ namespace Split_It_.Add_Expense_Pages
                 expenseToAdd = new Expense();
 
             expenseDate.Value = DateTime.Now;
+
+            llsExactAmount.ItemsSource = expenseShareUsers;
+            llsPercentage.ItemsSource = expenseShareUsers;
+            llsShares.ItemsSource = expenseShareUsers;
         }
 
         private Group getFromGroup()
@@ -123,7 +129,7 @@ namespace Split_It_.Add_Expense_Pages
                     default:
                         break;
                 }
-
+                expenseToAdd.users = expenseShareUsers.ToList();
                 expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
                 expenseToAdd.payment = false;
                 DateTime dateTime = expenseDate.Value ?? DateTime.Now;
@@ -273,9 +279,9 @@ namespace Split_It_.Add_Expense_Pages
                     expenseShareUsers[i].paid_share = "0";
                     expenseShareUsers[i].owed_share = perPersonShare.ToString();
                 }
-            }
 
-            expenseToAdd.users = expenseShareUsers.ToList();
+                expenseShareUsers[i].share = 1;
+            }
         }
 
         //This means that the other person paid and you owe the full amount
@@ -300,8 +306,6 @@ namespace Split_It_.Add_Expense_Pages
                     expenseShareUsers[i].owed_share = "0";
                 }
             }
-
-            expenseToAdd.users = expenseShareUsers.ToList();
         }
 
         //This means that you paid and the other person owes you the full amount
@@ -327,8 +331,6 @@ namespace Split_It_.Add_Expense_Pages
                     expenseShareUsers[i].owed_share = tbAmount.Text;
                 }
             }
-
-            expenseToAdd.users = expenseShareUsers.ToList();
         }
         
         private void enableOkButton()
@@ -440,6 +442,7 @@ namespace Split_It_.Add_Expense_Pages
                 spUnequally.Visibility = System.Windows.Visibility.Collapsed;
             else
             {
+                divideExpenseEqually();
                 spUnequally.Visibility = System.Windows.Visibility.Visible;
             }
         }
@@ -531,9 +534,45 @@ namespace Split_It_.Add_Expense_Pages
                 e.Handled = true;
         }
 
+        private void tbUnequal_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            //do not llow user to input more than one decimal point
+            if (textBox.Text.Contains(decimalsep) && e.PlatformKeyCode == 190)
+                e.Handled = true;
+        }
+
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
+            RadioButton btn = sender as RadioButton;
 
+            if (llsExactAmount == null || llsPercentage == null || llsShares == null)
+                return;
+
+            if (btn.Content.ToString() == "amount")
+            {
+                splitUnequally = SplitUnequally.EXACT_AMOUNTS;
+                llsExactAmount.Visibility = System.Windows.Visibility.Visible;
+                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
+                llsShares.Visibility = System.Windows.Visibility.Collapsed;
+            }
+
+            else if (btn.Content.ToString() == "percentage")
+            {
+                splitUnequally = SplitUnequally.PERCENTAGES;
+                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
+                llsPercentage.Visibility = System.Windows.Visibility.Visible;
+                llsShares.Visibility = System.Windows.Visibility.Collapsed;
+            }
+
+            else if (btn.Content.ToString() == "share")
+            {
+                splitUnequally = SplitUnequally.SHARES;
+                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
+                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
+                llsShares.Visibility = System.Windows.Visibility.Visible;
+            }
         }
     }
 }
