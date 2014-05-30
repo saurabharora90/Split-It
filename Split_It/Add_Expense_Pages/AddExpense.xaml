@@ -123,7 +123,7 @@
     						</Border>
     						<telerikPrimitives:RadWindow x:Name="Popup" CloseAnimation="{TemplateBinding PopupCloseAnimation}" IsFullScreen="True" IsAnimationEnabled="{TemplateBinding IsAnimationEnabled}" OpenAnimation="{TemplateBinding PopupOpenAnimation}" Background="{StaticResource splitwiseGreen}" Foreground="White">
     							<telerikPrimitives:RadWindow.ApplicationBarInfo>
-    								<telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}">
+    								<telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}" ForegroundColor="White">
     									<telerikPrimitives:ApplicationBarButton x:Name="PART_OKButton"/>
     									<telerikPrimitives:ApplicationBarButton x:Name="PART_CancelButton"/>
     								</telerikPrimitives:ApplicationBarInfo>
@@ -173,7 +173,7 @@
     	<Style TargetType="toolkit:PhoneTextBox">
     		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
     		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
-    		<Setter Property="Background" Value="{StaticResource PhoneTextBoxBrush}"/>
+    		<Setter Property="Background" Value="White"/>
     		<Setter Property="Foreground" Value="{StaticResource PhoneTextBoxForegroundBrush}"/>
     		<Setter Property="BorderBrush" Value="{StaticResource PhoneTextBoxBrush}"/>
     		<Setter Property="SelectionBackground" Value="{StaticResource PhoneAccentBrush}"/>
@@ -341,7 +341,7 @@
     				<ControlTemplate TargetType="telerikInput:RadDatePicker">
     					<telerikPrimitives:RadPickerBox x:Name="PART_PickerBox" ContentTemplate="{TemplateBinding EmptyContentTemplate}" HeaderTemplate="{TemplateBinding HeaderTemplate}" HeaderStyle="{TemplateBinding HeaderStyle}" Header="{TemplateBinding Header}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PopupCloseAnimation="{StaticResource CloseAnimation}" PickerButtonStyle="{TemplateBinding PickerButtonStyle}" PopupOpenAnimation="{StaticResource OpenAnimation}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
     						<telerikPrimitives:RadPickerBox.ApplicationBarInfo>
-    							<telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}">
+    							<telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}" ForegroundColor="White">
     								<telerikPrimitives:ApplicationBarButton x:Name="PART_OKButton"/>
     								<telerikPrimitives:ApplicationBarButton x:Name="PART_CancelButton"/>
     							</telerikPrimitives:ApplicationBarInfo>
@@ -385,7 +385,7 @@
     		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
     		<Setter Property="Background" Value="Transparent"/>
     		<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
-    		<Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+    		<Setter Property="BorderBrush" Value="White"/>
     		<Setter Property="Template">
     			<Setter.Value>
     				<ControlTemplate TargetType="PickerBox:PickerBoxToggleButton">
@@ -458,7 +458,8 @@
 		<Grid Background="White" x:Name="ContentPanel" Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
@@ -577,15 +578,16 @@
 			</Border>
 
 			<telerikInput:RadDatePicker x:Name="expenseDate" 
-				                        Grid.Row="2"
+				                        Grid.Row="3"
 				                        OkButtonIconUri="/Assets/Icons/ok.png"
 				                        CancelButtonIconUri="/Assets/Icons/cancel.png"
 				                        DisplayValueFormat="{}{0:dd MMMM, yyyy}"
 				                        Style="{StaticResource RadDatePickerStyle1}" 
                                         PickerButtonStyle="{StaticResource PickerBoxToggleButtonStyle1}"/>
             
-			<telerikPrimitives:RadTextBox Grid.Row="3" 
-				x:Name="tbDetails" 
+			<telerikPrimitives:RadTextBox Grid.Row="4" 
+				x:Name="tbDetails"
+                Height="150"
 				BorderThickness="0" 
 				Foreground="Black" 
 				Watermark="Enter additional details" 
