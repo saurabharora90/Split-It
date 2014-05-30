@@ -437,10 +437,10 @@ namespace Split_It_.Add_Expense_Pages
         private void showUnequalSectionIfNeeded()
         {
             if (amountSplit != AmountSplit.Split_unequally)
-                return;
+                spUnequally.Visibility = System.Windows.Visibility.Collapsed;
             else
             {
-
+                spUnequally.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
@@ -529,6 +529,11 @@ namespace Split_It_.Add_Expense_Pages
             //do not llow user to input more than one decimal point
             if (textBox.Text.Contains(decimalsep) && e.PlatformKeyCode == 190)
                 e.Handled = true;
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
