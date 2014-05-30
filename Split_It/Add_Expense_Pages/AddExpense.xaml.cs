@@ -15,6 +15,7 @@ using System.ComponentModel;
 using Split_It_.Controller;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows.Input;
 
 namespace Split_It_.Add_Expense_Pages
 {
@@ -107,8 +108,10 @@ namespace Split_It_.Add_Expense_Pages
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            FocusedTextBoxUpdateSource();
             //to hide the keyboard if any
             this.Focus();
+            bool proceed = true;
             if (addExpenseBackgroundWorker.IsBusy != true)
             {
                 busyIndicator.Content = "adding expense";
@@ -125,6 +128,7 @@ namespace Split_It_.Add_Expense_Pages
                         divideExpenseEqually();
                         break;
                     case AmountSplit.Split_unequally:
+                        proceed = divideExpenseUnequally();
                         break;
                     default:
                         break;
@@ -135,7 +139,10 @@ namespace Split_It_.Add_Expense_Pages
                 DateTime dateTime = expenseDate.Value ?? DateTime.Now;
                 expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
 
-                addExpenseBackgroundWorker.RunWorkerAsync();
+                if (proceed)
+                    addExpenseBackgroundWorker.RunWorkerAsync();
+                else
+                    busyIndicator.IsRunning = false;
             }
         }
 
@@ -332,7 +339,114 @@ namespace Split_It_.Add_Expense_Pages
                 }
             }
         }
-        
+
+        private bool divideExpenseUnequally()
+        {
+            bool proceed = true;
+            double expenseAmount = Convert.ToDouble(expenseToAdd.cost);
+            int numberOfExpenseMembers = expenseShareUsers.Count;
+            double extraAmount = 0; //this is extra amount left because of rounding off;
+            int currentUserIndex = 0; //need the current user index to factor in the extra amount mentioned above
+            double currenUserShareAmount = 0;
+
+            switch (splitUnequally)
+            {
+                case SplitUnequally.EXACT_AMOUNTS:
+                    double totalAmount = 0;
+
+                    for (int i = 0; i < numberOfExpenseMembers; i++)
+                    {
+                        //the amount is paid by the user
+                        if (expenseShareUsers[i].user_id == App.currentUser.id)
+                        {
+                            expenseShareUsers[i].paid_share = expenseAmount.ToString();
+                        }
+                        totalAmount += Convert.ToDouble(expenseShareUsers[i].owed_share);
+                    }
+
+                    if (totalAmount != expenseAmount)
+                    {
+                        string errorMessage = "The total amount split is not equal to expense amount.";
+                        string newLine = "\n";
+                        string total = "Input total: " + totalAmount.ToString();
+                        string expenseTotal = "Expense Amount: " + expenseAmount.ToString();
+                        MessageBox.Show(errorMessage + newLine + newLine + total + newLine + expenseTotal, "Error", MessageBoxButton.OK);
+
+                        proceed = false;
+                    }
+                    break;
+                case SplitUnequally.PERCENTAGES:
+                    double totalPercentage = 0;
+
+                    for (int i = 0; i < numberOfExpenseMembers; i++)
+                    {
+                        //the amount is paid by the user
+                        if (expenseShareUsers[i].user_id == App.currentUser.id)
+                        {
+                            expenseShareUsers[i].paid_share = expenseAmount.ToString();
+                            currentUserIndex = i;
+                        }
+                        double shareAmount = expenseShareUsers[i].percentage % expenseAmount;
+
+                        //round off amount to digits
+                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
+                        extraAmount += shareAmount - shareAmountRounded;
+
+                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
+
+                        totalPercentage += expenseShareUsers[i].percentage;
+                    }
+
+                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
+                    currenUserShareAmount += extraAmount;
+                    expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
+
+                    if (totalPercentage != 100)
+                    {
+                        string errorMessage = "Total percentage is not equal to 100%";
+                        MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK);
+
+                        proceed = false;
+                    }
+                    break;
+                case SplitUnequally.SHARES:
+                    double totalShares = 0;
+
+                    for (int i = 0; i < numberOfExpenseMembers; i++)
+                    {
+                        totalShares += expenseShareUsers[i].share;
+                    }
+
+                    double perShareAmount = expenseAmount / totalShares;
+                    for (int i = 0; i < numberOfExpenseMembers; i++)
+                    {
+                        //the amount is paid by the user
+                        if (expenseShareUsers[i].user_id == App.currentUser.id)
+                        {
+                            expenseShareUsers[i].paid_share = expenseAmount.ToString();
+                            currentUserIndex = i;
+                        }
+                        double shareAmount = expenseShareUsers[i].share * perShareAmount;
+
+                        //round off amount to digits
+                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
+                        extraAmount += shareAmount - shareAmountRounded;
+
+                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
+                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
+                    }
+                    
+                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
+                    currenUserShareAmount += extraAmount;
+                    expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
+                    break;
+                default:
+                    break;
+            }
+
+            return proceed;
+        }
+
         private void enableOkButton()
         {
             if (this.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(tbAmount.Text) && !String.IsNullOrEmpty(tbDescription.Text))
@@ -572,6 +686,36 @@ namespace Split_It_.Add_Expense_Pages
                 llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
                 llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
                 llsShares.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
+        public static void FocusedTextBoxUpdateSource()
+        {
+            var focusedElement = FocusManager.GetFocusedElement();
+            var focusedTextBox = focusedElement as TextBox;
+
+            if (focusedTextBox != null)
+            {
+                var binding = focusedTextBox.GetBindingExpression(TextBox.TextProperty);
+
+                if (binding != null)
+                {
+                    binding.UpdateSource();
+                }
+            }
+            else
+            {
+                var focusedPasswordBox = focusedElement as PasswordBox;
+
+                if (focusedPasswordBox != null)
+                {
+                    var binding = focusedPasswordBox.GetBindingExpression(PasswordBox.PasswordProperty);
+
+                    if (binding != null)
+                    {
+                        binding.UpdateSource();
+                    }
+                }
             }
         }
     }

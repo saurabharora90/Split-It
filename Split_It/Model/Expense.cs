@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,8 +83,10 @@ namespace Split_It_.Model
         public int displayType { get; set; }
     }
 
-    public class Expense_Share
+    public class Expense_Share : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public int expense_id { get; set; }
         
         [Ignore]
@@ -94,7 +97,19 @@ namespace Split_It_.Model
 
         public int user_id { get; set; }
         public string paid_share { get; set; }
-        public string owed_share { get; set; }
+
+        private string _owedShare;
+        public string owed_share
+        {
+            get { return _owedShare; }
+            set
+            {
+                _owedShare = value;
+                // Call OnPropertyChanged whenever the property is updated
+                OnPropertyChanged("owed_share");
+            }
+        }
+
         public string net_balance { get; set; }
 
 
@@ -103,5 +118,15 @@ namespace Split_It_.Model
         public double percentage { get; set; }
         [Ignore]
         public double share { get; set; }
+
+        // Create the OnPropertyChanged method to raise the event 
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 }
