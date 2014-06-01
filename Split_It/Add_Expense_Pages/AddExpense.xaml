@@ -686,7 +686,7 @@
                                     <toolkit:PhoneTextBox x:Name="tbAmount" 
 									AcceptsReturn="False" 
 									Hint="0.00"
-                                    Width="220"
+                                    Width="150"
                                     KeyDown="tbAmount_KeyDown"
                                     TextChanged="tbAmount_TextChanged"
 									InputScope="Number" BorderThickness="0" Margin="40,0,0,0" FontSize="{StaticResource nameSize}"/>
@@ -815,7 +815,8 @@
                 <telerikPrimitives:RadTextBox Grid.Row="4" 
 				x:Name="tbDetails"
                 MinHeight="150"
-				BorderThickness="0" 
+				BorderThickness="0"
+                InputScope="Text"
 				Foreground="Black" 
 				Watermark="Enter additional details" 
 				AcceptsReturn="True" 
