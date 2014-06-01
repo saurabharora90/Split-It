@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Data;
+using Microsoft.Phone.Tasks;
 
 namespace Split_It_
 {
@@ -58,6 +59,8 @@ namespace Split_It_
 
             setupAppBars();
             populateData();
+
+            more.DataContext = App.currentUser;
         }
 
         private void setupAppBars()
@@ -323,6 +326,33 @@ namespace Split_It_
             NavigationService.Navigate(new Uri("/GroupDetail.xaml", UriKind.Relative));
 
             llsGroups.SelectedItem = null;
+        }
+
+        private void add_user_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void create_group_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void logout_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Util.logout();
+            NavigationService.Navigate(new Uri("/Login.xaml", UriKind.Relative));
+        }
+
+        private void rate_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            MarketplaceReviewTask marketplaceReviewTask = new MarketplaceReviewTask();
+            marketplaceReviewTask.Show();
+        }
+
+        private void beer_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Split_It_
     public partial class Login : PhoneApplicationPage
     {
         private OAuthRequest request;
+        
         public Login()
         {
             InitializeComponent();
@@ -31,6 +32,14 @@ namespace Split_It_
 
             request = new OAuthRequest();
             request.getReuqestToken(_requestTokenRetrieved);
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            
+            //do not allow him to go back to the Splash Page. therefore clear the back stack
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
         }
 
         private async Task CopyDatabase()

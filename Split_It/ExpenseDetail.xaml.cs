@@ -75,11 +75,11 @@ namespace Split_It_
             btnDelete.Click += new EventHandler(btnDelete_Click);
 
             //edit expense button
-            /*ApplicationBarIconButton btnEdit = new ApplicationBarIconButton();
+            ApplicationBarIconButton btnEdit = new ApplicationBarIconButton();
             btnEdit.IconUri = new Uri("/Assets/Icons/edit.png", UriKind.Relative);
             btnEdit.Text = "edit";
             ApplicationBar.Buttons.Add(btnEdit);
-            btnEdit.Click += new EventHandler(btnEdit_Click);*/
+            btnEdit.Click += new EventHandler(btnEdit_Click);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -155,10 +155,10 @@ namespace Split_It_
             }
         }
 
-        /*private void btnEdit_Click(object sender, EventArgs e)
+        private void btnEdit_Click(object sender, EventArgs e)
         {
 
-        }*/
+        }
 
         private void commentLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {

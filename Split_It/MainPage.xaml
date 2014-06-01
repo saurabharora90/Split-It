@@ -103,7 +103,73 @@
             </phone:PivotItem>
 
             <!--Pivot item four-->
-            <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.More, Source={StaticResource LocalizedStrings}}">
+            <phone:PivotItem x:Name="more" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.More, Source={StaticResource LocalizedStrings}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center"  Margin="12"/>
+
+                        <Grid Grid.Column="1" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="tbName" Text="{Binding first_name}" Foreground="Black" Grid.Row="0" FontSize="38" HorizontalAlignment="Left"/>
+                            <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Grid>
+                    
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,15">
+                        <TextBlock Name="add_user" 
+                                   Padding="14" 
+                                   Text="add user" 
+                                   Foreground="Black"
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   Tap="add_user_Tap"
+                                   FontSize="{StaticResource userDetailnameSize}"/>
+
+                        <TextBlock Name="create_group" 
+                                   Padding="14" 
+                                   Text="create group" 
+                                   Foreground="Black" 
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   Tap="create_group_Tap"
+                                   FontSize="{StaticResource userDetailnameSize}"/>
+
+                        <TextBlock Name="logout" 
+                                   Padding="14" 
+                                   Text="logout" 
+                                   Foreground="Black" 
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   Tap="logout_Tap"
+                                   FontSize="{StaticResource userDetailnameSize}"/>
+
+                        <TextBlock Name="rate" 
+                                   Padding="14" 
+                                   Text="rate and review" 
+                                   Foreground="Black" 
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   Tap="rate_Tap"
+                                   FontSize="{StaticResource userDetailnameSize}"/>
+
+                        <TextBlock Name="beer" 
+                                   Padding="14" 
+                                   Text="buy me a beer (remove ads)" 
+                                   Foreground="Black" 
+                                   Tap="beer_Tap"
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   FontSize="{StaticResource userDetailnameSize}"/>
+                    </StackPanel>
+                </Grid>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
