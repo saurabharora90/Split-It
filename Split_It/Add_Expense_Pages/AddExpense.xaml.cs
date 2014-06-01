@@ -136,6 +136,7 @@ namespace Split_It_.Add_Expense_Pages
                 expenseToAdd.users = expenseShareUsers.ToList();
                 expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
                 expenseToAdd.payment = false;
+                expenseToAdd.details = tbDetails.Text;
                 DateTime dateTime = expenseDate.Value ?? DateTime.Now;
                 expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
 
