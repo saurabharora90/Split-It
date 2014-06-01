@@ -93,6 +93,13 @@ namespace Split_It_
             ApplicationBar.Buttons.Add(btnAddExpense);
             btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
 
+            //search expense button
+            ApplicationBarIconButton btnSearchExpense = new ApplicationBarIconButton();
+            btnSearchExpense.IconUri = new Uri("/Assets/Icons/feature.search.png", UriKind.Relative);
+            btnSearchExpense.Text = "search";
+            ApplicationBar.Buttons.Add(btnSearchExpense);
+            btnSearchExpense.Click += new EventHandler(btnSearchExpense_Click);
+
             ApplicationBar.MenuItems.Add(btnAllFriends);
             ApplicationBar.MenuItems.Add(btnBalanceFriends);
             ApplicationBar.MenuItems.Add(btnYouOweFriends);
@@ -103,6 +110,11 @@ namespace Split_It_
         {
             PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
             NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddExpense.xaml", UriKind.Relative));
+        }
+
+        private void btnSearchExpense_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ExpenseSearch.xaml", UriKind.Relative));
         }
         
         private void btnAllFriends_Click(object sender, EventArgs e)

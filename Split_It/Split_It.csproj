@@ -132,6 +132,9 @@
     <Compile Include="ExpenseDetail.xaml.cs">
       <DependentUpon>ExpenseDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExpenseSearch.xaml.cs">
+      <DependentUpon>ExpenseSearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GroupDetail.xaml.cs">
       <DependentUpon>GroupDetail.xaml</DependentUpon>
     </Compile>
@@ -201,6 +204,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ExpenseSearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GroupDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +235,7 @@
     <Content Include="Assets\Icons\delete.png" />
     <Content Include="Assets\Icons\edit.png" />
     <Content Include="Assets\Icons\feature.email.png" />
+    <Content Include="Assets\Icons\feature.search.png" />
     <Content Include="Assets\Icons\ok.png" />
     <Content Include="Assets\Icons\save.png" />
     <Content Include="Assets\Icons\settle.png" />

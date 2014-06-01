@@ -191,6 +191,41 @@ namespace Split_It_.Controller
             List<Currency> currencyList = dbConn.Query<Currency>("SELECT * FROM currency ORDER BY currency_code");
             return currencyList;
         }
+
+        public List<Expense> searchForExpense(string searchText)
+        {
+            //int offset = EXPENSES_ROWS * pageNo;
+            object[] param = { 15 }; //top 15 results only
+
+            //Only retrieve expenses that have not been deleted
+            string query = "SELECT * FROM expense WHERE deleted_by=0 AND upper(description) LIKE upper('%" + searchText + "%') ORDER BY datetime(date) DESC LIMIT ?";
+            List<Expense> expensesList = dbConn.Query<Expense>(query, param).ToList<Expense>();
+
+            //Get list of repayments for expense.
+            //Get the created by, updated by and deleted by user
+            //Get the expense share per user. Within each expense user, fill in the user details.
+            for (var x = 0; x < expensesList.Count; x++)
+            {
+                expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
+                expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
+                expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
+
+                if (expensesList[x].updated_by_user_id != 0)
+                    expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+
+                if (expensesList[x].deleted_by_user_id != 0)
+                    expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
+
+                expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
+
+                for (var y = 0; y < expensesList[x].users.Count; y++)
+                {
+                    expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
+                }
+            }
+
+            return expensesList;
+        }
         
         public void closeDatabaseConnection()
         {
