@@ -111,7 +111,7 @@ namespace Split_It_.Add_Expense_Pages
 
         public bool setupExpense()
         {
-            //FocusedTextBoxUpdateSource();
+            FocusedTextBoxUpdateSource();
             //to hide the keyboard if any
             this.Focus();
             bool proceed = true;

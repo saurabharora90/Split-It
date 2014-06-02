@@ -114,9 +114,6 @@ namespace Split_It_.Add_Expense_Pages
         
         private void btnOk_Click(object sender, EventArgs e)
         {
-            //FocusedTextBoxUpdateSource();
-            //to hide the keyboard if any
-            this.Focus();
             bool proceed = this.expenseControl.setupExpense();
             if (editExpenseBackgroundWorker.IsBusy != true)
             {
