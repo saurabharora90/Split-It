@@ -39,6 +39,8 @@
 
             <telerikPrimitives:RadTextBox x:Name="tbSearch"
                                           Grid.Row="0"
+                                          Foreground="Black"
+                                          BorderThickness="0"
                                           ActionButtonVisibility="Visible"
                                           Watermark="enter search text"
                                           ExecuteActionOnReturn="True"
@@ -51,6 +53,8 @@
                 <telerikPrimitives:RadTextBox.ActionButtonStyle>
                     <Style TargetType="telerikTextBox:TextBoxActionButton">
                         <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="Black"/>
                     </Style>
                 </telerikPrimitives:RadTextBox.ActionButtonStyle>
 
