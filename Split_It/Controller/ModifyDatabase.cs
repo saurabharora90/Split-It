@@ -28,7 +28,8 @@ namespace Split_It_.Controller
 
         public void editExpense(Expense editedExpenseDetail)
         {
-
+            UpdateExpenseRequest request = new UpdateExpenseRequest(editedExpenseDetail);
+            request.updateExpense(_OperationSucceded, _OperationFailed);
         }
 
         public void addExpense(Expense expense)

@@ -7,42 +7,37 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using System.Collections;
-using Split_It_.Model;
-using System.Windows.Media;
 using Split_It_.Utils;
 using System.ComponentModel;
 using Split_It_.Controller;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Windows.Input;
+using System.Windows.Media;
+using Split_It_.Model;
 
 namespace Split_It_.Add_Expense_Pages
 {
-    public partial class AddExpense : PhoneApplicationPage
+    public partial class EditExpense : PhoneApplicationPage
     {
-        BackgroundWorker addExpenseBackgroundWorker;
+        BackgroundWorker editExpenseBackgroundWorker;
         ApplicationBarIconButton btnOkay;
-        
-        public AddExpense()
+
+        public EditExpense()
         {
             InitializeComponent();
 
-            addExpenseBackgroundWorker = new BackgroundWorker();
-            addExpenseBackgroundWorker.WorkerSupportsCancellation = true;
-            addExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(addExpenseBackgroundWorker_DoWork);
+            editExpenseBackgroundWorker = new BackgroundWorker();
+            editExpenseBackgroundWorker.WorkerSupportsCancellation = true;
+            editExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(editExpenseBackgroundWorker_DoWork);
 
             createAppBar();
 
-            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_equally;
-            this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
-            this.expenseControl.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
             this.expenseControl.tbDescription.TextChanged += tbDescription_TextChanged;
             this.expenseControl.tbAmount.TextChanged += tbAmount_TextChanged;
 
-            this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
+            setupViews();
 
-            this.expenseControl.expenseDate.Value = DateTime.Now;
+            //This has to be setup after we display the expense's values so that these dont override their values
+            this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
+            this.expenseControl.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
         }
 
         protected void createAppBar()
@@ -69,9 +64,26 @@ namespace Split_It_.Add_Expense_Pages
             btnCancel.Click += new EventHandler(btnCancel_Click);
         }
 
-        private Group getFromGroup()
+        private void setupViews()
         {
-            if (this.expenseControl.expense == null)
+            this.expenseControl.tbDescription.Text = this.expenseControl.expense.description;
+            this.expenseControl.tbAmount.Text = this.expenseControl.expense.cost;
+
+            if (!String.IsNullOrEmpty(this.expenseControl.expense.details) && !this.expenseControl.expense.details.Equals(Expense.DEFAULT_DETAILS))
+            {
+                this.expenseControl.tbDetails.Text = this.expenseControl.expense.details;
+            }
+            this.expenseControl.expenseDate.Value = DateTime.Parse(this.expenseControl.expense.date, System.Globalization.CultureInfo.InvariantCulture);
+            
+            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_equally;
+
+            this.expenseControl.groupListPicker.SelectedItem = getSelectedGroup();
+            setupSelectedUsers();
+        }
+
+        private Group getSelectedGroup()
+        {
+            if (this.expenseControl.expense.group_id == 0)
                 return null;
             else
             {
@@ -85,19 +97,33 @@ namespace Split_It_.Add_Expense_Pages
             return null;
         }
 
+        private void setupSelectedUsers()
+        {
+            if (this.expenseControl.expense.users.Count == 0)
+                return;
+            else
+            {
+                foreach (var expenseUser in this.expenseControl.expense.users)
+                {
+                    this.expenseControl.expenseShareUsers.Add(expenseUser);
+                    if (expenseUser.user.id != App.currentUser.id)
+                        this.expenseControl.friendListPicker.SelectedItems.Add(expenseUser.user);
+                }
+            }
+        }
+        
         private void btnOk_Click(object sender, EventArgs e)
         {
             //FocusedTextBoxUpdateSource();
             //to hide the keyboard if any
             this.Focus();
             bool proceed = this.expenseControl.setupExpense();
-            if (addExpenseBackgroundWorker.IsBusy != true)
+            if (editExpenseBackgroundWorker.IsBusy != true)
             {
-                busyIndicator.Content = "adding expense";
                 busyIndicator.IsRunning = true;
 
                 if (proceed)
-                    addExpenseBackgroundWorker.RunWorkerAsync();
+                    editExpenseBackgroundWorker.RunWorkerAsync();
                 else
                     busyIndicator.IsRunning = false;
             }
@@ -160,7 +186,7 @@ namespace Split_It_.Add_Expense_Pages
                 this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = user, user_id = user.id });
             }
         }
-
+        
         protected void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.expenseControl.expense.description = this.expenseControl.tbDescription.Text;
@@ -172,7 +198,7 @@ namespace Split_It_.Add_Expense_Pages
             this.expenseControl.expense.cost = this.expenseControl.tbAmount.Text;
             enableOkButton();
         }
-        
+
         private void enableOkButton()
         {
             if (this.expenseControl.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
@@ -182,14 +208,14 @@ namespace Split_It_.Add_Expense_Pages
             else
                 btnOkay.IsEnabled = false;
         }
-
-        private void addExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        
+        private void editExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            ModifyDatabase modify = new ModifyDatabase(_addExpenseCompleted);
-            modify.addExpense(this.expenseControl.expense);
+            ModifyDatabase modify = new ModifyDatabase(_editExpenseCompleted);
+            modify.editExpense(this.expenseControl.expense);
         }
 
-        private void _addExpenseCompleted(bool success, HttpStatusCode errorCode)
+        private void _editExpenseCompleted(bool success, HttpStatusCode errorCode)
         {
             if (success)
             {
@@ -213,7 +239,7 @@ namespace Split_It_.Add_Expense_Pages
                     }
                     else
                     {
-                        MessageBox.Show("Unable to add expense", "Error", MessageBoxButton.OK);
+                        MessageBox.Show("Unable to edit expense", "Error", MessageBoxButton.OK);
                     }
                 });
             }

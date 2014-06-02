@@ -1,13 +1,17 @@
 ﻿<phone:PhoneApplicationPage
-   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    x:Class="Split_It_.Add_Expense_Pages.EditExpense"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Split_It_.Add_Expense_Pages"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
-    x:Class="Split_It_.Add_Expense_Pages.AddExpense"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
 
@@ -21,16 +25,17 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="0">
             <TextBlock Foreground="White" 
-				Text="add expense" 
+				Text="edit expense" 
 				Margin="15,25" 
 				FontSize="{StaticResource PivotTitleFontSize}"/>
         </StackPanel>
-        
+
         <local:ExpenseUserControl x:Name="expenseControl"
                                   Grid.Row="1"/>
 
         <telerikPrimitives:RadBusyIndicator Background="#CC000000"
                                             Foreground="White"
+                                            Content="performing operation"
                                             x:Name="busyIndicator" 
                                             Grid.Row="0" 
                                             Grid.RowSpan="2"

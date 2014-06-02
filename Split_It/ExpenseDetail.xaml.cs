@@ -80,6 +80,12 @@ namespace Split_It_
             btnEdit.Text = "edit";
             ApplicationBar.Buttons.Add(btnEdit);
             btnEdit.Click += new EventHandler(btnEdit_Click);
+
+            //can only edit expenses for the time being
+            if (selectedExpense.payment)
+                btnEdit.IsEnabled = false;
+            else
+                btnEdit.IsEnabled = true;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -157,7 +163,8 @@ namespace Split_It_
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-
+            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = selectedExpense;
+            NavigationService.Navigate(new Uri("/Add_Expense_Pages/EditExpense.xaml", UriKind.Relative));
         }
 
         private void commentLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

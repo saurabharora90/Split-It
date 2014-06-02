@@ -97,6 +97,9 @@
     <Compile Include="Add_Expense_Pages\AddPayment.xaml.cs">
       <DependentUpon>AddPayment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Add_Expense_Pages\EditExpense.xaml.cs">
+      <DependentUpon>EditExpense.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Add_Expense_Pages\ExpenseUserControl.xaml.cs">
       <DependentUpon>ExpenseUserControl.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,7 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
     <Compile Include="Request\AddExpenseRequest.cs" />
+    <Compile Include="Request\UpdateExpenseRequest.cs" />
     <Compile Include="Request\GetCurrenciesRequest.cs" />
     <Compile Include="Request\CreateCommentRequest.cs" />
     <Compile Include="Request\GetCommentsRequest.cs" />
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Add_Expense_Pages\AddPayment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Add_Expense_Pages\EditExpense.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

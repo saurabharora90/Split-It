@@ -66,8 +66,6 @@ namespace Split_It_.Add_Expense_Pages
             if (expense == null)
                 expense = new Expense();
 
-            expenseDate.Value = DateTime.Now;
-
             llsExactAmount.ItemsSource = expenseShareUsers;
             llsPercentage.ItemsSource = expenseShareUsers;
             llsShares.ItemsSource = expenseShareUsers;
@@ -416,7 +414,7 @@ namespace Split_It_.Add_Expense_Pages
             }
         }
 
-        private void showUnequalSectionIfNeeded()
+        public void showUnequalSectionIfNeeded()
         {
             if (amountSplit != AmountSplit.Split_unequally)
                 spUnequally.Visibility = System.Windows.Visibility.Collapsed;
