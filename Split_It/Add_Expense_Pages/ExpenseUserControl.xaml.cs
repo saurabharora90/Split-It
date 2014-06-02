@@ -338,6 +338,7 @@ namespace Split_It_.Add_Expense_Pages
             if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
             {
                 toggle();
+                setText();
                 showUnequalSectionIfNeeded();
             }
 
@@ -361,27 +362,15 @@ namespace Split_It_.Add_Expense_Pages
                     // d) If split unequally then show stuff for split equally
 
                     case AmountSplit.You_owe:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = selectedUser.first_name;
-                        tbFullAmount.Text = OWES + FULL_AMOUNT;
                         amountSplit = AmountSplit.You_are_owed;
                         break;
                     case AmountSplit.You_are_owed:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = UNEQUALLY;
-                        tbFullAmount.Text = "";
                         amountSplit = AmountSplit.Split_unequally;
                         break;
                     case AmountSplit.Split_equally:
-                        tbPaidBy.Text = selectedUser.first_name;
-                        tbPaidTo.Text = "You";
-                        tbFullAmount.Text = OWE + FULL_AMOUNT;
                         amountSplit = AmountSplit.You_owe;
                         break;
                     case AmountSplit.Split_unequally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = EQUALLY;
-                        tbFullAmount.Text = "";
                         amountSplit = AmountSplit.Split_equally;
                         break;
                     default:
@@ -393,25 +382,52 @@ namespace Split_It_.Add_Expense_Pages
                 switch (amountSplit)
                 {
                     case AmountSplit.Split_equally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = UNEQUALLY;
-                        tbFullAmount.Text = "";
                         amountSplit = AmountSplit.Split_unequally;
                         break;
                     case AmountSplit.Split_unequally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = EQUALLY;
-                        tbFullAmount.Text = "";
                         amountSplit = AmountSplit.Split_equally;
                         break;
                     default:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = EQUALLY;
-                        tbFullAmount.Text = "";
                         amountSplit = AmountSplit.Split_equally;
                         break;
                 }
             }
+        }
+
+        public void setText()
+        {
+            User selectedUser = this.friendListPicker.SelectedItem as User;
+                switch (amountSplit)
+                {
+                    //By default we have split equally, so follow the follwoing pattern
+                    // a) If You owe then show stuff for you are owed
+                    // b) If you are owed then show for split unequally
+                    // c) If split equally then show stuff for you owe
+                    // d) If split unequally then show stuff for split equally
+
+                    case AmountSplit.You_are_owed:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = selectedUser.first_name;
+                        tbFullAmount.Text = OWES + FULL_AMOUNT;
+                        break;
+                    case AmountSplit.Split_unequally:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = UNEQUALLY;
+                        tbFullAmount.Text = "";
+                        break;
+                    case AmountSplit.You_owe:
+                        tbPaidBy.Text = selectedUser.first_name;
+                        tbPaidTo.Text = "You";
+                        tbFullAmount.Text = OWE + FULL_AMOUNT;
+                        break;
+                    case AmountSplit.Split_equally:
+                        tbPaidBy.Text = "You";
+                        tbPaidTo.Text = EQUALLY;
+                        tbFullAmount.Text = "";
+                        break;
+                    default:
+                        break;
+                }
         }
 
         public void showUnequalSectionIfNeeded()
@@ -420,7 +436,10 @@ namespace Split_It_.Add_Expense_Pages
                 spUnequally.Visibility = System.Windows.Visibility.Collapsed;
             else
             {
-                divideExpenseEqually();
+                //we only need to divide expense equally if this is not an edit expense, i.e expense id is 0
+                if(expense.id == 0)
+                    divideExpenseEqually();
+                
                 spUnequally.Visibility = System.Windows.Visibility.Visible;
             }
         }

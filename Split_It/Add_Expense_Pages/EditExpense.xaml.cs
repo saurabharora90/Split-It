@@ -20,6 +20,8 @@ namespace Split_It_.Add_Expense_Pages
         BackgroundWorker editExpenseBackgroundWorker;
         ApplicationBarIconButton btnOkay;
 
+        bool groupSelectionFirstTime = true, friendSelectionFirstTime = true;
+
         public EditExpense()
         {
             InitializeComponent();
@@ -74,17 +76,23 @@ namespace Split_It_.Add_Expense_Pages
                 this.expenseControl.tbDetails.Text = this.expenseControl.expense.details;
             }
             this.expenseControl.expenseDate.Value = DateTime.Parse(this.expenseControl.expense.date, System.Globalization.CultureInfo.InvariantCulture);
-            
-            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_equally;
-
             this.expenseControl.groupListPicker.SelectedItem = getSelectedGroup();
+            
             setupSelectedUsers();
+            //show split unequally by default. makes it easier
+            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_unequally;
+            this.expenseControl.setText();
+            this.expenseControl.showUnequalSectionIfNeeded();
         }
 
         private Group getSelectedGroup()
         {
+            //not assocated to any expense. therefore the groupSelectionChanged will not be fired.
             if (this.expenseControl.expense.group_id == 0)
+            {
+                groupSelectionFirstTime = false;
                 return null;
+            }
             else
             {
                 foreach (var group in App.groupsList)
@@ -143,6 +151,12 @@ namespace Split_It_.Add_Expense_Pages
 
         private void groupListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //not to use the shortcut when we are filling up the details of the expense to be edited
+            if (groupSelectionFirstTime)
+            {
+                groupSelectionFirstTime = false;
+                return;
+            }
             this.expenseControl.expense.group_id = 0;
             if (this.expenseControl.groupListPicker.SelectedItem == null)
                 return;
@@ -170,6 +184,13 @@ namespace Split_It_.Add_Expense_Pages
 
         private void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //not to do any manupulations when we are filling up the details of the expense to be edited
+            if (friendSelectionFirstTime)
+            {
+                friendSelectionFirstTime = false;
+                return;
+            }
+
             this.expenseControl.expenseShareUsers.Clear();
             //add yourself to the the list of expense users.
             this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
