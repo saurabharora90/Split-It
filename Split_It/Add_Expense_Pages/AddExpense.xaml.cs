@@ -21,139 +21,29 @@ namespace Split_It_.Add_Expense_Pages
 {
     public partial class AddExpense : PhoneApplicationPage
     {
-        enum AmountSplit { You_owe, You_are_owed, Split_equally, Split_unequally };
-        enum SplitUnequally { EXACT_AMOUNTS, PERCENTAGES, SHARES };
-
-        Expense expenseToAdd;
-        ApplicationBarIconButton btnOkay;
         BackgroundWorker addExpenseBackgroundWorker;
-        BackgroundWorker getSupportedCurrenciesBackgroundWorker;
-        ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
-        ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
-        AmountSplit amountSplit = AmountSplit.Split_equally;
-        SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
-
-        string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
-        public static string EQUALLY = "split equally.";
-        public static string UNEQUALLY = "split unequally.";
-        public static string FULL_AMOUNT = "the full amount.";
-        public static string OWES = "owes ";
-        public static string OWE = "owe ";
+        ApplicationBarIconButton btnOkay;
         
         public AddExpense()
         {
             InitializeComponent();
 
-            if (PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] != null)
-                expenseToAdd = PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as Expense;
-
             addExpenseBackgroundWorker = new BackgroundWorker();
             addExpenseBackgroundWorker.WorkerSupportsCancellation = true;
             addExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(addExpenseBackgroundWorker_DoWork);
 
-            getSupportedCurrenciesBackgroundWorker = new BackgroundWorker();
-            getSupportedCurrenciesBackgroundWorker.WorkerSupportsCancellation = true;
-            getSupportedCurrenciesBackgroundWorker.DoWork += new DoWorkEventHandler(getSupportedCurrenciesBackgroundWorker_DoWork);
-
-            if (!getSupportedCurrenciesBackgroundWorker.IsBusy)
-                getSupportedCurrenciesBackgroundWorker.RunWorkerAsync();
-
-            (App.Current.Resources["PhoneRadioCheckBoxCheckBrush"] as SolidColorBrush).Color = Colors.Black;
             createAppBar();
-            
-            this.friendListPicker.ItemsSource = App.friendsList;
-            this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
 
-            this.groupListPicker.ItemsSource = App.groupsList;
-            this.groupListPicker.SummaryForSelectedItemsDelegate = this.GroupSummaryDelegate;
-            this.groupListPicker.SelectedItem = getFromGroup();
+            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_equally;
+            this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
+            this.expenseControl.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
+            this.expenseControl.tbDescription.TextChanged += tbDescription_TextChanged;
+            this.expenseControl.tbAmount.TextChanged += tbAmount_TextChanged;
 
-            this.currencyListPicker.ItemsSource = this.currenciesList;
-            this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
-
-            if (expenseToAdd == null)
-                expenseToAdd = new Expense();
-
-            expenseDate.Value = DateTime.Now;
-
-            llsExactAmount.ItemsSource = expenseShareUsers;
-            llsPercentage.ItemsSource = expenseShareUsers;
-            llsShares.ItemsSource = expenseShareUsers;
+            this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
         }
 
-        private Group getFromGroup()
-        {
-            if (expenseToAdd == null)
-                return null;
-            else
-            {
-                foreach (var group in App.groupsList)
-                {
-                    if (expenseToAdd.group_id == group.id)
-                        return group;
-                }
-            }
-
-            return null;
-        }
-
-        //returns true only if one or less group is selected
-        private bool validGroupSelected()
-        {
-            if (this.groupListPicker.SelectedItems.Count > 1)
-                return false;
-            else
-                return true;
-        }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            FocusedTextBoxUpdateSource();
-            //to hide the keyboard if any
-            this.Focus();
-            bool proceed = true;
-            if (addExpenseBackgroundWorker.IsBusy != true)
-            {
-                busyIndicator.Content = "adding expense";
-                busyIndicator.IsRunning = true;
-                switch (amountSplit)
-                {
-                    case AmountSplit.You_owe:
-                        divideExpenseYouOwe();
-                        break;
-                    case AmountSplit.You_are_owed:
-                        divideExpenseOwesYou();
-                        break;
-                    case AmountSplit.Split_equally:
-                        divideExpenseEqually();
-                        break;
-                    case AmountSplit.Split_unequally:
-                        proceed = divideExpenseUnequally();
-                        break;
-                    default:
-                        break;
-                }
-                expenseToAdd.users = expenseShareUsers.ToList();
-                expenseToAdd.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
-                expenseToAdd.payment = false;
-                expenseToAdd.details = tbDetails.Text;
-                DateTime dateTime = expenseDate.Value ?? DateTime.Now;
-                expenseToAdd.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
-
-                if (proceed)
-                    addExpenseBackgroundWorker.RunWorkerAsync();
-                else
-                    busyIndicator.IsRunning = false;
-            }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
-            NavigationService.GoBack();
-        }
-
-        private void createAppBar()
+        protected void createAppBar()
         {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Default;
@@ -177,59 +67,71 @@ namespace Split_It_.Add_Expense_Pages
             btnCancel.Click += new EventHandler(btnCancel_Click);
         }
 
-        private object FriendSummaryDelegate(IList list)
+        private Group getFromGroup()
         {
-            string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
+            if (this.expenseControl.expense == null)
+                return null;
+            else
             {
-                // check if the last item has been reached so we don't put a "," at the end
-                bool isLast = i == list.Count - 1;
+                foreach (var group in App.groupsList)
+                {
+                    if (this.expenseControl.expense.group_id == group.id)
+                        return group;
+                }
+            }
 
-                User friend = (User)list[i];
-                summary = String.Concat(summary, friend.first_name);
-                summary += isLast ? string.Empty : ", ";
-            }
-            if (summary == String.Empty)
-            {
-                summary = "no friends selected";
-            }
-            return summary;
+            return null;
         }
 
-        private object GroupSummaryDelegate(IList list)
+        private void btnOk_Click(object sender, EventArgs e)
         {
-            string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
+            //FocusedTextBoxUpdateSource();
+            //to hide the keyboard if any
+            this.Focus();
+            bool proceed = this.expenseControl.setupExpense();
+            if (addExpenseBackgroundWorker.IsBusy != true)
             {
-                // check if the last item has been reached so we don't put a "," at the end
-                bool isLast = i == list.Count - 1;
+                busyIndicator.Content = "adding expense";
+                busyIndicator.IsRunning = true;
 
-                Group group = (Group)list[i];
-                summary = String.Concat(summary, group.name);
-                summary += isLast ? string.Empty : ", ";
+                if (proceed)
+                    addExpenseBackgroundWorker.RunWorkerAsync();
+                else
+                    busyIndicator.IsRunning = false;
             }
-            if (summary == String.Empty)
-            {
-                summary = "select all members of group";
-            }
-            return summary;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
+            NavigationService.GoBack();
+        }
+
+        //returns true only if one or less group is selected
+        private bool validGroupSelected()
+        {
+            if (this.expenseControl.groupListPicker.SelectedItems.Count > 1)
+                return false;
+            else
+                return true;
         }
 
         private void groupListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.groupListPicker.SelectedItem == null)
+            this.expenseControl.expense.group_id = 0;
+            if (this.expenseControl.groupListPicker.SelectedItem == null)
                 return;
 
             if (validGroupSelected())
             {
-                Group selectedGroup = this.groupListPicker.SelectedItem as Group;
-                expenseToAdd.group_id = selectedGroup.id;
+                Group selectedGroup = this.expenseControl.groupListPicker.SelectedItem as Group;
+                this.expenseControl.expense.group_id = selectedGroup.id;
                 foreach (var member in selectedGroup.members)
                 {
                     //you don't need to add yourself as you will be added by default.
-                    if (member.id == App.currentUser.id || this.friendListPicker.SelectedItems.Contains(member))
+                    if (member.id == App.currentUser.id || this.expenseControl.friendListPicker.SelectedItems.Contains(member))
                         continue;
-                    this.friendListPicker.SelectedItems.Add(member);
+                    this.expenseControl.friendListPicker.SelectedItems.Add(member);
                 }
             }
 
@@ -237,220 +139,41 @@ namespace Split_It_.Add_Expense_Pages
             {
                 MessageBox.Show("Sorry you can only select one group", "Error", MessageBoxButton.OK);
                 //this.friendListPicker.SelectedItems.Clear();
-                this.groupListPicker.SelectedItems.Clear();
-                expenseToAdd.group_id = 0;
+                this.expenseControl.groupListPicker.SelectedItems.Clear();
             }
         }
 
         private void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            expenseShareUsers.Clear();
+            this.expenseControl.expenseShareUsers.Clear();
             //add yourself to the the list of expense users.
-            expenseShareUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
+            this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
             enableOkButton();
 
-            if (this.friendListPicker.SelectedItems == null)
+            if (this.expenseControl.friendListPicker.SelectedItems == null)
                 return;
-            foreach (var item in this.friendListPicker.SelectedItems)
+            foreach (var item in this.expenseControl.friendListPicker.SelectedItems)
             {
                 User user = item as User;
-                expenseShareUsers.Add(new Expense_Share() { user = user, user_id = user.id });
+                this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = user, user_id = user.id });
             }
         }
 
-        private void divideExpenseEqually()
+        protected void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int numberOfExpenseMembers = expenseShareUsers.Count;
-            double amountToSplit = Convert.ToDouble(expenseToAdd.cost);
-            double perPersonShare = amountToSplit / numberOfExpenseMembers;
-            perPersonShare = Math.Round(perPersonShare, 2, MidpointRounding.AwayFromZero);
-
-            //now make sure that the total is the same, else take care of the difference (should be very minimal)
-            double currentUsersShare = perPersonShare;
-            double total = perPersonShare * numberOfExpenseMembers;
-            if (total == amountToSplit)
-                currentUsersShare = perPersonShare;
-            else
-                currentUsersShare = currentUsersShare + (amountToSplit - total);
-
-            for (int i = 0; i < numberOfExpenseMembers; i++)
-            {
-                //the amount is paid by the user
-                if (expenseShareUsers[i].user_id == App.currentUser.id)
-                {
-                    expenseShareUsers[i].paid_share = amountToSplit.ToString();
-                    expenseShareUsers[i].owed_share = currentUsersShare.ToString();
-
-                }
-                else
-                {
-                    expenseShareUsers[i].paid_share = "0";
-                    expenseShareUsers[i].owed_share = perPersonShare.ToString();
-                }
-
-                expenseShareUsers[i].share = 1;
-            }
+            this.expenseControl.expense.description = this.expenseControl.tbDescription.Text;
+            enableOkButton();
         }
 
-        //This means that the other person paid and you owe the full amount
-        private void divideExpenseYouOwe()
+        protected void tbAmount_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //only you and one more user should be there to access this feature
-            if (expenseShareUsers.Count != 2)
-                throw new IndexOutOfRangeException();
-            int numberOfExpenseMembers = expenseShareUsers.Count;
-            for (int i = 0; i < numberOfExpenseMembers; i++)
-            {
-                //the amount is owed by the user
-                if (expenseShareUsers[i].user_id == App.currentUser.id)
-                {
-                    expenseShareUsers[i].paid_share = "0";
-                    expenseShareUsers[i].owed_share = tbAmount.Text;
-
-                }
-                else
-                {
-                    expenseShareUsers[i].paid_share = tbAmount.Text;
-                    expenseShareUsers[i].owed_share = "0";
-                }
-            }
+            this.expenseControl.expense.cost = this.expenseControl.tbAmount.Text;
+            enableOkButton();
         }
-
-        //This means that you paid and the other person owes you the full amount
-        private void divideExpenseOwesYou()
-        {
-            //only you and one more user should be there to access this feature
-            if (expenseShareUsers.Count != 2)
-                throw new IndexOutOfRangeException();
-
-            int numberOfExpenseMembers = expenseShareUsers.Count;
-            for (int i = 0; i < numberOfExpenseMembers; i++)
-            {
-                //the amount is paid by the user
-                if (expenseShareUsers[i].user_id == App.currentUser.id)
-                {
-                    expenseShareUsers[i].owed_share = "0";
-                    expenseShareUsers[i].paid_share = tbAmount.Text;
-
-                }
-                else
-                {
-                    expenseShareUsers[i].paid_share = "0";
-                    expenseShareUsers[i].owed_share = tbAmount.Text;
-                }
-            }
-        }
-
-        private bool divideExpenseUnequally()
-        {
-            bool proceed = true;
-            double expenseAmount = Convert.ToDouble(expenseToAdd.cost);
-            int numberOfExpenseMembers = expenseShareUsers.Count;
-            double extraAmount = 0; //this is extra amount left because of rounding off;
-            int currentUserIndex = 0; //need the current user index to factor in the extra amount mentioned above
-            double currenUserShareAmount = 0;
-
-            switch (splitUnequally)
-            {
-                case SplitUnequally.EXACT_AMOUNTS:
-                    double totalAmount = 0;
-
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        //the amount is paid by the user
-                        if (expenseShareUsers[i].user_id == App.currentUser.id)
-                        {
-                            expenseShareUsers[i].paid_share = expenseAmount.ToString();
-                        }
-                        totalAmount += Convert.ToDouble(expenseShareUsers[i].owed_share);
-                    }
-
-                    if (totalAmount != expenseAmount)
-                    {
-                        string errorMessage = "The total amount split is not equal to expense amount.";
-                        string newLine = "\n";
-                        string total = "Input total: " + totalAmount.ToString();
-                        string expenseTotal = "Expense Amount: " + expenseAmount.ToString();
-                        MessageBox.Show(errorMessage + newLine + newLine + total + newLine + expenseTotal, "Error", MessageBoxButton.OK);
-
-                        proceed = false;
-                    }
-                    break;
-                case SplitUnequally.PERCENTAGES:
-                    double totalPercentage = 0;
-
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        //the amount is paid by the user
-                        if (expenseShareUsers[i].user_id == App.currentUser.id)
-                        {
-                            expenseShareUsers[i].paid_share = expenseAmount.ToString();
-                            currentUserIndex = i;
-                        }
-                        double shareAmount = expenseAmount * expenseShareUsers[i].percentage / 100;
-
-                        //round off amount to digits
-                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
-                        extraAmount += shareAmount - shareAmountRounded;
-
-                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
-
-                        totalPercentage += expenseShareUsers[i].percentage;
-                    }
-
-                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
-                    currenUserShareAmount += extraAmount;
-                    expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
-
-                    if (totalPercentage != 100)
-                    {
-                        string errorMessage = "Total percentage is not equal to 100%";
-                        MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK);
-
-                        proceed = false;
-                    }
-                    break;
-                case SplitUnequally.SHARES:
-                    double totalShares = 0;
-
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        totalShares += expenseShareUsers[i].share;
-                    }
-
-                    double perShareAmount = expenseAmount / totalShares;
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        //the amount is paid by the user
-                        if (expenseShareUsers[i].user_id == App.currentUser.id)
-                        {
-                            expenseShareUsers[i].paid_share = expenseAmount.ToString();
-                            currentUserIndex = i;
-                        }
-                        double shareAmount = expenseShareUsers[i].share * perShareAmount;
-
-                        //round off amount to digits
-                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
-                        extraAmount += shareAmount - shareAmountRounded;
-
-                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
-                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
-                    }
-                    
-                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
-                    currenUserShareAmount += extraAmount;
-                    expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
-                    break;
-                default:
-                    break;
-            }
-
-            return proceed;
-        }
-
+        
         private void enableOkButton()
         {
-            if (this.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(tbAmount.Text) && !String.IsNullOrEmpty(tbDescription.Text))
+            if (this.expenseControl.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
             {
                 btnOkay.IsEnabled = true;
             }
@@ -458,114 +181,10 @@ namespace Split_It_.Add_Expense_Pages
                 btnOkay.IsEnabled = false;
         }
 
-        private void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            expenseToAdd.description = tbDescription.Text;
-            enableOkButton();
-        }
-
-        private void tbAmount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            expenseToAdd.cost = tbAmount.Text;
-            enableOkButton();
-        }
-
-        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
-            {
-                toggle();
-                showUnequalSectionIfNeeded();
-            }
-
-            else
-            {
-                MessageBox.Show("Please select friends and enter expense amount", "Error", MessageBoxButton.OK);
-            }
-        }
-
-        private void toggle()
-        {
-            if (this.friendListPicker.SelectedItems.Count == 1)
-            {
-                User selectedUser = this.friendListPicker.SelectedItem as User;
-                switch (amountSplit)
-                {
-                        //By default we have split equally, so follow the follwoing pattern
-                        // a) If You owe then show stuff for you are owed
-                        // b) If you are owed then show for split unequally
-                        // c) If split equally then show stuff for you owe
-                        // d) If split unequally then show stuff for split equally
-
-                    case AmountSplit.You_owe:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = selectedUser.first_name;
-                        tbFullAmount.Text = OWES + FULL_AMOUNT;
-                        amountSplit = AmountSplit.You_are_owed;
-                        break;
-                    case AmountSplit.You_are_owed:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = UNEQUALLY;
-                        tbFullAmount.Text = "";
-                        amountSplit = AmountSplit.Split_unequally;
-                        break;
-                    case AmountSplit.Split_equally:
-                        tbPaidBy.Text = selectedUser.first_name;
-                        tbPaidTo.Text = "You";
-                        tbFullAmount.Text = OWE + FULL_AMOUNT;
-                        amountSplit = AmountSplit.You_owe;
-                        break;
-                    case AmountSplit.Split_unequally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = EQUALLY;
-                        tbFullAmount.Text = "";
-                        amountSplit = AmountSplit.Split_equally;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                switch (amountSplit)
-                {
-                    case AmountSplit.Split_equally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = UNEQUALLY;
-                        tbFullAmount.Text = "";
-                        amountSplit = AmountSplit.Split_unequally;
-                        break;
-                    case AmountSplit.Split_unequally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = EQUALLY;
-                        tbFullAmount.Text = "";
-                        amountSplit = AmountSplit.Split_equally;
-                        break;
-                    default:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = EQUALLY;
-                        tbFullAmount.Text = "";
-                        amountSplit = AmountSplit.Split_equally;
-                        break;
-                }
-            }
-        }
-
-        private void showUnequalSectionIfNeeded()
-        {
-            if (amountSplit != AmountSplit.Split_unequally)
-                spUnequally.Visibility = System.Windows.Visibility.Collapsed;
-            else
-            {
-                divideExpenseEqually();
-                spUnequally.Visibility = System.Windows.Visibility.Visible;
-            }
-        }
-
         private void addExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             ModifyDatabase modify = new ModifyDatabase(_addExpenseCompleted);
-            modify.addExpense(expenseToAdd);
+            modify.addExpense(this.expenseControl.expense);
         }
 
         private void _addExpenseCompleted(bool success, HttpStatusCode errorCode)
@@ -595,128 +214,6 @@ namespace Split_It_.Add_Expense_Pages
                         MessageBox.Show("Unable to add expense", "Error", MessageBoxButton.OK);
                     }
                 });
-            }
-        }
-
-        private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            Currency defaultCurrency = null;
-            QueryDatabase query = new QueryDatabase();
-            foreach (var item in query.getSupportedCurrencies())
-            {
-                if (item.currency_code == App.currentUser.default_currency && String.IsNullOrEmpty(expenseToAdd.currency_code))
-                    defaultCurrency = item;
-
-                else if (item.currency_code == expenseToAdd.currency_code)
-                    defaultCurrency = item;
-
-                Dispatcher.BeginInvoke(() =>
-                {
-                    currenciesList.Add(item);
-                });
-            }
-            Dispatcher.BeginInvoke(() =>
-            {
-                this.currencyListPicker.SelectedItem = defaultCurrency;
-            });
-        }
-
-        private object CurrencySummaryDelegate(IList list)
-        {
-            string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
-            {
-                // check if the last item has been reached so we don't put a "," at the end
-                bool isLast = i == list.Count - 1;
-
-                Currency currency = (Currency)list[i];
-                summary = String.Concat(summary, currency.currency_code);
-                summary += isLast ? string.Empty : ", ";
-            }
-            if (String.IsNullOrEmpty(summary))
-            {
-                summary = "select currency";
-            }
-            return summary;
-        }
-
-        private void tbAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            PhoneTextBox textBox = sender as PhoneTextBox;
-
-            //do not llow user to input more than one decimal point
-            if (textBox.Text.Contains(decimalsep) && e.PlatformKeyCode == 190)
-                e.Handled = true;
-        }
-
-        private void tbUnequal_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-
-            //do not llow user to input more than one decimal point
-            if (textBox.Text.Contains(decimalsep) && e.PlatformKeyCode == 190)
-                e.Handled = true;
-        }
-
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            RadioButton btn = sender as RadioButton;
-
-            if (llsExactAmount == null || llsPercentage == null || llsShares == null)
-                return;
-
-            if (btn.Content.ToString() == "amount")
-            {
-                splitUnequally = SplitUnequally.EXACT_AMOUNTS;
-                llsExactAmount.Visibility = System.Windows.Visibility.Visible;
-                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
-                llsShares.Visibility = System.Windows.Visibility.Collapsed;
-            }
-
-            else if (btn.Content.ToString() == "percentage")
-            {
-                splitUnequally = SplitUnequally.PERCENTAGES;
-                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
-                llsPercentage.Visibility = System.Windows.Visibility.Visible;
-                llsShares.Visibility = System.Windows.Visibility.Collapsed;
-            }
-
-            else if (btn.Content.ToString() == "share")
-            {
-                splitUnequally = SplitUnequally.SHARES;
-                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
-                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
-                llsShares.Visibility = System.Windows.Visibility.Visible;
-            }
-        }
-
-        public static void FocusedTextBoxUpdateSource()
-        {
-            var focusedElement = FocusManager.GetFocusedElement();
-            var focusedTextBox = focusedElement as TextBox;
-
-            if (focusedTextBox != null)
-            {
-                var binding = focusedTextBox.GetBindingExpression(TextBox.TextProperty);
-
-                if (binding != null)
-                {
-                    binding.UpdateSource();
-                }
-            }
-            else
-            {
-                var focusedPasswordBox = focusedElement as PasswordBox;
-
-                if (focusedPasswordBox != null)
-                {
-                    var binding = focusedPasswordBox.GetBindingExpression(PasswordBox.PasswordProperty);
-
-                    if (binding != null)
-                    {
-                        binding.UpdateSource();
-                    }
-                }
             }
         }
     }
