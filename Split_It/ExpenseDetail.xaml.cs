@@ -163,8 +163,26 @@ namespace Split_It_
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = selectedExpense;
-            NavigationService.Navigate(new Uri("/Add_Expense_Pages/EditExpense.xaml", UriKind.Relative));
+            //currently you can only edit expense if it is paid by you
+            if (paidByMe())
+            {
+                PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = selectedExpense;
+                NavigationService.Navigate(new Uri("/Add_Expense_Pages/EditExpense.xaml", UriKind.Relative));
+            }
+            else
+            {
+                MessageBox.Show("Currently you can only edit expenses paid by you.", "Sorry", MessageBoxButton.OK);
+            }
+        }
+
+        private bool paidByMe()
+        {
+            foreach (var item in selectedExpense.users)
+            {
+                if (Convert.ToDouble(item.paid_share) != 0 && item.user_id != App.currentUser.id)
+                    return false;
+            }
+            return true;
         }
 
         private void commentLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
