@@ -87,5 +87,10 @@ namespace Split_It_
             });
             obj.closeDatabaseConnection();
         }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbSearch.Focus();
+        }
     }
 }
