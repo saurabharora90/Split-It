@@ -50,8 +50,9 @@ namespace Split_It_.Controller
             }
             else
             {
-                GetFriendsRequest request = new GetFriendsRequest();
-                request.getAllFriends(_FriendsDetailsRecevied, _OnErrorReceived);
+                //fetch expenses
+                GetExpensesRequest request = new GetExpensesRequest();
+                request.getAllExpenses(_ExpensesDetailsReceived, _OnErrorReceived);
             }
 
         }
@@ -68,9 +69,73 @@ namespace Split_It_.Controller
             //Save current user id in isolated storage
             Util.setCurrentUserId(currentUser.id);
 
+
+            //fetch expenses
+            GetExpensesRequest request = new GetExpensesRequest();
+            request.getAllExpenses(_ExpensesDetailsReceived, _OnErrorReceived);
+        }
+
+        private void _ExpensesDetailsReceived(List<Expense> expensesList)
+        {
+            //if no expenses were recieved, then there wasnt any change in user balances or groups.
+            if (expensesList == null || expensesList.Count == 0)
+            {
+                CallbackOnSuccess(true, HttpStatusCode.OK);
+                return;
+            }
+
+
+            dbConn.BeginTransaction();
+            //Insert expenses
+            foreach (var expense in expensesList)
+            {
+                //The api returns the entire user details of the created by, updated by and deleted by users.
+                //But we only need to store their id's into the database
+                if (expense.created_by != null)
+                    expense.created_by_user_id = expense.created_by.id;
+
+                if (expense.updated_by != null)
+                    expense.updated_by_user_id = expense.updated_by.id;
+
+                if (expense.deleted_by != null)
+                    expense.deleted_by_user_id = expense.deleted_by.id;
+
+                dbConn.InsertOrReplace(expense);
+            }
+
+            //Insert debt of each expense (repayments)
+            //Insert expense share users
+            foreach (var expense in expensesList)
+            {
+                //delete users and repayments for this specific expense id as they might have been edited since the last update
+                object[] param = { expense.id };
+                dbConn.Query<Debt_Expense>("Delete FROM debt_expense WHERE expense_id= ?", param);
+                dbConn.Query<Expense_Share>("Delete FROM expense_share WHERE expense_id= ?", param);
+
+                foreach (var repayment in expense.repayments)
+                {
+                    repayment.expense_id = expense.id;
+                    dbConn.InsertOrReplace(repayment);
+                }
+
+                foreach (var expenseUser in expense.users)
+                {
+                    expenseUser.expense_id = expense.id;
+                    expenseUser.user_id = expenseUser.user.id;
+                    dbConn.InsertOrReplace(expenseUser);
+                }
+
+                //dbConn.InsertAll(expense.repayments);
+                //dbConn.InsertAll(expense.users);
+            }
+
+            dbConn.Commit();
+
+            Util.setLastUpdatedTime();
+
             //Fire next request, i.e. get list of friends
             GetFriendsRequest request = new GetFriendsRequest();
-            request.getAllFriends(_FriendsDetailsRecevied, _OnErrorReceived);
+            request.getAllFriends(_FriendsDetailsRecevied);
         }
 
         private void _FriendsDetailsRecevied(List<User> friendsList)
@@ -155,60 +220,6 @@ namespace Split_It_.Controller
             }
 
             dbConn.Commit();
-            //fetch expenses
-            GetExpensesRequest request = new GetExpensesRequest();
-            request.getAllExpenses(_ExpensesDetailsReceived);
-        }
-
-        private void _ExpensesDetailsReceived(List<Expense> expensesList)
-        {
-            dbConn.BeginTransaction();
-            //Insert expenses
-            foreach (var expense in expensesList)
-            {
-                //The api returns the entire user details of the created by, updated by and deleted by users.
-                //But we only need to store their id's into the database
-                if(expense.created_by!=null)
-                    expense.created_by_user_id = expense.created_by.id;
-
-                if (expense.updated_by != null)
-                    expense.updated_by_user_id = expense.updated_by.id;
-
-                if (expense.deleted_by != null)
-                    expense.deleted_by_user_id = expense.deleted_by.id;
-
-                dbConn.InsertOrReplace(expense);
-            }
-
-            //Insert debt of each expense (repayments)
-            //Insert expense share users
-            foreach (var expense in expensesList)
-            {
-                //delete users and repayments for this specific expense id as they might have been edited since the last update
-                object[] param = { expense.id };
-                dbConn.Query<Debt_Expense>("Delete FROM debt_expense WHERE expense_id= ?", param);
-                dbConn.Query<Expense_Share>("Delete FROM expense_share WHERE expense_id= ?", param);
-
-                foreach (var repayment in expense.repayments)
-                {
-                    repayment.expense_id = expense.id;
-                    dbConn.InsertOrReplace(repayment);
-                }
-
-                foreach (var expenseUser in expense.users)
-                {
-                    expenseUser.expense_id = expense.id;
-                    expenseUser.user_id = expenseUser.user.id;
-                    dbConn.InsertOrReplace(expenseUser);
-                }
-
-                //dbConn.InsertAll(expense.repayments);
-                //dbConn.InsertAll(expense.users);
-            }
-
-            dbConn.Commit();
-
-            Util.setLastUpdatedTime();
 
             GetCurrenciesRequest request = new GetCurrenciesRequest();
             request.getSupportedCurrencies(_CurrenciesReceived);
