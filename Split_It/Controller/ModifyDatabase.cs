@@ -37,6 +37,26 @@ namespace Split_It_.Controller
             AddExpenseRequest request = new AddExpenseRequest(expense);
             request.addExpense(_OperationSucceded, _OperationFailed);
         }
+
+        public void createFriend(string email, string firstName, string lastName)
+        {
+            CreateFriendRequest request = new CreateFriendRequest(email, firstName, lastName);
+            request.createFriend(_FriendAdded, _OperationFailed);
+        }
+
+        private void _FriendAdded(User friend)
+        {
+            //add user to database and to friends list in App.xaml
+            App.friendsList.Add(friend);
+            
+            SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
+            dbConn.Insert(friend);
+            friend.picture.user_id = friend.id;
+            dbConn.Insert(friend.picture);
+            dbConn.Close();
+
+            callback(true, HttpStatusCode.OK);
+        }
         
         private void _OperationSucceded(bool status)
         {

@@ -131,7 +131,7 @@
                     <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,15">
                         <TextBlock Name="add_user" 
                                    Padding="14" 
-                                   Text="add user" 
+                                   Text="add friend" 
                                    Foreground="Black"
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Tap="add_user_Tap"

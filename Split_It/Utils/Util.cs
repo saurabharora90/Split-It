@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Split_It_.Utils
@@ -208,6 +209,12 @@ namespace Split_It_.Utils
             {
                 settings.Remove(Constants.ACCESS_TOKEN_SECRET_TAG);
             }
+        }
+
+        public static bool IsValidEmail(string emailAddress)
+        {
+            // Return true if emailAddress is in valid e-mail format.
+            return Regex.IsMatch(emailAddress, @"^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$");
         }
     }
 }

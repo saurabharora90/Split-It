@@ -33,7 +33,11 @@ namespace Split_It_.Model
             get
             {
                 if (!String.IsNullOrEmpty(last_name))
+                {
+                    //char last = last_name[0];
+                    //return first_name + " " + last + ".";
                     return first_name + " " + last_name;
+                }
                 else
                     return first_name;
             }

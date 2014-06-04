@@ -137,7 +137,7 @@ namespace Split_It_
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    busyIndicator.IsRunning = true;
+                    busyIndicator.IsRunning = false;
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 });
             }
@@ -145,9 +145,6 @@ namespace Split_It_
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    if (SystemTray.ProgressIndicator != null)
-                        SystemTray.ProgressIndicator.IsVisible = false;
-
                     if (errorCode == HttpStatusCode.Unauthorized)
                     {
                         Util.logout();

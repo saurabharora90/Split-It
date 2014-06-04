@@ -80,6 +80,7 @@ namespace Split_It_.Controller
             //if no expenses were recieved, then there wasnt any change in user balances or groups.
             if (expensesList == null || expensesList.Count == 0)
             {
+                dbConn.Close();
                 CallbackOnSuccess(true, HttpStatusCode.OK);
                 return;
             }

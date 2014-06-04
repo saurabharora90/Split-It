@@ -118,6 +118,9 @@
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\UserDetails\UserDetailsExpenseColorConverter.cs" />
     <Compile Include="Converter\UserDetails\UserDetailsExpensesConverter.cs" />
+    <Compile Include="CreateFriend.xaml.cs">
+      <DependentUpon>CreateFriend.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExpandableListHelper\AllDebtColorConverter.cs" />
     <Compile Include="ExpandableListHelper\AllDebtAmountConverter.cs" />
     <Compile Include="ExpandableListHelper\AllDebtTextConverter.cs" />
@@ -166,6 +169,7 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Request\BaseRequest.cs" />
     <Compile Include="Request\AddExpenseRequest.cs" />
+    <Compile Include="Request\CreateFriendRequest.cs" />
     <Compile Include="Request\UpdateExpenseRequest.cs" />
     <Compile Include="Request\GetCurrenciesRequest.cs" />
     <Compile Include="Request\CreateCommentRequest.cs" />
@@ -212,6 +216,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Add_Expense_Pages\ExpenseUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateFriend.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

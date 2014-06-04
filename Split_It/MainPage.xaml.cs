@@ -342,7 +342,7 @@ namespace Split_It_
 
         private void add_user_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/CreateFriend.xaml", UriKind.Relative));
         }
 
         private void create_group_Tap(object sender, System.Windows.Input.GestureEventArgs e)

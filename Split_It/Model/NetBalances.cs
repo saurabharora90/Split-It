@@ -15,9 +15,10 @@ namespace Split_It_.Model
 
         public void setBalances(string currenyCode, double net, double positive, double negative)
         {
-            netBalance = "balance (" + currenyCode + Convert.ToDouble(net) + " )";
-            positiveBalance = "owes you (" + currenyCode + Convert.ToDouble(positive) + " )";
-            negativeBalance = "you owe (" + currenyCode + Math.Abs(Convert.ToDouble(negative)) + " )";
+            currenyCode = currenyCode.ToUpper();
+            netBalance = "balance (" + currenyCode + Convert.ToDouble(net) + ")";
+            positiveBalance = "owes you (" + currenyCode + Convert.ToDouble(positive) + ")";
+            negativeBalance = "you owe (" + currenyCode + Math.Abs(Convert.ToDouble(negative)) + ")";
         }
 
         public String NetBalance
