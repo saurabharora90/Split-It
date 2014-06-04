@@ -47,11 +47,13 @@
                      FontSize="22"/>
             
             <Button Grid.Row="1"
+                    BorderThickness="0"
+                    Padding="10"
+                    Margin="0,0,0,10"
                     Background="{StaticResource splitwiseGreen}"
                     Foreground="White"
                     toolkit:TiltEffect.IsTiltEnabled="True"
                     Content="Import contact details"
-                    HorizontalAlignment="Center"
                     x:Name="btnImport"
                     Tap="btnImport_Tap"/>
 
