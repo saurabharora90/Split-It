@@ -347,7 +347,7 @@ namespace Split_It_
 
         private void create_group_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/CreateGroup.xaml", UriKind.Relative));
         }
 
         private void logout_Tap(object sender, System.Windows.Input.GestureEventArgs e)
