@@ -44,6 +44,12 @@ namespace Split_It_.Controller
             request.createFriend(_FriendAdded, _OperationFailed);
         }
 
+        public void createGroup(Group group)
+        {
+            CreateGroupRequest request = new CreateGroupRequest(group);
+            request.createGroup(_GroupAdded, _OperationFailed);
+        }
+
         private void _FriendAdded(User friend)
         {
             //add user to database and to friends list in App.xaml
@@ -57,6 +63,36 @@ namespace Split_It_.Controller
 
             callback(true, HttpStatusCode.OK);
         }
+
+        private void _GroupAdded(Group group)
+        {
+            //add user to database and to friends list in App.xaml
+            App.groupsList.Add(group);
+
+            SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
+            dbConn.BeginTransaction();
+            dbConn.Insert(group);
+            
+            foreach (var debt in group.simplified_debts)
+            {
+                debt.group_id = group.id;
+                dbConn.InsertOrReplace(debt);
+            }
+            
+            foreach (var member in group.members)
+            {
+                Group_Members group_member = new Group_Members();
+                group_member.group_id = group.id;
+                group_member.user_id = member.id;
+                dbConn.InsertOrReplace(group_member);
+            }
+            
+            dbConn.Commit();
+            dbConn.Close();
+
+            callback(true, HttpStatusCode.OK);
+        }
+        
         
         private void _OperationSucceded(bool status)
         {
