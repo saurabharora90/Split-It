@@ -52,8 +52,8 @@ namespace Split_It_.Add_Expense_Pages
 
             //Settle up button
             ApplicationBarIconButton btnOk = new ApplicationBarIconButton();
-            btnOk.IconUri = new Uri("/Assets/Icons/ok.png", UriKind.Relative);
-            btnOk.Text = "ok";
+            btnOk.IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative);
+            btnOk.Text = "save";
             btnOk.Click += new EventHandler(btnOk_Click);
 
             ApplicationBarIconButton btnCanel = new ApplicationBarIconButton();

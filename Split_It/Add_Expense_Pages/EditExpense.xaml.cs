@@ -53,8 +53,8 @@ namespace Split_It_.Add_Expense_Pages
             ApplicationBar.ForegroundColor = Colors.White;
 
             btnOkay = new ApplicationBarIconButton();
-            btnOkay.IconUri = new Uri("/Assets/Icons/ok.png", UriKind.Relative);
-            btnOkay.Text = "ok";
+            btnOkay.IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative);
+            btnOkay.Text = "save";
             btnOkay.IsEnabled = false;
             ApplicationBar.Buttons.Add(btnOkay);
             btnOkay.Click += new EventHandler(btnOk_Click);
