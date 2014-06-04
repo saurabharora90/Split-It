@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Text.RegularExpressions;
 using Microsoft.Phone.Tasks;
 using Split_It_.Controller;
+using Split_It_.Model;
+using Split_It_.Utils;
 
 namespace Split_It_
 {
@@ -115,6 +117,9 @@ namespace Split_It_
             {
                 Dispatcher.BeginInvoke(() =>
                 {
+                    User friend = PhoneApplicationService.Current.State[Constants.NEW_USER] as User;
+                    App.friendsList.Add(friend);
+                    PhoneApplicationService.Current.State[Constants.NEW_USER] = null;
                     busyIndicator.IsRunning = false;
                     NavigationService.GoBack();
                 });

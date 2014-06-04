@@ -1,4 +1,5 @@
-﻿using Split_It_.Model;
+﻿using Microsoft.Phone.Shell;
+using Split_It_.Model;
 using Split_It_.Request;
 using Split_It_.Utils;
 using SQLite;
@@ -53,7 +54,7 @@ namespace Split_It_.Controller
         private void _FriendAdded(User friend)
         {
             //add user to database and to friends list in App.xaml
-            App.friendsList.Add(friend);
+            PhoneApplicationService.Current.State[Constants.NEW_USER] = friend;
             
             SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
             dbConn.Insert(friend);
@@ -67,7 +68,7 @@ namespace Split_It_.Controller
         private void _GroupAdded(Group group)
         {
             //add user to database and to friends list in App.xaml
-            App.groupsList.Add(group);
+            PhoneApplicationService.Current.State[Constants.NEW_GROUP] = group;
 
             SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
             dbConn.BeginTransaction();

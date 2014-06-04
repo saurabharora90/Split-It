@@ -13,6 +13,7 @@ using Split_It_.Controller;
 using System.Windows.Media;
 using System.Collections;
 using System.Collections.ObjectModel;
+using Split_It_.Utils;
 
 namespace Split_It_
 {
@@ -120,6 +121,9 @@ namespace Split_It_
             {
                 Dispatcher.BeginInvoke(() =>
                 {
+                    Group group = PhoneApplicationService.Current.State[Constants.NEW_GROUP] as Group;
+                    App.groupsList.Add(group);
+                    PhoneApplicationService.Current.State[Constants.NEW_GROUP] = null;
                     busyIndicator.IsRunning = false;
                     NavigationService.GoBack();
                 });

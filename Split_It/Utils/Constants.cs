@@ -31,6 +31,9 @@ namespace Split_It_.Utils
         public static string PAYMENT_TO_USER = "payment_to_user";
         public static string ADD_EXPENSE = "add_expense";
 
+        public static string NEW_USER = "new_user";
+        public static string NEW_GROUP = "new_group";
+
         public static string CRITTERCISM_ID = "5360ad740729df4d95000002";
     }
 }
