@@ -491,7 +491,7 @@ namespace Split_It_.Add_Expense_Pages
             PhoneTextBox textBox = sender as PhoneTextBox;
 
             //do not llow user to input more than one decimal point
-            if (textBox.Text.Contains(decimalsep) && e.PlatformKeyCode == 190)
+            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
                 e.Handled = true;
         }
 
@@ -500,7 +500,7 @@ namespace Split_It_.Add_Expense_Pages
             TextBox textBox = sender as TextBox;
 
             //do not llow user to input more than one decimal point
-            if (textBox.Text.Contains(decimalsep) && e.PlatformKeyCode == 190)
+            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
                 e.Handled = true;
         }
 

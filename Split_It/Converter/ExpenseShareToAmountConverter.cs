@@ -28,10 +28,10 @@ namespace Split_It_.Converter
 
             string amount = null;
             if (currentUser == null)
-                return expense.currency_code + String.Format("{0:0.00}", System.Convert.ToDouble("0.00", culture));
+                return expense.currency_code + String.Format("{0:0.00}", System.Convert.ToDouble("0.00", System.Globalization.CultureInfo.InvariantCulture));
 
             if(expense.displayType == Expense.DISPLAY_FOR_ALL_USER)
-                amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance, culture)));
+                amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance, System.Globalization.CultureInfo.InvariantCulture)));
 
             else
             {
@@ -42,7 +42,7 @@ namespace Split_It_.Converter
                 {
                     if ((repayment.from == currentUserId && repayment.to == specificUserId) || (repayment.to == currentUserId && repayment.from == specificUserId))
                     {
-                        amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(repayment.amount, culture)));
+                        amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(repayment.amount, System.Globalization.CultureInfo.InvariantCulture)));
                         break;
                     }
                 }
