@@ -178,7 +178,7 @@ namespace Split_It_
             {
                 App.friendsList.Add(friend);
                 Balance_User defaultBalance = Util.getDefaultBalance(friend.balance);
-                double balance = System.Convert.ToDouble(defaultBalance.amount, CultureInfo.CurrentCulture);
+                double balance = System.Convert.ToDouble(defaultBalance.amount, CultureInfo.InvariantCulture);
                 if (balance > 0)
                 {
                     postiveBalance += balance;

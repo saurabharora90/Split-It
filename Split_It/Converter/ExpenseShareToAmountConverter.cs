@@ -28,7 +28,7 @@ namespace Split_It_.Converter
 
             string amount = null;
             if (currentUser == null)
-                return expense.currency_code + "0.00";
+                return expense.currency_code + String.Format("{0:0.00}", System.Convert.ToDouble("0.00", culture));
 
             if(expense.displayType == Expense.DISPLAY_FOR_ALL_USER)
                 amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance, culture)));

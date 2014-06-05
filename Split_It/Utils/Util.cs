@@ -2,6 +2,7 @@
 using Split_It_.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
@@ -179,9 +180,9 @@ namespace Split_It_.Utils
             foreach (var debt in currentUserDebts)
             {
                 if (debt.from == userId)
-                    amount -= Convert.ToDouble(debt.amount);
+                    amount -= Convert.ToDouble(debt.amount, CultureInfo.InvariantCulture);
                 else
-                    amount += Convert.ToDouble(debt.amount);
+                    amount += Convert.ToDouble(debt.amount, CultureInfo.InvariantCulture);
             }
 
             return amount;
