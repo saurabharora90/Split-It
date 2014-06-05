@@ -55,10 +55,10 @@ namespace Split_It_
             {
                 ExpandableListModel expanderItem = new ExpandableListModel();
                 expanderItem.groupUser = user;
-                if(selectedGroup.simplify_by_default)
+                //if(selectedGroup.simplify_by_default)
                     expanderItem.debtList = Util.getUsersGroupDebtsList(selectedGroup.simplified_debts, user.id);
-                else
-                    expanderItem.debtList = Util.getUsersGroupDebtsList(selectedGroup.original_debts, user.id);
+                //else
+                   // expanderItem.debtList = Util.getUsersGroupDebtsList(selectedGroup.original_debts, user.id);
 
                 if (expanderItem.debtList.Count == 0)
                     expanderItem.isNonExpandable = true;
