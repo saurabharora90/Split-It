@@ -39,8 +39,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
-            <TextBox Grid.Row="0"
-                     Margin="0,15"
+            <TextBlock Grid.Row="0"
+                     Margin="15,15"
                      Foreground="Black"
                      TextWrapping="Wrap"
                      Text="Add an existing user to your splitwise friends to start tracking expenses with them. You can also import his/her details from your contacts"

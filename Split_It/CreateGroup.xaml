@@ -18,7 +18,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="False">
     
     <phone:PhoneApplicationPage.Resources>
         <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
@@ -212,8 +212,8 @@
 				VerticalAlignment="Top" 
 				Style="{StaticResource GreyBGRadTextBoxStyle}"/>
 
-            <TextBox Grid.Row="1"
-                     Margin="0,15,0,0"
+            <TextBlock Grid.Row="1"
+                     Margin="15,15,15,10"
                      Foreground="Black"
                      TextWrapping="Wrap"
                      Text="Add friends to this group:"
@@ -239,8 +239,8 @@
                 </telerikInput:RadListPicker.PopupItemTemplate>
             </telerikInput:RadListPicker>
 
-            <TextBox Grid.Row="3"
-                     Margin="0,15,0,0"
+            <TextBlock Grid.Row="3"
+                     Margin="15,15,0,10"
                      Foreground="Black"
                      TextWrapping="Wrap"
                      Text="Group Members:"
