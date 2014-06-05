@@ -168,6 +168,14 @@
                                    Tap="beer_Tap"
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    FontSize="{StaticResource userDetailnameSize}"/>
+
+                        <TextBlock Name="shameLessPlug" 
+                                   VerticalAlignment="Bottom"
+                                   Margin="5,30,5,10" 
+                                   TextWrapping="Wrap"
+                                   Text="This app was developed by Saurabh Arora. Remember to review the app and buy me a beer if you like my work." 
+                                   Foreground="{StaticResource settled}"
+                                   FontSize="{StaticResource groupTimeSize}"/>
                     </StackPanel>
                 </Grid>
             </phone:PivotItem>
