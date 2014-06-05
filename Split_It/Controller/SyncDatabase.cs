@@ -182,10 +182,10 @@ namespace Split_It_.Controller
 
         private void _GroupsDetailsReceived(List<Group> groupsList)
         {
-            //Insert all groups
-            //dbConn.InsertAll(groupsList);
-
             dbConn.BeginTransaction();
+            //handle the case where some groups might have been deleted.
+            dbConn.DeleteAll<Group>();
+            
             //Insert group members
             //Insert debt_group
             foreach (var group in groupsList)
