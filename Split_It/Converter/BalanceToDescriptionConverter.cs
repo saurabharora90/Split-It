@@ -24,7 +24,7 @@ namespace Split_It_.Converter
             {
                 List<Balance_User> balance = value as List<Balance_User>;
                 Balance_User defaultBalance = Util.getDefaultBalance(balance);
-                finalBalance = System.Convert.ToDouble(defaultBalance.amount);
+                finalBalance = System.Convert.ToDouble(defaultBalance.amount, culture);
             }
             if (finalBalance > 0)
                 description = "owes you";

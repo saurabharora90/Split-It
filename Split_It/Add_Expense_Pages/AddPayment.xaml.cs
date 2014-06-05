@@ -91,7 +91,7 @@ namespace Split_It_.Add_Expense_Pages
         private void setupData()
         {
             Balance_User defaultBalance = getYouOweBalance();
-            transferAmount = System.Convert.ToDouble(defaultBalance.amount);
+            transferAmount = System.Convert.ToDouble(defaultBalance.amount, System.Globalization.CultureInfo.InvariantCulture);
             currency = defaultBalance.currency_code;
 
             tbCurrency.Text = currency;
@@ -106,7 +106,7 @@ namespace Split_It_.Add_Expense_Pages
         {
             foreach (var balance in paymentUser.balance)
             {
-                if (System.Convert.ToDouble(balance.amount) < 0)
+                if (System.Convert.ToDouble(balance.amount, System.Globalization.CultureInfo.InvariantCulture) < 0)
                     return balance;
             }
 

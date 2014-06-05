@@ -41,7 +41,7 @@ namespace Split_It_.Converter
                     colorBrush = Application.Current.Resources["settled"] as SolidColorBrush;
             }
 
-            else if (System.Convert.ToDouble(currentUser.net_balance) > 0)
+            else if (System.Convert.ToDouble(currentUser.net_balance, culture) > 0)
             {
                 if (expenseDetail)
                     colorBrush = Application.Current.Resources["positiveLight"] as SolidColorBrush;
@@ -49,7 +49,7 @@ namespace Split_It_.Converter
                     colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;
             }
 
-            else if (System.Convert.ToDouble(currentUser.net_balance) == 0)
+            else if (System.Convert.ToDouble(currentUser.net_balance, culture) == 0)
             {
                 if (expenseDetail)
                     colorBrush = Application.Current.Resources["splitwiseGreyBG"] as SolidColorBrush;

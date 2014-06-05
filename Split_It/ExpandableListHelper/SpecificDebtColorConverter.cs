@@ -17,7 +17,7 @@ namespace Split_It_.ExpandableListHelper
         {
             SolidColorBrush colorBrush;
             Debt_Group specificDebt = value as Debt_Group;
-            double finalBalance = System.Convert.ToDouble(specificDebt.amount);
+            double finalBalance = System.Convert.ToDouble(specificDebt.amount, culture);
 
             if (finalBalance > 0)
                 colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;

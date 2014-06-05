@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Data;
 using Microsoft.Phone.Tasks;
+using System.Globalization;
 
 namespace Split_It_
 {
@@ -177,7 +178,7 @@ namespace Split_It_
             {
                 App.friendsList.Add(friend);
                 Balance_User defaultBalance = Util.getDefaultBalance(friend.balance);
-                double balance = System.Convert.ToDouble(defaultBalance.amount);
+                double balance = System.Convert.ToDouble(defaultBalance.amount, CultureInfo.CurrentCulture);
                 if (balance > 0)
                 {
                     postiveBalance += balance;

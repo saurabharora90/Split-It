@@ -20,16 +20,16 @@ namespace Split_It_.Converter
             {
                 List<Expense_Share> users = expense.users;
                 string paid = " paid";
-                string amount = getPaidByUser(users).paid_share;
-                return getPaidByUser(users).user.first_name + paid + " " + getPaidToUser(users).user.first_name + " " + expense.currency_code + amount;
+                string amount = getPaidByUser(users, culture).paid_share;
+                return getPaidByUser(users, culture).user.first_name + paid + " " + getPaidToUser(users, culture).user.first_name + " " + expense.currency_code + amount;
             }
         }
 
-        private Expense_Share getPaidByUser(List<Expense_Share> users)
+        private Expense_Share getPaidByUser(List<Expense_Share> users, System.Globalization.CultureInfo culture)
         {
             foreach (var expenseUser in users)
             {
-                if (System.Convert.ToDouble(expenseUser.paid_share) > 0)
+                if (System.Convert.ToDouble(expenseUser.paid_share, culture) > 0)
                 {
                     return expenseUser;
                 }
@@ -38,11 +38,11 @@ namespace Split_It_.Converter
             return null;
         }
 
-        private Expense_Share getPaidToUser(List<Expense_Share> users)
+        private Expense_Share getPaidToUser(List<Expense_Share> users, System.Globalization.CultureInfo culture)
         {
             foreach (var expenseUser in users)
             {
-                if (System.Convert.ToDouble(expenseUser.paid_share) == 0)
+                if (System.Convert.ToDouble(expenseUser.paid_share, culture) == 0)
                 {
                     return expenseUser;
                 }

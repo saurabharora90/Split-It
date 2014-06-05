@@ -17,7 +17,7 @@ namespace Split_It_.Converter.UserDetails
             SolidColorBrush colorBrush;
             double finalBalance = 0;
             Balance_User balance = value as Balance_User;
-            finalBalance = System.Convert.ToDouble(balance.amount);
+            finalBalance = System.Convert.ToDouble(balance.amount, culture);
             
             if (finalBalance > 0)
                 colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;

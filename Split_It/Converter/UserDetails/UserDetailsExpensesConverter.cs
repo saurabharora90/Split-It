@@ -15,7 +15,7 @@ namespace Split_It_.Converter.UserDetails
             string description = "settled up";
             double finalBalance = 0;
             Balance_User balance = value as Balance_User;
-            finalBalance = System.Convert.ToDouble(balance.amount);
+            finalBalance = System.Convert.ToDouble(balance.amount, culture);
             string amount = balance.currency_code + String.Format("{0:0.00}", Math.Abs(finalBalance));
             
             if (finalBalance > 0)

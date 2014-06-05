@@ -31,7 +31,7 @@ namespace Split_It_.Converter
                 return expense.currency_code + "0.00";
 
             if(expense.displayType == Expense.DISPLAY_FOR_ALL_USER)
-                amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance)));
+                amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(currentUser.net_balance, culture)));
 
             else
             {
@@ -42,7 +42,7 @@ namespace Split_It_.Converter
                 {
                     if ((repayment.from == currentUserId && repayment.to == specificUserId) || (repayment.to == currentUserId && repayment.from == specificUserId))
                     {
-                        amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(repayment.amount)));
+                        amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(repayment.amount, culture)));
                         break;
                     }
                 }

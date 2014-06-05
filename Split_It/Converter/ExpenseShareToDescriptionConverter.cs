@@ -26,12 +26,12 @@ namespace Split_It_.Converter
             }
 
             string description = null;
-            if (currentUser == null || System.Convert.ToDouble(currentUser.net_balance) == 0)
+            if (currentUser == null || System.Convert.ToDouble(currentUser.net_balance, culture) == 0)
                 description = "not involved";
 
-            else if (System.Convert.ToDouble(currentUser.net_balance) > 0)
+            else if (System.Convert.ToDouble(currentUser.net_balance, culture) > 0)
                 description = "you lent";
-            else if (System.Convert.ToDouble(currentUser.net_balance) < 0)
+            else if (System.Convert.ToDouble(currentUser.net_balance, culture) < 0)
                 description = "you borrowed";
 
             return description;

@@ -15,7 +15,7 @@ namespace Split_It_.ExpandableListHelper
         {
             string amount = "";
             Debt_Group specificDebt = value as Debt_Group;
-            double finalBalance = System.Convert.ToDouble(specificDebt.amount);
+            double finalBalance = System.Convert.ToDouble(specificDebt.amount, culture);
 
             string currency = specificDebt.currency_code;
             amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));

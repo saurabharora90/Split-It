@@ -15,8 +15,8 @@ namespace Split_It_.Converter
         {
             Expense_Share shareUser = value as Expense_Share;
             string currency = shareUser.currency;
-            double paidShare = System.Convert.ToDouble(shareUser.paid_share);
-            double owedShare = System.Convert.ToDouble(shareUser.owed_share);
+            double paidShare = System.Convert.ToDouble(shareUser.paid_share, culture);
+            double owedShare = System.Convert.ToDouble(shareUser.owed_share, culture);
             string username;
 
             if (shareUser.user == null)
