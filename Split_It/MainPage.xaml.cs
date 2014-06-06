@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Data;
 using Microsoft.Phone.Tasks;
 using System.Globalization;
+using Windows.ApplicationModel.Store;
 
 namespace Split_It_
 {
@@ -62,6 +63,9 @@ namespace Split_It_
             populateData();
 
             more.DataContext = App.currentUser;
+
+            if (App.AdsRemoved)
+                beer.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void setupAppBars()
@@ -363,9 +367,17 @@ namespace Split_It_
             marketplaceReviewTask.Show();
         }
 
-        private void beer_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        async private void beer_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            await CurrentApp.RequestProductPurchaseAsync(Constants.REMOVE_ADS_PRODUCT_ID, false);
 
+            //check if purchase was made
+            if (App.AdsRemoved)
+            {
+                MessageBox.Show("Success!", "Thank you for your contribution. You might have to restart the app for the ads to fully disappear", MessageBoxButton.OK);
+                // notify marketplace that product has been delivered
+                CurrentApp.ReportProductFulfillment(Constants.REMOVE_ADS_PRODUCT_ID);
+            }
         }
     }
 }
