@@ -36,6 +36,6 @@ namespace Split_It_.Utils
 
         public static string CRITTERCISM_ID = "5360ad740729df4d95000002";
 
-        public static string REMOVE_ADS_PRODUCT_ID = "Remove Ads";
+        public static string REMOVE_ADS_PRODUCT_ID = "Remove_Ads";
     }
 }
