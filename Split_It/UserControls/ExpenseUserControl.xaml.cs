@@ -453,7 +453,7 @@ namespace Split_It_.UserControls
                 if (item.currency_code == App.currentUser.default_currency && String.IsNullOrEmpty(expense.currency_code))
                     defaultCurrency = item;
 
-                else if (item.currency_code == expense.currency_code)
+                else if (!String.IsNullOrEmpty(expense.currency_code) && item.currency_code == expense.currency_code)
                     defaultCurrency = item;
 
                 Dispatcher.BeginInvoke(() =>

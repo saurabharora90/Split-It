@@ -11,6 +11,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     Loaded="UserControl_Loaded"
+    Visibility="Collapsed"
     d:DesignHeight="80" d:DesignWidth="480">
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
