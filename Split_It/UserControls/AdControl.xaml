@@ -16,7 +16,7 @@
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
 
-        <UI:AdControl ApplicationId="1234" AdUnitId="1234" Name="MSAdControl" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" Height="80" Width="480"/>
+        <UI:AdControl ApplicationId="2ebbd26b-9e78-4fe6-9d32-2880b3246d9e" AdUnitId="177651" Name="MSAdControl" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" Height="80" Width="480"/>
         <adduplex:AdControl x:Name="AdDuplexAdControl" AppId="104211"  Width="480" Height="80" Visibility="Collapsed"/>
     </Grid>
 </UserControl>
