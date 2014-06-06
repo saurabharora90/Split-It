@@ -112,80 +112,83 @@
 
             <!--Pivot item four-->
             <phone:PivotItem x:Name="more" Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.More, Source={StaticResource LocalizedStrings}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <ScrollViewer Background="White"
+                  VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center"  Margin="12"/>
+                        <Grid Grid.Row="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center"  Margin="12"/>
 
-                        <Grid Grid.Column="1" VerticalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1" VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                            <TextBlock x:Name="tbName" Text="{Binding first_name}" Foreground="Black" Grid.Row="0" FontSize="38" HorizontalAlignment="Left"/>
-                            <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbName" Text="{Binding first_name}" Foreground="Black" Grid.Row="0" FontSize="38" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    
-                    <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,15">
-                        <TextBlock Name="add_user" 
-                                   Padding="14" 
+
+                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,15">
+                            <TextBlock Name="add_user" 
+                                   Padding="12" 
                                    Text="add friend" 
                                    Foreground="Black"
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Tap="add_user_Tap"
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
-                        <TextBlock Name="create_group" 
-                                   Padding="14" 
+                            <TextBlock Name="create_group" 
+                                   Padding="12" 
                                    Text="create group" 
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Tap="create_group_Tap"
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
-                        <TextBlock Name="logout" 
-                                   Padding="14" 
+                            <TextBlock Name="logout" 
+                                   Padding="12" 
                                    Text="logout" 
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Tap="logout_Tap"
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
-                        <TextBlock Name="rate" 
-                                   Padding="14" 
+                            <TextBlock Name="rate" 
+                                   Padding="12" 
                                    Text="rate and review" 
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Tap="rate_Tap"
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
-                        <TextBlock Name="beer" 
-                                   Padding="14" 
+                            <TextBlock Name="beer" 
+                                   Padding="12" 
                                    Text="buy me a beer (remove ads)" 
                                    Foreground="Black" 
                                    Tap="beer_Tap"
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
-                        <TextBlock Name="shameLessPlug" 
+                            <TextBlock Name="shameLessPlug" 
                                    VerticalAlignment="Bottom"
-                                   Margin="5,30,5,10" 
+                                   Margin="5,20,5,10" 
                                    TextWrapping="Wrap"
                                    Text="This app was developed by Saurabh Arora. Remember to review the app and buy me a beer if you like my work." 
                                    Foreground="{StaticResource settled}"
                                    FontSize="{StaticResource groupTimeSize}"/>
-                    </StackPanel>
-                </Grid>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
