@@ -36,5 +36,15 @@ namespace Split_It_.UserControls
                 AdDuplexAdControl.Visibility = Visibility.Collapsed;
             });
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (App.AdsRemoved)
+            {
+                Visibility = Visibility.Collapsed;
+                AdDuplexAdControl.IsEnabled = false;
+                MSAdControl.IsEnabled = false;
+            }
+        }
     }
 }

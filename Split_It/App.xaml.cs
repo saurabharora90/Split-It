@@ -10,6 +10,7 @@ using Split_It_.Resources;
 using Split_It_.Utils;
 using Split_It_.Model;
 using System.Collections.ObjectModel;
+using Windows.ApplicationModel.Store;
 
 namespace Split_It_
 {
@@ -28,6 +29,23 @@ namespace Split_It_
         public static ObservableCollection<User> friendsList;
         public static ObservableCollection<Group> groupsList;
         public static ObservableCollection<Expense> expensesList;
+
+        private static bool? _adsRemoved;
+        public static bool AdsRemoved
+        {
+            get
+            {
+                if (_adsRemoved == null)
+                {
+                    _adsRemoved = CurrentApp.LicenseInformation.ProductLicenses[Constants.REMOVE_ADS_PRODUCT_ID].IsActive;
+                }
+                return _adsRemoved.Value;
+            }
+            set
+            {
+                _adsRemoved = CurrentApp.LicenseInformation.ProductLicenses[Constants.REMOVE_ADS_PRODUCT_ID].IsActive;
+            }
+        }
 
         /// <summary>
         /// Constructor for the Application object.
