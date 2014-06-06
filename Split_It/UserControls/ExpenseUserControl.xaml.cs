@@ -17,7 +17,7 @@ using System.Collections;
 using Split_It_.Controller;
 using System.Windows.Input;
 
-namespace Split_It_.Add_Expense_Pages
+namespace Split_It_.UserControls
 {
     public partial class ExpenseUserControl : UserControl
     {

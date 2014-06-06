@@ -12,6 +12,7 @@ using System.ComponentModel;
 using Split_It_.Controller;
 using System.Windows.Media;
 using Split_It_.Model;
+using Split_It_.UserControls;
 
 namespace Split_It_.Add_Expense_Pages
 {

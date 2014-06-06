@@ -100,7 +100,7 @@
     <Compile Include="Add_Expense_Pages\EditExpense.xaml.cs">
       <DependentUpon>EditExpense.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Add_Expense_Pages\ExpenseUserControl.xaml.cs">
+    <Compile Include="UserControls\ExpenseUserControl.xaml.cs">
       <DependentUpon>ExpenseUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
@@ -219,7 +219,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Add_Expense_Pages\ExpenseUserControl.xaml">
+    <Page Include="UserControls\ExpenseUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

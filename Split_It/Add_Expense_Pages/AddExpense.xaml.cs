@@ -16,6 +16,7 @@ using Split_It_.Controller;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
+using Split_It_.UserControls;
 
 namespace Split_It_.Add_Expense_Pages
 {
