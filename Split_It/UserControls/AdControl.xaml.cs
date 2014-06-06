@@ -23,8 +23,8 @@ namespace Split_It_.UserControls
         {
             System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                MSAdControl.Visibility = Visibility.Collapsed;
                 AdDuplexAdControl.Visibility = Visibility.Visible;
+                MSAdControl.Visibility = Visibility.Collapsed;
             });
         }
 
@@ -32,8 +32,8 @@ namespace Split_It_.UserControls
         {
             System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                AdDuplexAdControl.Visibility = Visibility.Collapsed;
                 MSAdControl.Visibility = Visibility.Visible;
+                AdDuplexAdControl.Visibility = Visibility.Collapsed;
             });
         }
     }
