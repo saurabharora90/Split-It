@@ -15,11 +15,12 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        <local:AdControl Grid.Row="0"/>
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="0">
+        <StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="1">
             <TextBlock Foreground="White" 
 				Text="add expense" 
 				Margin="15,25" 
@@ -27,7 +28,7 @@
         </StackPanel>
         
         <local:ExpenseUserControl x:Name="expenseControl"
-                                  Grid.Row="1"/>
+                                  Grid.Row="2"/>
 
         <telerikPrimitives:RadBusyIndicator Background="#CC000000"
                                             Foreground="White"
