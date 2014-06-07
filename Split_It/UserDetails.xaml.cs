@@ -72,19 +72,6 @@ namespace Split_It_
             //disable both by default
             btnReminder.IsEnabled = false;
             btnSettle.IsEnabled = false;
-            
-            /*Balance_User defaultBalance = Util.getDefaultBalance(selectedUser.balance);
-            double finalBalance = System.Convert.ToDouble(defaultBalance.amount);
-            if (finalBalance <= 0)
-            {
-                btnReminder.IsEnabled = false;
-                btnSettle.IsEnabled = true;
-            }
-            else
-            {
-                btnReminder.IsEnabled = true;
-                btnSettle.IsEnabled = false;
-            }*/
 
             if (hasOwesYouBalance())
                 btnReminder.IsEnabled = true;
@@ -192,11 +179,7 @@ namespace Split_It_
         {
             if (llsExpenses.SelectedItem == null)
                 return;
-            //LongListSelector selector = sender as LongListSelector;
             Expense selectedExpense = llsExpenses.SelectedItem as Expense;
-
-            //if (selectedExpense == null)
-            //return;
 
             PhoneApplicationService.Current.State[Constants.SELECTED_EXPENSE] = selectedExpense;
             NavigationService.Navigate(new Uri("/ExpenseDetail.xaml", UriKind.Relative));

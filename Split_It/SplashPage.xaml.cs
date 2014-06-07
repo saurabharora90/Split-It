@@ -34,7 +34,6 @@ namespace Split_It_
             base.OnNavigatedTo(e);
 
             String firstUse;
-            String pageName;
 
             //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
             //if the page has been accessed from the back stack
