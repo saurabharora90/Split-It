@@ -34,7 +34,7 @@
                                             Foreground="White"
                                             x:Name="busyIndicator" 
                                             Grid.Row="0" 
-                                            Grid.RowSpan="2"
+                                            Grid.RowSpan="3"
                                             AnimationStyle="AnimationStyle9"/>
     </Grid>
 
