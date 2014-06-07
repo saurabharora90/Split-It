@@ -68,6 +68,15 @@ namespace Split_It_.Add_Expense_Pages
             btnCancel.Text = "cancel";
             ApplicationBar.Buttons.Add(btnCancel);
             btnCancel.Click += new EventHandler(btnCancel_Click);
+
+            ApplicationBarIconButton btnPin = new ApplicationBarIconButton();
+            btnPin.IconUri = new Uri("/Assets/Icons/pin.png", UriKind.Relative);
+            btnPin.Text = "pin";
+            ApplicationBar.Buttons.Add(btnPin);
+            btnPin.Click += new EventHandler(btnPin_Click);
+            ShellTile tile = Util.FindTile(Constants.ADD_EXPENSE_TILE_SHORTCUT);
+            if (tile != null)
+                btnPin.IsEnabled = false;
         }
 
         private Group getFromGroup()
@@ -105,6 +114,17 @@ namespace Split_It_.Add_Expense_Pages
         {
             PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
             NavigationService.GoBack();
+        }
+
+        private void btnPin_Click(object sender, EventArgs e)
+        {
+            StandardTileData tileData = new StandardTileData
+            {
+                Title = "add expense",
+            };
+
+            Uri tileUri = new Uri(Constants.ADD_EXPENSE_TILE_SHORTCUT, UriKind.Relative);
+            ShellTile.Create(tileUri, tileData);
         }
 
         //returns true only if one or less group is selected

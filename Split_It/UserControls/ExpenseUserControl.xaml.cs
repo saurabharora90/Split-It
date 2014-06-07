@@ -39,6 +39,9 @@ namespace Split_It_.UserControls
         public static string OWES = "owes ";
         public static string OWE = "owe ";
 
+        BackgroundWorker groupLoadingBackgroundWorker;
+        BackgroundWorker friendLoadingBackgroundWorker;
+
         public ExpenseUserControl()
         {
             InitializeComponent();
@@ -46,6 +49,7 @@ namespace Split_It_.UserControls
             {
                 return;
             }
+            loadFriendsAndGroupsIfNeeded();
             if (PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] != null)
                 expense = PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as Expense;
 
@@ -73,6 +77,62 @@ namespace Split_It_.UserControls
             llsExactAmount.ItemsSource = expenseShareUsers;
             llsPercentage.ItemsSource = expenseShareUsers;
             llsShares.ItemsSource = expenseShareUsers;
+        }
+
+        private void loadFriendsAndGroupsIfNeeded()
+        {
+            //we may need to load them if we are coming from start screen shorcut
+            if (App.friendsList == null)
+            {
+                PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
+                App.friendsList = new ObservableCollection<User>();
+                App.groupsList = new ObservableCollection<Group>();
+                
+                groupLoadingBackgroundWorker = new BackgroundWorker();
+                groupLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+                groupLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(groupLoadingBackgroundWorker_DoWork);
+
+                friendLoadingBackgroundWorker = new BackgroundWorker();
+                friendLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+                friendLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(friendLoadingBackgroundWorker_DoWork);
+
+                groupLoadingBackgroundWorker.RunWorkerAsync();
+                friendLoadingBackgroundWorker.RunWorkerAsync();
+            }
+        }
+
+        private void groupLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            QueryDatabase obj = new QueryDatabase();
+            List<Group> allGroups = obj.getAllGroups();
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (allGroups != null)
+                {
+                    foreach (var group in allGroups)
+                    {
+                        App.groupsList.Add(group);
+                    }
+                }
+            });
+            obj.closeDatabaseConnection();
+        }
+
+        private void friendLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            QueryDatabase obj = new QueryDatabase();
+            List<User> allFriends = obj.getAllFriends();
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (allFriends != null)
+                {
+                    foreach (var group in allFriends)
+                    {
+                        App.friendsList.Add(group);
+                    }
+                }
+            });
+            obj.closeDatabaseConnection();
         }
 
         private object FriendSummaryDelegate(IList list)
@@ -457,8 +517,11 @@ namespace Split_It_.UserControls
                 if (item.currency_code == App.currentUser.default_currency && String.IsNullOrEmpty(expense.currency_code))
                     defaultCurrency = item;
 
-                else if (!String.IsNullOrEmpty(expense.currency_code) && item.currency_code == expense.currency_code)
-                    defaultCurrency = item;
+                else if(!String.IsNullOrEmpty(expense.currency_code))
+                {
+                    if (item.currency_code == expense.currency_code)
+                        defaultCurrency = item;
+                }
 
                 Dispatcher.BeginInvoke(() =>
                 {

@@ -275,6 +275,7 @@
     <Content Include="Assets\Icons\feature.email.png" />
     <Content Include="Assets\Icons\feature.search.png" />
     <Content Include="Assets\Icons\ok.png" />
+    <Content Include="Assets\Icons\pin.png" />
     <Content Include="Assets\Icons\save.png" />
     <Content Include="Assets\Icons\settle.png" />
     <Content Include="Assets\Images\groupIcon.png">

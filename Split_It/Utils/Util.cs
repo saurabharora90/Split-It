@@ -1,4 +1,5 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
+using Microsoft.Phone.Shell;
 using Split_It_.Model;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,14 @@ namespace Split_It_.Utils
 {
     class Util
     {
+        public static ShellTile FindTile(string partOfUri)
+        {
+            ShellTile shellTile = ShellTile.ActiveTiles.FirstOrDefault(
+                tile => tile.NavigationUri.ToString().Contains(partOfUri));
+
+            return shellTile;
+        }
+
         public static void setAccessToken(String accessToken)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
