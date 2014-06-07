@@ -42,6 +42,10 @@ namespace Split_It_.UserControls
         public ExpenseUserControl()
         {
             InitializeComponent();
+            if (System.ComponentModel.DesignerProperties.IsInDesignTool)
+            {
+                return;
+            }
             if (PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] != null)
                 expense = PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as Expense;
 
