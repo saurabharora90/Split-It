@@ -39,7 +39,7 @@ namespace Split_It_.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.AdsRemoved)
+            if (App.AdsRemoved)
             {
                 Visibility = Visibility.Visible;
                 AdDuplexAdControl.IsEnabled = false;

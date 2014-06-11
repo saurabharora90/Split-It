@@ -62,10 +62,10 @@
 
 
         <!--Colors-->
-        <SolidColorBrush x:Key="splitwiseGreen">#5BC5A7</SolidColorBrush>
-        <Color x:Key="green">#5BC5A7</Color>
-        <SolidColorBrush x:Key="negative">#FC7F53</SolidColorBrush>
-        <SolidColorBrush x:Key="positive">#5BC5A7</SolidColorBrush>
+        <SolidColorBrush x:Key="splitwiseGreen">#20B2AA</SolidColorBrush>
+        <Color x:Key="green">#20B2AA</Color>
+        <SolidColorBrush x:Key="negative">#FC5353</SolidColorBrush>
+        <SolidColorBrush x:Key="positive">#20B2AA</SolidColorBrush>
         <SolidColorBrush x:Key="settled">#ABABAB</SolidColorBrush>
         <SolidColorBrush x:Key="splitwiseGreyBG">#EEEEEE</SolidColorBrush>
 

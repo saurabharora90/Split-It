@@ -69,7 +69,7 @@ namespace Split_It_
         private object FriendSummaryDelegate(IList list)
         {
             string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
+            /*for (int i = 0; i < list.Count; i++)
             {
                 // check if the last item has been reached so we don't put a "," at the end
                 bool isLast = i == list.Count - 1;
@@ -77,7 +77,10 @@ namespace Split_It_
                 User friend = (User)list[i];
                 summary = String.Concat(summary, friend.first_name);
                 summary += isLast ? string.Empty : ", ";
-            }
+            }*/
+           
+            if (list.Count != 0)
+                summary = list.Count + " users selected";
             if (summary == String.Empty)
             {
                 summary = "no friends selected";
