@@ -121,6 +121,7 @@ namespace Split_It_.Add_Expense_Pages
             StandardTileData tileData = new StandardTileData
             {
                 Title = "add expense",
+                BackgroundImage = new Uri("/Assets/Tiles/TileMediumAdd.png", UriKind.Relative),
             };
 
             Uri tileUri = new Uri(Constants.ADD_EXPENSE_TILE_SHORTCUT, UriKind.Relative);
