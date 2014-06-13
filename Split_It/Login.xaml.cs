@@ -86,6 +86,8 @@ namespace Split_It_
         {
             Util.setAccessToken(accessToken);
             Util.setAccessTokenSecret(accessTokenSecret);
+            App.accessToken = Util.getAccessToken();
+            App.accessTokenSecret = Util.getAccessTokenSecret();
             NavigationService.Navigate(new Uri("/SplashPage.xaml?afterLogin=true", UriKind.Relative));
         }
 

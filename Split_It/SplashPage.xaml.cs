@@ -21,9 +21,7 @@ namespace Split_It_
         public SplashPage()
         {
             InitializeComponent();
-            App.accessToken = Util.getAccessToken();
-            App.accessTokenSecret = Util.getAccessTokenSecret();
-
+            
             syncDatabaseBackgroundWorker = new BackgroundWorker();
             syncDatabaseBackgroundWorker.WorkerSupportsCancellation = true;
             syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);

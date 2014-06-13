@@ -90,6 +90,9 @@ namespace Split_It_
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            App.accessToken = Util.getAccessToken();
+            App.accessTokenSecret = Util.getAccessTokenSecret();
+
             CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_ID);
         }
 
