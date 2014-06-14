@@ -9,11 +9,27 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Split_It_.Utils
 {
     class Util
     {
+        public static string GetAppVersion()
+        {
+            var xmlReaderSettings = new XmlReaderSettings
+            {
+                XmlResolver = new XmlXapResolver()
+            };
+
+            using (var xmlReader = XmlReader.Create("WMAppManifest.xml", xmlReaderSettings))
+            {
+                xmlReader.ReadToDescendant("App");
+
+                return xmlReader.GetAttribute("Version");
+            }
+        }
+
         public static ShellTile FindTile(string partOfUri)
         {
             ShellTile shellTile = ShellTile.ActiveTiles.FirstOrDefault(

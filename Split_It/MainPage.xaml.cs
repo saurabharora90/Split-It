@@ -42,6 +42,7 @@ namespace Split_It_
         public MainPage()
         {
             InitializeComponent();
+            setupAppBars();
 
             App.friendsList = new ObservableCollection<User>();
             App.groupsList = new ObservableCollection<Group>();
@@ -58,8 +59,7 @@ namespace Split_It_
             groupLoadingBackgroundWorker = new BackgroundWorker();
             groupLoadingBackgroundWorker.WorkerSupportsCancellation = true;
             groupLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(groupLoadingBackgroundWorker_DoWork);
-
-            setupAppBars();
+            
             populateData();
 
             more.DataContext = App.currentUser;
@@ -74,6 +74,8 @@ namespace Split_It_
             ApplicationBar.Mode = ApplicationBarMode.Default;
             ApplicationBar.Opacity = 1.0;
             ApplicationBar.IsVisible = true;
+            ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
+            ApplicationBar.ForegroundColor = Colors.White;
 
             btnAllFriends = new ApplicationBarMenuItem();
             btnAllFriends.Text = "all";
@@ -304,9 +306,6 @@ namespace Split_It_
                     ApplicationBar.IsMenuEnabled = false;
                     break;
             }
-
-            ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
-            ApplicationBar.ForegroundColor = Colors.White;
         }
 
         private void llsExpenses_Tap(object sender, SelectionChangedEventArgs e)
