@@ -113,7 +113,12 @@ namespace Split_It_.Add_Expense_Pages
         private void btnCancel_Click(object sender, EventArgs e)
         {
             PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
-            NavigationService.GoBack();
+
+            //This page might be accessed from the start screen tile and hence canGoBack might be false
+            if (NavigationService.CanGoBack)
+                NavigationService.GoBack();
+            else
+                Application.Current.Terminate();
         }
 
         private void btnPin_Click(object sender, EventArgs e)
