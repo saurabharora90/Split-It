@@ -42,6 +42,12 @@ namespace Split_It_.UserControls
             if (!App.AdsRemoved)
             {
                 Visibility = Visibility.Visible;
+                AdDuplexAdControl.IsEnabled = true;
+                MSAdControl.IsEnabled = true;
+            }
+            else
+            {
+                Visibility = Visibility.Collapsed;
                 AdDuplexAdControl.IsEnabled = false;
                 MSAdControl.IsEnabled = false;
             }
