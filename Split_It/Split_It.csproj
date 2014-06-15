@@ -268,6 +268,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\300.png" />
     <Content Include="Assets\Icons\add.png" />
     <Content Include="Assets\Icons\cancel.png" />
     <Content Include="Assets\Icons\delete.png" />

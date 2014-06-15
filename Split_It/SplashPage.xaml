@@ -15,8 +15,12 @@
     shell:SystemTray.BackgroundColor="{StaticResource green}">
 
     <Grid Background="{StaticResource splitwiseGreen}">
-        <TextBlock Text="Split It" Foreground="White"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeExtraExtraLarge}"/>
-        <TextBlock Text="A Splitwise client for Windows Phone" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeMedium}" Margin="0,0,0,12"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image Source="/Assets/300.png" Grid.Row="0" Height="250" Width="250"/>
+        <TextBlock Text="A Splitwise client for Windows Phone" Grid.Row="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeMedium}" Margin="0,0,0,12"/>
     </Grid>
 
 </phone:PhoneApplicationPage>
