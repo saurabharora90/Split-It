@@ -1,0 +1,278 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Split_It_.CreateGroup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:PhoneTextBox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives" 
+    xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
+    xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
+    xmlns:ListPicker="clr-namespace:Telerik.Windows.Controls.ListPicker;assembly=Telerik.Windows.Controls.Input" 
+    xmlns:app="clr-namespace:Split_It_.Converter"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="False">
+    
+    <phone:PhoneApplicationPage.Resources>
+        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <Style x:Key="PopupHeaderStyle" TargetType="ContentControl">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+            <Setter Property="Margin" Value="24,55,0,35"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+        <ListPicker:SelectionModeToBooleanConverter x:Key="SelectionModeToBooleanConverter"/>
+        <Style x:Key="RadListPickerStyle1" TargetType="telerikInput:RadListPicker">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}"/>
+                        <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeNormal}"/>
+                        <Setter Property="Padding" Value="0, 0,0,8"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
+            <Setter Property="PopupHeaderStyle" Value="{StaticResource PopupHeaderStyle}"/>
+            <Setter Property="Margin" Value="{StaticResource PhoneTouchTargetOverhang}"/>
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="ActionButtonVisibility" Value="Collapsed"/>
+            <Setter Property="ActionButtonStyle">
+                <Setter.Value>
+                    <Style TargetType="PhoneTextBox:TextBoxSecondaryButton">
+                        <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="PopupOpenAnimation">
+                <Setter.Value>
+                    <telerik:RadTileAnimation Duration="0:0:.2" InitialDelay="0:0:.08" IsTranslationEnabled="False" InOutAnimationMode="In" PerspectiveAngleY="0" PerspectiveAngleX="90" SequentialMode="FirstToLast"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="PopupCloseAnimation">
+                <Setter.Value>
+                    <telerik:RadTileAnimation Duration="0:0:.2" IsTranslationEnabled="False" InOutAnimationMode="Out" PerspectiveAngleY="0" PerspectiveAngleX="90" SequentialMode="FirstToLast" SequentialItemDelay="0"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="telerikInput:RadListPicker">
+                        <Grid x:Name="LayoutRoot">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Background" Storyboard.TargetName="border">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="border">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneAccentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="PopupModeLabel">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneAccentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Expanded">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Background" Storyboard.TargetName="border">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBackgroundBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="border">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneTextBoxEditBorderBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="border">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Background" Storyboard.TargetName="border">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="HeaderPresenter" CacheMode="BitmapCache" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Row="0" Style="{TemplateBinding HeaderStyle}" Visibility="Collapsed"/>
+                            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" CacheMode="BitmapCache" Grid.Row="1">
+                                <Grid x:Name="mainLayout">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <telerikInput:RadListPickerItem x:Name="PopupModeLabel" HorizontalAlignment="Stretch" MinHeight="{TemplateBinding MinHeight}" Style="{TemplateBinding ItemStyle}" VerticalAlignment="Stretch"/>
+                                    <Canvas x:Name="ItemsParent"/>
+                                    <PhoneTextBox:TextBoxSecondaryButton x:Name="ActionButton" Grid.Column="1" MinWidth="38" MinHeight="38" Style="{TemplateBinding ActionButtonStyle}" Visibility="{TemplateBinding ActionButtonVisibility}"/>
+                                </Grid>
+                            </Border>
+                            <telerikPrimitives:RadWindow x:Name="Popup" CloseAnimation="{TemplateBinding PopupCloseAnimation}" IsFullScreen="True" IsAnimationEnabled="{TemplateBinding IsAnimationEnabled}" OpenAnimation="{TemplateBinding PopupOpenAnimation}" Background="{StaticResource splitwiseGreen}" Foreground="White">
+                                <telerikPrimitives:RadWindow.ApplicationBarInfo>
+                                    <telerikPrimitives:ApplicationBarInfo x:Name="PART_AppBarInfo" BackgroundColor="{StaticResource green}" ForegroundColor="White">
+                                        <telerikPrimitives:ApplicationBarButton x:Name="PART_OKButton"/>
+                                        <telerikPrimitives:ApplicationBarButton x:Name="PART_CancelButton"/>
+                                    </telerikPrimitives:ApplicationBarInfo>
+                                </telerikPrimitives:RadWindow.ApplicationBarInfo>
+                                <Grid Background="{StaticResource splitwiseGreen}" telerik:RadTileAnimation.ContainerToAnimate="{Binding ., ElementName=PopupList}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl CacheMode="BitmapCache" ContentTemplate="{TemplateBinding PopupHeaderTemplate}" Content="{TemplateBinding PopupHeader}" Grid.Row="0" Style="{TemplateBinding PopupHeaderStyle}" Foreground="White" Margin="24,20,0,20"/>
+                                    <telerikPrimitives:RadDataBoundListBox x:Name="PopupList" DisplayMemberPath="{TemplateBinding DisplayMemberPath}" IsCheckModeActive="{Binding SelectionMode, Converter={StaticResource SelectionModeToBooleanConverter}, RelativeSource={RelativeSource TemplatedParent}}" telerik:InteractionEffectManager.IsInteractionEnabled="True" ItemContainerStyle="{TemplateBinding PopupItemStyle}" Grid.Row="1" Style="{TemplateBinding PopupStyle}" Foreground="Black" Background="White" CheckModeDeactivatedOnBackButton="False"/>
+                                </Grid>
+                            </telerikPrimitives:RadWindow>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="PopupItemStyle">
+                <Setter.Value>
+                    <Style TargetType="telerikPrimitives:RadDataBoundListBoxItem">
+                        <Setter Property="Padding" Value="24,17,0,17"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="PopupStyle">
+                <Setter.Value>
+                    <Style TargetType="telerikPrimitives:RadDataBoundListBox">
+                        <Setter Property="FontSize" Value="{StaticResource userDetailnameSize}"/>
+                        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}"/>
+                        <Setter Property="Background" Value="{StaticResource PhoneChromeBrush}"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="CheckBoxStyle">
+                            <Setter.Value>
+                                <Style TargetType="telerikPrimitives:ItemCheckBox">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="0, 0, -18, 0"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="0">
+            <TextBlock Foreground="White" 
+				Text="create group" 
+				Margin="15,25" 
+				FontSize="{StaticResource PivotTitleFontSize}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <telerikPrimitives:RadTextBox Grid.Row="0" 
+				x:Name="tbName"
+				BorderThickness="0"
+                InputScope="Text"
+				Foreground="Black" 
+				Watermark="enter name of group" 
+				Padding="10"
+                TextChanged="tbName_TextChanged"
+				VerticalAlignment="Top" 
+				Style="{StaticResource GreyBGRadTextBoxStyle}"/>
+
+            <TextBlock Grid.Row="1"
+                     Margin="15,15,15,10"
+                     Foreground="Black"
+                     TextWrapping="Wrap"
+                     Text="Add friends to this group:"
+                     FontSize="22"/>
+            
+            <telerikInput:RadListPicker Grid.Row="2"
+						Header="Friends"
+						BorderBrush="{StaticResource splitwiseGreyBG}"
+						Foreground="Black"
+                        Margin="12,0"
+						x:Name="friendListPicker"
+						ActionButtonVisibility="Collapsed"
+						SelectionMode="Multiple"
+                        SelectionChanged="friendListPicker_SelectionChanged"
+						OkButtonIconUri="/Assets/Icons/ok.png"
+						CancelButtonIconUri="/Assets/Icons/cancel.png" 
+                        PopupHeader="SELECT FRIENDS" 
+                        Style="{StaticResource RadListPickerStyle1}">
+                <telerikInput:RadListPicker.PopupItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding name}"/>
+                    </DataTemplate>
+                </telerikInput:RadListPicker.PopupItemTemplate>
+            </telerikInput:RadListPicker>
+
+            <TextBlock Grid.Row="3"
+                     Margin="15,15,0,10"
+                     Foreground="Black"
+                     TextWrapping="Wrap"
+                     Text="Group Members:"
+                     FontSize="22"/>
+
+            <Grid Grid.Row="4" Margin="0,0,0,10">
+                <phone:LongListSelector Name="llsFriends">
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0">
+                                <Grid Margin="15,0,15,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <TextBlock x:Name="tbName" TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </Grid>
+        </Grid>
+
+        <telerikPrimitives:RadBusyIndicator Background="#CC000000"
+                                            Foreground="White"
+                                            x:Name="busyIndicator"
+                                            Content="creating group"
+                                            Grid.Row="0" 
+                                            Grid.RowSpan="2"
+                                            AnimationStyle="AnimationStyle9"/>
+    </Grid>
+
+</phone:PhoneApplicationPage>
