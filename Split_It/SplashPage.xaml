@@ -14,7 +14,7 @@
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.BackgroundColor="{StaticResource green}">
 
-    <Grid Background="{StaticResource splitwiseGreen}">
+    <Grid Background="{StaticResource splitwiseGreen}" Margin="0,-1,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
