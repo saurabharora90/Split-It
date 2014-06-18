@@ -41,6 +41,10 @@ namespace Split_It_.Utils
         public static void setAccessToken(String accessToken)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.ACCESS_TOKEN_TAG))
+            {
+                settings.Remove(Constants.ACCESS_TOKEN_TAG);
+            }
             settings.Add(Constants.ACCESS_TOKEN_TAG, accessToken);
             settings.Save();
         }
@@ -48,6 +52,10 @@ namespace Split_It_.Utils
         public static void setAccessTokenSecret(String accessTokenSecret)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.ACCESS_TOKEN_SECRET_TAG))
+            {
+                settings.Remove(Constants.ACCESS_TOKEN_SECRET_TAG);
+            }
             settings.Add(Constants.ACCESS_TOKEN_SECRET_TAG, accessTokenSecret);
             settings.Save();
         }
