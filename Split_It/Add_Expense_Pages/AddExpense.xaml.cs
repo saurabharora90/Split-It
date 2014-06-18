@@ -199,7 +199,7 @@ namespace Split_It_.Add_Expense_Pages
         
         private void enableOkButton()
         {
-            if (this.expenseControl.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
+            if (this.expenseControl.friendListPicker.SelectedItems.Count!=0 && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
             {
                 btnOkay.IsEnabled = true;
             }
