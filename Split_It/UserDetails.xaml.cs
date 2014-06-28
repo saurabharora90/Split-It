@@ -60,6 +60,13 @@ namespace Split_It_
             ApplicationBar.BackgroundColor = (Color) Application.Current.Resources["green"];
             ApplicationBar.ForegroundColor = Colors.White;
 
+            //Add expense to friend
+            ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
+            btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
+            btnAddExpense.Text = "add";
+            ApplicationBar.Buttons.Add(btnAddExpense);
+            btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
+
             //Settle up button
             ApplicationBarIconButton btnReminder = new ApplicationBarIconButton();
             btnReminder.IconUri = new Uri("/Assets/Icons/feature.email.png", UriKind.Relative);
@@ -105,6 +112,15 @@ namespace Split_It_
             }
 
             return false;
+        }
+
+        private void btnAddExpense_Click(object sender, EventArgs e)
+        {
+            Expense expenseToAdd = new Expense();
+            expenseToAdd.specificUserId = selectedUser.id;
+
+            PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = expenseToAdd;
+            NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddExpense.xaml", UriKind.Relative));
         }
 
         private void btnSettle_Click(object sender, EventArgs e)

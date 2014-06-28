@@ -42,6 +42,7 @@ namespace Split_It_.Add_Expense_Pages
             this.expenseControl.tbAmount.TextChanged += tbAmount_TextChanged;
 
             this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
+            this.expenseControl.friendListPicker.SelectedItem = getFromFriend();
 
             this.expenseControl.expenseDate.Value = DateTime.Now;
         }
@@ -89,6 +90,22 @@ namespace Split_It_.Add_Expense_Pages
                 {
                     if (this.expenseControl.expense.group_id == group.id)
                         return group;
+                }
+            }
+
+            return null;
+        }
+
+        private User getFromFriend()
+        {
+            if (this.expenseControl.expense == null)
+                return null;
+            else
+            {
+                foreach (var user in App.friendsList)
+                {
+                    if (this.expenseControl.expense.specificUserId == user.id)
+                        return user;
                 }
             }
 

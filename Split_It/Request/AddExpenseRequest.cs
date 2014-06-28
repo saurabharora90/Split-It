@@ -73,7 +73,7 @@ namespace Split_It_.Request
             client.ExecuteAsync<List<Expense>>(request, reponse =>
                 {
                     List<Expense> expenseList = reponse.Data;
-                    if (expenseList != null)
+                    if (expenseList != null && expenseList.Count!=0)
                     {
                         Expense payment = expenseList[0];
                         if (payment.id!=0)

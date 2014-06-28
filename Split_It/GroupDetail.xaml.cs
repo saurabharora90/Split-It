@@ -77,7 +77,7 @@ namespace Split_It_
             ApplicationBar.BackgroundColor = (Color)Application.Current.Resources["green"];
             ApplicationBar.ForegroundColor = Colors.White;
 
-            //Settle up button
+            //Add expense to group
             ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
             btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
             btnAddExpense.Text = "add";
