@@ -325,6 +325,9 @@
     <Reference Include="AdDuplex.WindowsPhone">
       <HintPath>..\packages\AdDuplexWP8.2.8.0.8\lib\wp8\AdDuplex.WindowsPhone.dll</HintPath>
     </Reference>
+    <Reference Include="AppPromo.WP8">
+      <HintPath>..\packages\AppPromo.1.0.0.9\lib\wp8\AppPromo.WP8.dll</HintPath>
+    </Reference>
     <Reference Include="CrittercismWP8SDK">
       <HintPath>..\packages\Crittercism.2.0.0\lib\WindowsPhone8\CrittercismWP8SDK.dll</HintPath>
     </Reference>
