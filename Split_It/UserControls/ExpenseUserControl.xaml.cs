@@ -175,36 +175,48 @@ namespace Split_It_.UserControls
 
         public bool setupExpense()
         {
-            FocusedTextBoxUpdateSource();
-            //to hide the keyboard if any
-            this.Focus();
-            bool proceed = true;
-
-            switch (amountSplit)
+            try
             {
-                case AmountSplit.You_owe:
-                    divideExpenseYouOwe();
-                    break;
-                case AmountSplit.You_are_owed:
-                    divideExpenseOwesYou();
-                    break;
-                case AmountSplit.Split_equally:
-                    divideExpenseEqually();
-                    break;
-                case AmountSplit.Split_unequally:
-                    proceed = divideExpenseUnequally();
-                    break;
-                default:
-                    break;
-            }
-            expense.users = expenseShareUsers.ToList();
-            expense.currency_code = (currencyListPicker.SelectedItem as Currency).currency_code;
-            expense.payment = false;
-            expense.details = tbDetails.Text;
-            DateTime dateTime = expenseDate.Value ?? DateTime.Now;
-            expense.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
+                FocusedTextBoxUpdateSource();
+                //to hide the keyboard if any
+                this.Focus();
+                bool proceed = true;
 
-            return proceed;
+                switch (amountSplit)
+                {
+                    case AmountSplit.You_owe:
+                        divideExpenseYouOwe();
+                        break;
+                    case AmountSplit.You_are_owed:
+                        divideExpenseOwesYou();
+                        break;
+                    case AmountSplit.Split_equally:
+                        divideExpenseEqually();
+                        break;
+                    case AmountSplit.Split_unequally:
+                        proceed = divideExpenseUnequally();
+                        break;
+                    default:
+                        break;
+                }
+
+                expense.users = expenseShareUsers.ToList();
+                Currency selectedCurrency = (currencyListPicker.SelectedItem as Currency);
+
+                if(selectedCurrency!=null)
+                    expense.currency_code = selectedCurrency.currency_code;
+                
+                expense.payment = false;
+                expense.details = tbDetails.Text;
+                DateTime dateTime = expenseDate.Value ?? DateTime.Now;
+                expense.date = dateTime.ToString("yyyy-MM-ddTHH:mm:ssK");
+
+                return proceed;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
         
         protected void divideExpenseEqually()

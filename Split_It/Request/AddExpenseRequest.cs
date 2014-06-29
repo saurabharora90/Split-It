@@ -34,7 +34,9 @@ namespace Split_It_.Request
 
             request.AddParameter("cost", Convert.ToString(Convert.ToDouble(paymentExpense.cost), System.Globalization.CultureInfo.InvariantCulture), ParameterType.GetOrPost);
             request.AddParameter("description", paymentExpense.description, ParameterType.GetOrPost);
-            request.AddParameter("currency_code", paymentExpense.currency_code, ParameterType.GetOrPost);
+
+            if (!String.IsNullOrEmpty(paymentExpense.currency_code))
+                request.AddParameter("currency_code", paymentExpense.currency_code, ParameterType.GetOrPost);
 
             if (!String.IsNullOrEmpty(paymentExpense.creation_method))
             {
