@@ -17,7 +17,7 @@ namespace Split_It_.Converter
             bool hasMultipleBalances = Util.hasMultipleBalances(balanceList);
             
             Balance_User defaultBalance = Util.getDefaultBalance(balanceList);
-            double finalBalance = System.Convert.ToDouble(defaultBalance.amount, culture);
+            double finalBalance = System.Convert.ToDouble(defaultBalance.amount, System.Globalization.CultureInfo.InvariantCulture);
             if (finalBalance == 0)
                 return null;
             else
