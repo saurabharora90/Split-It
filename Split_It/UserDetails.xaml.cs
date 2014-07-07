@@ -96,7 +96,7 @@ namespace Split_It_
         {
             foreach (var balance in selectedUser.balance)
             {
-                if (System.Convert.ToDouble(balance.amount) < 0)
+                if (System.Convert.ToDouble(balance.amount, System.Globalization.CultureInfo.InvariantCulture) < 0)
                     return true;
             }
 
@@ -107,7 +107,7 @@ namespace Split_It_
         {
             foreach (var balance in selectedUser.balance)
             {
-                if (System.Convert.ToDouble(balance.amount) > 0)
+                if (System.Convert.ToDouble(balance.amount, System.Globalization.CultureInfo.InvariantCulture) > 0)
                     return true;
             }
 

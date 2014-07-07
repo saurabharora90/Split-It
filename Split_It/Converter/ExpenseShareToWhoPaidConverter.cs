@@ -19,7 +19,7 @@ namespace Split_It_.Converter
             Expense_Share paidUser = null;
             foreach (var user in users)
             {
-                if (System.Convert.ToDouble(user.paid_share, culture) > 0)
+                if (System.Convert.ToDouble(user.paid_share, System.Globalization.CultureInfo.InvariantCulture) > 0)
                 {
                     paidUser = user;
                     break;
@@ -35,7 +35,7 @@ namespace Split_It_.Converter
                 return null;
 
             string amount = null;
-            amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(paidUser.paid_share, culture)));
+            amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(paidUser.paid_share, System.Globalization.CultureInfo.InvariantCulture)));
             string paid = " paid";
 
             return getPaidUserName(paidUser.user) + paid + " " + expense.currency_code + amount;

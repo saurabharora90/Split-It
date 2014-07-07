@@ -20,8 +20,8 @@ namespace Split_It_.Converter
             {
                 List<Expense_Share> users = expense.users;
                 string paid = " paid";
-                string amount = getPaidByUser(users, culture).paid_share;
-                return getPaidByUser(users, culture).user.first_name + paid + " " + getPaidToUser(users, culture).user.first_name + " " + expense.currency_code + System.Convert.ToDouble(amount, culture);
+                string amount = getPaidByUser(users, System.Globalization.CultureInfo.InvariantCulture).paid_share;
+                return getPaidByUser(users, System.Globalization.CultureInfo.InvariantCulture).user.first_name + paid + " " + getPaidToUser(users, System.Globalization.CultureInfo.InvariantCulture).user.first_name + " " + expense.currency_code + System.Convert.ToDouble(amount, System.Globalization.CultureInfo.InvariantCulture);
             }
         }
 
