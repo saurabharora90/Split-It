@@ -45,14 +45,18 @@ namespace Split_It_.Controller
                 dbConn.DeleteAll<Group_Members>();
 
                 //Fetch current user details
-                CurrentUserRequest request = new CurrentUserRequest();
-                request.getCurrentUser(_CurrentUserDetailsReceived, _OnErrorReceived);
+                //CurrentUserRequest request = new CurrentUserRequest();
+                //request.getCurrentUser(_CurrentUserDetailsReceived, _OnErrorReceived);
             }
             else
             {
+                //Fetch current user details everytime to sync possible changes made on the website
+                CurrentUserRequest request = new CurrentUserRequest();
+                request.getCurrentUser(_CurrentUserDetailsReceived, _OnErrorReceived);
+
                 //fetch expenses
-                GetExpensesRequest request = new GetExpensesRequest();
-                request.getAllExpenses(_ExpensesDetailsReceived, _OnErrorReceived);
+                //GetExpensesRequest request = new GetExpensesRequest();
+                //request.getAllExpenses(_ExpensesDetailsReceived, _OnErrorReceived);
             }
 
         }
@@ -60,11 +64,11 @@ namespace Split_It_.Controller
         private void _CurrentUserDetailsReceived(User currentUser)
         {
             //Insert user details to database
-            dbConn.Insert(currentUser);
+            dbConn.InsertOrReplace(currentUser);
 
             //Insert picture into database
             currentUser.picture.user_id = currentUser.id;
-            dbConn.Insert(currentUser.picture);
+            dbConn.InsertOrReplace(currentUser.picture);
             
             //Save current user id in isolated storage
             Util.setCurrentUserId(currentUser.id);
