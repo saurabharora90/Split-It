@@ -26,16 +26,23 @@ namespace Split_It_.Request
             request.AddParameter("limit", 0, ParameterType.GetOrPost);
             request.AddParameter("updated_after", Util.getLastUpdatedTime(), ParameterType.GetOrPost);
             request.RootElement = "expenses";
-            client.ExecuteAsync<List<Expense>>(request, reponse =>
-                {
-                    if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+            try
+            {
+                client.ExecuteAsync<List<Expense>>(request, reponse =>
                     {
-                        CallbackOnFailure(reponse.StatusCode);
-                        return;
-                    }
-                    List<Expense> expenses = reponse.Data;
-                    CallbackOnSuccess(expenses);
-                });
+                        if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+                        {
+                            CallbackOnFailure(reponse.StatusCode);
+                            return;
+                        }
+                        List<Expense> expenses = reponse.Data;
+                        CallbackOnSuccess(expenses);
+                    });
+            }
+            catch (Exception e)
+            {
+                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+            }
         }
     }
 }

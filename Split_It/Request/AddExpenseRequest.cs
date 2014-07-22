@@ -71,21 +71,27 @@ namespace Split_It_.Request
                 count++;
             }
 
-
-            client.ExecuteAsync<List<Expense>>(request, reponse =>
-                {
-                    List<Expense> expenseList = reponse.Data;
-                    if (expenseList != null && expenseList.Count!=0)
+            try
+            {
+                client.ExecuteAsync<List<Expense>>(request, reponse =>
                     {
-                        Expense payment = expenseList[0];
-                        if (payment.id!=0)
-                            CallbackOnSuccess(true);
+                        List<Expense> expenseList = reponse.Data;
+                        if (expenseList != null && expenseList.Count != 0)
+                        {
+                            Expense payment = expenseList[0];
+                            if (payment.id != 0)
+                                CallbackOnSuccess(true);
+                            else
+                                CallbackOnFailure(reponse.StatusCode);
+                        }
                         else
                             CallbackOnFailure(reponse.StatusCode);
-                    }
-                    else
-                        CallbackOnFailure(reponse.StatusCode);
-                });
+                    });
+            }
+            catch (Exception e)
+            {
+                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+            }
         }
     }
 }
