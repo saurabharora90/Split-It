@@ -136,7 +136,7 @@ namespace Split_It_.Controller
 
             //Fire next request, i.e. get list of friends
             GetFriendsRequest request = new GetFriendsRequest();
-            request.getAllFriends(_FriendsDetailsRecevied);
+            request.getAllFriends(_FriendsDetailsRecevied, _OnErrorReceived);
         }
 
         private void _FriendsDetailsRecevied(List<User> friendsList)
@@ -177,7 +177,7 @@ namespace Split_It_.Controller
 
             //Fetch groups
             GetGroupsRequest request = new GetGroupsRequest();
-            request.getAllGroups(_GroupsDetailsReceived);
+            request.getAllGroups(_GroupsDetailsReceived, _OnErrorReceived);
         }
 
         private void _GroupsDetailsReceived(List<Group> groupsList)

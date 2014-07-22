@@ -5,6 +5,7 @@ using Split_It_.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,15 +20,22 @@ namespace Split_It_.Request
         {
         }
 
-        public void getAllFriends(Action<List<User>> CallbackOnSuccess)
+        public void getAllFriends(Action<List<User>> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(getFriendsURL);
             request.RootElement = "friends";
-            client.ExecuteAsync<List<User>>(request, reponse =>
-                {
-                    List<User> friends = reponse.Data;
-                    CallbackOnSuccess(friends);
-                });
+            try
+            {
+                client.ExecuteAsync<List<User>>(request, reponse =>
+                    {
+                        List<User> friends = reponse.Data;
+                        CallbackOnSuccess(friends);
+                    });
+            }
+            catch (Exception e)
+            {
+                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+            }
         }
     }
 }

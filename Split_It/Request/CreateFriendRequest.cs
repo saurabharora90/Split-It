@@ -37,21 +37,27 @@ namespace Split_It_.Request
                 request.AddParameter("user_last_name", lastName, ParameterType.GetOrPost);
             }
 
-
-            client.ExecuteAsync<List<User>>(request, reponse =>
-                {
-                    List<User> usersList = reponse.Data;
-                    if (usersList != null)
+            try
+            {
+                client.ExecuteAsync<List<User>>(request, reponse =>
                     {
-                        User user = usersList[0];
-                        if (user.id != 0)
-                            CallbackOnSuccess(user);
+                        List<User> usersList = reponse.Data;
+                        if (usersList != null)
+                        {
+                            User user = usersList[0];
+                            if (user.id != 0)
+                                CallbackOnSuccess(user);
+                            else
+                                CallbackOnFailure(reponse.StatusCode);
+                        }
                         else
                             CallbackOnFailure(reponse.StatusCode);
-                    }
-                    else
-                        CallbackOnFailure(reponse.StatusCode);
-                });
+                    });
+            }
+            catch (Exception e)
+            {
+                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+            }
         }
     }
 }
