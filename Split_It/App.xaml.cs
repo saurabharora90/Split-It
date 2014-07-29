@@ -28,7 +28,6 @@ namespace Split_It_
         //App data models
         public static ObservableCollection<User> friendsList;
         public static ObservableCollection<Group> groupsList;
-        public static ObservableCollection<Expense> expensesList;
 
         private static bool? _adsRemoved;
         public static bool AdsRemoved

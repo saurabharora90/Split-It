@@ -24,16 +24,23 @@ namespace Split_It_.Request
         {
             var request = new RestRequest(currentUserURL);
             request.RootElement = "user";
-            client.ExecuteAsync<User>(request, reponse =>
-                {
-                    if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+            try
+            {
+                client.ExecuteAsync<User>(request, reponse =>
                     {
-                        CallbackOnFailure(reponse.StatusCode);
-                        return;
-                    }
-                    User currentUser = reponse.Data;
-                    CallbackOnSuccess(currentUser);
-                });
+                        if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+                        {
+                            CallbackOnFailure(reponse.StatusCode);
+                            return;
+                        }
+                        User currentUser = reponse.Data;
+                        CallbackOnSuccess(currentUser);
+                    });
+            }
+            catch (Exception e)
+            {
+                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+            }
         }
     }
 }
