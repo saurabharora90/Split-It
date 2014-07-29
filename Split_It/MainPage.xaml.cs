@@ -39,6 +39,8 @@ namespace Split_It_
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
 
+        public ObservableCollection<Expense> expensesList;
+
         public MainPage()
         {
             InitializeComponent();
@@ -46,10 +48,10 @@ namespace Split_It_
 
             App.friendsList = new ObservableCollection<User>();
             App.groupsList = new ObservableCollection<Group>();
-            App.expensesList = new ObservableCollection<Expense>();
+            expensesList = new ObservableCollection<Expense>();
 
             llsFriends.ItemsSource = balanceFriends;
-            llsExpenses.ItemsSource = App.expensesList;
+            llsExpenses.ItemsSource = expensesList;
             llsGroups.ItemsSource = App.groupsList;
 
             expenseLoadingBackgroundWorker = new BackgroundWorker();
@@ -239,7 +241,7 @@ namespace Split_It_
                 Dispatcher.BeginInvoke(() =>
                 {
                     if (pageNo == 0)
-                        App.expensesList.Clear();
+                        expensesList.Clear();
 
                     if (allExpenses == null || allExpenses.Count == 0)
                         morePages = false;
@@ -250,7 +252,7 @@ namespace Split_It_
                     {
                         foreach (var expense in allExpenses)
                         {
-                            App.expensesList.Add(expense);
+                            expensesList.Add(expense);
                         }
                     }
                 });
@@ -285,7 +287,7 @@ namespace Split_It_
                 {
                     int offset = 2;
 
-                    if (expenseLoadingBackgroundWorker.IsBusy != true && morePages && App.expensesList.Count - App.expensesList.IndexOf(expense) <= offset)
+                    if (expenseLoadingBackgroundWorker.IsBusy != true && morePages && expensesList.Count - expensesList.IndexOf(expense) <= offset)
                     {
                         pageNo++;
                         expenseLoadingBackgroundWorker.RunWorkerAsync(false);
