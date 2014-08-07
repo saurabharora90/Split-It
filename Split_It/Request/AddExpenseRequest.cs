@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -25,7 +26,6 @@ namespace Split_It_.Request
         public void addExpense(Action<bool> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(addExpenseURL, Method.POST);
-            request.RootElement = "expenses";
 
             if(paymentExpense.payment)
                 request.AddParameter("payment", "true", ParameterType.GetOrPost);
@@ -70,28 +70,31 @@ namespace Split_It_.Request
 
                 count++;
             }
-
-            try
-            {
-                client.ExecuteAsync<List<Expense>>(request, reponse =>
-                    {
-                        List<Expense> expenseList = reponse.Data;
-                        if (expenseList != null && expenseList.Count != 0)
+            
+            client.ExecuteAsync(request, reponse =>
+                {
+                    try
                         {
-                            Expense payment = expenseList[0];
-                            if (payment.id != 0)
-                                CallbackOnSuccess(true);
+                            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+                            JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                            List<Expense> expenseList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Expense>>(testToken.ToString(), settings);
+                            if (expenseList != null && expenseList.Count != 0)
+                            {
+                                Expense payment = expenseList[0];
+                                if (payment.id != 0)
+                                    CallbackOnSuccess(true);
+                                else
+                                    CallbackOnFailure(reponse.StatusCode);
+                            }
                             else
                                 CallbackOnFailure(reponse.StatusCode);
                         }
-                        else
-                            CallbackOnFailure(reponse.StatusCode);
-                    });
-            }
-            catch (Exception e)
-            {
-                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
-            }
+                    catch (Exception e)
+                        {
+                            CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+                        }
+                });
         }
     }
 }

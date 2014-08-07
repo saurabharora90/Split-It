@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -27,7 +28,6 @@ namespace Split_It_.Request
         public void createFriend(Action<User> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(createFriendURL, Method.POST);
-            request.RootElement = "friend";
 
             request.AddParameter("user_email", email, ParameterType.GetOrPost);
             request.AddParameter("user_first_name", firstName, ParameterType.GetOrPost);
@@ -37,11 +37,14 @@ namespace Split_It_.Request
                 request.AddParameter("user_last_name", lastName, ParameterType.GetOrPost);
             }
 
-            try
-            {
-                client.ExecuteAsync<List<User>>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
+                {
+                    try
                     {
-                        List<User> usersList = reponse.Data;
+                        Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                        Newtonsoft.Json.Linq.JToken testToken = root["friend"];
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                        List<User> usersList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(testToken.ToString(), settings);
                         if (usersList != null)
                         {
                             User user = usersList[0];
@@ -52,12 +55,12 @@ namespace Split_It_.Request
                         }
                         else
                             CallbackOnFailure(reponse.StatusCode);
-                    });
-            }
-            catch (Exception e)
-            {
-                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
-            }
+                    }
+                    catch (Exception e)
+                    {
+                        CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+                    }
+                });
         }
     }
 }

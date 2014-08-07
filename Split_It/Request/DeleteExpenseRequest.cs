@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -26,14 +27,21 @@ namespace Split_It_.Request
         {
             var request = new RestRequest(deleteExpenseURL, Method.POST);
             request.AddUrlSegment("id", expenseId.ToString());
-            client.ExecuteAsync<Boolean>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
                 {
-                    //somehow this API returns false when the expense has been deleted
-                    if (!reponse.Data)
-                        CallbackOnSuccess(reponse.Data);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    DeleteExpense result = Newtonsoft.Json.JsonConvert.DeserializeObject<DeleteExpense>(reponse.Content, settings);
+                    if (result.success)
+                        CallbackOnSuccess(result.success);
                     else
                         CallbackOnFailure(reponse.StatusCode);
                 });
         }
-    }
+
+        private class DeleteExpense
+        {
+            public Boolean success { get; set; }
+            public Object error { get; set; }
+        }
+    }    
 }

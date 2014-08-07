@@ -43,10 +43,15 @@ namespace Split_It_.Converter
 
         private String getPaidUserName(User paidUser)
         {
-            if (paidUser.id == Util.getCurrentUserId())
+            if (paidUser.id != null && paidUser.id == Util.getCurrentUserId())
                 return "You";
             else
-                return paidUser.first_name;
+            {
+                if (paidUser.first_name != null)
+                    return paidUser.first_name;
+                else
+                    return "Unknown user (not a friend)";
+            }
         }
 
         private bool checkIfNotInvolved(List<Expense_Share> users)

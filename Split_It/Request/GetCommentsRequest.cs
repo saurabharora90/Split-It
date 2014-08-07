@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -26,15 +27,17 @@ namespace Split_It_.Request
         {
             var request = new RestRequest(getCommentsURL);
             request.AddParameter("expense_id", expenseId, ParameterType.GetOrPost);
-            request.RootElement = "comments";
-            client.ExecuteAsync<List<Comment>>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
                 {
                     if(reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
                     {
                         Callback(null);
                         return;
                     }
-                    List<Comment> comments = reponse.Data;
+                    Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                    Newtonsoft.Json.Linq.JToken testToken = root["comments"];
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    List<Comment> comments = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Comment>>(testToken.ToString(), settings);
                     Callback(comments);
                 });
         }

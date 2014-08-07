@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -25,7 +26,6 @@ namespace Split_It_.Request
         public void updateExpense(Action<bool> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(updateExpenseURL, Method.POST);
-            request.RootElement = "expenses";
             request.AddUrlSegment("id", updatedExpense.id.ToString());
 
             if(updatedExpense.payment)
@@ -72,11 +72,14 @@ namespace Split_It_.Request
                 count++;
             }
 
-            try
-            {
-                client.ExecuteAsync<List<Expense>>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
+                {
+                    try
                     {
-                        List<Expense> expenseList = reponse.Data;
+                        Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                        Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                        List<Expense> expenseList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Expense>>(testToken.ToString(), settings);
                         if (expenseList != null)
                         {
                             Expense payment = expenseList[0];
@@ -87,12 +90,12 @@ namespace Split_It_.Request
                         }
                         else
                             CallbackOnFailure(reponse.StatusCode);
-                    });
-            }
-            catch (Exception e)
-            {
-                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
-            }
+                    }
+                    catch (Exception e)
+                    {
+                        CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+                    }
+                });
         }
     }
 }
