@@ -48,16 +48,9 @@ namespace Split_It_.Controller
                 //CurrentUserRequest request = new CurrentUserRequest();
                 //request.getCurrentUser(_CurrentUserDetailsReceived, _OnErrorReceived);
             }
-            else
-            {
-                //Fetch current user details everytime to sync possible changes made on the website
-                CurrentUserRequest request = new CurrentUserRequest();
-                request.getCurrentUser(_CurrentUserDetailsReceived, _OnErrorReceived);
-
-                //fetch expenses
-                //GetExpensesRequest request = new GetExpensesRequest();
-                //request.getAllExpenses(_ExpensesDetailsReceived, _OnErrorReceived);
-            }
+            //Fetch current user details everytime to sync possible changes made on the website
+            CurrentUserRequest request = new CurrentUserRequest();
+            request.getCurrentUser(_CurrentUserDetailsReceived, _OnErrorReceived);
 
         }
 
