@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -23,10 +24,12 @@ namespace Split_It_.Request
         {
             var request = new RestRequest(getUserURL);
             request.AddUrlSegment("id", userId.ToString());
-            request.RootElement = "user";
-            client.ExecuteAsync<User>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
                 {
-                    User currentUser = reponse.Data;
+                    Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                    Newtonsoft.Json.Linq.JToken testToken = root["user"];
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    User currentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(testToken.ToString(), settings);
                 });
         }
     }

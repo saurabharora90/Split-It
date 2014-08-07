@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -23,24 +24,28 @@ namespace Split_It_.Request
         public void getCurrentUser(Action<User> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(currentUserURL);
-            request.RootElement = "user";
-            try
-            {
-                client.ExecuteAsync<User>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
+                {
+                    try
                     {
                         if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
                         {
                             CallbackOnFailure(reponse.StatusCode);
                             return;
                         }
-                        User currentUser = reponse.Data;
+                        Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                        Newtonsoft.Json.Linq.JToken testToken = root["user"];
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+
+                        User currentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(testToken.ToString(), settings);
                         CallbackOnSuccess(currentUser);
-                    });
-            }
-            catch (Exception e)
-            {
-                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
-            }
+                    }
+
+                    catch (Exception e)
+                    {
+                        CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+                    }
+                });
         }
     }
 }

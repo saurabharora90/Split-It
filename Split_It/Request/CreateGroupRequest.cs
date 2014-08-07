@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -25,7 +26,6 @@ namespace Split_It_.Request
         public void createGroup(Action<Group> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(createGroupURL, Method.POST);
-            request.RootElement = "group";
 
             request.AddParameter("name", groupToAdd.name, ParameterType.GetOrPost);
 
@@ -39,9 +39,12 @@ namespace Split_It_.Request
             }
 
 
-            client.ExecuteAsync<List<Group>>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
                 {
-                    List<Group> groupsList = reponse.Data;
+                    Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                    Newtonsoft.Json.Linq.JToken testToken = root["group"];
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    List<Group> groupsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Group>>(testToken.ToString(), settings);
                     if (groupsList != null)
                     {
                         Group group = groupsList[0];

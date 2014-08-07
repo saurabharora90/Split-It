@@ -232,9 +232,12 @@ namespace Split_It_.Controller
 
         private void _CurrenciesReceived(List<Currency> currencyList)
         {
-            dbConn.DeleteAll<Currency>();
-            dbConn.InsertAll(currencyList);
-            dbConn.Close();
+            if (currencyList != null && currencyList.Count!=0)
+            {
+                dbConn.DeleteAll<Currency>();
+                dbConn.InsertAll(currencyList);
+                dbConn.Close();
+            }
             CallbackOnSuccess(true, HttpStatusCode.OK);
         }
 

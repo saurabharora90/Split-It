@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Authenticators;
 using Split_It_.Model;
 using Split_It_.Utils;
@@ -23,19 +24,21 @@ namespace Split_It_.Request
         public void getAllFriends(Action<List<User>> CallbackOnSuccess, Action<HttpStatusCode> CallbackOnFailure)
         {
             var request = new RestRequest(getFriendsURL);
-            request.RootElement = "friends";
-            try
-            {
-                client.ExecuteAsync<List<User>>(request, reponse =>
+            client.ExecuteAsync(request, reponse =>
+                {
+                    try
                     {
-                        List<User> friends = reponse.Data;
+                        Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                        Newtonsoft.Json.Linq.JToken testToken = root["friends"];
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                        List<User> friends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(testToken.ToString(), settings);
                         CallbackOnSuccess(friends);
-                    });
-            }
-            catch (Exception e)
-            {
-                CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
-            }
+                    }
+                    catch (Exception e)
+                    {
+                        CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+                    }
+                });
         }
     }
 }
