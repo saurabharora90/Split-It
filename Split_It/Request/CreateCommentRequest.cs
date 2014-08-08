@@ -40,7 +40,9 @@ namespace Split_It_.Request
                     Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
                     Newtonsoft.Json.Linq.JToken testToken = root["comment"];
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                    List<Comment> comments = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Comment>>(testToken.ToString(), settings);
+                    Comment comment = Newtonsoft.Json.JsonConvert.DeserializeObject<Comment>(testToken.ToString(), settings);
+                    List<Comment> comments = new List<Comment>();
+                    comments.Add(comment);
                     Callback(comments);
                 });
         }
