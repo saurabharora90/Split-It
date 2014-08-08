@@ -43,7 +43,10 @@ namespace Split_It_.Converter
 
         private String getPaidUserName(User paidUser)
         {
-            if (paidUser.id != null && paidUser.id == Util.getCurrentUserId())
+            if(paidUser == null)
+                return "Unknown user (not a friend)";
+
+            if (paidUser.id == Util.getCurrentUserId())
                 return "You";
             else
             {
