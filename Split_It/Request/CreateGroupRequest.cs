@@ -41,20 +41,26 @@ namespace Split_It_.Request
 
             client.ExecuteAsync(request, reponse =>
                 {
-                    Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
-                    Newtonsoft.Json.Linq.JToken testToken = root["group"];
-                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                    List<Group> groupsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Group>>(testToken.ToString(), settings);
-                    if (groupsList != null)
+                    try
                     {
-                        Group group = groupsList[0];
-                        if (group.id != 0)
-                            CallbackOnSuccess(group);
+                        Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                        Newtonsoft.Json.Linq.JToken testToken = root["group"];
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                        Group group = Newtonsoft.Json.JsonConvert.DeserializeObject<Group>(testToken.ToString(), settings);
+                        if (group != null)
+                        {
+                            if (group.id != 0)
+                                CallbackOnSuccess(group);
+                            else
+                                CallbackOnFailure(reponse.StatusCode);
+                        }
                         else
                             CallbackOnFailure(reponse.StatusCode);
                     }
-                    else
-                        CallbackOnFailure(reponse.StatusCode);
+                    catch (Exception e)
+                    {
+                        CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+                    }
                 });
         }
     }

@@ -44,10 +44,9 @@ namespace Split_It_.Request
                         Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
                         Newtonsoft.Json.Linq.JToken testToken = root["friend"];
                         JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                        List<User> usersList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(testToken.ToString(), settings);
-                        if (usersList != null)
+                        User user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(testToken.ToString(), settings);
+                        if (user != null)
                         {
-                            User user = usersList[0];
                             if (user.id != 0)
                                 CallbackOnSuccess(user);
                             else
