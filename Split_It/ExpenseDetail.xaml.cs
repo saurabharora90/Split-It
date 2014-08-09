@@ -176,8 +176,12 @@ namespace Split_It_
         {
             foreach (var item in selectedExpense.users)
             {
-                if (Convert.ToDouble(item.paid_share) != 0 && item.user_id != App.currentUser.id)
-                    return false;
+                double paidShare;
+                if(double.TryParse(item.paid_share, out paidShare))
+                {
+                    if (paidShare != 0 && item.user_id != App.currentUser.id)
+                        return false;
+                }
             }
             return true;
         }
