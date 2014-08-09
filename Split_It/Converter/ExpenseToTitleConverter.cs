@@ -13,15 +13,22 @@ namespace Split_It_.Converter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            Expense expense = value as Expense;
-            if (!expense.payment)
-                return expense.description;
-            else
+            try
             {
-                List<Expense_Share> users = expense.users;
-                string paid = " paid";
-                string amount = getPaidByUser(users, System.Globalization.CultureInfo.InvariantCulture).paid_share;
-                return getPaidByUser(users, System.Globalization.CultureInfo.InvariantCulture).user.first_name + paid + " " + getPaidToUser(users, System.Globalization.CultureInfo.InvariantCulture).user.first_name + " " + expense.currency_code + System.Convert.ToDouble(amount, System.Globalization.CultureInfo.InvariantCulture);
+                Expense expense = value as Expense;
+                if (!expense.payment)
+                    return expense.description;
+                else
+                {
+                    List<Expense_Share> users = expense.users;
+                    string paid = " paid";
+                    string amount = getPaidByUser(users, System.Globalization.CultureInfo.InvariantCulture).paid_share;
+                    return getPaidByUser(users, System.Globalization.CultureInfo.InvariantCulture).user.first_name + paid + " " + getPaidToUser(users, System.Globalization.CultureInfo.InvariantCulture).user.first_name + " " + expense.currency_code + System.Convert.ToDouble(amount, System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
+            catch (Exception e)
+            {
+                return "Unable to get description";
             }
         }
 
