@@ -68,6 +68,9 @@ namespace Split_It_.UserControls
             this.groupListPicker.ItemsSource = App.groupsList;
             this.groupListPicker.SummaryForSelectedItemsDelegate = this.GroupSummaryDelegate;
 
+            if (App.groupsList == null || App.groupsList.Count == 0)
+                this.groupListPicker.Visibility = System.Windows.Visibility.Collapsed;
+
             this.currencyListPicker.ItemsSource = this.currenciesList;
             this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
 
@@ -107,8 +110,9 @@ namespace Split_It_.UserControls
             List<Group> allGroups = obj.getAllGroups();
             Dispatcher.BeginInvoke(() =>
             {
-                if (allGroups != null)
+                if (allGroups != null && allGroups.Count!=0)
                 {
+                    this.groupListPicker.Visibility = System.Windows.Visibility.Visible;
                     foreach (var group in allGroups)
                     {
                         App.groupsList.Add(group);
