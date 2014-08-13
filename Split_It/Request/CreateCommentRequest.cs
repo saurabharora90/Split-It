@@ -32,18 +32,25 @@ namespace Split_It_.Request
             request.AddParameter("content", content, ParameterType.GetOrPost);
             client.ExecuteAsync(request, reponse =>
                 {
-                    if(reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+                    try
+                    {
+                        if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+                        {
+                            Callback(null);
+                            return;
+                        }
+                        Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                        Newtonsoft.Json.Linq.JToken testToken = root["comment"];
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                        Comment comment = Newtonsoft.Json.JsonConvert.DeserializeObject<Comment>(testToken.ToString(), settings);
+                        List<Comment> comments = new List<Comment>();
+                        comments.Add(comment);
+                        Callback(comments);
+                    }
+                    catch (Exception e)
                     {
                         Callback(null);
-                        return;
                     }
-                    Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
-                    Newtonsoft.Json.Linq.JToken testToken = root["comment"];
-                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                    Comment comment = Newtonsoft.Json.JsonConvert.DeserializeObject<Comment>(testToken.ToString(), settings);
-                    List<Comment> comments = new List<Comment>();
-                    comments.Add(comment);
-                    Callback(comments);
                 });
         }
     }

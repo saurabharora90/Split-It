@@ -26,11 +26,18 @@ namespace Split_It_.Request
             var request = new RestRequest(getCurrenciesURL);
             client.ExecuteAsync(request, reponse =>
             {
-                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
-                Newtonsoft.Json.Linq.JToken testToken = root["currencies"];
-                JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                List<Currency> supportedCurrencies = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Currency>>(testToken.ToString(), settings);
-                CallbackOnSuccess(supportedCurrencies);
+                try
+                {
+                    Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                    Newtonsoft.Json.Linq.JToken testToken = root["currencies"];
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    List<Currency> supportedCurrencies = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Currency>>(testToken.ToString(), settings);
+                    CallbackOnSuccess(supportedCurrencies);
+                }
+                catch (Exception e)
+                {
+                    CallbackOnSuccess(null);
+                }
             });
         }
     }
