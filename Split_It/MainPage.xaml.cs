@@ -210,6 +210,9 @@ namespace Split_It_
                 return;
             }
 
+            //if default currency is not set then dont display the balances. Only the text is enough.
+            if (App.currentUser.default_currency == null)
+                return;
             netBalanceObj.setBalances(App.currentUser.default_currency, totalBalance, postiveBalance, negativeBalance);
             btnOwesYouFriends.Text = netBalanceObj.PositiveBalance;
             btnYouOweFriends.Text = netBalanceObj.NegativeBalance;
