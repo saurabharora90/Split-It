@@ -29,16 +29,23 @@ namespace Split_It_.Request
             request.AddParameter("expense_id", expenseId, ParameterType.GetOrPost);
             client.ExecuteAsync(request, reponse =>
                 {
-                    if(reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+                    try
+                    {
+                        if (reponse.StatusCode != HttpStatusCode.OK && reponse.StatusCode != HttpStatusCode.NotModified)
+                        {
+                            Callback(null);
+                            return;
+                        }
+                        Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
+                        Newtonsoft.Json.Linq.JToken testToken = root["comments"];
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                        List<Comment> comments = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Comment>>(testToken.ToString(), settings);
+                        Callback(comments);
+                    }
+                    catch (Exception e)
                     {
                         Callback(null);
-                        return;
                     }
-                    Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(reponse.Content);
-                    Newtonsoft.Json.Linq.JToken testToken = root["comments"];
-                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                    List<Comment> comments = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Comment>>(testToken.ToString(), settings);
-                    Callback(comments);
                 });
         }
     }

@@ -29,12 +29,19 @@ namespace Split_It_.Request
             request.AddUrlSegment("id", expenseId.ToString());
             client.ExecuteAsync(request, reponse =>
                 {
-                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                    DeleteExpense result = Newtonsoft.Json.JsonConvert.DeserializeObject<DeleteExpense>(reponse.Content, settings);
-                    if (result.success)
-                        CallbackOnSuccess(result.success);
-                    else
-                        CallbackOnFailure(reponse.StatusCode);
+                    try
+                    {
+                        JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                        DeleteExpense result = Newtonsoft.Json.JsonConvert.DeserializeObject<DeleteExpense>(reponse.Content, settings);
+                        if (result.success)
+                            CallbackOnSuccess(result.success);
+                        else
+                            CallbackOnFailure(reponse.StatusCode);
+                    }
+                    catch (Exception e)
+                    {
+                        CallbackOnFailure(HttpStatusCode.ServiceUnavailable);
+                    }
                 });
         }
 
