@@ -75,7 +75,10 @@ namespace Split_It_.UserControls
             this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
 
             if (expense == null)
+            {
                 expense = new Expense();
+                expense.group_id = 0; //by default the expense is in no group
+            }
 
             llsExactAmount.ItemsSource = expenseShareUsers;
             llsPercentage.ItemsSource = expenseShareUsers;
