@@ -67,11 +67,11 @@ namespace Split_It_
             ApplicationBar.Buttons.Add(btnAddExpense);
             btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
 
-            //Settle up button
             ApplicationBarIconButton btnReminder = new ApplicationBarIconButton();
             btnReminder.IconUri = new Uri("/Assets/Icons/feature.email.png", UriKind.Relative);
             btnReminder.Text = "reminder";
 
+            //Settle up button
             ApplicationBarIconButton btnSettle = new ApplicationBarIconButton();
             btnSettle.IconUri = new Uri("/Assets/Icons/settle.png", UriKind.Relative);
             btnSettle.Text = "settle";

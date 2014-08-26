@@ -390,5 +390,10 @@ namespace Split_It_
 
             }
         }
+
+        private void account_settings_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/AccountSettings.xaml", UriKind.Relative));
+        }
     }
 }
