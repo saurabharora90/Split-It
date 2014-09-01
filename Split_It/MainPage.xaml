@@ -133,7 +133,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock x:Name="tbName" Text="{Binding first_name}" Foreground="Black" Grid.Row="0" FontSize="38" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="38" HorizontalAlignment="Left"/>
                                 <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
                             </Grid>
                         </Grid>

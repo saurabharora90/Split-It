@@ -18,8 +18,10 @@ namespace Split_It_
 {
     public partial class AccountSettings : PhoneApplicationPage
     {
-        protected BackgroundWorker getSupportedCurrenciesBackgroundWorker;
+        BackgroundWorker getSupportedCurrenciesBackgroundWorker;
+        BackgroundWorker editUserBackgroundWorker;
         protected ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
+        User currentUser = App.currentUser;
 
         public AccountSettings()
         {
@@ -30,7 +32,11 @@ namespace Split_It_
             getSupportedCurrenciesBackgroundWorker.DoWork += new DoWorkEventHandler(getSupportedCurrenciesBackgroundWorker_DoWork);
             getSupportedCurrenciesBackgroundWorker.RunWorkerAsync();
 
-            this.DataContext = App.currentUser;
+            editUserBackgroundWorker = new BackgroundWorker();
+            editUserBackgroundWorker.WorkerSupportsCancellation = true;
+            editUserBackgroundWorker.DoWork += new DoWorkEventHandler(editUserBackgroundWorker_DoWork);
+
+            this.DataContext = currentUser;
             this.currencyListPicker.ItemsSource = currenciesList;
             this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
             createAppBar();
@@ -61,12 +67,58 @@ namespace Split_It_
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            
+            busyIndicator.IsRunning = true;
+
+            currentUser.first_name = tbFirstName.Text;
+            currentUser.last_name = tbLastName.Text;
+            currentUser.email = tbEmail.Text;
+            Currency selectedCurrency = (currencyListPicker.SelectedItem as Currency);
+
+            if (selectedCurrency != null)
+                currentUser.default_currency = selectedCurrency.currency_code;
+
+            editUserBackgroundWorker.RunWorkerAsync();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             NavigationService.GoBack();
+        }
+
+        private void editUserBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Request.UpdateUserRequest request = new Request.UpdateUserRequest(currentUser);
+            request.updateUser(_editUserCompleted);
+        }
+
+        private void _editUserCompleted(User currentUser, HttpStatusCode statusCode)
+        {
+            if (currentUser != null && statusCode == HttpStatusCode.OK)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    App.currentUser = currentUser;
+                    busyIndicator.IsRunning = false;
+                    NavigationService.GoBack();
+                });
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    busyIndicator.IsRunning = false;
+
+                    if (statusCode == HttpStatusCode.Unauthorized)
+                    {
+                        Split_It_.Utils.Util.logout();
+                        NavigationService.Navigate(new Uri("/Login.xaml", UriKind.Relative));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to edit user details.", "Error", MessageBoxButton.OK);
+                    }
+                });
+            }
         }
 
         private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

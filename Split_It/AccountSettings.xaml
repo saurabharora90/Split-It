@@ -276,7 +276,7 @@
         <telerikPrimitives:RadBusyIndicator Background="#CC000000"
                                             Foreground="White"
                                             x:Name="busyIndicator"
-                                            Content="creating group"
+                                            Content="updating user details"
                                             Grid.Row="0" 
                                             Grid.RowSpan="2"
                                             AnimationStyle="AnimationStyle9"/>

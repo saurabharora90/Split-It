@@ -103,6 +103,8 @@
     <Compile Include="Add_Expense_Pages\EditExpense.xaml.cs">
       <DependentUpon>EditExpense.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ErrorResponse.cs" />
+    <Compile Include="Request\UpdateUserRequest.cs" />
     <Compile Include="UserControls\AdControl.xaml.cs">
       <DependentUpon>AdControl.xaml</DependentUpon>
     </Compile>
