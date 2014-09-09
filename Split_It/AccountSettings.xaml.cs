@@ -21,7 +21,8 @@ namespace Split_It_
         BackgroundWorker getSupportedCurrenciesBackgroundWorker;
         BackgroundWorker editUserBackgroundWorker;
         protected ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
-        User currentUser = App.currentUser;
+        User currentUser;
+        bool currencyModified = false;
 
         public AccountSettings()
         {
@@ -36,7 +37,7 @@ namespace Split_It_
             editUserBackgroundWorker.WorkerSupportsCancellation = true;
             editUserBackgroundWorker.DoWork += new DoWorkEventHandler(editUserBackgroundWorker_DoWork);
 
-            this.DataContext = currentUser;
+            this.DataContext = App.currentUser;
             this.currencyListPicker.ItemsSource = currenciesList;
             this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
             createAppBar();
@@ -67,17 +68,33 @@ namespace Split_It_
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            busyIndicator.IsRunning = true;
+            if (canProceed())
+            {
+                busyIndicator.IsRunning = true;
+                currentUser = new User();
+                currentUser.id = App.currentUser.id;
+                currentUser.first_name = tbFirstName.Text;
+                currentUser.last_name = tbLastName.Text;
+                currentUser.email = tbEmail.Text;
+                Currency selectedCurrency = (currencyListPicker.SelectedItem as Currency);
 
-            currentUser.first_name = tbFirstName.Text;
-            currentUser.last_name = tbLastName.Text;
-            currentUser.email = tbEmail.Text;
-            Currency selectedCurrency = (currencyListPicker.SelectedItem as Currency);
+                if (selectedCurrency != null)
+                    currentUser.default_currency = selectedCurrency.currency_code;
 
-            if (selectedCurrency != null)
-                currentUser.default_currency = selectedCurrency.currency_code;
+                if (!currentUser.default_currency.Equals(App.currentUser.default_currency))
+                    currencyModified = true;
 
-            editUserBackgroundWorker.RunWorkerAsync();
+                editUserBackgroundWorker.RunWorkerAsync();
+            }
+            else
+            {
+                MessageBox.Show("Email and First Name cannot be empty", "Error", MessageBoxButton.OK);
+            }
+        }
+
+        private bool canProceed()
+        {
+            return !(String.IsNullOrEmpty(tbEmail.Text) || String.IsNullOrEmpty(tbFirstName.Text));
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -91,15 +108,15 @@ namespace Split_It_
             request.updateUser(_editUserCompleted);
         }
 
-        private void _editUserCompleted(User currentUser, HttpStatusCode statusCode)
+        private void _editUserCompleted(User updatedUserDetails, HttpStatusCode statusCode)
         {
-            if (currentUser != null && statusCode == HttpStatusCode.OK)
+            if (updatedUserDetails != null && statusCode == HttpStatusCode.OK)
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    App.currentUser = currentUser;
+                    App.currentUser = updatedUserDetails;
                     busyIndicator.IsRunning = false;
-                    NavigationService.GoBack();
+                    showPromptAndGoBack();
                 });
             }
             else
@@ -119,6 +136,13 @@ namespace Split_It_
                     }
                 });
             }
+        }
+
+        private void showPromptAndGoBack()
+        {
+            if(currencyModified)
+                MessageBox.Show("In order to set exisiting expenses to new default currency, please go to Account Settings on Splitwise.com", "Success", MessageBoxButton.OK);
+            NavigationService.GoBack();
         }
 
         private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

@@ -64,7 +64,7 @@ namespace Split_It_
             
             populateData();
 
-            more.DataContext = App.currentUser;
+           
 
             if (App.AdsRemoved)
                 beer.Visibility = System.Windows.Visibility.Collapsed;
@@ -149,6 +149,7 @@ namespace Split_It_
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            more.DataContext = App.currentUser;
             if (e.NavigationMode == NavigationMode.Back)
             {
                 //populateData();
