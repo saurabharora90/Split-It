@@ -54,6 +54,8 @@ namespace Split_It_
             llsExpenses.ItemsSource = expensesList;
             llsGroups.ItemsSource = App.groupsList;
 
+
+
             expenseLoadingBackgroundWorker = new BackgroundWorker();
             expenseLoadingBackgroundWorker.WorkerSupportsCancellation = true;
             expenseLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(expenseLoadingBackgroundWorker_DoWork);
@@ -150,6 +152,7 @@ namespace Split_It_
         {
             base.OnNavigatedTo(e);
             more.DataContext = App.currentUser;
+
             if (e.NavigationMode == NavigationMode.Back)
             {
                 //populateData();
