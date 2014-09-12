@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="Split_It_.CreateGroup"
+    x:Class="Split_It_.AccountSettings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -11,16 +11,14 @@
     xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:ListPicker="clr-namespace:Telerik.Windows.Controls.ListPicker;assembly=Telerik.Windows.Controls.Input" 
-    xmlns:app="clr-namespace:Split_It_.Converter"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
-    
+
     <phone:PhoneApplicationPage.Resources>
-        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <Style x:Key="PopupHeaderStyle" TargetType="ContentControl">
             <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
             <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
@@ -186,91 +184,99 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="0">
             <TextBlock Foreground="White" 
-				Text="create group" 
+				Text="account settings" 
 				Margin="15,25" 
 				FontSize="{StaticResource PivotTitleFontSize}"/>
         </StackPanel>
 
         <Grid Grid.Row="1" Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical">
 
-            <telerikPrimitives:RadTextBox Grid.Row="0" 
-				x:Name="tbName"
-				BorderThickness="0"
-                InputScope="Text"
-				Foreground="Black" 
-				Watermark="enter name of group" 
-				Padding="10"
-                TextChanged="tbName_TextChanged"
-				VerticalAlignment="Top" 
-				Style="{StaticResource GreyBGRadTextBoxStyle}"/>
+                <TextBlock
+                     Margin="15,15,15,0"
+                     Foreground="Black"
+                     TextWrapping="Wrap"
+                     Text="First Name"
+                     FontSize="23"/>
+                
+                <telerikPrimitives:RadTextBox
+				    x:Name="tbFirstName"
+                    Text="{Binding first_name}"
+				    BorderThickness="0"
+                    InputScope="Text"
+				    Foreground="Black"
+				    Padding="10"
+				    VerticalAlignment="Top" 
+				    Style="{StaticResource GreyBGRadTextBoxStyle}"/>
 
-            <TextBlock Grid.Row="1"
+                <TextBlock
+                     Margin="15,15,15,0"
+                     Foreground="Black"
+                     TextWrapping="Wrap"
+                     Text="Last Name"
+                     FontSize="23"/>
+
+                <telerikPrimitives:RadTextBox
+				    x:Name="tbLastName"
+                    Text="{Binding last_name}"
+				    BorderThickness="0"
+                    InputScope="Text"
+				    Foreground="Black"
+				    Padding="10"
+				    VerticalAlignment="Top" 
+				    Style="{StaticResource GreyBGRadTextBoxStyle}"/>
+
+                <TextBlock
+                     Margin="15,15,15,0"
+                     Foreground="Black"
+                     TextWrapping="Wrap"
+                     Text="Email"
+                     FontSize="23"/>
+
+                <telerikPrimitives:RadTextBox
+				    x:Name="tbEmail"
+                    Text="{Binding email}"
+				    BorderThickness="0"
+                    InputScope="EmailUserName"
+				    Foreground="Black"
+				    Padding="10"
+				    VerticalAlignment="Top" 
+				    Style="{StaticResource GreyBGRadTextBoxStyle}"/>
+
+                <TextBlock
                      Margin="15,15,15,10"
                      Foreground="Black"
                      TextWrapping="Wrap"
-                     Text="Add friends to this group:"
-                     FontSize="22"/>
-            
-            <telerikInput:RadListPicker Grid.Row="2"
-						Header="Friends"
+                     Text="Default Currency"
+                     FontSize="23"/>
+
+                <telerikInput:RadListPicker
+						Header="Currency"
 						BorderBrush="{StaticResource splitwiseGreyBG}"
 						Foreground="Black"
                         Margin="12,0"
-						x:Name="friendListPicker"
+						FontSize="{StaticResource nameSize}"
+                        FontWeight="Bold" 
+						x:Name="currencyListPicker"
 						ActionButtonVisibility="Collapsed"
-						SelectionMode="Multiple"
-                        SelectionChanged="friendListPicker_SelectionChanged"
+						SelectionMode="Single"
 						OkButtonIconUri="/Assets/Icons/ok.png"
 						CancelButtonIconUri="/Assets/Icons/cancel.png" 
-                        PopupHeader="SELECT FRIENDS" 
-                        Style="{StaticResource RadListPickerStyle1}">
-                <telerikInput:RadListPicker.PopupItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding name}"/>
-                    </DataTemplate>
-                </telerikInput:RadListPicker.PopupItemTemplate>
-            </telerikInput:RadListPicker>
-
-            <TextBlock Grid.Row="3"
-                     Margin="15,15,0,10"
-                     Foreground="Black"
-                     TextWrapping="Wrap"
-                     Text="Group Members:"
-                     FontSize="22"/>
-
-            <Grid Grid.Row="4" Margin="0,0,0,10">
-                <phone:LongListSelector Name="llsFriends">
-                    <phone:LongListSelector.ItemTemplate>
+                        PopupHeader="SELECT CURRENCY" 
+                        Style="{StaticResource RadListPickerStyle1}" >
+                    <telerikInput:RadListPicker.PopupItemTemplate>
                         <DataTemplate>
-                            <Border BorderThickness="0">
-                                <Grid Margin="15,0,15,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" 
-                                           Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
-                                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
-                                    <TextBlock x:Name="tbName" TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Border>
+                            <TextBlock Text="{Binding currency_code}"/>
                         </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>
-            </Grid>
+                    </telerikInput:RadListPicker.PopupItemTemplate>
+                </telerikInput:RadListPicker>
+            </StackPanel>
         </Grid>
 
         <telerikPrimitives:RadBusyIndicator Background="#CC000000"
                                             Foreground="White"
                                             x:Name="busyIndicator"
-                                            Content="creating group"
+                                            Content="updating user details"
                                             Grid.Row="0" 
                                             Grid.RowSpan="2"
                                             AnimationStyle="AnimationStyle9"/>

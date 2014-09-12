@@ -33,6 +33,7 @@ namespace Split_It_
             selectedUser = PhoneApplicationService.Current.State[Constants.SELECTED_USER] as User;
 
             llsExpenses.ItemsSource = expensesList;
+            this.llsExpenses.DataRequested += this.OnDataRequested;
             
             userExpensesBackgroundWorker = new BackgroundWorker();
             userExpensesBackgroundWorker.WorkerSupportsCancellation = true;
@@ -67,11 +68,11 @@ namespace Split_It_
             ApplicationBar.Buttons.Add(btnAddExpense);
             btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
 
-            //Settle up button
             ApplicationBarIconButton btnReminder = new ApplicationBarIconButton();
             btnReminder.IconUri = new Uri("/Assets/Icons/feature.email.png", UriKind.Relative);
             btnReminder.Text = "reminder";
 
+            //Settle up button
             ApplicationBarIconButton btnSettle = new ApplicationBarIconButton();
             btnSettle.IconUri = new Uri("/Assets/Icons/settle.png", UriKind.Relative);
             btnSettle.Text = "settle";
@@ -173,20 +174,14 @@ namespace Split_It_
             obj.closeDatabaseConnection();
         }
 
-        private void llsExpenses_ItemRealized(object sender, ItemRealizationEventArgs e)
+        private void OnDataRequested(object sender, EventArgs e)
         {
             lock (o)
             {
-                Expense expense = e.Container.Content as Expense;
-                if (expense != null)
+                if (userExpensesBackgroundWorker.IsBusy != true && morePages)
                 {
-                    int offset = 2;
-
-                    if (userExpensesBackgroundWorker.IsBusy != true && morePages && expensesList.Count - expensesList.IndexOf(expense) <= offset)
-                    {
-                        pageNo++;
-                        userExpensesBackgroundWorker.RunWorkerAsync();
-                    }
+                    pageNo++;
+                    userExpensesBackgroundWorker.RunWorkerAsync(false);
                 }
             }
         }

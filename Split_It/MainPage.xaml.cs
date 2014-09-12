@@ -54,6 +54,8 @@ namespace Split_It_
             llsExpenses.ItemsSource = expensesList;
             llsGroups.ItemsSource = App.groupsList;
 
+            this.llsExpenses.DataRequested += this.OnDataRequested;
+
             expenseLoadingBackgroundWorker = new BackgroundWorker();
             expenseLoadingBackgroundWorker.WorkerSupportsCancellation = true;
             expenseLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(expenseLoadingBackgroundWorker_DoWork);
@@ -64,7 +66,7 @@ namespace Split_It_
             
             populateData();
 
-            more.DataContext = App.currentUser;
+           
 
             if (App.AdsRemoved)
                 beer.Visibility = System.Windows.Visibility.Collapsed;
@@ -149,6 +151,8 @@ namespace Split_It_
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            more.DataContext = App.currentUser;
+
             if (e.NavigationMode == NavigationMode.Back)
             {
                 //populateData();
@@ -281,20 +285,14 @@ namespace Split_It_
             obj.closeDatabaseConnection();
         }
 
-        private void llsExpenses_ItemRealized(object sender, ItemRealizationEventArgs e)
+        private void OnDataRequested(object sender, EventArgs e)
         {
             lock (o)
             {
-                Expense expense = e.Container.Content as Expense;
-                if (expense != null)
+                if (expenseLoadingBackgroundWorker.IsBusy != true && morePages)
                 {
-                    int offset = 2;
-
-                    if (expenseLoadingBackgroundWorker.IsBusy != true && morePages && expensesList.Count - expensesList.IndexOf(expense) <= offset)
-                    {
-                        pageNo++;
-                        expenseLoadingBackgroundWorker.RunWorkerAsync(false);
-                    }
+                    pageNo++;
+                    expenseLoadingBackgroundWorker.RunWorkerAsync(false);
                 }
             }
         }
@@ -389,6 +387,11 @@ namespace Split_It_
             {
 
             }
+        }
+
+        private void account_settings_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/AccountSettings.xaml", UriKind.Relative));
         }
     }
 }

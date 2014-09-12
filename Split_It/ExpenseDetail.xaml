@@ -12,14 +12,14 @@
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikTextBox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    mc:Ignorable="d"
     Style="{StaticResource TransitionPageStyle}"
+    mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
         <app:DateStringToDateConverter x:Key="ExpenseDateConverter"/>
         <app:ExpenseAmountInCurrencyConverter x:Key="ExpenseAmountCurrencyConverter"/>
@@ -66,20 +66,22 @@
                         </TextBlock>
                     </Border>
 
-                    <phone:LongListSelector Grid.Row="2" Name="llsRepayments">
-                        <phone:LongListSelector.ItemTemplate>
+                    <telerikPrimitives:RadDataBoundListBox Grid.Row="2" Name="llsRepayments">
+                        <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="15,10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding user.picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <Image Grid.Column="0" 
+                                           Source="{Binding user.PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Converter={StaticResource ExpenseShareRepaymentConverter}}" FontSize="{StaticResource expenseDetailAmount}" VerticalAlignment="Center" Foreground="Black" TextWrapping="Wrap"/>
                                 </Grid>
                             </DataTemplate>
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>
+                        </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                    </telerikPrimitives:RadDataBoundListBox>
                 </Grid>
             </phone:PivotItem>
 

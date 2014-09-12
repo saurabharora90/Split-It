@@ -17,6 +17,7 @@ namespace Split_It_
     {
         BackgroundWorker syncDatabaseBackgroundWorker;
         SyncDatabase databaseSync;
+        
 
         public SplashPage()
         {
@@ -30,7 +31,7 @@ namespace Split_It_
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
+            resetAppPromo();
             String firstUse;
 
             //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
@@ -58,6 +59,15 @@ namespace Split_It_
 
                     syncDatabaseBackgroundWorker.RunWorkerAsync();
                 }
+            }
+        }
+
+        private void resetAppPromo()
+        {
+            if (Util.isResetNeeded())
+            {
+                AppPromo.RateReminder reminder = new AppPromo.RateReminder();
+                reminder.ResetCounters();
             }
         }
 

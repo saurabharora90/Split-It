@@ -91,6 +91,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AccountSettings.xaml.cs">
+      <DependentUpon>AccountSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Add_Expense_Pages\AddExpense.xaml.cs">
       <DependentUpon>AddExpense.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,8 @@
     <Compile Include="Add_Expense_Pages\EditExpense.xaml.cs">
       <DependentUpon>EditExpense.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\MyAppJetImageLoaderConverter.cs" />
+    <Compile Include="Request\UpdateUserRequest.cs" />
     <Compile Include="UserControls\AdControl.xaml.cs">
       <DependentUpon>AdControl.xaml</DependentUpon>
     </Compile>
@@ -114,7 +119,6 @@
     <Compile Include="Controller\QueryDatabase.cs" />
     <Compile Include="Controller\SyncDatabase.cs" />
     <Compile Include="Converter\BalanceToDescriptionConverter.cs" />
-    <Compile Include="Converter\CacheImageFileConverter.cs" />
     <Compile Include="Converter\BalanceToAmountConverter.cs" />
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
@@ -210,6 +214,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="AccountSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Add_Expense_Pages\AddExpense.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -329,8 +337,12 @@
     <Reference Include="AppPromo.WP8">
       <HintPath>..\packages\AppPromo.1.0.0.9\lib\wp8\AppPromo.WP8.dll</HintPath>
     </Reference>
-    <Reference Include="CrittercismWP8SDK">
-      <HintPath>..\packages\Crittercism.2.0.0\lib\WindowsPhone8\CrittercismWP8SDK.dll</HintPath>
+    <Reference Include="CrittercismWP8SDK, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Crittercism.2.1.0\lib\WindowsPhone8\CrittercismWP8SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="JetImageLoader">
+      <HintPath>..\packages\WP-JetImagLoader.0.8.6\lib\JetImageLoader.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Advertising.Mobile, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="microsoft.advertising.mobile.ui, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -341,7 +353,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp.WindowsPhone">
       <HintPath>..\packages\RestSharp.104.4.0\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>

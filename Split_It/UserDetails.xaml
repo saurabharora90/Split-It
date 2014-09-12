@@ -8,6 +8,7 @@
     xmlns:app="clr-namespace:Split_It_.Converter"
     xmlns:userDetailConverter="clr-namespace:Split_It_.Converter.UserDetails"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -17,7 +18,7 @@
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <userDetailConverter:UserDetailsExpensesConverter x:Key="UserDetailsExpensesConverter"/>
         <userDetailConverter:UserDetailsExpenseColorConverter x:Key="UserDetailsExpenseColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
@@ -36,7 +37,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="120" Height="120" Margin="12"/>
+            <Image Grid.Column="0" 
+                   Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                   VerticalAlignment="Center" Width="120" Height="120" Margin="12"/>
 
             <Grid Grid.Column="1" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
@@ -48,13 +51,13 @@
                 <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
                 <Grid Grid.Row="2">
-                    <phone:LongListSelector x:Name="balanceList">
-                        <phone:LongListSelector.ItemTemplate>
+                    <telerikPrimitives:RadDataBoundListBox x:Name="balanceList">
+                        <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Converter={StaticResource UserDetailsExpensesConverter}}" Foreground="{Binding Converter={StaticResource UserDetailsExpenseColorConverter}}" FontSize="{StaticResource userDetaildescriptionSize}" HorizontalAlignment="Left"/>
                             </DataTemplate>
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>
+                        </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                    </telerikPrimitives:RadDataBoundListBox>
                 </Grid>
             </Grid>
 
@@ -64,7 +67,10 @@
         </Border>
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="2" Margin="0,5,0,0" Background="White">
-            <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" SelectionChanged="llsExpenses_Tap"/>
+            <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" 
+                                                   ItemTemplate="{StaticResource expensesTemplate}" 
+                                                   DataVirtualizationMode="OnDemandAutomatic"
+                                                   SelectionChanged="llsExpenses_Tap"/>
         </Grid>
     </Grid>
 

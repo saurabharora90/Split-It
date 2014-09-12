@@ -39,5 +39,7 @@ namespace Split_It_.Utils
         public static string REMOVE_ADS_PRODUCT_ID = "Remove_Ads";
 
         public static string ADD_EXPENSE_TILE_SHORTCUT = "/Add_Expense_Pages/AddExpense.xaml";
+
+        public static string APP_UPDATE_RATE_RESET = "v1_2_5";
     }
 }

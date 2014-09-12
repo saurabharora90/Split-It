@@ -8,13 +8,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:app="clr-namespace:Split_It_.Converter"
     xmlns:local="clr-namespace:Split_It_.UserControls"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
         <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
         <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
@@ -36,8 +37,8 @@
         <phone:Pivot Grid.Row="1" Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Dashboard, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsFriends" SelectionChanged="llsFriends_Tap">
-                    <phone:LongListSelector.ItemTemplate>
+                <telerikPrimitives:RadDataBoundListBox Name="llsFriends" SelectionChanged="llsFriends_Tap">
+                    <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
                                 <Grid Margin="15,15,15,15" toolkit:TiltEffect.IsTiltEnabled="True">
@@ -46,7 +47,9 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <Image Grid.Column="0" 
+                                           Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
                                     <TextBlock x:Name="tbName" TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
@@ -60,19 +63,22 @@
                                 </Grid>
                             </Border>
                         </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>
+                    </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                </telerikPrimitives:RadDataBoundListBox>
             </phone:PivotItem>
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Expenses, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" SelectionChanged="llsExpenses_Tap"/>
+                <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" 
+                                                       ItemTemplate="{StaticResource expensesTemplate}" 
+                                                       DataVirtualizationMode="OnDemandAutomatic"
+                                                       SelectionChanged="llsExpenses_Tap"/>
             </phone:PivotItem>
 
             <!--Pivot item three-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Groups, Source={StaticResource LocalizedStrings}}">
-                <phone:LongListSelector Name="llsGroups" SelectionChanged="llsGroups_Tap">
-                    <phone:LongListSelector.ItemTemplate>
+                <telerikPrimitives:RadDataBoundListBox Name="llsGroups" SelectionChanged="llsGroups_Tap">
+                    <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
                                 <Grid Margin="15,20,15,20" toolkit:TiltEffect.IsTiltEnabled="True">
@@ -106,8 +112,8 @@
                                 </Grid>
                             </Border>
                         </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>
+                    </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                </telerikPrimitives:RadDataBoundListBox>
             </phone:PivotItem>
 
             <!--Pivot item four-->
@@ -125,7 +131,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center"  Margin="12"/>
+                            <Image Grid.Column="0" 
+                                   Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                                   VerticalAlignment="Center"  Margin="12"/>
 
                             <Grid Grid.Column="1" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
@@ -133,7 +141,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock x:Name="tbName" Text="{Binding first_name}" Foreground="Black" Grid.Row="0" FontSize="38" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="38" HorizontalAlignment="Left"/>
                                 <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
                             </Grid>
                         </Grid>
@@ -153,6 +161,14 @@
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Tap="create_group_Tap"
+                                   FontSize="{StaticResource userDetailnameSize}"/>
+
+                            <TextBlock Name="account_settings" 
+                                   Padding="12" 
+                                   Text="account settings" 
+                                   Foreground="Black" 
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   Tap="account_settings_Tap"
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
                             <TextBlock Name="logout" 

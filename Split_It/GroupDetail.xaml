@@ -9,6 +9,7 @@
     xmlns:helper="clr-namespace:Split_It_.ExpandableListHelper"
     xmlns:app="clr-namespace:Split_It_.Converter"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     mc:Ignorable="d"
     Style="{StaticResource TransitionPageStyle}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -18,7 +19,7 @@
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <helper:AllDebtTextConverter x:Key="AllDebtTextConverter"/>
         <helper:AllDebtAmountConverter x:Key="AllDebtAmountConverter"/>
         <helper:AllDebtColorConverter x:Key="AllDebtColorConverter"/>
@@ -31,7 +32,9 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="{Binding 'groupUser.picture', Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                    <Image Grid.Column="0" 
+                           Source="{Binding groupUser.PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
                     <Grid Grid.Column="1" VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -95,7 +98,10 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="expenses">
-                <phone:LongListSelector Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" ItemRealized="llsExpenses_ItemRealized" SelectionChanged="llsExpenses_Tap"/>
+                <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" 
+                                                       ItemTemplate="{StaticResource expensesTemplate}" 
+                                                       DataVirtualizationMode="OnDemandAutomatic"
+                                                       SelectionChanged="llsExpenses_Tap"/>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
