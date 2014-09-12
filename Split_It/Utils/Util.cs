@@ -245,6 +245,20 @@ namespace Split_It_.Utils
             }
         }
 
+        public static bool isResetNeeded()
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.APP_UPDATE_RATE_RESET))
+            {
+                return false;
+            }
+
+            settings.Add(Constants.APP_UPDATE_RATE_RESET, "false");
+            settings.Save();
+            return true;
+        }
+
         public static bool IsValidEmail(string emailAddress)
         {
             // Return true if emailAddress is in valid e-mail format.
