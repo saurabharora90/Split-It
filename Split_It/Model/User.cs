@@ -11,6 +11,8 @@ namespace Split_It_.Model
     //[Ignore] for attributes that are not a part of the database
     public class User
     {
+        public static string DEFAULT_PROFILE_IMAGE_URL = @"https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-5eb999e2b4b24b823a9d82c29d42e9b2.png";
+        
         public int id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
@@ -40,6 +42,20 @@ namespace Split_It_.Model
                 }
                 else
                     return first_name;
+            }
+        }
+
+        [Ignore]
+        public string PictureUrl
+        {
+            get
+            {
+                if (picture!=null)
+                {
+                    return picture.medium;
+                }
+                else
+                    return DEFAULT_PROFILE_IMAGE_URL;
             }
         }
 

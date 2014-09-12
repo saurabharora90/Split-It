@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <app:BalanceToDescriptionConverter x:Key="BalanceDescriptionConverter"/>
         <app:BalanceToAmountConverter x:Key="BalanceAmountConverter"/>
         <app:BalanceToColorConverter x:Key="BalanceColorConverter"/>
@@ -47,7 +47,9 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <Image Grid.Column="0" 
+                                           Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
                                     <TextBlock x:Name="tbName" TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
@@ -129,7 +131,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center"  Margin="12"/>
+                            <Image Grid.Column="0" 
+                                   Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                                   VerticalAlignment="Center"  Margin="12"/>
 
                             <Grid Grid.Column="1" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>

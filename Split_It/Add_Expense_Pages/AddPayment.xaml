@@ -17,7 +17,7 @@
     Loaded="PhoneApplicationPage_Loaded">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
     </phone:PhoneApplicationPage.Resources>
 <!--LayoutRoot is the root grid where all page content is placed-->
 	<Grid x:Name="LayoutRoot" Background="Transparent">
@@ -46,7 +46,8 @@
 				</Grid.ColumnDefinitions>
 
 				<StackPanel Grid.Column="0" Orientation="Vertical" x:Name="fromUser">
-					<Image Source="{Binding picture, ConverterParameter=Assets/Images/profilePhoto.png, Converter={StaticResource PictureFileConverter}}" Width="100" Height="100"/>
+                    <Image Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                           Width="100" Height="100"/>
 					<TextBlock TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding first_name}" FontSize="{StaticResource nameSize}" VerticalAlignment="Center" Margin="0,5,0,0"/>
 				</StackPanel>
 
@@ -60,7 +61,8 @@
 				</StackPanel>
 
 				<StackPanel Grid.Column="2" Orientation="Vertical" x:Name="toUser">
-					<Image Source="{Binding picture, ConverterParameter=Assets/Images/profilePhoto.png, Converter={StaticResource PictureFileConverter}}" Width="100" Height="100"/>
+                    <Image Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}" 
+                           Width="100" Height="100"/>
 					<TextBlock TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding first_name}" FontSize="{StaticResource nameSize}" VerticalAlignment="Center" Margin="0,5,0,0"/>
 				</StackPanel>
 

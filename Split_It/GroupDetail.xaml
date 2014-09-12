@@ -19,7 +19,7 @@
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <helper:AllDebtTextConverter x:Key="AllDebtTextConverter"/>
         <helper:AllDebtAmountConverter x:Key="AllDebtAmountConverter"/>
         <helper:AllDebtColorConverter x:Key="AllDebtColorConverter"/>
@@ -32,7 +32,9 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="{Binding 'groupUser.picture', Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                    <Image Grid.Column="0" 
+                           Source="{Binding groupUser.PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
                     <Grid Grid.Column="1" VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>

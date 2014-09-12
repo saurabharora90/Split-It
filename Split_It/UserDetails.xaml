@@ -18,7 +18,7 @@
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <userDetailConverter:UserDetailsExpensesConverter x:Key="UserDetailsExpensesConverter"/>
         <userDetailConverter:UserDetailsExpenseColorConverter x:Key="UserDetailsExpenseColorConverter"/>
         <app:BalanceToVisibilityConverter x:Key="BalanceVisibilityConverter"/>
@@ -37,7 +37,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Source="{Binding picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="120" Height="120" Margin="12"/>
+            <Image Grid.Column="0" 
+                   Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                   VerticalAlignment="Center" Width="120" Height="120" Margin="12"/>
 
             <Grid Grid.Column="1" VerticalAlignment="Center">
                 <Grid.RowDefinitions>

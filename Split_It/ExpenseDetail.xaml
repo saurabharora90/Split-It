@@ -19,7 +19,7 @@
     shell:SystemTray.IsVisible="False">
 
     <phone:PhoneApplicationPage.Resources>
-        <app:CacheImageFileConverter x:Key="PictureFileConverter"/>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
         <app:PaymentImageFileConverter x:Key="PaymentImageConverter"/>
         <app:DateStringToDateConverter x:Key="ExpenseDateConverter"/>
         <app:ExpenseAmountInCurrencyConverter x:Key="ExpenseAmountCurrencyConverter"/>
@@ -74,7 +74,9 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding user.picture, Converter={StaticResource PictureFileConverter}, ConverterParameter='Assets/Images/profilePhoto.png'}" VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                    <Image Grid.Column="0" 
+                                           Source="{Binding user.PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Converter={StaticResource ExpenseShareRepaymentConverter}}" FontSize="{StaticResource expenseDetailAmount}" VerticalAlignment="Center" Foreground="Black" TextWrapping="Wrap"/>
                                 </Grid>
                             </DataTemplate>

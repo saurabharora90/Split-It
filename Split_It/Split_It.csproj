@@ -103,6 +103,7 @@
     <Compile Include="Add_Expense_Pages\EditExpense.xaml.cs">
       <DependentUpon>EditExpense.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\MyAppJetImageLoaderConverter.cs" />
     <Compile Include="Request\UpdateUserRequest.cs" />
     <Compile Include="UserControls\AdControl.xaml.cs">
       <DependentUpon>AdControl.xaml</DependentUpon>
@@ -118,7 +119,6 @@
     <Compile Include="Controller\QueryDatabase.cs" />
     <Compile Include="Controller\SyncDatabase.cs" />
     <Compile Include="Converter\BalanceToDescriptionConverter.cs" />
-    <Compile Include="Converter\CacheImageFileConverter.cs" />
     <Compile Include="Converter\BalanceToAmountConverter.cs" />
     <Compile Include="Converter\BalanceToColorConverter.cs" />
     <Compile Include="Converter\BalanceToVisibilityConverter.cs" />
@@ -340,6 +340,9 @@
     <Reference Include="CrittercismWP8SDK, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Crittercism.2.1.0\lib\WindowsPhone8\CrittercismWP8SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="JetImageLoader">
+      <HintPath>..\packages\WP-JetImagLoader.0.8.6\lib\JetImageLoader.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Advertising.Mobile, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="microsoft.advertising.mobile.ui, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
