@@ -49,7 +49,7 @@
                 <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
                 <Grid Grid.Row="2">
-                    <telerikPrimitives:RadDataBoundListBox x:Name="balanceList">
+                    <telerikPrimitives:RadDataBoundListBox x:Name="balanceList" DataVirtualizationMode="OnDemandAutomatic">
                         <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Converter={StaticResource UserDetailsExpensesConverter}}" Foreground="{Binding Converter={StaticResource UserDetailsExpenseColorConverter}}" FontSize="{StaticResource userDetaildescriptionSize}" HorizontalAlignment="Left"/>

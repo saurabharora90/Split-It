@@ -67,7 +67,10 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Expenses, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" SelectionChanged="llsExpenses_Tap"/>
+                <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" 
+                                                       ItemTemplate="{StaticResource expensesTemplate}" 
+                                                       DataVirtualizationMode="OnDemandAutomatic"
+                                                       SelectionChanged="llsExpenses_Tap"/>
             </phone:PivotItem>
 
             <!--Pivot item three-->

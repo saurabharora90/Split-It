@@ -33,6 +33,7 @@ namespace Split_It_
 
             selectedGroup = PhoneApplicationService.Current.State[Constants.SELECTED_GROUP] as Group;
             llsExpenses.ItemsSource = expensesList;
+            this.llsExpenses.DataRequested += this.OnDataRequested;
 
             groupExpensesBackgroundWorker = new BackgroundWorker();
             groupExpensesBackgroundWorker.WorkerSupportsCancellation = true;
@@ -110,20 +111,14 @@ namespace Split_It_
             obj.closeDatabaseConnection();
         }
 
-        private void llsExpenses_ItemRealized(object sender, ItemRealizationEventArgs e)
+        private void OnDataRequested(object sender, EventArgs e)
         {
             lock (o)
             {
-                Expense expense = e.Container.Content as Expense;
-                if (expense != null)
+                if (groupExpensesBackgroundWorker.IsBusy != true && morePages)
                 {
-                    int offset = 2;
-
-                    if (groupExpensesBackgroundWorker.IsBusy != true && morePages && expensesList.Count - expensesList.IndexOf(expense) <= offset)
-                    {
-                        pageNo++;
-                        groupExpensesBackgroundWorker.RunWorkerAsync();
-                    }
+                    pageNo++;
+                    groupExpensesBackgroundWorker.RunWorkerAsync(false);
                 }
             }
         }
