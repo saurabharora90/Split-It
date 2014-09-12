@@ -193,7 +193,7 @@
             <StackPanel Orientation="Vertical">
 
                 <TextBlock
-                     Margin="15,15,15,10"
+                     Margin="15,15,15,0"
                      Foreground="Black"
                      TextWrapping="Wrap"
                      Text="First Name"
@@ -210,7 +210,7 @@
 				    Style="{StaticResource GreyBGRadTextBoxStyle}"/>
 
                 <TextBlock
-                     Margin="15,15,15,10"
+                     Margin="15,15,15,0"
                      Foreground="Black"
                      TextWrapping="Wrap"
                      Text="Last Name"
@@ -227,7 +227,7 @@
 				    Style="{StaticResource GreyBGRadTextBoxStyle}"/>
 
                 <TextBlock
-                     Margin="15,15,15,10"
+                     Margin="15,15,15,0"
                      Foreground="Black"
                      TextWrapping="Wrap"
                      Text="Email"
