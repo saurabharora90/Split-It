@@ -49,7 +49,7 @@
                 <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
                 <Grid Grid.Row="2">
-                    <telerikPrimitives:RadDataBoundListBox x:Name="balanceList" DataVirtualizationMode="OnDemandAutomatic">
+                    <telerikPrimitives:RadDataBoundListBox x:Name="balanceList">
                         <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Converter={StaticResource UserDetailsExpensesConverter}}" Foreground="{Binding Converter={StaticResource UserDetailsExpenseColorConverter}}" FontSize="{StaticResource userDetaildescriptionSize}" HorizontalAlignment="Left"/>
@@ -65,7 +65,10 @@
         </Border>
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="2" Margin="0,5,0,0" Background="White">
-            <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" ItemTemplate="{StaticResource expensesTemplate}" SelectionChanged="llsExpenses_Tap"/>
+            <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" 
+                                                   ItemTemplate="{StaticResource expensesTemplate}" 
+                                                   DataVirtualizationMode="OnDemandAutomatic"
+                                                   SelectionChanged="llsExpenses_Tap"/>
         </Grid>
     </Grid>
 
