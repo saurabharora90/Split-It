@@ -88,7 +88,7 @@ namespace Split_It_
             Util.setAccessTokenSecret(accessTokenSecret);
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
-            NavigationService.Navigate(new Uri("/SplashPage.xaml?afterLogin=true", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/MainPage.xaml?afterLogin=true", UriKind.Relative));
         }
 
         private void loginBrowser_Navigated(object sender, NavigationEventArgs e)

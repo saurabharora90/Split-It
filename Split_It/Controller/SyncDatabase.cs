@@ -17,9 +17,14 @@ namespace Split_It_.Controller
         Action<bool, HttpStatusCode> CallbackOnSuccess;
         SQLiteConnection dbConn;
 
-        public SyncDatabase(Action<bool, HttpStatusCode> callback, bool firstSync)
+        public SyncDatabase(Action<bool, HttpStatusCode> callback)
         {
             this.CallbackOnSuccess = callback;
+            firstSync = false;
+        }
+
+        public void isFirstSync(bool firstSync)
+        {
             this.firstSync = firstSync;
         }
 

@@ -97,18 +97,12 @@ namespace Split_It_.Controller
         
         private void _OperationSucceded(bool status)
         {
-            syncDatabase();
+            callback(true, HttpStatusCode.OK);
         }
 
         private void _OperationFailed(HttpStatusCode statusCode)
         {
             callback(false, statusCode);
-        }
-
-        private void syncDatabase()
-        {
-            SyncDatabase databaseSync = new SyncDatabase(callback, false);
-            databaseSync.performSync();
         }
     }
 }
