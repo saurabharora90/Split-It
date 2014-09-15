@@ -207,6 +207,18 @@
                 </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
+
+
+        <telerikPrimitives:RadBusyIndicator Foreground="White"
+                                            VerticalAlignment="Top"
+                                            x:Name="busyIndicator"
+                                            Grid.Row="0" 
+                                            Grid.RowSpan="2"
+                                            AnimationStyle="AnimationStyle9" 
+                                            Padding="15,0,0,0" 
+                                            ContentPosition="Left" 
+                                            HorizontalContentAlignment="Left"/>
+
     </Grid>
 
 </phone:PhoneApplicationPage>

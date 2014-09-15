@@ -30,10 +30,13 @@ namespace Split_It_
         //and groups are time consuming operations
         BackgroundWorker expenseLoadingBackgroundWorker;
         BackgroundWorker groupLoadingBackgroundWorker;
+
+        BackgroundWorker syncDatabaseBackgroundWorker;
+        SyncDatabase databaseSync;
        
         private object o = new object();
         private int pageNo = 0;
-        private bool morePages = true;
+        private bool morePages = true, hasDataLoaded = false;
 
         private ApplicationBarMenuItem btnAllFriends, btnBalanceFriends, btnYouOweFriends, btnOwesYouFriends;
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
@@ -66,7 +69,9 @@ namespace Split_It_
             
             populateData();
 
-           
+            syncDatabaseBackgroundWorker = new BackgroundWorker();
+            syncDatabaseBackgroundWorker.WorkerSupportsCancellation = true;
+            syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);
 
             if (App.AdsRemoved)
                 beer.Visibility = System.Windows.Visibility.Collapsed;
@@ -152,6 +157,7 @@ namespace Split_It_
         {
             base.OnNavigatedTo(e);
             more.DataContext = App.currentUser;
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
 
             if (e.NavigationMode == NavigationMode.Back)
             {
@@ -159,8 +165,27 @@ namespace Split_It_
                 return;
             }
             else
-                //do not allow him to go back to the Splash Page. therefore clear the back stack
-                while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
+            {
+                String firstUse;
+                databaseSync = new SyncDatabase(_SyncConpleted);
+                busyIndicator.Content = "Syncing";
+                //This condition will only be true if the user has launched this page. This paramter (afterLogin) wont be there
+                //if the page has been accessed from the back stack
+                if (NavigationContext.QueryString.TryGetValue("afterLogin", out firstUse))
+                {
+                    if (firstUse.Equals("true"))
+                    {
+                        databaseSync.isFirstSync(true);
+                        busyIndicator.Content = "Setting up for first use";
+                    }
+                }
+
+                if (syncDatabaseBackgroundWorker.IsBusy != true)
+                {
+                    busyIndicator.IsRunning = true;
+                    syncDatabaseBackgroundWorker.RunWorkerAsync();
+                }
+            }
         }
 
         private void expenseLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -222,6 +247,8 @@ namespace Split_It_
             btnYouOweFriends.Text = netBalanceObj.NegativeBalance;
             btnBalanceFriends.Text = netBalanceObj.NetBalance;
             obj.closeDatabaseConnection();
+
+            more.DataContext = App.currentUser;
         }
 
         private void populateData()
@@ -274,6 +301,7 @@ namespace Split_It_
             List<Group> allGroups = obj.getAllGroups();
             Dispatcher.BeginInvoke(() =>
             {
+                App.groupsList.Clear();
                 if (allGroups != null)
                 {
                     foreach (var group in allGroups)
@@ -289,7 +317,7 @@ namespace Split_It_
         {
             lock (o)
             {
-                if (expenseLoadingBackgroundWorker.IsBusy != true && morePages)
+                if (expenseLoadingBackgroundWorker.IsBusy != true && morePages && hasDataLoaded)
                 {
                     pageNo++;
                     expenseLoadingBackgroundWorker.RunWorkerAsync(false);
@@ -392,6 +420,43 @@ namespace Split_It_
         private void account_settings_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/AccountSettings.xaml", UriKind.Relative));
+        }
+
+        private void syncDatabaseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            databaseSync.performSync();
+        }
+
+        private void _SyncConpleted(bool success, HttpStatusCode errorCode)
+        {
+            if (success)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    busyIndicator.IsRunning = false;
+                    pageNo = 0;
+                    populateData();
+                    hasDataLoaded = true;
+                });
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+
+                    busyIndicator.IsRunning = false;
+                    if (errorCode == HttpStatusCode.Unauthorized)
+                    {
+                        Util.logout();
+                        NavigationService.Navigate(new Uri("/Login.xaml", UriKind.Relative));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to sync with splitwise. You can continue to browse cached data", "Error", MessageBoxButton.OK);
+                        NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                    }
+                });
+            }
         }
     }
 }
