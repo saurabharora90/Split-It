@@ -215,8 +215,9 @@
                                             Grid.Row="0" 
                                             Grid.RowSpan="2"
                                             AnimationStyle="AnimationStyle9" 
-                                            Padding="0" 
-                                            ContentPosition="Left"/>
+                                            Padding="15,0,0,0" 
+                                            ContentPosition="Left" 
+                                            HorizontalContentAlignment="Left"/>
 
     </Grid>
 
