@@ -48,6 +48,7 @@ namespace Split_It_
         {
             InitializeComponent();
             setupAppBars();
+            resetAppPromo();
 
             App.friendsList = new ObservableCollection<User>();
             App.groupsList = new ObservableCollection<Group>();
@@ -456,6 +457,15 @@ namespace Split_It_
                         NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                     }
                 });
+            }
+        }
+
+        private void resetAppPromo()
+        {
+            if (Util.isResetNeeded())
+            {
+                AppPromo.RateReminder reminder = new AppPromo.RateReminder();
+                reminder.ResetCounters();
             }
         }
     }
