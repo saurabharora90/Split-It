@@ -145,6 +145,7 @@ namespace Split_It_
             {
                 Dispatcher.BeginInvoke(() =>
                 {
+                    busyIndicator.IsRunning = false;
                     if (errorCode == HttpStatusCode.Unauthorized)
                     {
                         Util.logout();
