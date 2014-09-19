@@ -169,6 +169,10 @@ namespace Split_It_.Add_Expense_Pages
             {
                 Group selectedGroup = this.expenseControl.groupListPicker.SelectedItem as Group;
                 this.expenseControl.expense.group_id = selectedGroup.id;
+
+                //clear all the previoulsy selected friends.
+                this.expenseControl.friendListPicker.SelectedItems.Clear();
+                
                 foreach (var member in selectedGroup.members)
                 {
                     //you don't need to add yourself as you will be added by default.
