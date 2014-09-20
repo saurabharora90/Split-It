@@ -28,7 +28,7 @@ namespace Split_It_
         public static bool isBeta = true;
 
         //App data models
-        public static ObservableCollection<User> friendsList;
+        //public static ObservableCollection<User> friendsList;
         public static ObservableCollection<Group> groupsList;
 
         private static bool? _adsRemoved;

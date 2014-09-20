@@ -25,6 +25,7 @@ namespace Split_It_
         ObservableCollection<User> balanceFriends = new ObservableCollection<User>();
         ObservableCollection<User> youOweFriends = new ObservableCollection<User>();
         ObservableCollection<User> owesYouFriends = new ObservableCollection<User>();
+        ObservableCollection<User> friendsList = new ObservableCollection<User>();
 
         //Use a BackgroundWorker to load data from database (except for friends) as expenses
         //and groups are time consuming operations
@@ -50,7 +51,6 @@ namespace Split_It_
             setupAppBars();
             resetAppPromo();
 
-            App.friendsList = new ObservableCollection<User>();
             App.groupsList = new ObservableCollection<Group>();
             expensesList = new ObservableCollection<Expense>();
 
@@ -136,7 +136,7 @@ namespace Split_It_
         
         private void btnAllFriends_Click(object sender, EventArgs e)
         {
-            llsFriends.ItemsSource = App.friendsList;
+            llsFriends.ItemsSource = friendsList;
         }
 
         private void btnYouOweFriends_Click(object sender, EventArgs e)
@@ -201,7 +201,7 @@ namespace Split_It_
 
         private void loadFriends()
         {
-            App.friendsList.Clear();
+            friendsList.Clear();
             youOweFriends.Clear();
             owesYouFriends.Clear();
             balanceFriends.Clear();
@@ -214,7 +214,7 @@ namespace Split_It_
             //only show balance below in the user's default currency
             foreach (var friend in obj.getAllFriends())
             {
-                App.friendsList.Add(friend);
+                friendsList.Add(friend);
                 Balance_User defaultBalance = Util.getDefaultBalance(friend.balance);
                 double balance = System.Convert.ToDouble(defaultBalance.amount, CultureInfo.InvariantCulture);
                 if (balance > 0)

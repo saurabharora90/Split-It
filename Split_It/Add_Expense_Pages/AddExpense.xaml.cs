@@ -43,7 +43,7 @@ namespace Split_It_.Add_Expense_Pages
 
             this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
             this.expenseControl.friendListPicker.SelectedItem = getFromFriend();
-
+            
             this.expenseControl.expenseDate.Value = DateTime.Now;
         }
 
@@ -102,7 +102,7 @@ namespace Split_It_.Add_Expense_Pages
                 return null;
             else
             {
-                foreach (var user in App.friendsList)
+                foreach (var user in expenseControl.friendsList)
                 {
                     if (this.expenseControl.expense.specificUserId == user.id)
                         return user;

@@ -32,6 +32,8 @@ namespace Split_It_.UserControls
         public AmountSplit amountSplit;
         protected SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
 
+        public ObservableCollection<User> friendsList = new ObservableCollection<User>();
+
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
         public static string EQUALLY = "split equally.";
         public static string UNEQUALLY = "split unequally.";
@@ -40,7 +42,6 @@ namespace Split_It_.UserControls
         public static string OWE = "owe ";
 
         BackgroundWorker groupLoadingBackgroundWorker;
-        BackgroundWorker friendLoadingBackgroundWorker;
 
         public ExpenseUserControl()
         {
@@ -49,7 +50,7 @@ namespace Split_It_.UserControls
             {
                 return;
             }
-            loadFriendsAndGroupsIfNeeded();
+            loadFriendsAndGroups();
             if (PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] != null)
                 expense = PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as Expense;
 
@@ -62,7 +63,7 @@ namespace Split_It_.UserControls
 
             (App.Current.Resources["PhoneRadioCheckBoxCheckBrush"] as SolidColorBrush).Color = Colors.Black;
 
-            this.friendListPicker.ItemsSource = App.friendsList;
+            this.friendListPicker.ItemsSource = friendsList;
             this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
 
             this.groupListPicker.ItemsSource = App.groupsList;
@@ -85,26 +86,18 @@ namespace Split_It_.UserControls
             llsShares.ItemsSource = expenseShareUsers;
         }
 
-        private void loadFriendsAndGroupsIfNeeded()
+        private void loadFriendsAndGroups()
         {
-            //we may need to load them if we are coming from start screen shorcut
-            if (App.friendsList == null)
-            {
-                PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
-                App.friendsList = new ObservableCollection<User>();
-                App.groupsList = new ObservableCollection<Group>();
+            //PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
+            App.groupsList = new ObservableCollection<Group>();
                 
-                groupLoadingBackgroundWorker = new BackgroundWorker();
-                groupLoadingBackgroundWorker.WorkerSupportsCancellation = true;
-                groupLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(groupLoadingBackgroundWorker_DoWork);
+            groupLoadingBackgroundWorker = new BackgroundWorker();
+            groupLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+            groupLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(groupLoadingBackgroundWorker_DoWork);
 
-                friendLoadingBackgroundWorker = new BackgroundWorker();
-                friendLoadingBackgroundWorker.WorkerSupportsCancellation = true;
-                friendLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(friendLoadingBackgroundWorker_DoWork);
+            groupLoadingBackgroundWorker.RunWorkerAsync();
 
-                groupLoadingBackgroundWorker.RunWorkerAsync();
-                friendLoadingBackgroundWorker.RunWorkerAsync();
-            }
+            loadFriends();
         }
 
         private void groupLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -125,20 +118,17 @@ namespace Split_It_.UserControls
             obj.closeDatabaseConnection();
         }
 
-        private void friendLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void loadFriends()
         {
             QueryDatabase obj = new QueryDatabase();
             List<User> allFriends = obj.getAllFriends();
-            Dispatcher.BeginInvoke(() =>
+            if (allFriends != null)
             {
-                if (allFriends != null)
+                foreach (var group in allFriends)
                 {
-                    foreach (var group in allFriends)
-                    {
-                        App.friendsList.Add(group);
-                    }
+                    friendsList.Add(group);
                 }
-            });
+            }
             obj.closeDatabaseConnection();
         }
 
