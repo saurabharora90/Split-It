@@ -33,6 +33,7 @@ namespace Split_It_.UserControls
         protected SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
 
         public ObservableCollection<User> friendsList = new ObservableCollection<User>();
+        public ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
         public static string EQUALLY = "split equally.";
@@ -41,8 +42,6 @@ namespace Split_It_.UserControls
         public static string OWES = "owes ";
         public static string OWE = "owe ";
 
-        BackgroundWorker groupLoadingBackgroundWorker;
-
         public ExpenseUserControl()
         {
             InitializeComponent();
@@ -50,6 +49,7 @@ namespace Split_It_.UserControls
             {
                 return;
             }
+
             loadFriendsAndGroups();
             if (PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] != null)
                 expense = PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as Expense;
@@ -66,10 +66,10 @@ namespace Split_It_.UserControls
             this.friendListPicker.ItemsSource = friendsList;
             this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
 
-            this.groupListPicker.ItemsSource = App.groupsList;
+            this.groupListPicker.ItemsSource = groupsList;
             this.groupListPicker.SummaryForSelectedItemsDelegate = this.GroupSummaryDelegate;
 
-            if (App.groupsList == null || App.groupsList.Count == 0)
+            if (groupsList == null || groupsList.Count == 0)
                 this.groupListPicker.Visibility = System.Windows.Visibility.Collapsed;
 
             this.currencyListPicker.ItemsSource = this.currenciesList;
@@ -89,32 +89,25 @@ namespace Split_It_.UserControls
         private void loadFriendsAndGroups()
         {
             //PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
-            App.groupsList = new ObservableCollection<Group>();
-                
-            groupLoadingBackgroundWorker = new BackgroundWorker();
-            groupLoadingBackgroundWorker.WorkerSupportsCancellation = true;
-            groupLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(groupLoadingBackgroundWorker_DoWork);
 
-            groupLoadingBackgroundWorker.RunWorkerAsync();
-
+            loadGroups();
             loadFriends();
         }
 
-        private void groupLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void loadGroups()
         {
             QueryDatabase obj = new QueryDatabase();
             List<Group> allGroups = obj.getAllGroups();
-            Dispatcher.BeginInvoke(() =>
+            
+            if (allGroups != null && allGroups.Count!=0)
             {
-                if (allGroups != null && allGroups.Count!=0)
+                this.groupListPicker.Visibility = System.Windows.Visibility.Visible;
+                foreach (var group in allGroups)
                 {
-                    this.groupListPicker.Visibility = System.Windows.Visibility.Visible;
-                    foreach (var group in allGroups)
-                    {
-                        App.groupsList.Add(group);
-                    }
+                    groupsList.Add(group);
                 }
-            });
+            }
+
             obj.closeDatabaseConnection();
         }
 

@@ -26,6 +26,8 @@ namespace Split_It_
         ObservableCollection<User> youOweFriends = new ObservableCollection<User>();
         ObservableCollection<User> owesYouFriends = new ObservableCollection<User>();
         ObservableCollection<User> friendsList = new ObservableCollection<User>();
+        ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
+        ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
 
         //Use a BackgroundWorker to load data from database (except for friends) as expenses
         //and groups are time consuming operations
@@ -43,7 +45,7 @@ namespace Split_It_
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
 
-        public ObservableCollection<Expense> expensesList;
+        
 
         public MainPage()
         {
@@ -51,12 +53,9 @@ namespace Split_It_
             setupAppBars();
             resetAppPromo();
 
-            App.groupsList = new ObservableCollection<Group>();
-            expensesList = new ObservableCollection<Expense>();
-
             llsFriends.ItemsSource = balanceFriends;
             llsExpenses.ItemsSource = expensesList;
-            llsGroups.ItemsSource = App.groupsList;
+            llsGroups.ItemsSource = groupsList;
 
             this.llsExpenses.DataRequested += this.OnDataRequested;
 
@@ -302,12 +301,12 @@ namespace Split_It_
             List<Group> allGroups = obj.getAllGroups();
             Dispatcher.BeginInvoke(() =>
             {
-                App.groupsList.Clear();
+                groupsList.Clear();
                 if (allGroups != null)
                 {
                     foreach (var group in allGroups)
                     {
-                        App.groupsList.Add(group);
+                        groupsList.Add(group);
                     }
                 }
             });

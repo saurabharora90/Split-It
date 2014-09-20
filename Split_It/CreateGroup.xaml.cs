@@ -151,7 +151,7 @@ namespace Split_It_
                 Dispatcher.BeginInvoke(() =>
                 {
                     Group group = PhoneApplicationService.Current.State[Constants.NEW_GROUP] as Group;
-                    App.groupsList.Add(group);
+                    //App.groupsList.Add(group);
                     PhoneApplicationService.Current.State[Constants.NEW_GROUP] = null;
                     busyIndicator.IsRunning = false;
                     NavigationService.GoBack();
