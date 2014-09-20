@@ -43,7 +43,7 @@ namespace Split_It_.Add_Expense_Pages
 
             this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
             this.expenseControl.friendListPicker.SelectedItem = getFromFriend();
-
+            
             this.expenseControl.expenseDate.Value = DateTime.Now;
         }
 
@@ -86,7 +86,7 @@ namespace Split_It_.Add_Expense_Pages
                 return null;
             else
             {
-                foreach (var group in App.groupsList)
+                foreach (var group in expenseControl.groupsList)
                 {
                     if (this.expenseControl.expense.group_id == group.id)
                         return group;
@@ -102,7 +102,7 @@ namespace Split_It_.Add_Expense_Pages
                 return null;
             else
             {
-                foreach (var user in App.friendsList)
+                foreach (var user in expenseControl.friendsList)
                 {
                     if (this.expenseControl.expense.specificUserId == user.id)
                         return user;
@@ -169,6 +169,10 @@ namespace Split_It_.Add_Expense_Pages
             {
                 Group selectedGroup = this.expenseControl.groupListPicker.SelectedItem as Group;
                 this.expenseControl.expense.group_id = selectedGroup.id;
+
+                //clear all the previoulsy selected friends.
+                this.expenseControl.friendListPicker.SelectedItems.Clear();
+                
                 foreach (var member in selectedGroup.members)
                 {
                     //you don't need to add yourself as you will be added by default.

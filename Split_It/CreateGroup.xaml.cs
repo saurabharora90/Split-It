@@ -20,9 +20,13 @@ namespace Split_It_
     public partial class CreateGroup : PhoneApplicationPage
     {
         BackgroundWorker createGroupBackgroundWorker;
+        BackgroundWorker friendLoadingBackgroundWorker;
+
         ApplicationBarIconButton btnOkay;
         Group groupToAdd;
+
         ObservableCollection<User> groupMembers = new ObservableCollection<User>();
+        ObservableCollection<User> friendsList = new ObservableCollection<User>();
 
         public CreateGroup()
         {
@@ -34,12 +38,34 @@ namespace Split_It_
             createGroupBackgroundWorker.WorkerSupportsCancellation = true;
             createGroupBackgroundWorker.DoWork += new DoWorkEventHandler(createGroupBackgroundWorker_DoWork);
 
-            this.friendListPicker.ItemsSource = App.friendsList;
+            friendLoadingBackgroundWorker = new BackgroundWorker();
+            friendLoadingBackgroundWorker.WorkerSupportsCancellation = true;
+            friendLoadingBackgroundWorker.DoWork += new DoWorkEventHandler(friendLoadingBackgroundWorker_DoWork);
+            friendLoadingBackgroundWorker.RunWorkerAsync();
+
+            this.friendListPicker.ItemsSource = friendsList;
             this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
 
             groupMembers.Add(App.currentUser);
             createAppBar();
             llsFriends.ItemsSource = groupMembers;
+        }
+
+        private void friendLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            QueryDatabase obj = new QueryDatabase();
+            List<User> allFriends = obj.getAllFriends();
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (allFriends != null)
+                {
+                    foreach (var group in allFriends)
+                    {
+                        friendsList.Add(group);
+                    }
+                }
+            });
+            obj.closeDatabaseConnection();
         }
 
         protected void createAppBar()
@@ -125,7 +151,7 @@ namespace Split_It_
                 Dispatcher.BeginInvoke(() =>
                 {
                     Group group = PhoneApplicationService.Current.State[Constants.NEW_GROUP] as Group;
-                    App.groupsList.Add(group);
+                    //App.groupsList.Add(group);
                     PhoneApplicationService.Current.State[Constants.NEW_GROUP] = null;
                     busyIndicator.IsRunning = false;
                     NavigationService.GoBack();

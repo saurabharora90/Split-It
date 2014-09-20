@@ -51,6 +51,13 @@ namespace Split_It_.UserControls
                 AdDuplexAdControl.IsEnabled = false;
                 MSAdControl.IsEnabled = false;
             }
+
+            if (App.isBeta)
+            {
+                Visibility = Visibility.Collapsed;
+                AdDuplexAdControl.IsEnabled = false;
+                MSAdControl.IsEnabled = false;
+            }
         }
     }
 }

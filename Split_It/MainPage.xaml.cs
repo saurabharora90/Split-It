@@ -25,6 +25,9 @@ namespace Split_It_
         ObservableCollection<User> balanceFriends = new ObservableCollection<User>();
         ObservableCollection<User> youOweFriends = new ObservableCollection<User>();
         ObservableCollection<User> owesYouFriends = new ObservableCollection<User>();
+        ObservableCollection<User> friendsList = new ObservableCollection<User>();
+        ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
+        ObservableCollection<Expense> expensesList = new ObservableCollection<Expense>();
 
         //Use a BackgroundWorker to load data from database (except for friends) as expenses
         //and groups are time consuming operations
@@ -42,7 +45,7 @@ namespace Split_It_
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
 
-        public ObservableCollection<Expense> expensesList;
+        
 
         public MainPage()
         {
@@ -50,13 +53,9 @@ namespace Split_It_
             setupAppBars();
             resetAppPromo();
 
-            App.friendsList = new ObservableCollection<User>();
-            App.groupsList = new ObservableCollection<Group>();
-            expensesList = new ObservableCollection<Expense>();
-
             llsFriends.ItemsSource = balanceFriends;
             llsExpenses.ItemsSource = expensesList;
-            llsGroups.ItemsSource = App.groupsList;
+            llsGroups.ItemsSource = groupsList;
 
             this.llsExpenses.DataRequested += this.OnDataRequested;
 
@@ -136,7 +135,7 @@ namespace Split_It_
         
         private void btnAllFriends_Click(object sender, EventArgs e)
         {
-            llsFriends.ItemsSource = App.friendsList;
+            llsFriends.ItemsSource = friendsList;
         }
 
         private void btnYouOweFriends_Click(object sender, EventArgs e)
@@ -201,7 +200,7 @@ namespace Split_It_
 
         private void loadFriends()
         {
-            App.friendsList.Clear();
+            friendsList.Clear();
             youOweFriends.Clear();
             owesYouFriends.Clear();
             balanceFriends.Clear();
@@ -214,7 +213,7 @@ namespace Split_It_
             //only show balance below in the user's default currency
             foreach (var friend in obj.getAllFriends())
             {
-                App.friendsList.Add(friend);
+                friendsList.Add(friend);
                 Balance_User defaultBalance = Util.getDefaultBalance(friend.balance);
                 double balance = System.Convert.ToDouble(defaultBalance.amount, CultureInfo.InvariantCulture);
                 if (balance > 0)
@@ -302,12 +301,12 @@ namespace Split_It_
             List<Group> allGroups = obj.getAllGroups();
             Dispatcher.BeginInvoke(() =>
             {
-                App.groupsList.Clear();
+                groupsList.Clear();
                 if (allGroups != null)
                 {
                     foreach (var group in allGroups)
                     {
-                        App.groupsList.Add(group);
+                        groupsList.Add(group);
                     }
                 }
             });
@@ -403,7 +402,6 @@ namespace Split_It_
             try
             {
                 await CurrentApp.RequestProductPurchaseAsync(Constants.REMOVE_ADS_PRODUCT_ID, false);
-
                 //check if purchase was made
                 if (App.AdsRemoved)
                 {
@@ -412,9 +410,24 @@ namespace Split_It_
                     CurrentApp.ReportProductFulfillment(Constants.REMOVE_ADS_PRODUCT_ID);
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                if (App.isBeta)
+                {
+                    MessageBoxResult result = MessageBox.Show("An error has occured. Submit report?",
+                                                                "IAP Error", MessageBoxButton.OKCancel);
 
+                    if (result == MessageBoxResult.OK)
+                    {
+                        EmailComposeTask task = new EmailComposeTask();
+                        task.To = "saurabh_arora129@hotmail.com";
+                        task.Body = exception.Data.ToString() + "\n \n Inner Exception: \n" +
+                                    exception.InnerException + "\n \n Message: \n" +
+                                    exception.Message + "\n \n Stack Trace: \n" +
+                                    exception.StackTrace;
+                        task.Show();
+                    }
+                }
             }
         }
 

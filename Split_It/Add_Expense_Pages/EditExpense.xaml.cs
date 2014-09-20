@@ -96,7 +96,7 @@ namespace Split_It_.Add_Expense_Pages
             }
             else
             {
-                foreach (var group in App.groupsList)
+                foreach (var group in expenseControl.groupsList)
                 {
                     if (this.expenseControl.expense.group_id == group.id)
                         return group;

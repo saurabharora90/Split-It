@@ -118,7 +118,7 @@ namespace Split_It_
                 Dispatcher.BeginInvoke(() =>
                 {
                     User friend = PhoneApplicationService.Current.State[Constants.NEW_USER] as User;
-                    App.friendsList.Add(friend);
+                    //App.friendsList.Add(friend);
                     PhoneApplicationService.Current.State[Constants.NEW_USER] = null;
                     busyIndicator.IsRunning = false;
                     NavigationService.GoBack();

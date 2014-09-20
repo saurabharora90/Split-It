@@ -25,9 +25,7 @@ namespace Split_It_
         public static string accessToken, accessTokenSecret;
         public static User currentUser;
 
-        //App data models
-        public static ObservableCollection<User> friendsList;
-        public static ObservableCollection<Group> groupsList;
+        public static bool isBeta = false;
 
         private static bool? _adsRemoved;
         public static bool AdsRemoved
@@ -92,7 +90,10 @@ namespace Split_It_
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
 
-            CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_ID);
+            if(isBeta)
+                CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_BETA_ID);
+            else
+                CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_ID);
         }
 
         // Code to execute when the application is activated (brought to foreground)

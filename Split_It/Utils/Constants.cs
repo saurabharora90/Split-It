@@ -35,6 +35,7 @@ namespace Split_It_.Utils
         public static string NEW_GROUP = "new_group";
 
         public static string CRITTERCISM_ID = "5360ad740729df4d95000002";
+        public static string CRITTERCISM_BETA_ID = "541bdab407229a2e75000002";
 
         public static string REMOVE_ADS_PRODUCT_ID = "Remove_Ads";
 
