@@ -51,7 +51,7 @@ namespace Split_It_.UserControls
             }
 
             loadFriendsAndGroups();
-            if (PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] != null)
+            if (PhoneApplicationService.Current.State.ContainsKey(Constants.ADD_EXPENSE) && PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] != null)
                 expense = PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] as Expense;
 
             getSupportedCurrenciesBackgroundWorker = new BackgroundWorker();
