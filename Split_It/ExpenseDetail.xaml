@@ -87,7 +87,13 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Margin="0,5,0,0" Header="notes">
-                <TextBlock Margin="20" TextWrapping="Wrap" Text="{Binding details}" Foreground="Black" FontSize="{StaticResource userDetaildescriptionSize}"/>
+                <ScrollViewer>
+                    <TextBlock Margin="20" 
+                           TextWrapping="Wrap"
+                           Text="{Binding details}" 
+                           Foreground="Black" 
+                           FontSize="{StaticResource userDetaildescriptionSize}"/>
+                </ScrollViewer>
             </phone:PivotItem>
 
             <!--Pivot item three-->
