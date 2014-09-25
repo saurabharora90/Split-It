@@ -206,28 +206,6 @@ namespace Split_It_.Add_Expense_Pages
             }
         }
         
-        protected void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.description = this.expenseControl.tbDescription.Text;
-            enableOkButton();
-        }
-
-        protected void tbAmount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.cost = this.expenseControl.tbAmount.Text;
-            enableOkButton();
-        }
-
-        private void enableOkButton()
-        {
-            if (this.expenseControl.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
-            {
-                btnOkay.IsEnabled = true;
-            }
-            else
-                btnOkay.IsEnabled = false;
-        }
-        
         private void editExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             ModifyDatabase modify = new ModifyDatabase(_editExpenseCompleted);

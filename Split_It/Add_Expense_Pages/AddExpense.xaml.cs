@@ -24,6 +24,7 @@ namespace Split_It_.Add_Expense_Pages
     {
         BackgroundWorker addExpenseBackgroundWorker;
         ApplicationBarIconButton btnOkay;
+        Expense_Share currentUser;
         
         public AddExpense()
         {
@@ -40,12 +41,12 @@ namespace Split_It_.Add_Expense_Pages
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
 
             // By default, the current user is set as the payee of the expense.
-            Expense_Share currentUser = new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id };
+            currentUser = new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id };
             this.expenseControl.paidByListPicker.SelectedItem = currentUser;
 
             //This helps to auto-populate if the user is coming from the GroupDetails or UserDetails page
-            this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
-            this.expenseControl.friendListPicker.SelectedItem = getFromFriend();
+            autoPopulateGroup();
+            autoPopulateExpenseShareUsers();
             
             this.expenseControl.expenseDate.Value = DateTime.Now;
         }
@@ -82,36 +83,35 @@ namespace Split_It_.Add_Expense_Pages
                 btnPin.IsEnabled = false;
         }
 
-        private Group getFromGroup()
+        private void autoPopulateGroup()
         {
             if (this.expenseControl.expense == null)
-                return null;
+                return;
             else
             {
                 foreach (var group in expenseControl.groupsList)
                 {
                     if (this.expenseControl.expense.group_id == group.id)
-                        return group;
+                        this.expenseControl.groupListPicker.SelectedItem = group;
                 }
             }
-
-            return null;
         }
 
-        private Expense_Share getFromFriend()
+        private void autoPopulateExpenseShareUsers()
         {
+            //by default, the current user is a part of the expense
+            this.expenseControl.friendListPicker.SelectedItems.Add(currentUser);
+
             if (this.expenseControl.expense == null)
-                return null;
+                return;
             else
             {
-                foreach (var user in expenseControl.expenseShareUsers)
+                foreach (var user in expenseControl.allUsers)
                 {
                     if (this.expenseControl.expense.specificUserId == user.user_id)
-                        return user;
+                        this.expenseControl.friendListPicker.SelectedItems.Add(user);
                 }
             }
-
-            return null;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -122,8 +122,8 @@ namespace Split_It_.Add_Expense_Pages
                 busyIndicator.Content = "adding expense";
                 busyIndicator.IsRunning = true;
 
-                if (proceed)
-                    addExpenseBackgroundWorker.RunWorkerAsync();
+                if (proceed) ;
+                //addExpenseBackgroundWorker.RunWorkerAsync();
                 else
                     busyIndicator.IsRunning = false;
             }
@@ -177,8 +177,7 @@ namespace Split_It_.Add_Expense_Pages
                 
                 foreach (var member in selectedGroup.members)
                 {
-                    //you don't need to add yourself as you will be added by default.
-                    if (member.id == App.currentUser.id || this.expenseControl.friendListPicker.SelectedItems.Contains(member))
+                    if (this.expenseControl.friendListPicker.SelectedItems.Contains(member))
                         continue;
                     this.expenseControl.friendListPicker.SelectedItems.Add(new Expense_Share() { user = member, user_id = member.id });
                 }

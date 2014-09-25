@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +26,9 @@ namespace Split_It_.Model
         public static AmountSplit FriendOwes = new AmountSplit() { id = FRIEND_OWES, name = FRIEND_OWES_STRING };
         public static AmountSplit UnequalSplit = new AmountSplit() { id = SPLIT_UNEQUALLY, name = SPLIT_UNEQUALLY_STRING };
 
-        public static ObservableCollection<AmountSplit> GetTwoFriendsSplitMethodList()
+        public static List<AmountSplit> GetTwoFriendsSplitMethodList()
         {
-            ObservableCollection<AmountSplit> splitList = new ObservableCollection<AmountSplit>();
+            List<AmountSplit> splitList = new List<AmountSplit>();
             splitList.Add(EqualSplit);
             splitList.Add(YouOwe);
             splitList.Add(FriendOwes);
@@ -37,9 +36,9 @@ namespace Split_It_.Model
             return splitList;
         }
 
-        public static ObservableCollection<AmountSplit> GetMoreThanTwoFriendsSplitMethodList()
+        public static List<AmountSplit> GetMoreThanTwoFriendsSplitMethodList()
         {
-            ObservableCollection<AmountSplit> splitList = new ObservableCollection<AmountSplit>();
+            List<AmountSplit> splitList = new List<AmountSplit>();
             splitList.Add(EqualSplit);
             splitList.Add(UnequalSplit);
             return splitList;

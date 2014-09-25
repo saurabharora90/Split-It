@@ -96,7 +96,17 @@ namespace Split_It_.Model
         public string currency { get; set; }
 
         public int user_id { get; set; }
-        public string paid_share { get; set; }
+
+        private string _paidShare;
+        public string paid_share
+        {
+            get { return _paidShare; }
+            set
+            {
+                _paidShare = value;
+                OnPropertyChanged("paid_share");
+            }
+        }
 
         private string _owedShare;
         public string owed_share
@@ -105,7 +115,6 @@ namespace Split_It_.Model
             set
             {
                 _owedShare = value;
-                // Call OnPropertyChanged whenever the property is updated
                 OnPropertyChanged("owed_share");
             }
         }
