@@ -104,6 +104,7 @@
       <DependentUpon>EditExpense.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter\MyAppJetImageLoaderConverter.cs" />
+    <Compile Include="Model\AmountSplit.cs" />
     <Compile Include="Request\UpdateUserRequest.cs" />
     <Compile Include="UserControls\AdControl.xaml.cs">
       <DependentUpon>AdControl.xaml</DependentUpon>

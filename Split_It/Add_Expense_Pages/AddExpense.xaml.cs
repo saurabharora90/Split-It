@@ -35,7 +35,7 @@ namespace Split_It_.Add_Expense_Pages
 
             createAppBar();
 
-            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_equally;
+            this.expenseControl.amountSplit = AmountSplit.EqualSplit;
 
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
 
@@ -43,9 +43,7 @@ namespace Split_It_.Add_Expense_Pages
             Expense_Share currentUser = new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id };
             this.expenseControl.paidByListPicker.SelectedItem = currentUser;
 
-            this.expenseControl.tbDescription.TextChanged += tbDescription_TextChanged;
-            this.expenseControl.tbAmount.TextChanged += tbAmount_TextChanged;
-
+            //This helps to auto-populate if the user is coming from the GroupDetails or UserDetails page
             this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
             this.expenseControl.friendListPicker.SelectedItem = getFromFriend();
             
@@ -65,7 +63,6 @@ namespace Split_It_.Add_Expense_Pages
             btnOkay = new ApplicationBarIconButton();
             btnOkay.IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative);
             btnOkay.Text = "save";
-            btnOkay.IsEnabled = false;
             ApplicationBar.Buttons.Add(btnOkay);
             btnOkay.Click += new EventHandler(btnOk_Click);
 
@@ -193,28 +190,6 @@ namespace Split_It_.Add_Expense_Pages
                 //this.friendListPicker.SelectedItems.Clear();
                 this.expenseControl.groupListPicker.SelectedItems.Clear();
             }
-        }
-        
-        protected void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.description = this.expenseControl.tbDescription.Text;
-            enableOkButton();
-        }
-
-        protected void tbAmount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.cost = this.expenseControl.tbAmount.Text;
-            enableOkButton();
-        }
-        
-        private void enableOkButton()
-        {
-            if (this.expenseControl.friendListPicker.SelectedItems.Count!=0 && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
-            {
-                btnOkay.IsEnabled = true;
-            }
-            else
-                btnOkay.IsEnabled = false;
         }
 
         private void addExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

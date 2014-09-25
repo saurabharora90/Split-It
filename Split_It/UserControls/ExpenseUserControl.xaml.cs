@@ -16,13 +16,11 @@ using System.Windows.Media;
 using System.Collections;
 using Split_It_.Controller;
 using System.Windows.Input;
-using Split_It_.Model;
 
 namespace Split_It_.UserControls
 {
     public partial class ExpenseUserControl : UserControl
     {
-        public enum AmountSplit { You_owe, You_are_owed, Split_equally, Split_unequally };
         protected enum SplitUnequally { EXACT_AMOUNTS, PERCENTAGES, SHARES };
 
         public Expense expense;
@@ -30,13 +28,16 @@ namespace Split_It_.UserControls
         protected BackgroundWorker getSupportedCurrenciesBackgroundWorker;
 
         protected ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
+        
         public ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
         public ObservableCollection<Expense_Share> expensePaidUsers = new ObservableCollection<Expense_Share>();
+        public ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
+
+        //By default we only have all four options enabled.
+        public ObservableCollection<AmountSplit> splitMethodList = AmountSplit.GetTwoFriendsSplitMethodList();
         
         public AmountSplit amountSplit;
         protected SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
-
-        public ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
@@ -70,11 +71,14 @@ namespace Split_It_.UserControls
             if (groupsList == null || groupsList.Count == 0)
                 this.groupListPicker.Visibility = System.Windows.Visibility.Collapsed;
 
-            this.currencyListPicker.ItemsSource = this.currenciesList;
+            this.currencyListPicker.ItemsSource = currenciesList;
             this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
 
             this.paidByListPicker.ItemsSource = expensePaidUsers;
             this.paidByListPicker.SummaryForSelectedItemsDelegate = this.PaidBySummaryDelegate;
+
+            this.splitMethodListPicker.ItemsSource = splitMethodList;
+            this.splitMethodListPicker.SummaryForSelectedItemsDelegate = this.SplitMethodSummaryDelegate;
 
             if (expense == null)
             {
@@ -126,6 +130,8 @@ namespace Split_It_.UserControls
             }
             obj.closeDatabaseConnection();
         }
+
+        #region Event Handlers
 
         private object FriendSummaryDelegate(IList list)
         {
@@ -179,7 +185,127 @@ namespace Split_It_.UserControls
             }
             return summary;
         }
+
+        private object SplitMethodSummaryDelegate(IList list)
+        {
+            string summary = String.Empty;
+            for (int i = 0; i < list.Count; i++)
+            {
+                // check if the last item has been reached so we don't put a "," at the end
+                bool isLast = i == list.Count - 1;
+
+                AmountSplit splitMethod = (AmountSplit)list[i];
+                summary = String.Concat(summary, splitMethod.name);
+                summary += isLast ? string.Empty : ", ";
+            }
+
+            return summary;
+        }
+
+        private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Currency defaultCurrency = null;
+            QueryDatabase query = new QueryDatabase();
+            foreach (var item in query.getSupportedCurrencies())
+            {
+                if (item.currency_code == App.currentUser.default_currency && String.IsNullOrEmpty(expense.currency_code))
+                    defaultCurrency = item;
+
+                else if (!String.IsNullOrEmpty(expense.currency_code))
+                {
+                    if (item.currency_code == expense.currency_code)
+                        defaultCurrency = item;
+                }
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    currenciesList.Add(item);
+                });
+            }
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.currencyListPicker.SelectedItem = defaultCurrency;
+            });
+        }
+
+        private object CurrencySummaryDelegate(IList list)
+        {
+            string summary = String.Empty;
+            for (int i = 0; i < list.Count; i++)
+            {
+                // check if the last item has been reached so we don't put a "," at the end
+                bool isLast = i == list.Count - 1;
+
+                Currency currency = (Currency)list[i];
+                summary = String.Concat(summary, currency.currency_code);
+                summary += isLast ? string.Empty : ", ";
+            }
+            if (String.IsNullOrEmpty(summary))
+            {
+                summary = "select currency";
+            }
+            return summary;
+        }
+
+        protected void tbAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            PhoneTextBox textBox = sender as PhoneTextBox;
+
+            //do not llow user to input more than one decimal point
+            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
+                e.Handled = true;
+        }
+
+        protected void tbUnequal_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            //do not llow user to input more than one decimal point
+            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
+                e.Handled = true;
+        }
+
+        protected void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton btn = sender as RadioButton;
+
+            if (llsExactAmount == null || llsPercentage == null || llsShares == null)
+                return;
+
+            if (btn.Content.ToString() == "amount")
+            {
+                splitUnequally = SplitUnequally.EXACT_AMOUNTS;
+                llsExactAmount.Visibility = System.Windows.Visibility.Visible;
+                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
+                llsShares.Visibility = System.Windows.Visibility.Collapsed;
+            }
+
+            else if (btn.Content.ToString() == "percentage")
+            {
+                splitUnequally = SplitUnequally.PERCENTAGES;
+                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
+                llsPercentage.Visibility = System.Windows.Visibility.Visible;
+                llsShares.Visibility = System.Windows.Visibility.Collapsed;
+            }
+
+            else if (btn.Content.ToString() == "share")
+            {
+                splitUnequally = SplitUnequally.SHARES;
+                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
+                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
+                llsShares.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
         
+        #endregion
+        
+        /*
+         * Handles the following:
+         * 1) Check if amount and description is present
+         * 2) Check if Paid by user is selected
+         * 3) Check if multiple paid by user then total amount = sum of amount by each paid by user
+         * 4) If split unequally then, total amount should be split uneqaully amongst all of expenseShareUsers.
+         */
         public bool setupExpense()
         {
             try
@@ -189,18 +315,18 @@ namespace Split_It_.UserControls
                 this.Focus();
                 bool proceed = true;
 
-                switch (amountSplit)
+                switch (amountSplit.id)
                 {
-                    case AmountSplit.You_owe:
+                    case AmountSplit.YOU_OWE:
                         divideExpenseYouOwe();
                         break;
-                    case AmountSplit.You_are_owed:
+                    case AmountSplit.FRIEND_OWES:
                         divideExpenseOwesYou();
                         break;
-                    case AmountSplit.Split_equally:
+                    case AmountSplit.SPLIT_EQUALLY:
                         divideExpenseEqually();
                         break;
-                    case AmountSplit.Split_unequally:
+                    case AmountSplit.SPLIT_UNEQUALLY:
                         proceed = divideExpenseUnequally();
                         break;
                     default:
@@ -416,69 +542,9 @@ namespace Split_It_.UserControls
             return proceed;
         }
 
-        protected void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
-            {
-                toggle();
-                showUnequalSectionIfNeeded();
-            }
-
-            else
-            {
-                MessageBox.Show("Please select friends and enter expense amount", "Error", MessageBoxButton.OK);
-            }
-        }
-
-        private void toggle()
-        {
-            if (this.friendListPicker.SelectedItems.Count == 1)
-            {
-                User selectedUser = this.friendListPicker.SelectedItem as User;
-                switch (amountSplit)
-                {
-                    //By default we have split equally, so follow the follwoing pattern
-                    // a) If You owe then show stuff for you are owed
-                    // b) If you are owed then show for split unequally
-                    // c) If split equally then show stuff for you owe
-                    // d) If split unequally then show stuff for split equally
-
-                    case AmountSplit.You_owe:
-                        amountSplit = AmountSplit.You_are_owed;
-                        break;
-                    case AmountSplit.You_are_owed:
-                        amountSplit = AmountSplit.Split_unequally;
-                        break;
-                    case AmountSplit.Split_equally:
-                        amountSplit = AmountSplit.You_owe;
-                        break;
-                    case AmountSplit.Split_unequally:
-                        amountSplit = AmountSplit.Split_equally;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                switch (amountSplit)
-                {
-                    case AmountSplit.Split_equally:
-                        amountSplit = AmountSplit.Split_unequally;
-                        break;
-                    case AmountSplit.Split_unequally:
-                        amountSplit = AmountSplit.Split_equally;
-                        break;
-                    default:
-                        amountSplit = AmountSplit.Split_equally;
-                        break;
-                }
-            }
-        }
-
         public void showUnequalSectionIfNeeded()
         {
-            if (amountSplit != AmountSplit.Split_unequally)
+            if (amountSplit != AmountSplit.UnequalSplit)
                 spUnequally.Visibility = System.Windows.Visibility.Collapsed;
             else
             {
@@ -487,101 +553,6 @@ namespace Split_It_.UserControls
                     divideExpenseEqually();
                 
                 spUnequally.Visibility = System.Windows.Visibility.Visible;
-            }
-        }
-
-        private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            Currency defaultCurrency = null;
-            QueryDatabase query = new QueryDatabase();
-            foreach (var item in query.getSupportedCurrencies())
-            {
-                if (item.currency_code == App.currentUser.default_currency && String.IsNullOrEmpty(expense.currency_code))
-                    defaultCurrency = item;
-
-                else if(!String.IsNullOrEmpty(expense.currency_code))
-                {
-                    if (item.currency_code == expense.currency_code)
-                        defaultCurrency = item;
-                }
-
-                Dispatcher.BeginInvoke(() =>
-                {
-                    currenciesList.Add(item);
-                });
-            }
-            Dispatcher.BeginInvoke(() =>
-            {
-                this.currencyListPicker.SelectedItem = defaultCurrency;
-            });
-        }
-
-        private object CurrencySummaryDelegate(IList list)
-        {
-            string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
-            {
-                // check if the last item has been reached so we don't put a "," at the end
-                bool isLast = i == list.Count - 1;
-
-                Currency currency = (Currency)list[i];
-                summary = String.Concat(summary, currency.currency_code);
-                summary += isLast ? string.Empty : ", ";
-            }
-            if (String.IsNullOrEmpty(summary))
-            {
-                summary = "select currency";
-            }
-            return summary;
-        }
-
-        protected void tbAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            PhoneTextBox textBox = sender as PhoneTextBox;
-
-            //do not llow user to input more than one decimal point
-            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
-                e.Handled = true;
-        }
-
-        protected void tbUnequal_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-
-            //do not llow user to input more than one decimal point
-            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
-                e.Handled = true;
-        }
-
-        protected void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            RadioButton btn = sender as RadioButton;
-
-            if (llsExactAmount == null || llsPercentage == null || llsShares == null)
-                return;
-
-            if (btn.Content.ToString() == "amount")
-            {
-                splitUnequally = SplitUnequally.EXACT_AMOUNTS;
-                llsExactAmount.Visibility = System.Windows.Visibility.Visible;
-                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
-                llsShares.Visibility = System.Windows.Visibility.Collapsed;
-            }
-
-            else if (btn.Content.ToString() == "percentage")
-            {
-                splitUnequally = SplitUnequally.PERCENTAGES;
-                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
-                llsPercentage.Visibility = System.Windows.Visibility.Visible;
-                llsShares.Visibility = System.Windows.Visibility.Collapsed;
-            }
-
-            else if (btn.Content.ToString() == "share")
-            {
-                splitUnequally = SplitUnequally.SHARES;
-                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
-                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
-                llsShares.Visibility = System.Windows.Visibility.Visible;
             }
         }
 

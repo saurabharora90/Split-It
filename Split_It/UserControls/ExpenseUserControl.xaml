@@ -738,11 +738,17 @@
 						    Foreground="Black"
 						    x:Name="splitMethodListPicker"
 						    ActionButtonVisibility="Collapsed"
-						    SelectionMode="Multiple"
+						    SelectionMode="Single"
 						    OkButtonIconUri="/Assets/Icons/ok.png"
 						    CancelButtonIconUri="/Assets/Icons/cancel.png" 
                             PopupHeader="SELECT PAID BY" 
-                            Style="{StaticResource RadListPickerStyle1}" />
+                            Style="{StaticResource RadListPickerStyle1}">
+                            <telerikInput:RadListPicker.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}"/>
+                                </DataTemplate>
+                            </telerikInput:RadListPicker.ItemTemplate>
+                        </telerikInput:RadListPicker>
                     </Grid>
 
                     <StackPanel Margin="15,10,15,0" Orientation="Vertical" x:Name="spUnequally" Visibility="Collapsed">
