@@ -37,7 +37,15 @@ namespace Split_It_
             editUserBackgroundWorker.WorkerSupportsCancellation = true;
             editUserBackgroundWorker.DoWork += new DoWorkEventHandler(editUserBackgroundWorker_DoWork);
 
-            this.DataContext = App.currentUser;
+            currentUser = new User();
+            currentUser.id = App.currentUser.id;
+            currentUser.first_name = App.currentUser.first_name;
+            currentUser.last_name = App.currentUser.last_name;
+            currentUser.email = App.currentUser.email;
+            currentUser.default_currency = App.currentUser.default_currency;
+
+            this.DataContext = currentUser;
+            
             this.currencyListPicker.ItemsSource = currenciesList;
             this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
             createAppBar();
@@ -71,8 +79,6 @@ namespace Split_It_
             if (canProceed())
             {
                 busyIndicator.IsRunning = true;
-                currentUser = new User();
-                currentUser.id = App.currentUser.id;
                 currentUser.first_name = tbFirstName.Text;
                 currentUser.last_name = tbLastName.Text;
                 currentUser.email = tbEmail.Text;
@@ -81,7 +87,7 @@ namespace Split_It_
                 if (selectedCurrency != null)
                     currentUser.default_currency = selectedCurrency.currency_code;
 
-                if (!currentUser.default_currency.Equals(App.currentUser.default_currency))
+                if (App.currentUser!=null && !currentUser.default_currency.Equals(App.currentUser.default_currency))
                     currencyModified = true;
 
                 editUserBackgroundWorker.RunWorkerAsync();
@@ -158,9 +164,6 @@ namespace Split_It_
                 {
                     currenciesList.Add(item);
                 });
-
-                if (defaultCurrency == null && item.currency_code == "USD")
-                    defaultCurrency = item;
             }
             Dispatcher.BeginInvoke(() =>
             {
