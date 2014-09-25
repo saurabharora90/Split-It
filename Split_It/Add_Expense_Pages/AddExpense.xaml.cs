@@ -183,7 +183,7 @@ namespace Split_It_.Add_Expense_Pages
                     //you don't need to add yourself as you will be added by default.
                     if (member.id == App.currentUser.id || this.expenseControl.friendListPicker.SelectedItems.Contains(member))
                         continue;
-                    this.expenseControl.friendListPicker.SelectedItems.Add(member);
+                    this.expenseControl.friendListPicker.SelectedItems.Add(new Expense_Share() { user = member, user_id = member.id });
                 }
             }
 
