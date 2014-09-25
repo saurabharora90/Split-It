@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Collections;
 using Split_It_.Controller;
 using System.Windows.Input;
+using Split_It_.Model;
 
 namespace Split_It_.UserControls
 {
@@ -27,20 +28,17 @@ namespace Split_It_.UserControls
         public Expense expense;
 
         protected BackgroundWorker getSupportedCurrenciesBackgroundWorker;
+
         protected ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
         public ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
+        public ObservableCollection<Expense_Share> expensePaidUsers = new ObservableCollection<Expense_Share>();
+        
         public AmountSplit amountSplit;
         protected SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
 
-        public ObservableCollection<User> friendsList = new ObservableCollection<User>();
         public ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
-        public static string EQUALLY = "split equally.";
-        public static string UNEQUALLY = "split unequally.";
-        public static string FULL_AMOUNT = "the full amount.";
-        public static string OWES = "owes ";
-        public static string OWE = "owe ";
 
         public ExpenseUserControl()
         {
@@ -63,7 +61,7 @@ namespace Split_It_.UserControls
 
             (App.Current.Resources["PhoneRadioCheckBoxCheckBrush"] as SolidColorBrush).Color = Colors.Black;
 
-            this.friendListPicker.ItemsSource = friendsList;
+            this.friendListPicker.ItemsSource = expenseShareUsers;
             this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
 
             this.groupListPicker.ItemsSource = groupsList;
@@ -74,6 +72,9 @@ namespace Split_It_.UserControls
 
             this.currencyListPicker.ItemsSource = this.currenciesList;
             this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
+
+            this.paidByListPicker.ItemsSource = expensePaidUsers;
+            this.paidByListPicker.SummaryForSelectedItemsDelegate = this.PaidBySummaryDelegate;
 
             if (expense == null)
             {
@@ -88,10 +89,11 @@ namespace Split_It_.UserControls
 
         private void loadFriendsAndGroups()
         {
-            //PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = null;
-
             loadGroups();
             loadFriends();
+
+            expensePaidUsers = new ObservableCollection<Expense_Share>(expenseShareUsers);
+            expensePaidUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
         }
 
         private void loadGroups()
@@ -117,9 +119,9 @@ namespace Split_It_.UserControls
             List<User> allFriends = obj.getAllFriends();
             if (allFriends != null)
             {
-                foreach (var group in allFriends)
+                foreach (var friend in allFriends)
                 {
-                    friendsList.Add(group);
+                    expenseShareUsers.Add(new Expense_Share() { user = friend, user_id = friend.id });
                 }
             }
             obj.closeDatabaseConnection();
@@ -133,8 +135,8 @@ namespace Split_It_.UserControls
                 // check if the last item has been reached so we don't put a "," at the end
                 bool isLast = i == list.Count - 1;
 
-                User friend = (User)list[i];
-                summary = String.Concat(summary, friend.first_name);
+                Expense_Share friend = (Expense_Share)list[i];
+                summary = String.Concat(summary, friend.user.first_name);
                 summary += isLast ? string.Empty : ", ";
             }
             if (summary == String.Empty)
@@ -163,6 +165,21 @@ namespace Split_It_.UserControls
             return summary;
         }
 
+        private object PaidBySummaryDelegate(IList list)
+        {
+            String summary = "no friends selected";
+            
+            if (list.Count > 1)
+                summary =  "Multiple Friends";
+            
+            if(list.Count == 1)
+            {
+                Expense_Share friend = (Expense_Share)list[0];
+                summary = friend.user.first_name;
+            }
+            return summary;
+        }
+        
         public bool setupExpense()
         {
             try
@@ -404,7 +421,6 @@ namespace Split_It_.UserControls
             if (this.friendListPicker.SelectedItems.Count != 0 && !String.IsNullOrEmpty(tbAmount.Text))
             {
                 toggle();
-                setText();
                 showUnequalSectionIfNeeded();
             }
 
@@ -458,42 +474,6 @@ namespace Split_It_.UserControls
                         break;
                 }
             }
-        }
-
-        public void setText()
-        {
-            User selectedUser = this.friendListPicker.SelectedItem as User;
-                switch (amountSplit)
-                {
-                    //By default we have split equally, so follow the follwoing pattern
-                    // a) If You owe then show stuff for you are owed
-                    // b) If you are owed then show for split unequally
-                    // c) If split equally then show stuff for you owe
-                    // d) If split unequally then show stuff for split equally
-
-                    case AmountSplit.You_are_owed:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = selectedUser.first_name;
-                        tbFullAmount.Text = OWES + FULL_AMOUNT;
-                        break;
-                    case AmountSplit.Split_unequally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = UNEQUALLY;
-                        tbFullAmount.Text = "";
-                        break;
-                    case AmountSplit.You_owe:
-                        tbPaidBy.Text = selectedUser.first_name;
-                        tbPaidTo.Text = "You";
-                        tbFullAmount.Text = OWE + FULL_AMOUNT;
-                        break;
-                    case AmountSplit.Split_equally:
-                        tbPaidBy.Text = "You";
-                        tbPaidTo.Text = EQUALLY;
-                        tbFullAmount.Text = "";
-                        break;
-                    default:
-                        break;
-                }
         }
 
         public void showUnequalSectionIfNeeded()

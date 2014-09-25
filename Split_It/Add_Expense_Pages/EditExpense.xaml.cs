@@ -27,7 +27,7 @@ namespace Split_It_.Add_Expense_Pages
         {
             InitializeComponent();
 
-            editExpenseBackgroundWorker = new BackgroundWorker();
+            /*editExpenseBackgroundWorker = new BackgroundWorker();
             editExpenseBackgroundWorker.WorkerSupportsCancellation = true;
             editExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(editExpenseBackgroundWorker_DoWork);
 
@@ -261,7 +261,7 @@ namespace Split_It_.Add_Expense_Pages
                         MessageBox.Show("Unable to edit expense", "Error", MessageBoxButton.OK);
                     }
                 });
-            }
+            }*/
         }
     }
 }

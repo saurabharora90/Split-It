@@ -36,8 +36,13 @@ namespace Split_It_.Add_Expense_Pages
             createAppBar();
 
             this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_equally;
+
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
-            this.expenseControl.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
+
+            // By default, the current user is set as the payee of the expense.
+            Expense_Share currentUser = new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id };
+            this.expenseControl.paidByListPicker.SelectedItem = currentUser;
+
             this.expenseControl.tbDescription.TextChanged += tbDescription_TextChanged;
             this.expenseControl.tbAmount.TextChanged += tbAmount_TextChanged;
 
@@ -96,15 +101,15 @@ namespace Split_It_.Add_Expense_Pages
             return null;
         }
 
-        private User getFromFriend()
+        private Expense_Share getFromFriend()
         {
             if (this.expenseControl.expense == null)
                 return null;
             else
             {
-                foreach (var user in expenseControl.friendsList)
+                foreach (var user in expenseControl.expenseShareUsers)
                 {
-                    if (this.expenseControl.expense.specificUserId == user.id)
+                    if (this.expenseControl.expense.specificUserId == user.user_id)
                         return user;
                 }
             }
@@ -189,23 +194,7 @@ namespace Split_It_.Add_Expense_Pages
                 this.expenseControl.groupListPicker.SelectedItems.Clear();
             }
         }
-
-        private void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            this.expenseControl.expenseShareUsers.Clear();
-            //add yourself to the the list of expense users.
-            this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
-            enableOkButton();
-
-            if (this.expenseControl.friendListPicker.SelectedItems == null)
-                return;
-            foreach (var item in this.expenseControl.friendListPicker.SelectedItems)
-            {
-                User user = item as User;
-                this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = user, user_id = user.id });
-            }
-        }
-
+        
         protected void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.expenseControl.expense.description = this.expenseControl.tbDescription.Text;

@@ -568,6 +568,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
@@ -589,7 +590,7 @@
 						CancelButtonIconUri="/Assets/Icons/cancel.png" PopupHeader="SELECT FRIENDS" Style="{StaticResource RadListPickerStyle1}">
                         <telerikInput:RadListPicker.PopupItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding name}"/>
+                                <TextBlock Text="{Binding user.name}"/>
                             </DataTemplate>
                         </telerikInput:RadListPicker.PopupItemTemplate>
                     </telerikInput:RadListPicker>
@@ -614,32 +615,27 @@
 
             <Border Padding="0,10" Grid.Row="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" 
 							Source="/Assets/Images/expense_general.png" 
 							VerticalAlignment="Center" 
 							Margin="15,0"/>
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <toolkit:PhoneTextBox Grid.Row="0" 
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <toolkit:PhoneTextBox Grid.Row="0" 
 								x:Name="tbDescription" 
 								AcceptsReturn="False" 
 								InputScope="Text" 
 								Hint="enter description"
 								BorderThickness="0" Margin="4,0,0,0" />
-                            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,0">
-                                <telerikInput:RadListPicker
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,0">
+                            <telerikInput:RadListPicker
 						            Header="Currency"
 						            BorderThickness="0"
                                     Padding="0"
@@ -655,13 +651,13 @@
                                     PopupHeader="SELECT CURRENCY" 
                                     Style="{StaticResource RadListPickerStyle1}" 
                                     HorizontalAlignment="Left">
-                                    <telerikInput:RadListPicker.PopupItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding currency_code}"/>
-                                        </DataTemplate>
-                                    </telerikInput:RadListPicker.PopupItemTemplate>
-                                </telerikInput:RadListPicker>
-                                <toolkit:PhoneTextBox x:Name="tbAmount" 
+                                <telerikInput:RadListPicker.PopupItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding currency_code}"/>
+                                    </DataTemplate>
+                                </telerikInput:RadListPicker.PopupItemTemplate>
+                            </telerikInput:RadListPicker>
+                            <toolkit:PhoneTextBox x:Name="tbAmount" 
 									AcceptsReturn="False" 
 									Hint="0.00"
                                     Width="150"
@@ -671,40 +667,103 @@
                                     BorderThickness="0" 
                                     Margin="40,0,0,0" 
                                     FontSize="{StaticResource nameSize}"/>
-                            </StackPanel>
-                        </Grid>
+                        </StackPanel>
                     </Grid>
-                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Padding="15" HorizontalAlignment="Center" Foreground="Black" FontSize="{StaticResource nameSize}" toolkit:TiltEffect.IsTiltEnabled="True" Tap="TextBlock_Tap">
-						<Run x:Name="tbPaidBy" Text="You" Foreground="{StaticResource positive}"/>
-						<Run Text="paid and" />
-                        <Run x:Name="tbPaidTo" Text="split equally." Foreground="{StaticResource positive}"/>
-						<Run x:Name="tbFullAmount"/>
-                    </TextBlock>
                 </Grid>
             </Border>
 
-            <Border x:Name="spUnequally" Grid.Row="2" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}" Visibility="Collapsed">
-                <StackPanel Margin="15,10,15,0" Orientation="Vertical">
-                    <TextBlock Text="Split by:" Foreground="Black" FontSize="25"/>
+            <Border Grid.Row="2" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                    <StackPanel  Orientation="Horizontal">
-                        <RadioButton x:Name="rbExactAmounts" Content="amount" GroupName="Group1" 
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.75*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0"
+                                   Padding="15"
+                                   Foreground="Black" 
+                                   FontSize="{StaticResource nameSize}"
+                                   Text="Paid by:"/>
+                        <telerikInput:RadListPicker
+                            Grid.Column="1"
+						    Header="Paid By"
+						    BorderBrush="{StaticResource splitwiseGreyBG}"
+						    Foreground="Black"
+						    x:Name="paidByListPicker"
+						    ActionButtonVisibility="Collapsed"
+						    SelectionMode="Multiple"
+						    OkButtonIconUri="/Assets/Icons/ok.png"
+						    CancelButtonIconUri="/Assets/Icons/cancel.png" 
+                            PopupHeader="SELECT PAID BY" 
+                            Style="{StaticResource RadListPickerStyle1}">
+                            <telerikInput:RadListPicker.PopupItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding user.name}"/>
+                                </DataTemplate>
+                            </telerikInput:RadListPicker.PopupItemTemplate>
+                        </telerikInput:RadListPicker>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="3" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.75*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Padding="15"
+                                   Foreground="Black" 
+                                   FontSize="{StaticResource nameSize}"
+                                   Text="Split method:"/>
+
+                        <telerikInput:RadListPicker
+                            Grid.Column="1"
+						    Header="Split Method"
+						    BorderBrush="{StaticResource splitwiseGreyBG}"
+						    Foreground="Black"
+						    x:Name="splitMethodListPicker"
+						    ActionButtonVisibility="Collapsed"
+						    SelectionMode="Multiple"
+						    OkButtonIconUri="/Assets/Icons/ok.png"
+						    CancelButtonIconUri="/Assets/Icons/cancel.png" 
+                            PopupHeader="SELECT PAID BY" 
+                            Style="{StaticResource RadListPickerStyle1}" />
+                    </Grid>
+
+                    <StackPanel Margin="15,10,15,0" Orientation="Vertical" x:Name="spUnequally" Visibility="Collapsed">
+                        <StackPanel  Orientation="Horizontal">
+                            <RadioButton x:Name="rbExactAmounts" Content="amount" GroupName="Group1" 
                    Checked="RadioButton_Checked" IsChecked="True"/>
-                        <RadioButton x:Name="rbPercentage" Content="percentage" GroupName="Group1" 
+                            <RadioButton x:Name="rbPercentage" Content="percentage" GroupName="Group1" 
                    Checked="RadioButton_Checked"/>
-                        <RadioButton x:Name="rbShares" Content="share" GroupName="Group1" 
+                            <RadioButton x:Name="rbShares" Content="share" GroupName="Group1" 
                    Checked="RadioButton_Checked"/>
-                    </StackPanel>
+                        </StackPanel>
 
-                    <phone:LongListSelector Name="llsExactAmount">
-                        <phone:LongListSelector.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" 
+                        <phone:LongListSelector Name="llsExactAmount">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" 
                                                    Text="{Binding 'user.name'}" 
                                                    FontSize="{StaticResource nameSize}" 
                                                    VerticalAlignment="Center" 
@@ -712,7 +771,7 @@
                                                    Foreground="Black" 
                                                    TextWrapping="Wrap"/>
 
-                                    <TextBox Grid.Column="1" 
+                                        <TextBox Grid.Column="1" 
                                                  Text="{Binding owed_share, Mode=TwoWay}" 
                                                  FontSize="{StaticResource expenseDetailAmount}" 
                                                  HorizontalAlignment="Right" 
@@ -720,20 +779,20 @@
                                                  Background="{StaticResource splitwiseGreyBG}" 
                                                  Width="100" KeyDown="tbUnequal_KeyDown"
                                                  InputScope="Number"/>
-                                </Grid>
-                            </DataTemplate>
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
 
-                    <phone:LongListSelector Name="llsPercentage" Visibility="Collapsed">
-                        <phone:LongListSelector.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" 
+                        <phone:LongListSelector Name="llsPercentage" Visibility="Collapsed">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" 
                                                    Text="{Binding 'user.name'}" 
                                                    FontSize="{StaticResource nameSize}" 
                                                    VerticalAlignment="Center" 
@@ -741,7 +800,7 @@
                                                    Foreground="Black" 
                                                    TextWrapping="Wrap"/>
 
-                                    <TextBox Grid.Column="1" 
+                                        <TextBox Grid.Column="1" 
                                                  Text="{Binding percentage, Mode=TwoWay}" 
                                                  FontSize="{StaticResource expenseDetailAmount}" 
                                                  HorizontalAlignment="Right" 
@@ -749,20 +808,20 @@
                                                  Background="{StaticResource splitwiseGreyBG}" 
                                                  Width="100" KeyDown="tbUnequal_KeyDown"
                                                  InputScope="Number"/>
-                                </Grid>
-                            </DataTemplate>
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
 
-                    <phone:LongListSelector Name="llsShares" Visibility="Collapsed">
-                        <phone:LongListSelector.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" 
+                        <phone:LongListSelector Name="llsShares" Visibility="Collapsed">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" 
                                                    Text="{Binding 'user.name'}" 
                                                    FontSize="{StaticResource nameSize}" 
                                                    VerticalAlignment="Center" 
@@ -770,7 +829,7 @@
                                                    Foreground="Black" 
                                                    TextWrapping="Wrap"/>
 
-                                    <TextBox Grid.Column="1" 
+                                        <TextBox Grid.Column="1" 
                                                  Text="{Binding share, Mode=TwoWay}" 
                                                  FontSize="{StaticResource expenseDetailAmount}" 
                                                  HorizontalAlignment="Right" 
@@ -778,22 +837,23 @@
                                                  Background="{StaticResource splitwiseGreyBG}" 
                                                  Width="100" KeyDown="tbUnequal_KeyDown"
                                                  InputScope="Number"/>
-                                </Grid>
-                            </DataTemplate>
-                        </phone:LongListSelector.ItemTemplate>
-                    </phone:LongListSelector>
-                </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+                    </StackPanel>
+                </Grid>
             </Border>
 
             <telerikInput:RadDatePicker x:Name="expenseDate" 
-				                        Grid.Row="3"
+				                        Grid.Row="4"
 				                        OkButtonIconUri="/Assets/Icons/ok.png"
 				                        CancelButtonIconUri="/Assets/Icons/cancel.png"
 				                        DisplayValueFormat="{}{0:dd MMMM, yyyy}"
 				                        Style="{StaticResource RadDatePickerStyle1}" 
                                         PickerButtonStyle="{StaticResource PickerBoxToggleButtonStyle1}"/>
 
-            <telerikPrimitives:RadTextBox Grid.Row="4" 
+            <telerikPrimitives:RadTextBox Grid.Row="5" 
 				x:Name="tbDetails"
                 MinHeight="150"
 				BorderThickness="0"

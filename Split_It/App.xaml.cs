@@ -25,7 +25,7 @@ namespace Split_It_
         public static string accessToken, accessTokenSecret;
         public static User currentUser;
 
-        public static bool isBeta = false;
+        public static bool isBeta = true;
 
         private static bool? _adsRemoved;
         public static bool AdsRemoved
@@ -90,10 +90,10 @@ namespace Split_It_
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
 
-            if(isBeta)
+            /*if(isBeta)
                 CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_BETA_ID);
             else
-                CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_ID);
+                CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_ID);*/
         }
 
         // Code to execute when the application is activated (brought to foreground)

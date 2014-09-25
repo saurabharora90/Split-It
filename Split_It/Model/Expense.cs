@@ -128,5 +128,24 @@ namespace Split_It_.Model
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
+
+        public override bool Equals(System.Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            Expense_Share p = obj as Expense_Share;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            return p.user_id == user_id;
+        }
+
+        public override int GetHashCode()
+        {
+            return user_id;
+        }
     }
 }
