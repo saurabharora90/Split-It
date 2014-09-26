@@ -16,26 +16,23 @@ namespace Split_It_.UserControls
 {
     public partial class SelectPayeePopUpControl : UserControl
     {
-        public SelectPayeePopUpControl(ref ObservableCollection<Expense_Share> expenseShareUsers)
+        Action Close;
+
+        public SelectPayeePopUpControl(ref ObservableCollection<Expense_Share> expenseShareUsers, Action close)
         {
             InitializeComponent();
             llsFriends.ItemsSource = expenseShareUsers;
+            this.Close = close;
         }
 
         private void llsFriends_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ClosePopup();
+            Close();
         }
 
         private void tbMultiplePayers_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            ClosePopup();
-        }
-
-        private void ClosePopup()
-        {
-            //var parent = this.Parent;
-
+            Close();
         }
     }
 }

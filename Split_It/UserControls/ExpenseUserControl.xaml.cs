@@ -41,6 +41,10 @@ namespace Split_It_.UserControls
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
+        //Popups
+        Telerik.Windows.Controls.RadWindow PayeeWindow;
+        Telerik.Windows.Controls.RadWindow SplitUnequallyWindow;
+
         public ExpenseUserControl()
         {
             InitializeComponent();
@@ -233,12 +237,17 @@ namespace Split_It_.UserControls
             if (expenseShareUsers.Count <= 1)
                 return;
 
-            SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers);
-            Telerik.Windows.Controls.RadWindow PayeeWindow = new Telerik.Windows.Controls.RadWindow();
+            PayeeWindow = new Telerik.Windows.Controls.RadWindow();
+            SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers,_PayeeClose);
+            
             PayeeWindow.Content = ChoosePayeePopup;
             PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
-            PayeeWindow.OpenAnimation = Radwindow
             PayeeWindow.IsOpen = true;
+        }
+
+        private void _PayeeClose() 
+        {
+            PayeeWindow.IsOpen = false;
         }
         
         /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)
