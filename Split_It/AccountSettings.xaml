@@ -263,13 +263,7 @@
 						OkButtonIconUri="/Assets/Icons/ok.png"
 						CancelButtonIconUri="/Assets/Icons/cancel.png" 
                         PopupHeader="SELECT CURRENCY" 
-                        Style="{StaticResource RadListPickerStyle1}" >
-                    <telerikInput:RadListPicker.PopupItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding currency_code}"/>
-                        </DataTemplate>
-                    </telerikInput:RadListPicker.PopupItemTemplate>
-                </telerikInput:RadListPicker>
+                        Style="{StaticResource RadListPickerStyle1}" />
             </StackPanel>
         </Grid>
 

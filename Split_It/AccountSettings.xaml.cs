@@ -47,7 +47,6 @@ namespace Split_It_
             this.DataContext = currentUser;
             
             this.currencyListPicker.ItemsSource = currenciesList;
-            this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
             createAppBar();
         }
 
@@ -169,25 +168,6 @@ namespace Split_It_
             {
                 this.currencyListPicker.SelectedItem = defaultCurrency;
             });
-        }
-
-        private object CurrencySummaryDelegate(IList list)
-        {
-            string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
-            {
-                // check if the last item has been reached so we don't put a "," at the end
-                bool isLast = i == list.Count - 1;
-
-                Currency currency = (Currency)list[i];
-                summary = String.Concat(summary, currency.currency_code);
-                summary += isLast ? string.Empty : ", ";
-            }
-            if (String.IsNullOrEmpty(summary))
-            {
-                summary = "select currency";
-            }
-            return summary;
         }
     }
 }
