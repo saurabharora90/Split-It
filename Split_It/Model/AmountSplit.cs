@@ -8,35 +8,19 @@ namespace Split_It_.Model
 {
     public class AmountSplit
     {
-        const String SPLIT_EQUALLY_STRING = "Split equally";
-        const String YOU_OWE_STRING = "You owe";
-        const String FRIEND_OWES_STRING = "Friend owes";
-        const String SPLIT_UNEQUALLY_STRING = "Split unequally";
+        const String EQUALLY = "equally";
+        const String UNEQUALLY = "unequally";
 
-        public const int SPLIT_EQUALLY = 0;
-        public const int YOU_OWE = 1;
-        public const int FRIEND_OWES = 2;
-        public const int SPLIT_UNEQUALLY = 3;
+        public const int TYPE_SPLIT_EQUALLY = 0;
+        public const int TYPE_SPLIT_UNEQUALLY = 1;
 
         public int id { get; set; }
-        public String name { get; set; }
+        public String typeString { get; set; }
 
-        public static AmountSplit EqualSplit = new AmountSplit() { id = SPLIT_EQUALLY, name = SPLIT_EQUALLY_STRING };
-        public static AmountSplit YouOwe = new AmountSplit() { id = YOU_OWE, name = YOU_OWE_STRING };
-        public static AmountSplit FriendOwes = new AmountSplit() { id = FRIEND_OWES, name = FRIEND_OWES_STRING };
-        public static AmountSplit UnequalSplit = new AmountSplit() { id = SPLIT_UNEQUALLY, name = SPLIT_UNEQUALLY_STRING };
+        public static AmountSplit EqualSplit = new AmountSplit() { id = TYPE_SPLIT_EQUALLY, typeString = EQUALLY };
+        public static AmountSplit UnequalSplit = new AmountSplit() { id = TYPE_SPLIT_UNEQUALLY, typeString = UNEQUALLY };
 
-        public static List<AmountSplit> GetTwoFriendsSplitMethodList()
-        {
-            List<AmountSplit> splitList = new List<AmountSplit>();
-            splitList.Add(EqualSplit);
-            splitList.Add(YouOwe);
-            splitList.Add(FriendOwes);
-            splitList.Add(UnequalSplit);
-            return splitList;
-        }
-
-        public static List<AmountSplit> GetMoreThanTwoFriendsSplitMethodList()
+        public static List<AmountSplit> GetAmountSplitTypes()
         {
             List<AmountSplit> splitList = new List<AmountSplit>();
             splitList.Add(EqualSplit);
@@ -61,6 +45,11 @@ namespace Split_It_.Model
         public override int GetHashCode()
         {
             return id;
+        }
+
+        public override string ToString()
+        {
+            return typeString;
         }
     }
 }

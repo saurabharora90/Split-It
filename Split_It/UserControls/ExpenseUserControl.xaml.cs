@@ -32,7 +32,6 @@ namespace Split_It_.UserControls
 
         private ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
         private ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
-        private ObservableCollection<Expense_Share> expensePaidUsers = new ObservableCollection<Expense_Share>();
         
         //By default the amount is split equally
         public AmountSplit amountSplit = AmountSplit.EqualSplit;
@@ -72,6 +71,7 @@ namespace Split_It_.UserControls
                 this.groupListPicker.Visibility = System.Windows.Visibility.Collapsed;
 
             this.currencyListPicker.ItemsSource = currenciesList;
+            this.SplitTypeListPicker.ItemsSource = AmountSplit.GetAmountSplitTypes();
 
             this.expenseTypeListPicker.SelectionChanged += expenseTypeListPicker_SelectionChanged;
 
@@ -83,10 +83,6 @@ namespace Split_It_.UserControls
 
             //add current user
             expenseShareUsers.Add(getCurrentUser());
-
-            this.paidByListPicker.ItemsSource = expenseShareUsers;
-            //this.paidByListPicker.SelectionChanged += paidByListPicker_SelectionChanged;
-            //this.paidByListPicker.SelectedItem = getCurrentUser();
         }
 
         private Expense_Share getCurrentUser()
@@ -195,7 +191,7 @@ namespace Split_It_.UserControls
                 bool isLast = i == list.Count - 1;
 
                 AmountSplit splitMethod = (AmountSplit)list[i];
-                summary = String.Concat(summary, splitMethod.name);
+                summary = String.Concat(summary, splitMethod.typeString);
                 summary += isLast ? string.Empty : ", ";
             }
 
@@ -322,19 +318,6 @@ namespace Split_It_.UserControls
                 this.paidByContainer.Visibility = System.Windows.Visibility.Visible;
         }
 
-        void paidByListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            expensePaidUsers.Clear();
-            foreach (var item in paidByListPicker.SelectedItems)
-            {
-                expensePaidUsers.Add(item as Expense_Share);
-            }
-
-            if (expensePaidUsers.Count > 1) ;
-            //show multiple paid users pop up dialog
-
-        }
-
         /*void splitMethodListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             amountSplit = (AmountSplit) this.splitMethodListPicker.SelectedItem;
@@ -348,6 +331,7 @@ namespace Split_It_.UserControls
          * 1) Check if amount and description is present
          * 2) Check if Paid by user is selected
          * 3) Check if multiple paid by user then total amount = sum of amount by each paid by user
+         * 4) Count the number of users who have paid (using hasPaid in expense_share). If count = 0, then current user has paid. Else the paid part is already settled for by the pop-up box
          * 4) If split unequally then, total amount should be split uneqaully amongst all of expenseShareUsers.
          */
         public bool setupExpense()
@@ -368,7 +352,7 @@ namespace Split_It_.UserControls
                     return false;
                 }
 
-                switch (amountSplit.id)
+                /*switch (amountSplit.id)
                 {
                     case AmountSplit.YOU_OWE:
                         divideExpenseYouOwe();
@@ -384,7 +368,7 @@ namespace Split_It_.UserControls
                         break;
                     default:
                         break;
-                }
+                }*/
 
                 expense.users = expenseShareUsers.ToList();
                 Currency selectedCurrency = (currencyListPicker.SelectedItem as Currency);
