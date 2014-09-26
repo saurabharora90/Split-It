@@ -559,8 +559,9 @@
     </UserControl.Resources>
 
     <ScrollViewer Background="White"
-                  VerticalScrollBarVisibility="Auto">
-        
+                      Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto">
+
         <Grid Background="White" x:Name="ContentPanel" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -649,9 +650,9 @@
 								InputScope="Text" 
 								Hint="enter description"
 								BorderThickness="0" Margin="4,0,0,0" />
-                            
+
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,0">
-                                
+
                                 <telerikInput:RadListPicker
 						            Header="Currency"
 						            BorderThickness="0"
@@ -668,7 +669,7 @@
                                     PopupHeader="SELECT CURRENCY" 
                                     Style="{StaticResource RadListPickerStyle1}" 
                                     HorizontalAlignment="Left"/>
-                                
+
                                 <toolkit:PhoneTextBox x:Name="tbAmount" 
 									AcceptsReturn="False" 
 									Hint="0.00"
@@ -689,7 +690,7 @@
                     x:Name="paidByContainer"
                     BorderThickness="0,0,0,2" 
                     BorderBrush="{StaticResource splitwiseGreyBG}">
-                
+
                 <Grid Margin="15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -697,7 +698,7 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <TextBlock Foreground="Black"
                                Grid.Column="0"
                                FontSize="{StaticResource nameSize}"
@@ -707,9 +708,11 @@
                             Margin="10,0"
                             Grid.Column="1"
                             BorderBrush="{StaticResource splitwiseGreyBG}">
-                        
+
                         <TextBlock Foreground="Black"
-                                   Margin="10,0"
+                                   Tap="tbPaidBy_Tap"
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   Padding="10,0"
                                    FontSize="{StaticResource nameSize}"
                                    x:Name="tbPaidBy"
                                    Text="you"/>
@@ -754,4 +757,5 @@
 				Style="{StaticResource GreyBGRadTextBoxStyle}"/>
         </Grid>
     </ScrollViewer>
+
 </UserControl>

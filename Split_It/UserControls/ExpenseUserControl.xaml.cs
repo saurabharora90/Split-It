@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Collections;
 using Split_It_.Controller;
 using System.Windows.Input;
+using System.Windows.Controls.Primitives;
+using Telerik.Windows.Controls;
 
 namespace Split_It_.UserControls
 {
@@ -226,6 +228,19 @@ namespace Split_It_.UserControls
                 e.Handled = true;
         }
 
+        private void tbPaidBy_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (expenseShareUsers.Count <= 1)
+                return;
+
+            SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers);
+            Telerik.Windows.Controls.RadWindow PayeeWindow = new Telerik.Windows.Controls.RadWindow();
+            PayeeWindow.Content = ChoosePayeePopup;
+            PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
+            PayeeWindow.OpenAnimation = Radwindow
+            PayeeWindow.IsOpen = true;
+        }
+        
         /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton btn = sender as RadioButton;
