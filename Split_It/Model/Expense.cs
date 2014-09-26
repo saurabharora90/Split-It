@@ -156,5 +156,13 @@ namespace Split_It_.Model
         {
             return user_id;
         }
+
+        public override string ToString()
+        {
+            if (user_id == App.currentUser.id)
+                return "You";
+            else
+                return user.first_name;
+        }
     }
 }

@@ -26,9 +26,8 @@ namespace Split_It_.UserControls
         public Expense expense;
 
         private BackgroundWorker getSupportedCurrenciesBackgroundWorker;
-
         
-        public ObservableCollection<Expense_Share> allUsers = new ObservableCollection<Expense_Share>();
+        public ObservableCollection<Expense_Share> friends = new ObservableCollection<Expense_Share>();
         public ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
 
         private ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
@@ -62,7 +61,7 @@ namespace Split_It_.UserControls
 
             (App.Current.Resources["PhoneRadioCheckBoxCheckBrush"] as SolidColorBrush).Color = Colors.Black;
 
-            this.friendListPicker.ItemsSource = allUsers;
+            this.friendListPicker.ItemsSource = friends;
             this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
             this.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
 
@@ -73,14 +72,8 @@ namespace Split_It_.UserControls
                 this.groupListPicker.Visibility = System.Windows.Visibility.Collapsed;
 
             this.currencyListPicker.ItemsSource = currenciesList;
-            this.currencyListPicker.SummaryForSelectedItemsDelegate = this.CurrencySummaryDelegate;
 
-            this.paidByListPicker.ItemsSource = allUsers;
-            this.paidByListPicker.SummaryForSelectedItemsDelegate = this.PaidBySummaryDelegate;
-            this.paidByListPicker.SelectionChanged += paidByListPicker_SelectionChanged;
-
-            this.splitMethodListPicker.SummaryForSelectedItemsDelegate = this.SplitMethodSummaryDelegate;
-            this.splitMethodListPicker.SelectionChanged += splitMethodListPicker_SelectionChanged;
+            this.expenseTypeListPicker.SelectionChanged += expenseTypeListPicker_SelectionChanged;
 
             if (expense == null)
             {
@@ -88,10 +81,17 @@ namespace Split_It_.UserControls
                 expense.group_id = 0; //by default the expense is in no group
             }
 
-            llsExactAmount.ItemsSource = expenseShareUsers;
-            llsPercentage.ItemsSource = expenseShareUsers;
-            llsShares.ItemsSource = expenseShareUsers;
-            llsMultiplePaid.ItemsSource = expensePaidUsers;
+            //add current user
+            expenseShareUsers.Add(getCurrentUser());
+
+            this.paidByListPicker.ItemsSource = expenseShareUsers;
+            //this.paidByListPicker.SelectionChanged += paidByListPicker_SelectionChanged;
+            //this.paidByListPicker.SelectedItem = getCurrentUser();
+        }
+
+        private Expense_Share getCurrentUser()
+        {
+            return new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id };
         }
 
         private void loadFriendsAndGroups()
@@ -120,12 +120,12 @@ namespace Split_It_.UserControls
         private void loadFriends()
         {
             QueryDatabase obj = new QueryDatabase();
-            List<User> allFriends = obj.getAllUsersIncludingMyself();
+            List<User> allFriends = obj.getAllFriends();
             if (allFriends != null)
             {
                 foreach (var friend in allFriends)
                 {
-                    allUsers.Add(new Expense_Share() { user = friend, user_id = friend.id });
+                    friends.Add(new Expense_Share() { user = friend, user_id = friend.id });
                 }
             }
             obj.closeDatabaseConnection();
@@ -202,25 +202,6 @@ namespace Split_It_.UserControls
             return summary;
         }
 
-        private object CurrencySummaryDelegate(IList list)
-        {
-            string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
-            {
-                // check if the last item has been reached so we don't put a "," at the end
-                bool isLast = i == list.Count - 1;
-
-                Currency currency = (Currency)list[i];
-                summary = String.Concat(summary, currency.currency_code);
-                summary += isLast ? string.Empty : ", ";
-            }
-            if (String.IsNullOrEmpty(summary))
-            {
-                summary = "select currency";
-            }
-            return summary;
-        }
-
         private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             Currency defaultCurrency = null;
@@ -265,7 +246,7 @@ namespace Split_It_.UserControls
                 e.Handled = true;
         }
 
-        protected void RadioButton_Checked(object sender, RoutedEventArgs e)
+        /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton btn = sender as RadioButton;
 
@@ -295,12 +276,12 @@ namespace Split_It_.UserControls
                 llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
                 llsShares.Visibility = System.Windows.Visibility.Visible;
             }
-        }
+        }*/
 
         void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int count = friendListPicker.SelectedItems.Count;
-            List<AmountSplit> splitMethodList;
+            /*List<AmountSplit> splitMethodList;
 
             //we only show the option of you owe and friend owes when the current user is an expense participant and there are max 2 participants
             if(count <= 2 && friendListPicker.SelectedItems.Contains(
@@ -309,13 +290,36 @@ namespace Split_It_.UserControls
             else
                 splitMethodList = AmountSplit.GetMoreThanTwoFriendsSplitMethodList();
 
-            splitMethodListPicker.ItemsSource = splitMethodList;
+            //splitMethodListPicker.ItemsSource = splitMethodList;*/
+
+            if (count == 1)
+            {
+                Expense_Share selectedFriend = (Expense_Share)friendListPicker.SelectedItem;
+                this.expenseTypeListPicker.ItemsSource = ExpenseType.GetAllExpenseTypeList(selectedFriend.user.first_name);
+                this.expenseTypeListPicker.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                this.expenseTypeListPicker.ItemsSource = ExpenseType.GetOnlySplitExpenseTypeList();
+                this.expenseTypeListPicker.Visibility = System.Windows.Visibility.Collapsed;
+            }
 
             expenseShareUsers.Clear();
+            //add current user
+            expenseShareUsers.Add(getCurrentUser());
             foreach (var item in friendListPicker.SelectedItems)
             {
                 expenseShareUsers.Add(item as Expense_Share);
             }
+        }
+
+        void expenseTypeListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ExpenseType type = (ExpenseType)this.expenseTypeListPicker.SelectedItem;
+            if (type.id != ExpenseType.TYPE_SPLIT_BILL)
+                this.paidByContainer.Visibility = System.Windows.Visibility.Collapsed;
+            else
+                this.paidByContainer.Visibility = System.Windows.Visibility.Visible;
         }
 
         void paidByListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -326,17 +330,16 @@ namespace Split_It_.UserControls
                 expensePaidUsers.Add(item as Expense_Share);
             }
 
-            if (expensePaidUsers.Count > 1)
-                llsMultiplePaid.Visibility = System.Windows.Visibility.Visible;
-            else
-                llsMultiplePaid.Visibility = System.Windows.Visibility.Collapsed;
+            if (expensePaidUsers.Count > 1) ;
+            //show multiple paid users pop up dialog
+
         }
 
-        void splitMethodListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /*void splitMethodListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             amountSplit = (AmountSplit) this.splitMethodListPicker.SelectedItem;
             showUnequalSectionIfNeeded();
-        }
+        }*/
         
 #endregion
         
@@ -589,14 +592,14 @@ namespace Split_It_.UserControls
 
         private void showUnequalSectionIfNeeded()
         {
-            if (amountSplit != AmountSplit.UnequalSplit)
-                spUnequally.Visibility = System.Windows.Visibility.Collapsed;
+            if (amountSplit != AmountSplit.UnequalSplit) ;
+            //spUnequally.Visibility = System.Windows.Visibility.Collapsed;
 
             else
             {
                 expense.cost = tbAmount.Text;
                 divideExpenseEqually();
-                spUnequally.Visibility = System.Windows.Visibility.Visible;
+                //spUnequally.Visibility = System.Windows.Visibility.Visible;
             }
         }
 

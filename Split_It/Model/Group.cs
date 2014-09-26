@@ -25,5 +25,10 @@ namespace Split_It_.Model
         
         public string whiteboard { get; set; }
         public string group_type { get; set; }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 }

@@ -24,7 +24,6 @@ namespace Split_It_.Add_Expense_Pages
     {
         BackgroundWorker addExpenseBackgroundWorker;
         ApplicationBarIconButton btnOkay;
-        Expense_Share currentUser;
         
         public AddExpense()
         {
@@ -39,10 +38,6 @@ namespace Split_It_.Add_Expense_Pages
             this.expenseControl.amountSplit = AmountSplit.EqualSplit;
 
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
-
-            // By default, the current user is set as the payee of the expense.
-            currentUser = new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id };
-            this.expenseControl.paidByListPicker.SelectedItem = currentUser;
 
             //This helps to auto-populate if the user is coming from the GroupDetails or UserDetails page
             autoPopulateGroup();
@@ -99,14 +94,11 @@ namespace Split_It_.Add_Expense_Pages
 
         private void autoPopulateExpenseShareUsers()
         {
-            //by default, the current user is a part of the expense
-            this.expenseControl.friendListPicker.SelectedItems.Add(currentUser);
-
             if (this.expenseControl.expense == null)
                 return;
             else
             {
-                foreach (var user in expenseControl.allUsers)
+                foreach (var user in expenseControl.friends)
                 {
                     if (this.expenseControl.expense.specificUserId == user.user_id)
                         this.expenseControl.friendListPicker.SelectedItems.Add(user);
@@ -177,7 +169,8 @@ namespace Split_It_.Add_Expense_Pages
                 
                 foreach (var member in selectedGroup.members)
                 {
-                    if (this.expenseControl.friendListPicker.SelectedItems.Contains(member))
+                    //you don't need to add yourself as you will be added by default.
+                    if (member.id == App.currentUser.id || this.expenseControl.friendListPicker.SelectedItems.Contains(member))
                         continue;
                     this.expenseControl.friendListPicker.SelectedItems.Add(new Expense_Share() { user = member, user_id = member.id });
                 }
