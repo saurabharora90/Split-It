@@ -722,7 +722,7 @@
 
                     <telerikInput:RadListPicker
                         Grid.Column="3"
-                        Margin="12,-6"
+                        Margin="12,-10"
 						BorderBrush="{StaticResource splitwiseGreyBG}"
 						Foreground="Black"
 						x:Name="SplitTypeListPicker"

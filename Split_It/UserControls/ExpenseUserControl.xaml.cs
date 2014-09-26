@@ -182,22 +182,6 @@ namespace Split_It_.UserControls
             return summary;
         }
 
-        private object SplitMethodSummaryDelegate(IList list)
-        {
-            string summary = String.Empty;
-            for (int i = 0; i < list.Count; i++)
-            {
-                // check if the last item has been reached so we don't put a "," at the end
-                bool isLast = i == list.Count - 1;
-
-                AmountSplit splitMethod = (AmountSplit)list[i];
-                summary = String.Concat(summary, splitMethod.typeString);
-                summary += isLast ? string.Empty : ", ";
-            }
-
-            return summary;
-        }
-
         private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             Currency defaultCurrency = null;
@@ -277,16 +261,6 @@ namespace Split_It_.UserControls
         void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int count = friendListPicker.SelectedItems.Count;
-            /*List<AmountSplit> splitMethodList;
-
-            //we only show the option of you owe and friend owes when the current user is an expense participant and there are max 2 participants
-            if(count <= 2 && friendListPicker.SelectedItems.Contains(
-                                                new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id }))
-                splitMethodList = AmountSplit.GetTwoFriendsSplitMethodList();
-            else
-                splitMethodList = AmountSplit.GetMoreThanTwoFriendsSplitMethodList();
-
-            //splitMethodListPicker.ItemsSource = splitMethodList;*/
 
             if (count == 1)
             {
