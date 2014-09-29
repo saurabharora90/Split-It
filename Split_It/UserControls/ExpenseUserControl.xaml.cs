@@ -47,6 +47,7 @@ namespace Split_It_.UserControls
         //Popups
         Telerik.Windows.Controls.RadWindow PayeeWindow;
         Telerik.Windows.Controls.RadWindow SplitUnequallyWindow;
+        Telerik.Windows.Controls.RadWindow MultiplePayeeWindow;
         Panel DimContainer;
 
         public ExpenseUserControl()
@@ -234,7 +235,7 @@ namespace Split_It_.UserControls
             if (canProceed())
             {
                 PayeeWindow = new Telerik.Windows.Controls.RadWindow();
-                SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers, _PayeeClose);
+                SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(expenseShareUsers, _PayeeClose);
                 ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
 
                 PayeeWindow.Content = ChoosePayeePopup;
@@ -262,8 +263,7 @@ namespace Split_It_.UserControls
             if (isMultiplePayer)
             {
                 //Show the multiple payer popup
-                PaidByUser = null;
-                tbPaidBy.Text = "Multiple users";
+                showMultiplePayeePopUp();
             }
             else
             {
@@ -279,6 +279,32 @@ namespace Split_It_.UserControls
                 PaidByUser = SelectedUser;
                 tbPaidBy.Text = PaidByUser.ToString(); ;
             }
+        }
+
+        private void showMultiplePayeePopUp()
+        {
+            MultiplePayeeWindow = new RadWindow();
+            MultiplePayeeInputPopUpControl MultiplePayeeInputPopup = new MultiplePayeeInputPopUpControl(ref expenseShareUsers, _MultiplePayeeInputClose);
+            MultiplePayeeInputPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+
+            MultiplePayeeWindow.Content = MultiplePayeeInputPopup;
+            MultiplePayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
+            MultiplePayeeWindow.IsOpen = true;
+            MultiplePayeeWindow.WindowClosed += MultiplePayeeWindow_WindowClosed;
+            DimContainer.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        void MultiplePayeeWindow_WindowClosed(object sender, WindowClosedEventArgs e)
+        {
+            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        //This is called after validation has been done and okay has been pressed.
+        private void _MultiplePayeeInputClose()
+        {
+            MultiplePayeeWindow.IsOpen = false;
+            PaidByUser = null;
+            tbPaidBy.Text = "Multiple users";
         }
         
         /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -475,7 +501,7 @@ namespace Split_It_.UserControls
             switch (amountSplit.id)
             {
                 case AmountSplit.TYPE_SPLIT_EQUALLY:
-                    divideExpenseEqually();
+                    proceed = divideExpenseEqually();
                     break;
                 case AmountSplit.TYPE_SPLIT_UNEQUALLY:
                     proceed = divideExpenseUnequally();
@@ -487,8 +513,10 @@ namespace Split_It_.UserControls
             return proceed;
         }
 
-        private void divideExpenseEqually()
+        private bool divideExpenseEqually()
         {
+            double totalPaidBy = 0;
+
             int numberOfExpenseMembers = expenseShareUsers.Count;
             double amountToSplit = Convert.ToDouble(expense.cost);
             double perPersonShare = amountToSplit / numberOfExpenseMembers;
@@ -504,8 +532,7 @@ namespace Split_It_.UserControls
 
             for (int i = 0; i < numberOfExpenseMembers; i++)
             {
-                //the amount is paid by the user
-                if (expenseShareUsers[i].user_id == PaidByUser.user.id)
+                if (PaidByUser!=null && expenseShareUsers[i].user_id == PaidByUser.user.id)
                 {
                     expenseShareUsers[i].paid_share = amountToSplit.ToString();
                 }
@@ -518,8 +545,18 @@ namespace Split_It_.UserControls
                     //expenseShareUsers[i].paid_share = "0";
                     expenseShareUsers[i].owed_share = perPersonShare.ToString();
                 }
+                if (!String.IsNullOrEmpty(expenseShareUsers[i].paid_share))
+                    totalPaidBy += Convert.ToDouble(expenseShareUsers[i].paid_share);
 
                 expenseShareUsers[i].share = 1;
+            }
+
+            if (totalPaidBy == amountToSplit)
+                return true;
+            else
+            {
+                MessageBox.Show("The \"Paid by\" does not add upto the total expense cost.", "Error", MessageBoxButton.OK);
+                return false;
             }
         }
 

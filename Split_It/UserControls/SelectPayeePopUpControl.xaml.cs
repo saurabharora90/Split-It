@@ -17,13 +17,11 @@ namespace Split_It_.UserControls
     public partial class SelectPayeePopUpControl : UserControl
     {
         Action<Expense_Share, bool> Close;
-        ObservableCollection<Expense_Share> expenseShareUsers;
 
-        public SelectPayeePopUpControl(ref ObservableCollection<Expense_Share> expenseUsers, Action<Expense_Share, bool> close)
+        public SelectPayeePopUpControl(ObservableCollection<Expense_Share> expenseUsers, Action<Expense_Share, bool> close)
         {
             InitializeComponent();
-            this.expenseShareUsers = expenseUsers;
-            llsFriends.ItemsSource = this.expenseShareUsers;
+            llsFriends.ItemsSource = expenseUsers;
             this.Close = close;
         }
 
