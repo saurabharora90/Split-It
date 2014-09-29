@@ -237,6 +237,7 @@ namespace Split_It_.UserControls
                 PayeeWindow = new Telerik.Windows.Controls.RadWindow();
                 SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(expenseShareUsers, _PayeeClose);
                 ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+                ChoosePayeePopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
                 PayeeWindow.Content = ChoosePayeePopup;
                 ShowRadWindow(ref PayeeWindow);
@@ -276,8 +277,10 @@ namespace Split_It_.UserControls
         private void showMultiplePayeePopUp()
         {
             MultiplePayeeWindow = new RadWindow();
-            MultiplePayeeInputPopUpControl MultiplePayeeInputPopup = new MultiplePayeeInputPopUpControl(ref expenseShareUsers, _MultiplePayeeInputClose);
+            MultiplePayeeInputPopUpControl MultiplePayeeInputPopup = new MultiplePayeeInputPopUpControl
+                                                            (ref expenseShareUsers, _MultiplePayeeInputClose, Convert.ToDouble(tbAmount.Text));
             MultiplePayeeInputPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+            MultiplePayeeInputPopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
             MultiplePayeeWindow.Content = MultiplePayeeInputPopup;
             ShowRadWindow(ref MultiplePayeeWindow);

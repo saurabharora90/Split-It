@@ -20,6 +20,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <phone:LongListSelector 
@@ -28,8 +30,7 @@
             Name="llsFriends">
             <phone:LongListSelector.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-                        <Grid Margin="5" 
+                    <Grid Margin="5" 
                               toolkit:TiltEffect.IsTiltEnabled="True">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -60,20 +61,35 @@
                                 FontSize="{StaticResource amountSize}" 
                                 Text="{Binding paid_share, Mode=TwoWay}"/>
                         </Grid>
-                    </Border>
                 </DataTemplate>
             </phone:LongListSelector.ItemTemplate>
         </phone:LongListSelector>
 
+        <TextBlock
+            x:Name="tbError"
+            TextWrapping="Wrap"
+            Grid.Row="1" 
+            Foreground="Red"
+            HorizontalAlignment="Center"
+            FontSize="{StaticResource descriptionSize}" />
+        
+        <TextBlock
+            x:Name="tbSum"
+            Grid.Row="2" 
+            Foreground="Black"
+            HorizontalAlignment="Center"
+            FontSize="{StaticResource amountSize}" />
+        
         <Button
             x:Name="Okay"
             toolkit:TiltEffect.IsTiltEnabled="True"
             Tap="Okay_Tap"
             Foreground="Black" 
-            BorderBrush="LightGray"
+            Margin="-12,0,-12,-12"
+            Background="LightGray"
             HorizontalContentAlignment="Center"
             Content="Okay" 
-            Grid.Row="2" 
+            Grid.Row="3" 
             FontSize="{StaticResource nameSize}" />
     </Grid>
 </UserControl>
