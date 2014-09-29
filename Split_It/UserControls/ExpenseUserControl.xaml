@@ -11,6 +11,7 @@
     xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:PickerBox="clr-namespace:Telerik.Windows.Controls.PickerBox;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:app="clr-namespace:Split_It_.Converter"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -556,6 +557,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        
     </UserControl.Resources>
 
     <ScrollViewer Background="White"
@@ -715,7 +718,7 @@
                                    Padding="10,0"
                                    FontSize="{StaticResource nameSize}"
                                    x:Name="tbPaidBy"
-                                   Text="you"/>
+                                   />
                         </Border>
 
                         <TextBlock Foreground="Black"

@@ -103,7 +103,7 @@ namespace Split_It_.Model
             get { return _paidShare; }
             set
             {
-                _paidShare = value.Trim();
+                _paidShare = value;
                 if (String.IsNullOrEmpty(_paidShare) || System.Convert.ToDouble(_paidShare, System.Globalization.CultureInfo.InvariantCulture) == 0)
                     hasPaid = false;
                 else
@@ -133,6 +133,7 @@ namespace Split_It_.Model
         public double share { get; set; }
 
         //to help with checking if this user paid or not
+        [Ignore]
         public bool hasPaid { get; set; }
 
         // Create the OnPropertyChanged method to raise the event 

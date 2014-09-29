@@ -78,7 +78,9 @@ namespace Split_It_.UserControls
                 this.groupListPicker.Visibility = System.Windows.Visibility.Collapsed;
 
             this.currencyListPicker.ItemsSource = currenciesList;
+
             this.SplitTypeListPicker.ItemsSource = AmountSplit.GetAmountSplitTypes();
+            this.SplitTypeListPicker.SelectionChanged += SplitTypeListPicker_SelectionChanged;
 
             this.expenseTypeListPicker.SelectionChanged += expenseTypeListPicker_SelectionChanged;
 
@@ -245,21 +247,18 @@ namespace Split_It_.UserControls
             if (expenseShareUsers.Count <= 1)
                 return;
 
-            if (String.IsNullOrEmpty(tbAmount.Text))
+            if (canProceed())
             {
-                MessageBox.Show("Please enter the expense amount first", "Error", MessageBoxButton.OK);
-                return;
+                PayeeWindow = new Telerik.Windows.Controls.RadWindow();
+                SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers, _PayeeClose);
+                ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+
+                PayeeWindow.Content = ChoosePayeePopup;
+                PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
+                PayeeWindow.IsOpen = true;
+                PayeeWindow.WindowClosed += PayeeWindow_WindowClosed;
+                DimContainer.Visibility = System.Windows.Visibility.Visible;
             }
-
-            PayeeWindow = new Telerik.Windows.Controls.RadWindow();
-            SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers,_PayeeClose);
-            ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
-
-            PayeeWindow.Content = ChoosePayeePopup;
-            PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
-            PayeeWindow.IsOpen = true;
-            PayeeWindow.WindowClosed += PayeeWindow_WindowClosed;
-            DimContainer.Visibility = System.Windows.Visibility.Visible;
         }
 
         void PayeeWindow_WindowClosed(object sender, WindowClosedEventArgs e)
@@ -338,11 +337,46 @@ namespace Split_It_.UserControls
                 this.paidByContainer.Visibility = System.Windows.Visibility.Visible;
         }
 
-        /*void splitMethodListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void SplitTypeListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            amountSplit = (AmountSplit) this.splitMethodListPicker.SelectedItem;
-            showUnequalSectionIfNeeded();
-        }*/
+            amountSplit = (AmountSplit)this.SplitTypeListPicker.SelectedItem;
+            if (amountSplit.id == AmountSplit.TYPE_SPLIT_UNEQUALLY)
+            {
+                if (canProceed())
+                {
+                    //show unequall split pop up;
+                    SplitUnequallyWindow = new RadWindow();
+
+                    SplitUnequallyWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
+                    SplitUnequallyWindow.IsOpen = true;
+                    SplitUnequallyWindow.WindowClosed += SplitUnequallyWindow_WindowClosed;
+                    DimContainer.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                    SplitTypeListPicker.SelectedItem = AmountSplit.EqualSplit;
+            }
+        }
+
+        private bool canProceed()
+        {
+            if (String.IsNullOrEmpty(tbAmount.Text) || friendListPicker.SelectedItems == null || friendListPicker.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select expense friends and enter the expense amount.", "Error", MessageBoxButton.OK);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void _UnequallyClose()
+        {
+            SplitUnequallyWindow.IsOpen = false;
+        }
+
+        void SplitUnequallyWindow_WindowClosed(object sender, WindowClosedEventArgs e)
+        {
+            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+        }
         
 #endregion
         
@@ -592,19 +626,6 @@ namespace Split_It_.UserControls
             }
 
             return proceed;
-        }
-
-        private void showUnequalSectionIfNeeded()
-        {
-            if (amountSplit != AmountSplit.UnequalSplit) ;
-            //spUnequally.Visibility = System.Windows.Visibility.Collapsed;
-
-            else
-            {
-                expense.cost = tbAmount.Text;
-                divideExpenseEqually();
-                //spUnequally.Visibility = System.Windows.Visibility.Visible;
-            }
         }
 
         public void setDimContainer(Panel container)
