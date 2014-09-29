@@ -239,16 +239,8 @@ namespace Split_It_.UserControls
                 ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
 
                 PayeeWindow.Content = ChoosePayeePopup;
-                PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
-                PayeeWindow.IsOpen = true;
-                PayeeWindow.WindowClosed += PayeeWindow_WindowClosed;
-                DimContainer.Visibility = System.Windows.Visibility.Visible;
+                ShowRadWindow(ref PayeeWindow);
             }
-        }
-
-        void PayeeWindow_WindowClosed(object sender, WindowClosedEventArgs e)
-        {
-            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         /**
@@ -288,15 +280,7 @@ namespace Split_It_.UserControls
             MultiplePayeeInputPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
 
             MultiplePayeeWindow.Content = MultiplePayeeInputPopup;
-            MultiplePayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
-            MultiplePayeeWindow.IsOpen = true;
-            MultiplePayeeWindow.WindowClosed += MultiplePayeeWindow_WindowClosed;
-            DimContainer.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        void MultiplePayeeWindow_WindowClosed(object sender, WindowClosedEventArgs e)
-        {
-            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+            ShowRadWindow(ref MultiplePayeeWindow);
         }
 
         //This is called after validation has been done and okay has been pressed.
@@ -305,6 +289,19 @@ namespace Split_It_.UserControls
             MultiplePayeeWindow.IsOpen = false;
             PaidByUser = null;
             tbPaidBy.Text = "Multiple users";
+        }
+
+        private void ShowRadWindow(ref RadWindow window)
+        {
+            window.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
+            window.IsOpen = true;
+            window.WindowClosed += RadWindow_WindowClosed;
+            DimContainer.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        void RadWindow_WindowClosed(object sender, WindowClosedEventArgs e)
+        {
+            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
         }
         
         /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -425,14 +422,6 @@ namespace Split_It_.UserControls
         
 #endregion
         
-        /*
-         * Handles the following:
-         * 1) Check if amount and description is present
-         * 2) Check if Paid by user is selected
-         * 3) Check if multiple paid by user then total amount = sum of amount by each paid by user
-         * 4) Count the number of users who have paid (using hasPaid in expense_share). If count = 0, then current user has paid. Else the paid part is already settled for by the pop-up box
-         * 4) If split unequally then, total amount should be split uneqaully amongst all of expenseShareUsers.
-         */
         public bool setupExpense()
         {
             try
