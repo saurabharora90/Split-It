@@ -230,15 +230,19 @@ namespace Split_It_.UserControls
             if (expenseShareUsers.Count <= 1)
                 return;
 
-            PayeeWindow = new Telerik.Windows.Controls.RadWindow();
-            SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers, _PayeeClose);
-            ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+            //need can proceed as user can select multiple payee and we need cost for that.
+            if (canProceed())
+            {
+                PayeeWindow = new Telerik.Windows.Controls.RadWindow();
+                SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers, _PayeeClose);
+                ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
 
-            PayeeWindow.Content = ChoosePayeePopup;
-            PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
-            PayeeWindow.IsOpen = true;
-            PayeeWindow.WindowClosed += PayeeWindow_WindowClosed;
-            DimContainer.Visibility = System.Windows.Visibility.Visible;
+                PayeeWindow.Content = ChoosePayeePopup;
+                PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
+                PayeeWindow.IsOpen = true;
+                PayeeWindow.WindowClosed += PayeeWindow_WindowClosed;
+                DimContainer.Visibility = System.Windows.Visibility.Visible;
+            }
         }
 
         void PayeeWindow_WindowClosed(object sender, WindowClosedEventArgs e)
@@ -504,12 +508,14 @@ namespace Split_It_.UserControls
                 if (expenseShareUsers[i].user_id == PaidByUser.user.id)
                 {
                     expenseShareUsers[i].paid_share = amountToSplit.ToString();
-                    expenseShareUsers[i].owed_share = currentUsersShare.ToString();
-
                 }
+
+                if(expenseShareUsers[i].user_id == App.currentUser.id)
+                    expenseShareUsers[i].owed_share = currentUsersShare.ToString();
                 else
                 {
-                    expenseShareUsers[i].paid_share = "0";
+                    //do not set paid_share as 0 as it might override the value set by multiple payers.
+                    //expenseShareUsers[i].paid_share = "0";
                     expenseShareUsers[i].owed_share = perPersonShare.ToString();
                 }
 
