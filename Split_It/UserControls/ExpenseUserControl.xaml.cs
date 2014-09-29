@@ -48,7 +48,7 @@ namespace Split_It_.UserControls
         Telerik.Windows.Controls.RadWindow PayeeWindow;
         Telerik.Windows.Controls.RadWindow SplitUnequallyWindow;
         Telerik.Windows.Controls.RadWindow MultiplePayeeWindow;
-        Panel DimContainer;
+        Action<bool> DimBackground;
 
         public ExpenseUserControl()
         {
@@ -291,17 +291,39 @@ namespace Split_It_.UserControls
             tbPaidBy.Text = "Multiple users";
         }
 
+        void SplitTypeListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            amountSplit = (AmountSplit)this.SplitTypeListPicker.SelectedItem;
+            if (amountSplit.id == AmountSplit.TYPE_SPLIT_UNEQUALLY)
+            {
+                if (canProceed())
+                {
+                    //show unequall split pop up;
+                    SplitUnequallyWindow = new RadWindow();
+
+                    ShowRadWindow(ref SplitUnequallyWindow);
+                }
+                else
+                    SplitTypeListPicker.SelectedItem = AmountSplit.EqualSplit;
+            }
+        }
+
+        private void _UnequallyClose()
+        {
+            SplitUnequallyWindow.IsOpen = false;
+        }
+        
         private void ShowRadWindow(ref RadWindow window)
         {
             window.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
             window.IsOpen = true;
             window.WindowClosed += RadWindow_WindowClosed;
-            DimContainer.Visibility = System.Windows.Visibility.Visible;
+            DimBackground(true);
         }
 
         void RadWindow_WindowClosed(object sender, WindowClosedEventArgs e)
         {
-            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+            DimBackground(false);
         }
         
         /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -379,26 +401,6 @@ namespace Split_It_.UserControls
                 this.paidByContainer.Visibility = System.Windows.Visibility.Visible;
         }
 
-        void SplitTypeListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            amountSplit = (AmountSplit)this.SplitTypeListPicker.SelectedItem;
-            if (amountSplit.id == AmountSplit.TYPE_SPLIT_UNEQUALLY)
-            {
-                if (canProceed())
-                {
-                    //show unequall split pop up;
-                    SplitUnequallyWindow = new RadWindow();
-
-                    SplitUnequallyWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
-                    SplitUnequallyWindow.IsOpen = true;
-                    SplitUnequallyWindow.WindowClosed += SplitUnequallyWindow_WindowClosed;
-                    DimContainer.Visibility = System.Windows.Visibility.Visible;
-                }
-                else
-                    SplitTypeListPicker.SelectedItem = AmountSplit.EqualSplit;
-            }
-        }
-
         private bool canProceed()
         {
             if (String.IsNullOrEmpty(tbAmount.Text) || friendListPicker.SelectedItems == null || friendListPicker.SelectedItems.Count == 0)
@@ -408,16 +410,6 @@ namespace Split_It_.UserControls
             }
 
             return true;
-        }
-
-        private void _UnequallyClose()
-        {
-            SplitUnequallyWindow.IsOpen = false;
-        }
-
-        void SplitUnequallyWindow_WindowClosed(object sender, WindowClosedEventArgs e)
-        {
-            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
         }
         
 #endregion
@@ -672,9 +664,9 @@ namespace Split_It_.UserControls
             return proceed;
         }
 
-        public void setDimContainer(Panel container)
+        public void setDimBackGround(Action<bool> dim)
         {
-            this.DimContainer = container;
+            this.DimBackground = dim;
         }
 
         public static void FocusedTextBoxUpdateSource()

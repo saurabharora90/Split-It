@@ -36,7 +36,7 @@ namespace Split_It_.Add_Expense_Pages
             createAppBar();
 
             this.expenseControl.amountSplit = AmountSplit.EqualSplit;
-            this.expenseControl.setDimContainer(DimContainer);
+            this.expenseControl.setDimBackGround(DimBackGround);
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
 
             //This helps to auto-populate if the user is coming from the GroupDetails or UserDetails page
@@ -217,6 +217,20 @@ namespace Split_It_.Add_Expense_Pages
                         MessageBox.Show("Unable to add expense", "Error", MessageBoxButton.OK);
                     }
                 });
+            }
+        }
+
+        private void DimBackGround(bool dim)
+        {
+            if (dim)
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Visible;
+                ApplicationBar.IsVisible = false;
+            }
+            else
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+                ApplicationBar.IsVisible = true;
             }
         }
     }
