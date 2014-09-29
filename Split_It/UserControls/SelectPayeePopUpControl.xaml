@@ -5,11 +5,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:app="clr-namespace:Split_It_.Converter"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
+    
+    <UserControl.Resources>
+        <app:MyAppJetImageLoaderConverter x:Key="JetImageLoaderConverter"/>
+    </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
@@ -32,11 +37,26 @@
             SelectionChanged="llsFriends_SelectionChanged">
             <phone:LongListSelector.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock
-                        Foreground="Black"
-                        Padding="10"
-                        FontSize="{StaticResource nameSize}" 
-                        Text="{Binding user.name}"/>
+                    <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                        <Grid Margin="5" 
+                              toolkit:TiltEffect.IsTiltEnabled="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" 
+                                   Source="{Binding user.PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
+                                   VerticalAlignment="Center" 
+                                   Width="50" Height="50" 
+                                   Margin="0,0,10,0"/>
+                            <TextBlock
+                                Grid.Column="1" 
+                                Foreground="Black"
+                                VerticalAlignment="Center"
+                                FontSize="{StaticResource nameSize}" 
+                                Text="{Binding user.name}"/>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </phone:LongListSelector.ItemTemplate>
         </phone:LongListSelector>
