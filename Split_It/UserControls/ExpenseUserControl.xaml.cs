@@ -245,9 +245,16 @@ namespace Split_It_.UserControls
             if (expenseShareUsers.Count <= 1)
                 return;
 
+            if (String.IsNullOrEmpty(tbAmount.Text))
+            {
+                MessageBox.Show("Please enter the expense amount first", "Error", MessageBoxButton.OK);
+                return;
+            }
+
             PayeeWindow = new Telerik.Windows.Controls.RadWindow();
             SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(ref expenseShareUsers,_PayeeClose);
-            
+            ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+
             PayeeWindow.Content = ChoosePayeePopup;
             PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
             PayeeWindow.IsOpen = true;
