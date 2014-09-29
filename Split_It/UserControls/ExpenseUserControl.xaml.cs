@@ -238,8 +238,6 @@ namespace Split_It_.UserControls
         private void tbPaidBy_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             /*
-             * 1) This popup is only showed when all the amount for expense has been keyed in
-             * 2) we need to add a converter for this textbox.
              * 3) Need to finish Payee poup user control to modify the selected payee. This is done by setting the paid amount of everone to 0
              * and the selected user's amount to total amount. If multiple paid, then first set everyone's to 0 and then show new box to input
              * eevryones amount
@@ -266,9 +264,34 @@ namespace Split_It_.UserControls
             DimContainer.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private void _PayeeClose() 
+        /**
+         * If isMultiplePayer is true then SelectedUser can be null
+         */
+        private void _PayeeClose(Expense_Share SelectedUser, bool isMultiplePayer) 
         {
             PayeeWindow.IsOpen = false;
+
+            //Set the paid amount of everyone to 0 and the selected user's hasPaid to true.
+            //The selected user's cost is set during the setupExpense method.
+            if (isMultiplePayer)
+            {
+                //Show the multiple payer popup
+                tbPaidBy.Text = "Multiple users";
+            }
+            else
+            {
+                for (int i = 0; i < expenseShareUsers.Count; i++)
+                {
+                    expenseShareUsers[i].paid_share = "0.0";
+
+                    if (expenseShareUsers[i].Equals(SelectedUser))
+                        expenseShareUsers[i].hasPaid = true;
+                    else
+                        expenseShareUsers[i].hasPaid = false;
+                }
+
+                tbPaidBy.Text = SelectedUser.ToString();
+            }
         }
         
         /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)

@@ -557,8 +557,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        
     </UserControl.Resources>
 
     <ScrollViewer Background="White"
@@ -713,11 +711,12 @@
                             BorderBrush="{StaticResource splitwiseGreyBG}">
 
                             <TextBlock Foreground="Black"
-                                   Tap="tbPaidBy_Tap"
-                                   toolkit:TiltEffect.IsTiltEnabled="True"
-                                   Padding="10,0"
-                                   FontSize="{StaticResource nameSize}"
-                                   x:Name="tbPaidBy"
+                                       Tap="tbPaidBy_Tap"
+                                       toolkit:TiltEffect.IsTiltEnabled="True"
+                                       Padding="10,0"
+                                       FontSize="{StaticResource nameSize}"
+                                       x:Name="tbPaidBy"
+                                       Text="You"
                                    />
                         </Border>
 

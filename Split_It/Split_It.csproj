@@ -103,7 +103,6 @@
     <Compile Include="Add_Expense_Pages\EditExpense.xaml.cs">
       <DependentUpon>EditExpense.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter\AddExpensePaidByConverter.cs" />
     <Compile Include="Converter\MyAppJetImageLoaderConverter.cs" />
     <Compile Include="Model\AmountSplit.cs" />
     <Compile Include="Model\ExpenseType.cs" />
