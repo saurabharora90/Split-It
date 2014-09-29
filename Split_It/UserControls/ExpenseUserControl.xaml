@@ -562,24 +562,24 @@
                       Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">
 
-        <Grid Background="White" x:Name="ContentPanel" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            <Grid Background="White" x:Name="ContentPanel" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-                <StackPanel Orientation="Vertical" Margin="15,10">
-                    <TextBlock Foreground="Black" FontSize="{StaticResource nameSize}">
+                <Border Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                    <StackPanel Orientation="Vertical" Margin="15,10">
+                        <TextBlock Foreground="Black" FontSize="{StaticResource nameSize}">
 						<Run Text="With"/>
 						<Run Text="you" FontWeight="Bold"/>
 						<Run Text="and:"/>
-                    </TextBlock>
+                        </TextBlock>
 
-                    <telerikInput:RadListPicker
+                        <telerikInput:RadListPicker
 						Header="Friends"
 						BorderBrush="{StaticResource splitwiseGreyBG}"
 						Foreground="Black"
@@ -590,14 +590,14 @@
 						CancelButtonIconUri="/Assets/Icons/cancel.png" 
                         PopupHeader="SELECT FRIENDS" 
                         Style="{StaticResource RadListPickerStyle1}">
-                        <telerikInput:RadListPicker.PopupItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding user.name}"/>
-                            </DataTemplate>
-                        </telerikInput:RadListPicker.PopupItemTemplate>
-                    </telerikInput:RadListPicker>
+                            <telerikInput:RadListPicker.PopupItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding user.name}"/>
+                                </DataTemplate>
+                            </telerikInput:RadListPicker.PopupItemTemplate>
+                        </telerikInput:RadListPicker>
 
-                    <telerikInput:RadListPicker
+                        <telerikInput:RadListPicker
 						Header="Groups"
 						BorderBrush="{StaticResource splitwiseGreyBG}"
 						Foreground="Black"
@@ -608,17 +608,17 @@
 						CancelButtonIconUri="/Assets/Icons/cancel.png" 
                         PopupHeader="SELECT GROUP" 
                         Style="{StaticResource RadListPickerStyle1}"/>
-                </StackPanel>
-            </Border>
+                    </StackPanel>
+                </Border>
 
-            <Border Padding="0,10" Grid.Row="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <Border Padding="0,10" Grid.Row="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                    <telerikInput:RadListPicker
+                        <telerikInput:RadListPicker
                         Visibility="Collapsed"
                         Grid.Row="1"
 						BorderBrush="{StaticResource splitwiseGreyBG}"
@@ -629,21 +629,21 @@
                         HorizontalContentAlignment="Center"
                         Style="{StaticResource RadListPickerStyle1}" />
 
-                    <Grid Grid.Row="0" Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" 
+                        <Grid Grid.Row="0" Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" 
 							Source="/Assets/Images/expense_general.png" 
 							VerticalAlignment="Center" 
 							Margin="15,0"/>
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <toolkit:PhoneTextBox Grid.Row="0" 
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <toolkit:PhoneTextBox Grid.Row="0" 
 								x:Name="tbDescription" 
 								AcceptsReturn="False" 
                                 TextWrapping="Wrap"
@@ -651,9 +651,9 @@
 								Hint="enter description"
 								BorderThickness="0" Margin="4,0,0,0" />
 
-                            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,0">
+                                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,0">
 
-                                <telerikInput:RadListPicker
+                                    <telerikInput:RadListPicker
 						            Header="Currency"
 						            BorderThickness="0"
                                     Padding="0"
@@ -670,7 +670,7 @@
                                     Style="{StaticResource RadListPickerStyle1}" 
                                     HorizontalAlignment="Left"/>
 
-                                <toolkit:PhoneTextBox x:Name="tbAmount" 
+                                    <toolkit:PhoneTextBox x:Name="tbAmount" 
 									AcceptsReturn="False" 
 									Hint="0.00"
                                     Width="150"
@@ -680,50 +680,50 @@
                                     BorderThickness="0" 
                                     Margin="40,0,0,0" 
                                     FontSize="{StaticResource nameSize}"/>
-                            </StackPanel>
+                                </StackPanel>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Border>
+                </Border>
 
-            <Border Grid.Row="2" 
+                <Border Grid.Row="2" 
                     x:Name="paidByContainer"
                     BorderThickness="0,0,0,2" 
                     BorderBrush="{StaticResource splitwiseGreyBG}">
 
-                <Grid Margin="15">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid Margin="15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Foreground="Black"
+                        <TextBlock Foreground="Black"
                                Grid.Column="0"
                                FontSize="{StaticResource nameSize}"
                                Text="Paid by"/>
 
-                    <Border BorderThickness="2" 
+                        <Border BorderThickness="2" 
                             Margin="10,0"
                             Grid.Column="1"
                             BorderBrush="{StaticResource splitwiseGreyBG}">
 
-                        <TextBlock Foreground="Black"
+                            <TextBlock Foreground="Black"
                                    Tap="tbPaidBy_Tap"
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Padding="10,0"
                                    FontSize="{StaticResource nameSize}"
                                    x:Name="tbPaidBy"
                                    Text="you"/>
-                    </Border>
+                        </Border>
 
-                    <TextBlock Foreground="Black"
+                        <TextBlock Foreground="Black"
                                Grid.Column="2"
                                FontSize="{StaticResource nameSize}"
                                Text="and split"/>
 
-                    <telerikInput:RadListPicker
+                        <telerikInput:RadListPicker
                         Grid.Column="3"
                         Margin="12,-10"
 						BorderBrush="{StaticResource splitwiseGreyBG}"
@@ -732,10 +732,10 @@
 						ActionButtonVisibility="Collapsed"
 						SelectionMode="Single"
                         Style="{StaticResource RadListPickerStyle1}" />
-                </Grid>
-            </Border>
+                    </Grid>
+                </Border>
 
-            <telerikInput:RadDatePicker x:Name="expenseDate" 
+                <telerikInput:RadDatePicker x:Name="expenseDate" 
 				                        Grid.Row="3"
 				                        OkButtonIconUri="/Assets/Icons/ok.png"
 				                        CancelButtonIconUri="/Assets/Icons/cancel.png"
@@ -743,7 +743,7 @@
 				                        Style="{StaticResource RadDatePickerStyle1}" 
                                         PickerButtonStyle="{StaticResource PickerBoxToggleButtonStyle1}"/>
 
-            <telerikPrimitives:RadTextBox Grid.Row="4" 
+                <telerikPrimitives:RadTextBox Grid.Row="4" 
 				x:Name="tbDetails"
                 MinHeight="150"
 				BorderThickness="0"
@@ -755,7 +755,8 @@
 				Padding="10"
 				VerticalAlignment="Top" 
 				Style="{StaticResource GreyBGRadTextBoxStyle}"/>
-        </Grid>
-    </ScrollViewer>
+            </Grid>
+        </ScrollViewer>
+
 
 </UserControl>

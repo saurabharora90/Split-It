@@ -36,7 +36,7 @@ namespace Split_It_.Add_Expense_Pages
             createAppBar();
 
             this.expenseControl.amountSplit = AmountSplit.EqualSplit;
-
+            this.expenseControl.setDimContainer(DimContainer);
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
 
             //This helps to auto-populate if the user is coming from the GroupDetails or UserDetails page

@@ -44,6 +44,7 @@ namespace Split_It_.UserControls
         //Popups
         Telerik.Windows.Controls.RadWindow PayeeWindow;
         Telerik.Windows.Controls.RadWindow SplitUnequallyWindow;
+        Panel DimContainer;
 
         public ExpenseUserControl()
         {
@@ -234,6 +235,13 @@ namespace Split_It_.UserControls
 
         private void tbPaidBy_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            /*
+             * 1) This popup is only showed when all the amount for expense has been keyed in
+             * 2) we need to add a converter for this textbox.
+             * 3) Need to finish Payee poup user control to modify the selected payee. This is done by setting the paid amount of everone to 0
+             * and the selected user's amount to total amount. If multiple paid, then first set everyone's to 0 and then show new box to input
+             * eevryones amount
+             */
             if (expenseShareUsers.Count <= 1)
                 return;
 
@@ -243,6 +251,13 @@ namespace Split_It_.UserControls
             PayeeWindow.Content = ChoosePayeePopup;
             PayeeWindow.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
             PayeeWindow.IsOpen = true;
+            PayeeWindow.WindowClosed += PayeeWindow_WindowClosed;
+            DimContainer.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        void PayeeWindow_WindowClosed(object sender, WindowClosedEventArgs e)
+        {
+            DimContainer.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void _PayeeClose() 
@@ -583,6 +598,11 @@ namespace Split_It_.UserControls
                 divideExpenseEqually();
                 //spUnequally.Visibility = System.Windows.Visibility.Visible;
             }
+        }
+
+        public void setDimContainer(Panel container)
+        {
+            this.DimContainer = container;
         }
 
         public static void FocusedTextBoxUpdateSource()
