@@ -77,7 +77,10 @@
 
             <!--Pivot item three-->
             <phone:PivotItem Margin="0,5,0,0" Header="{Binding Path=LocalizedResources.Groups, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox Name="llsGroups" SelectionChanged="llsGroups_Tap">
+                <telerikPrimitives:RadDataBoundListBox Name="llsGroups" 
+                                                       EmptyContentDisplayMode="Always"
+                                                       EmptyContent="You have no groups. You can create one by going to 'create group' in 'more' section"
+                                                       SelectionChanged="llsGroups_Tap">
                     <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
