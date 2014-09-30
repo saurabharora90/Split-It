@@ -162,15 +162,15 @@ namespace Split_It_
         private void btnEdit_Click(object sender, EventArgs e)
         {
             //currently you can only edit expense if it is paid by you
-            if (paidByMe())
-            {
+            //if (paidByMe())
+            //{
                 PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = selectedExpense;
                 NavigationService.Navigate(new Uri("/Add_Expense_Pages/EditExpense.xaml", UriKind.Relative));
-            }
+            /*}
             else
             {
                 MessageBox.Show("Currently you can only edit expenses paid by you.", "Sorry", MessageBoxButton.OK);
-            }
+            }*/
         }
 
         private bool paidByMe()

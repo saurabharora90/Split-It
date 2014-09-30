@@ -172,7 +172,7 @@
         <phone:LongListSelector Name="llsExactAmount" Grid.Row="3">
             <phone:LongListSelector.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="5,10">
+                    <Grid Margin="0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
@@ -182,6 +182,7 @@
                                    FontSize="{StaticResource nameSize}" 
                                    VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" 
+                                   Margin="5,0"
                                    Foreground="Black" 
                                    TextWrapping="Wrap"/>
 
@@ -191,7 +192,7 @@
                                  HorizontalAlignment="Right" 
                                  Foreground="Black" 
                                  Background="{StaticResource splitwiseGreyBG}" 
-                                 Width="100"
+                                 MinWidth="100"
                                  InputScope="Number"/>
                     </Grid>
                 </DataTemplate>
@@ -201,7 +202,7 @@
         <phone:LongListSelector Name="llsPercentage" Grid.Row="3" Visibility="Collapsed">
             <phone:LongListSelector.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="5,10">
+                    <Grid Margin="0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
@@ -210,6 +211,7 @@
                                    Text="{Binding 'user.name'}" 
                                    FontSize="{StaticResource nameSize}" 
                                    VerticalAlignment="Center" 
+                                   Margin="5,0"
                                    HorizontalAlignment="Left" 
                                    Foreground="Black" 
                                    TextWrapping="Wrap"/>
@@ -230,7 +232,7 @@
         <phone:LongListSelector Name="llsShares" Grid.Row="3" Visibility="Collapsed">
             <phone:LongListSelector.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="5,10">
+                    <Grid Margin="0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
@@ -239,6 +241,7 @@
                                    Text="{Binding 'user.name'}" 
                                    FontSize="{StaticResource nameSize}" 
                                    VerticalAlignment="Center" 
+                                   Margin="5,0"
                                    HorizontalAlignment="Left" 
                                    Foreground="Black" 
                                    TextWrapping="Wrap"/>

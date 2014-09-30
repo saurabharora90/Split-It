@@ -44,6 +44,7 @@ namespace Split_It_.Add_Expense_Pages
             autoPopulateExpenseShareUsers();
             
             this.expenseControl.expenseDate.Value = DateTime.Now;
+            this.expenseControl.SetupListeners();
         }
 
         protected void createAppBar()
@@ -114,8 +115,8 @@ namespace Split_It_.Add_Expense_Pages
                 busyIndicator.Content = "adding expense";
                 busyIndicator.IsRunning = true;
 
-                if (proceed) ;
-                //addExpenseBackgroundWorker.RunWorkerAsync();
+                if (proceed)
+                    addExpenseBackgroundWorker.RunWorkerAsync();
                 else
                     busyIndicator.IsRunning = false;
             }

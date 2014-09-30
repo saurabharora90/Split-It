@@ -31,10 +31,10 @@ namespace Split_It_.UserControls
         public ObservableCollection<Group> groupsList = new ObservableCollection<Group>();
 
         private ObservableCollection<Currency> currenciesList = new ObservableCollection<Currency>();
-        private ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
+        public ObservableCollection<Expense_Share> expenseShareUsers = new ObservableCollection<Expense_Share>();
 
         //this will ONLY be null if there are multiple paid by users.
-        private Expense_Share PaidByUser;
+        public Expense_Share PaidByUser;
         
         //By default the amount is split equally
         public AmountSplit amountSplit = AmountSplit.EqualSplit;
@@ -70,7 +70,7 @@ namespace Split_It_.UserControls
 
             this.friendListPicker.ItemsSource = friends;
             this.friendListPicker.SummaryForSelectedItemsDelegate = this.FriendSummaryDelegate;
-            this.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
+            
 
             this.groupListPicker.ItemsSource = groupsList;
             this.groupListPicker.SummaryForSelectedItemsDelegate = this.GroupSummaryDelegate;
@@ -81,10 +81,7 @@ namespace Split_It_.UserControls
             this.currencyListPicker.ItemsSource = currenciesList;
 
             this.SplitTypeListPicker.ItemsSource = AmountSplit.GetAmountSplitTypes();
-            this.SplitTypeListPicker.SelectionChanged += SplitTypeListPicker_SelectionChanged;
-
-            this.expenseTypeListPicker.SelectionChanged += expenseTypeListPicker_SelectionChanged;
-
+            
             if (expense == null)
             {
                 expense = new Expense();
@@ -95,6 +92,13 @@ namespace Split_It_.UserControls
             expenseShareUsers.Add(getCurrentUser());
             PaidByUser = getCurrentUser();
             tbPaidBy.Text = PaidByUser.ToString();
+        }
+
+        public void SetupListeners()
+        {
+            this.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
+            this.SplitTypeListPicker.SelectionChanged += SplitTypeListPicker_SelectionChanged;
+            this.expenseTypeListPicker.SelectionChanged += expenseTypeListPicker_SelectionChanged;
         }
 
         private Expense_Share getCurrentUser()
@@ -267,7 +271,7 @@ namespace Split_It_.UserControls
                         expenseShareUsers[i].hasPaid = false;
                 }
                 PaidByUser = SelectedUser;
-                tbPaidBy.Text = PaidByUser.ToString(); ;
+                tbPaidBy.Text = PaidByUser.ToString();
             }
         }
 
@@ -402,6 +406,12 @@ namespace Split_It_.UserControls
                 if (String.IsNullOrEmpty(expense.cost) || String.IsNullOrEmpty(expense.description))
                 {
                     MessageBox.Show("Please enter amount and description", "Error", MessageBoxButton.OK);
+                    return false;
+                }
+
+                if (friendListPicker.SelectedItems == null || friendListPicker.SelectedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select expense friends", "Error", MessageBoxButton.OK);
                     return false;
                 }
 
