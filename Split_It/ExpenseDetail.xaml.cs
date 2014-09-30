@@ -161,28 +161,26 @@ namespace Split_It_
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            //currently you can only edit expense if it is paid by you
-            //if (paidByMe())
-            //{
+            //currently you cannot edit all expenses.
+            if (canEditExpense())
+            {
                 PhoneApplicationService.Current.State[Constants.ADD_EXPENSE] = selectedExpense;
                 NavigationService.Navigate(new Uri("/Add_Expense_Pages/EditExpense.xaml", UriKind.Relative));
-            /*}
+            }
             else
             {
-                MessageBox.Show("Currently you can only edit expenses paid by you.", "Sorry", MessageBoxButton.OK);
-            }*/
+                MessageBox.Show("This expense has an unknown user (not a friend). You cannnot edit such an expense in this version. This facility will be added in a future update"
+                    , "Sorry", MessageBoxButton.OK);
+            }
         }
 
-        private bool paidByMe()
+        private bool canEditExpense()
         {
             foreach (var item in selectedExpense.users)
             {
-                double paidShare;
-                if(double.TryParse(item.paid_share, out paidShare))
-                {
-                    if (paidShare != 0 && item.user_id != App.currentUser.id)
-                        return false;
-                }
+                //user is null when the user is not a friend and hence does not exist in the DB.
+                if (item.user == null)
+                    return false;
             }
             return true;
         }
