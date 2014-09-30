@@ -18,14 +18,22 @@
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <StackPanel Background="{StaticResource splitwiseGreen}" Grid.Row="0">
+            <TextBlock Foreground="White" 
+				Text="INPUT PAID SHARE" 
+				Margin="15,25" 
+				FontSize="{StaticResource PivotTitleFontSize}"/>
+        </StackPanel>
+
         <phone:LongListSelector 
-            Grid.Row="0"
+            Grid.Row="1"
             MinWidth="450"
             Name="llsFriends">
             <phone:LongListSelector.ItemTemplate>
@@ -51,8 +59,7 @@
 
                             <toolkit:PhoneTextBox
                                 Hint="0.00"
-                                BorderThickness="1"
-                                BorderBrush="LightGray"
+                                Background="{StaticResource splitwiseGreyBG}"
                                 MinWidth="50"
                                 Grid.Column="3" 
                                 Foreground="Black"
@@ -68,14 +75,14 @@
         <TextBlock
             x:Name="tbError"
             TextWrapping="Wrap"
-            Grid.Row="1" 
+            Grid.Row="2" 
             Foreground="Red"
             HorizontalAlignment="Center"
             FontSize="{StaticResource descriptionSize}" />
         
         <TextBlock
             x:Name="tbSum"
-            Grid.Row="2" 
+            Grid.Row="3" 
             Foreground="Black"
             HorizontalAlignment="Center"
             FontSize="{StaticResource amountSize}" />
@@ -89,7 +96,7 @@
             Background="LightGray"
             HorizontalContentAlignment="Center"
             Content="Okay" 
-            Grid.Row="3" 
+            Grid.Row="4" 
             FontSize="{StaticResource nameSize}" />
     </Grid>
 </UserControl>

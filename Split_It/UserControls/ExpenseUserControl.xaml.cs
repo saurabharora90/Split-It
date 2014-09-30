@@ -23,8 +23,6 @@ namespace Split_It_.UserControls
 {
     public partial class ExpenseUserControl : UserControl
     {
-        protected enum SplitUnequally { EXACT_AMOUNTS, PERCENTAGES, SHARES };
-
         public Expense expense;
 
         private BackgroundWorker getSupportedCurrenciesBackgroundWorker;
@@ -40,7 +38,6 @@ namespace Split_It_.UserControls
         
         //By default the amount is split equally
         public AmountSplit amountSplit = AmountSplit.EqualSplit;
-        protected SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
@@ -236,7 +233,7 @@ namespace Split_It_.UserControls
             {
                 PayeeWindow = new Telerik.Windows.Controls.RadWindow();
                 SelectPayeePopUpControl ChoosePayeePopup = new SelectPayeePopUpControl(expenseShareUsers, _PayeeClose);
-                ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+                ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.1;
                 ChoosePayeePopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
                 PayeeWindow.Content = ChoosePayeePopup;
@@ -279,7 +276,7 @@ namespace Split_It_.UserControls
             MultiplePayeeWindow = new RadWindow();
             MultiplePayeeInputPopUpControl MultiplePayeeInputPopup = new MultiplePayeeInputPopUpControl
                                                             (ref expenseShareUsers, _MultiplePayeeInputClose, Convert.ToDouble(tbAmount.Text));
-            MultiplePayeeInputPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.25;
+            MultiplePayeeInputPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.1;
             MultiplePayeeInputPopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
             MultiplePayeeWindow.Content = MultiplePayeeInputPopup;
@@ -303,7 +300,11 @@ namespace Split_It_.UserControls
                 {
                     //show unequall split pop up;
                     SplitUnequallyWindow = new RadWindow();
+                    UnequallySplit UnequallySplitPopup = new UnequallySplit(expenseShareUsers, Convert.ToDouble(tbAmount.Text), _UnequallyClose);
+                    UnequallySplitPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.1;
+                    UnequallySplitPopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
+                    SplitUnequallyWindow.Content = UnequallySplitPopup;
                     ShowRadWindow(ref SplitUnequallyWindow);
                 }
                 else
@@ -311,9 +312,10 @@ namespace Split_It_.UserControls
             }
         }
 
-        private void _UnequallyClose()
+        private void _UnequallyClose(ObservableCollection<Expense_Share> users)
         {
             SplitUnequallyWindow.IsOpen = false;
+            this.expenseShareUsers = users;
         }
         
         private void ShowRadWindow(ref RadWindow window)
@@ -328,38 +330,6 @@ namespace Split_It_.UserControls
         {
             DimBackground(false);
         }
-        
-        /*protected void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            RadioButton btn = sender as RadioButton;
-
-            if (llsExactAmount == null || llsPercentage == null || llsShares == null)
-                return;
-
-            if (btn.Content.ToString() == "amount")
-            {
-                splitUnequally = SplitUnequally.EXACT_AMOUNTS;
-                llsExactAmount.Visibility = System.Windows.Visibility.Visible;
-                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
-                llsShares.Visibility = System.Windows.Visibility.Collapsed;
-            }
-
-            else if (btn.Content.ToString() == "percentage")
-            {
-                splitUnequally = SplitUnequally.PERCENTAGES;
-                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
-                llsPercentage.Visibility = System.Windows.Visibility.Visible;
-                llsShares.Visibility = System.Windows.Visibility.Collapsed;
-            }
-
-            else if (btn.Content.ToString() == "share")
-            {
-                splitUnequally = SplitUnequally.SHARES;
-                llsExactAmount.Visibility = System.Windows.Visibility.Collapsed;
-                llsPercentage.Visibility = System.Windows.Visibility.Collapsed;
-                llsShares.Visibility = System.Windows.Visibility.Visible;
-            }
-        }*/
 
         void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -544,6 +514,44 @@ namespace Split_It_.UserControls
             }
         }
 
+        //The unequallySplit popup has already taken care of owed_share. here we only need to handle the paidshare
+        //the paid share is handled with the help of PaidByUser. If this is null, then it means we have a Multiple Payee scenario
+        //and in that case, even the paid share is already handled for us by the MultiplePayeeInputPopUpControl
+        private bool divideExpenseUnequally()
+        {
+            double totalPaidBy = 0;
+            double totalOwed = 0;
+            double amountToSplit = Convert.ToDouble(expense.cost);
+            int numberOfExpenseMembers = expenseShareUsers.Count;
+
+            for (int i = 0; i < numberOfExpenseMembers; i++)
+            {
+                if (PaidByUser != null && expenseShareUsers[i].user_id == PaidByUser.user.id)
+                {
+                    expenseShareUsers[i].paid_share = amountToSplit.ToString();
+                }
+
+                if (!String.IsNullOrEmpty(expenseShareUsers[i].paid_share))
+                    totalPaidBy += Convert.ToDouble(expenseShareUsers[i].paid_share);
+
+                if (!String.IsNullOrEmpty(expenseShareUsers[i].owed_share))
+                    totalOwed += Convert.ToDouble(expenseShareUsers[i].owed_share);
+            }
+
+            if (totalPaidBy == amountToSplit && totalOwed == amountToSplit)
+                return true;
+            else
+            {
+                if(totalPaidBy != amountToSplit)
+                    MessageBox.Show("The \"Paid by\" does not add upto the total expense cost.", "Error", MessageBoxButton.OK);
+
+                if (totalOwed != amountToSplit)
+                    MessageBox.Show("The \"Unequal Split\" does not add upto the total expense cost.", "Error", MessageBoxButton.OK);
+
+                return false;
+            }
+        }
+
         private void fullExpenseSplit()
         {
             //only you and one more user should be there to access this feature
@@ -563,108 +571,6 @@ namespace Split_It_.UserControls
                     expenseShareUsers[i].owed_share = expense.cost;
                 }
             }
-        }
-
-        private bool divideExpenseUnequally()
-        {
-            bool proceed = true;
-            double expenseAmount = Convert.ToDouble(expense.cost);
-            int numberOfExpenseMembers = expenseShareUsers.Count;
-            double extraAmount = 0; //this is extra amount left because of rounding off;
-            int currentUserIndex = 0; //need the current user index to factor in the extra amount mentioned above
-            double currenUserShareAmount = 0;
-
-            switch (splitUnequally)
-            {
-                case SplitUnequally.EXACT_AMOUNTS:
-                    double totalAmount = 0;
-
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        totalAmount += Convert.ToDouble(expenseShareUsers[i].owed_share);
-                    }
-
-                    if (totalAmount != expenseAmount)
-                    {
-                        string errorMessage = "The total amount split is not equal to expense amount.";
-                        string newLine = "\n";
-                        string total = "Input total: " + totalAmount.ToString();
-                        string expenseTotal = "Expense Amount: " + expenseAmount.ToString();
-                        MessageBox.Show(errorMessage + newLine + newLine + total + newLine + expenseTotal, "Error", MessageBoxButton.OK);
-
-                        proceed = false;
-                    }
-                    break;
-                case SplitUnequally.PERCENTAGES:
-                    double totalPercentage = 0;
-
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        //the amount is paid by the user
-                        if (expenseShareUsers[i].user_id == App.currentUser.id)
-                        {
-                            //expenseShareUsers[i].paid_share = expenseAmount.ToString();
-                            currentUserIndex = i;
-                        }
-                        double shareAmount = expenseAmount * expenseShareUsers[i].percentage / 100;
-
-                        //round off amount to digits
-                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
-                        extraAmount += shareAmount - shareAmountRounded;
-
-                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
-
-                        totalPercentage += expenseShareUsers[i].percentage;
-                    }
-
-                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
-                    currenUserShareAmount += extraAmount;
-                    expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
-
-                    if (totalPercentage != 100)
-                    {
-                        string errorMessage = "Total percentage is not equal to 100%";
-                        MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK);
-
-                        proceed = false;
-                    }
-                    break;
-                case SplitUnequally.SHARES:
-                    double totalShares = 0;
-
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        totalShares += expenseShareUsers[i].share;
-                    }
-
-                    double perShareAmount = expenseAmount / totalShares;
-                    for (int i = 0; i < numberOfExpenseMembers; i++)
-                    {
-                        //the amount is paid by the user
-                        if (expenseShareUsers[i].user_id == App.currentUser.id)
-                        {
-                            //expenseShareUsers[i].paid_share = expenseAmount.ToString();
-                            currentUserIndex = i;
-                        }
-                        double shareAmount = expenseShareUsers[i].share * perShareAmount;
-
-                        //round off amount to digits
-                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
-                        extraAmount += shareAmount - shareAmountRounded;
-
-                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
-                        expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
-                    }
-
-                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
-                    currenUserShareAmount += extraAmount;
-                    expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
-                    break;
-                default:
-                    break;
-            }
-
-            return proceed;
         }
 
         public void setDimBackGround(Action<bool> dim)

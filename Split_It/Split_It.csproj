@@ -201,6 +201,9 @@
     <Compile Include="UserControls\SelectPayeePopUpControl.xaml.cs">
       <DependentUpon>SelectPayeePopUpControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UnequallySplit.xaml.cs">
+      <DependentUpon>UnequallySplit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserDetails.xaml.cs">
       <DependentUpon>UserDetails.xaml</DependentUpon>
     </Compile>
@@ -276,6 +279,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SelectPayeePopUpControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UnequallySplit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
