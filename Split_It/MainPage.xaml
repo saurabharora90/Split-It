@@ -130,7 +130,7 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <TextBlock TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Row="0" FontSize="{StaticResource nameSize}"/>
-                                        <TextBlock Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource groupTimeSize}" HorizontalAlignment="Left">
+                                        <TextBlock TextWrapping="Wrap" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource groupTimeSize}" HorizontalAlignment="Left">
                                             <TextBlock.Inlines>
                                                 <Run Text="Last updated:" />
                                                 <Run Text="{Binding updated_at, Converter={StaticResource ExpenseDateConverter}}"/>
