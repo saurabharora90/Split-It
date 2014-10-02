@@ -90,10 +90,10 @@ namespace Split_It_
             App.accessToken = Util.getAccessToken();
             App.accessTokenSecret = Util.getAccessTokenSecret();
 
-            /*if(isBeta)
+            if(isBeta)
                 CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_BETA_ID);
             else
-                CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_ID);*/
+                CrittercismSDK.Crittercism.Init(Constants.CRITTERCISM_ID);
         }
 
         // Code to execute when the application is activated (brought to foreground)
