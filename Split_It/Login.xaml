@@ -26,6 +26,7 @@
             <phone:WebBrowser Name="loginBrowser" Navigating="loginBrowser_Navigating" Navigated="loginBrowser_Navigated" NavigationFailed="loginBrowser_NavigationFailed"/>
             <telerikPrimitives:RadBusyIndicator Background="#CC000000"
                                                 Foreground="White"
+                                                IsRunning="True"
                                                 x:Name="busyIndicator"
                                                 AnimationStyle="AnimationStyle9"/>
         </Grid>
