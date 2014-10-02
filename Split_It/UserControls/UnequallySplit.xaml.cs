@@ -18,10 +18,10 @@ namespace Split_It_.UserControls
         protected SplitUnequally splitUnequally = SplitUnequally.EXACT_AMOUNTS;
 
         ObservableCollection<Expense_Share> expenseShareUsers;
-        double expenseAmount;
+        decimal expenseAmount;
         Action<ObservableCollection<Expense_Share>> Close;
 
-        public UnequallySplit(ObservableCollection<Expense_Share> users, double cost, Action<ObservableCollection<Expense_Share>> close)
+        public UnequallySplit(ObservableCollection<Expense_Share> users, decimal cost, Action<ObservableCollection<Expense_Share>> close)
         {
             InitializeComponent();
             this.expenseShareUsers = users;
@@ -69,19 +69,22 @@ namespace Split_It_.UserControls
         {
             bool proceed = true;
             int numberOfExpenseMembers = expenseShareUsers.Count;
-            double extraAmount = 0; //this is extra amount left because of rounding off;
+            decimal extraAmount = 0; //this is extra amount left because of rounding off;
             int currentUserIndex = 0; //need the current user index to factor in the extra amount mentioned above
-            double currenUserShareAmount = 0;
+            decimal currenUserShareAmount = 0;
 
             switch (splitUnequally)
             {
                 case SplitUnequally.EXACT_AMOUNTS:
-                    double totalAmount = 0;
+                    decimal totalAmount = 0;
 
                     for (int i = 0; i < numberOfExpenseMembers; i++)
                     {
-                        if(!String.IsNullOrEmpty(expenseShareUsers[i].owed_share))
-                            totalAmount += Convert.ToDouble(expenseShareUsers[i].owed_share);
+                        if (!String.IsNullOrEmpty(expenseShareUsers[i].owed_share))
+                        {
+                            decimal amount = Convert.ToDecimal(expenseShareUsers[i].owed_share);
+                            totalAmount += amount;
+                        }
                     }
 
                     if (totalAmount != expenseAmount)
@@ -92,7 +95,7 @@ namespace Split_It_.UserControls
                     }
                     break;
                 case SplitUnequally.PERCENTAGES:
-                    double totalPercentage = 0;
+                    decimal totalPercentage = 0;
 
                     for (int i = 0; i < numberOfExpenseMembers; i++)
                     {
@@ -100,10 +103,10 @@ namespace Split_It_.UserControls
                         {
                             currentUserIndex = i;
                         }
-                        double shareAmount = expenseAmount * expenseShareUsers[i].percentage / 100;
+                        decimal shareAmount = expenseAmount * expenseShareUsers[i].percentage / 100;
 
                         //round off amount to digits
-                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
+                        decimal shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
                         extraAmount += shareAmount - shareAmountRounded;
 
                         expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
@@ -111,7 +114,7 @@ namespace Split_It_.UserControls
                         totalPercentage += expenseShareUsers[i].percentage;
                     }
 
-                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
+                    currenUserShareAmount = Convert.ToDecimal(expenseShareUsers[currentUserIndex].owed_share);
                     currenUserShareAmount += extraAmount;
                     expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
 
@@ -123,31 +126,31 @@ namespace Split_It_.UserControls
                     }
                     break;
                 case SplitUnequally.SHARES:
-                    double totalShares = 0;
+                    decimal totalShares = 0;
 
                     for (int i = 0; i < numberOfExpenseMembers; i++)
                     {
                         totalShares += expenseShareUsers[i].share;
                     }
 
-                    double perShareAmount = expenseAmount / totalShares;
+                    decimal perShareAmount = expenseAmount / totalShares;
                     for (int i = 0; i < numberOfExpenseMembers; i++)
                     {
                         if (expenseShareUsers[i].user_id == App.currentUser.id)
                         {
                             currentUserIndex = i;
                         }
-                        double shareAmount = expenseShareUsers[i].share * perShareAmount;
+                        decimal shareAmount = expenseShareUsers[i].share * perShareAmount;
 
                         //round off amount to digits
-                        double shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
+                        decimal shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
                         extraAmount += shareAmount - shareAmountRounded;
 
                         expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
                         expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
                     }
 
-                    currenUserShareAmount = Convert.ToDouble(expenseShareUsers[currentUserIndex].owed_share);
+                    currenUserShareAmount = Convert.ToDecimal(expenseShareUsers[currentUserIndex].owed_share);
                     currenUserShareAmount += extraAmount;
                     expenseShareUsers[currentUserIndex].owed_share = currenUserShareAmount.ToString();
                     break;

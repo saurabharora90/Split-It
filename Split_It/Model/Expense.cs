@@ -128,9 +128,9 @@ namespace Split_It_.Model
 
         //to help with spliting expense unequally
         [Ignore]
-        public double percentage { get; set; }
+        public decimal percentage { get; set; }
         [Ignore]
-        public double share { get; set; }
+        public decimal share { get; set; }
 
         //to help with checking if this user paid or not
         [Ignore]

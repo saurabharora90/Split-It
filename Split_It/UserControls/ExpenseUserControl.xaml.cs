@@ -304,7 +304,7 @@ namespace Split_It_.UserControls
                 {
                     //show unequall split pop up;
                     SplitUnequallyWindow = new RadWindow();
-                    UnequallySplit UnequallySplitPopup = new UnequallySplit(expenseShareUsers, Convert.ToDouble(tbAmount.Text), _UnequallyClose);
+                    UnequallySplit UnequallySplitPopup = new UnequallySplit(expenseShareUsers, Convert.ToDecimal(tbAmount.Text), _UnequallyClose);
                     UnequallySplitPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.1;
                     UnequallySplitPopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
