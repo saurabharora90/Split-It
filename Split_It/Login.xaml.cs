@@ -98,14 +98,13 @@ namespace Split_It_
 
         private void loginBrowser_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            busyIndicator.IsRunning = false;
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             string hey = "Hey there!";
             string message = "Thank you for downloading Split It, a splitwise client for windows phone. Please login to splitwise below and authorize the app to access your account securely.";
-
+            CustomMessageBox box = new CustomMessageBox();
             MessageBox.Show(message, hey, MessageBoxButton.OK);
         }
     }

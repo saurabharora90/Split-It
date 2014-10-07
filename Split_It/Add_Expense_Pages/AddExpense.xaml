@@ -36,6 +36,12 @@
                                             Grid.Row="0" 
                                             Grid.RowSpan="3"
                                             AnimationStyle="AnimationStyle9"/>
+
+        <StackPanel Background="#CC000000"
+                    Visibility="Collapsed"
+                    x:Name="DimContainer"
+                    Grid.Row="0"
+                    Grid.RowSpan="3"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

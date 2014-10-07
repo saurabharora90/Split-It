@@ -251,5 +251,21 @@ namespace Split_It_.Controller
                     break;
             }
         }
+
+        public static void DeleteAllDataInDB()
+        {
+            SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
+            dbConn.DeleteAll<User>();
+            dbConn.DeleteAll<Expense>();
+            dbConn.DeleteAll<Group>();
+            dbConn.DeleteAll<Picture>();
+            dbConn.DeleteAll<Balance_User>();
+            dbConn.DeleteAll<Debt_Expense>();
+            dbConn.DeleteAll<Debt_Group>();
+            dbConn.DeleteAll<Expense_Share>();
+            dbConn.DeleteAll<Group_Members>();
+
+            dbConn.Close();
+        }
     }
 }

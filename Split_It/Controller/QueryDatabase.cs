@@ -44,6 +44,12 @@ namespace Split_It_.Controller
             return friendsList;
         }
 
+        public List<User> getAllUsersIncludingMyself()
+        {
+            List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
+            return friendsList;
+        }
+
         public List<Expense> getAllExpenses(int pageNo=0)
         {
             int offset = EXPENSES_ROWS * pageNo;

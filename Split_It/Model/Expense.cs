@@ -96,7 +96,21 @@ namespace Split_It_.Model
         public string currency { get; set; }
 
         public int user_id { get; set; }
-        public string paid_share { get; set; }
+
+        private string _paidShare;
+        public string paid_share
+        {
+            get { return _paidShare; }
+            set
+            {
+                _paidShare = value;
+                if (String.IsNullOrEmpty(_paidShare) || System.Convert.ToDouble(_paidShare, System.Globalization.CultureInfo.InvariantCulture) == 0)
+                    hasPaid = false;
+                else
+                    hasPaid = true;
+                OnPropertyChanged("paid_share");
+            }
+        }
 
         private string _owedShare;
         public string owed_share
@@ -105,7 +119,6 @@ namespace Split_It_.Model
             set
             {
                 _owedShare = value;
-                // Call OnPropertyChanged whenever the property is updated
                 OnPropertyChanged("owed_share");
             }
         }
@@ -115,9 +128,13 @@ namespace Split_It_.Model
 
         //to help with spliting expense unequally
         [Ignore]
-        public double percentage { get; set; }
+        public decimal percentage { get; set; }
         [Ignore]
-        public double share { get; set; }
+        public decimal share { get; set; }
+
+        //to help with checking if this user paid or not
+        [Ignore]
+        public bool hasPaid { get; set; }
 
         // Create the OnPropertyChanged method to raise the event 
         protected void OnPropertyChanged(string name)
@@ -127,6 +144,33 @@ namespace Split_It_.Model
             {
                 handler(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        public override bool Equals(System.Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            Expense_Share p = obj as Expense_Share;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            return p.user_id == user_id;
+        }
+
+        public override int GetHashCode()
+        {
+            return user_id;
+        }
+
+        public override string ToString()
+        {
+            if (user_id == App.currentUser.id)
+                return "You";
+            else
+                return user.first_name;
         }
     }
 }

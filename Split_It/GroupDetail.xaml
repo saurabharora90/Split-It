@@ -101,7 +101,19 @@
                 <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" 
                                                        ItemTemplate="{StaticResource expensesTemplate}" 
                                                        DataVirtualizationMode="OnDemandAutomatic"
-                                                       SelectionChanged="llsExpenses_Tap"/>
+                                                       SelectionChanged="llsExpenses_Tap">
+
+                    <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="Red"
+                                       Text="No expenses found."
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       FontSize="{StaticResource nameSize}"/>
+                        </DataTemplate>
+                    </telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
+                </telerikPrimitives:RadDataBoundListBox>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

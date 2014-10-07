@@ -10,5 +10,10 @@ namespace Split_It_.Model
     {
         public string currency_code { get; set; }
         public string unit { get; set; }
+
+        public override string ToString()
+        {
+            return currency_code;
+        }
     }
 }

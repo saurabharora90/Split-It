@@ -21,7 +21,7 @@ namespace Split_It_.Add_Expense_Pages
         BackgroundWorker editExpenseBackgroundWorker;
         ApplicationBarIconButton btnOkay;
 
-        bool groupSelectionFirstTime = true, friendSelectionFirstTime = true;
+        bool groupSelectionFirstTime = true;
 
         public EditExpense()
         {
@@ -32,15 +32,17 @@ namespace Split_It_.Add_Expense_Pages
             editExpenseBackgroundWorker.DoWork += new DoWorkEventHandler(editExpenseBackgroundWorker_DoWork);
 
             createAppBar();
-
-            this.expenseControl.tbDescription.TextChanged += tbDescription_TextChanged;
-            this.expenseControl.tbAmount.TextChanged += tbAmount_TextChanged;
-
+            this.expenseControl.setDimBackGround(DimBackGround);
             setupViews();
-
-            //This has to be setup after we display the expense's values so that these dont override their values
+            this.expenseControl.SetupListeners();
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
-            this.expenseControl.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
+
+            //setup the expenseShareUsers from the actual expense.
+            this.expenseControl.expenseShareUsers.Clear();
+            foreach (var item in this.expenseControl.expense.users)
+            {
+                this.expenseControl.expenseShareUsers.Add(item);
+            }
         }
 
         protected void createAppBar()
@@ -56,7 +58,6 @@ namespace Split_It_.Add_Expense_Pages
             btnOkay = new ApplicationBarIconButton();
             btnOkay.IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative);
             btnOkay.Text = "save";
-            btnOkay.IsEnabled = false;
             ApplicationBar.Buttons.Add(btnOkay);
             btnOkay.Click += new EventHandler(btnOk_Click);
 
@@ -78,12 +79,33 @@ namespace Split_It_.Add_Expense_Pages
             }
             this.expenseControl.expenseDate.Value = DateTime.Parse(this.expenseControl.expense.date, System.Globalization.CultureInfo.InvariantCulture);
             this.expenseControl.groupListPicker.SelectedItem = getSelectedGroup();
-            
             setupSelectedUsers();
-            //show split unequally by default. makes it easier
-            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_unequally;
-            this.expenseControl.setText();
-            this.expenseControl.showUnequalSectionIfNeeded();
+
+            //setup the payee
+            int payeeCount = 0;
+            Expense_Share payee = null;
+            foreach (var item in this.expenseControl.expense.users)
+            {
+                if (item.hasPaid)
+                {
+                    payee = item;
+                    payeeCount++;
+                }
+            }
+
+            if (payeeCount > 1)
+            {
+                this.expenseControl.tbPaidBy.Text = "Multiple users";
+                this.expenseControl.PaidByUser = null;
+            }
+            else
+            {
+                this.expenseControl.PaidByUser = payee;
+                this.expenseControl.tbPaidBy.Text = payee.ToString();
+            }
+
+            //setup the expense to be split unequally for ease of operation
+            this.expenseControl.SplitTypeListPicker.SelectedItem = AmountSplit.UnequalSplit;
         }
 
         private Group getSelectedGroup()
@@ -114,9 +136,9 @@ namespace Split_It_.Add_Expense_Pages
             {
                 foreach (var expenseUser in this.expenseControl.expense.users)
                 {
-                    this.expenseControl.expenseShareUsers.Add(expenseUser);
+                    //this.expenseControl.expenseShareUsers.Add(expenseUser);
                     if (expenseUser.user.id != App.currentUser.id)
-                        this.expenseControl.friendListPicker.SelectedItems.Add(expenseUser.user);
+                        this.expenseControl.friendListPicker.SelectedItems.Add(expenseUser);
                 }
             }
         }
@@ -166,12 +188,16 @@ namespace Split_It_.Add_Expense_Pages
             {
                 Group selectedGroup = this.expenseControl.groupListPicker.SelectedItem as Group;
                 this.expenseControl.expense.group_id = selectedGroup.id;
+
+                //clear all the previoulsy selected friends.
+                this.expenseControl.friendListPicker.SelectedItems.Clear();
+
                 foreach (var member in selectedGroup.members)
                 {
                     //you don't need to add yourself as you will be added by default.
                     if (member.id == App.currentUser.id || this.expenseControl.friendListPicker.SelectedItems.Contains(member))
                         continue;
-                    this.expenseControl.friendListPicker.SelectedItems.Add(member);
+                    this.expenseControl.friendListPicker.SelectedItems.Add(new Expense_Share() { user = member, user_id = member.id });
                 }
             }
 
@@ -181,51 +207,6 @@ namespace Split_It_.Add_Expense_Pages
                 //this.friendListPicker.SelectedItems.Clear();
                 this.expenseControl.groupListPicker.SelectedItems.Clear();
             }
-        }
-
-        private void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //not to do any manupulations when we are filling up the details of the expense to be edited
-            if (friendSelectionFirstTime)
-            {
-                friendSelectionFirstTime = false;
-                return;
-            }
-
-            this.expenseControl.expenseShareUsers.Clear();
-            //add yourself to the the list of expense users.
-            this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
-            enableOkButton();
-
-            if (this.expenseControl.friendListPicker.SelectedItems == null)
-                return;
-            foreach (var item in this.expenseControl.friendListPicker.SelectedItems)
-            {
-                User user = item as User;
-                this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = user, user_id = user.id });
-            }
-        }
-        
-        protected void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.description = this.expenseControl.tbDescription.Text;
-            enableOkButton();
-        }
-
-        protected void tbAmount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.cost = this.expenseControl.tbAmount.Text;
-            enableOkButton();
-        }
-
-        private void enableOkButton()
-        {
-            if (this.expenseControl.friendListPicker.SelectedItems != null && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
-            {
-                btnOkay.IsEnabled = true;
-            }
-            else
-                btnOkay.IsEnabled = false;
         }
         
         private void editExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -261,6 +242,20 @@ namespace Split_It_.Add_Expense_Pages
                         MessageBox.Show("Unable to edit expense", "Error", MessageBoxButton.OK);
                     }
                 });
+            }
+        }
+
+        private void DimBackGround(bool dim)
+        {
+            if (dim)
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Visible;
+                ApplicationBar.IsVisible = false;
+            }
+            else
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+                ApplicationBar.IsVisible = true;
             }
         }
     }

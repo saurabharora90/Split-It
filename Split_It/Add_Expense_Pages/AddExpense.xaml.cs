@@ -35,16 +35,16 @@ namespace Split_It_.Add_Expense_Pages
 
             createAppBar();
 
-            this.expenseControl.amountSplit = ExpenseUserControl.AmountSplit.Split_equally;
+            this.expenseControl.amountSplit = AmountSplit.EqualSplit;
+            this.expenseControl.setDimBackGround(DimBackGround);
             this.expenseControl.groupListPicker.SelectionChanged += groupListPicker_SelectionChanged;
-            this.expenseControl.friendListPicker.SelectionChanged += friendListPicker_SelectionChanged;
-            this.expenseControl.tbDescription.TextChanged += tbDescription_TextChanged;
-            this.expenseControl.tbAmount.TextChanged += tbAmount_TextChanged;
 
-            this.expenseControl.groupListPicker.SelectedItem = getFromGroup();
-            this.expenseControl.friendListPicker.SelectedItem = getFromFriend();
+            //This helps to auto-populate if the user is coming from the GroupDetails or UserDetails page
+            autoPopulateGroup();
+            autoPopulateExpenseShareUsers();
             
             this.expenseControl.expenseDate.Value = DateTime.Now;
+            this.expenseControl.SetupListeners();
         }
 
         protected void createAppBar()
@@ -60,7 +60,6 @@ namespace Split_It_.Add_Expense_Pages
             btnOkay = new ApplicationBarIconButton();
             btnOkay.IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative);
             btnOkay.Text = "save";
-            btnOkay.IsEnabled = false;
             ApplicationBar.Buttons.Add(btnOkay);
             btnOkay.Click += new EventHandler(btnOk_Click);
 
@@ -80,36 +79,32 @@ namespace Split_It_.Add_Expense_Pages
                 btnPin.IsEnabled = false;
         }
 
-        private Group getFromGroup()
+        private void autoPopulateGroup()
         {
             if (this.expenseControl.expense == null)
-                return null;
+                return;
             else
             {
                 foreach (var group in expenseControl.groupsList)
                 {
                     if (this.expenseControl.expense.group_id == group.id)
-                        return group;
+                        this.expenseControl.groupListPicker.SelectedItem = group;
                 }
             }
-
-            return null;
         }
 
-        private User getFromFriend()
+        private void autoPopulateExpenseShareUsers()
         {
             if (this.expenseControl.expense == null)
-                return null;
+                return;
             else
             {
-                foreach (var user in expenseControl.friendsList)
+                foreach (var user in expenseControl.friends)
                 {
-                    if (this.expenseControl.expense.specificUserId == user.id)
-                        return user;
+                    if (this.expenseControl.expense.specificUserId == user.user_id)
+                        this.expenseControl.friendListPicker.SelectedItems.Add(user);
                 }
             }
-
-            return null;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -178,7 +173,7 @@ namespace Split_It_.Add_Expense_Pages
                     //you don't need to add yourself as you will be added by default.
                     if (member.id == App.currentUser.id || this.expenseControl.friendListPicker.SelectedItems.Contains(member))
                         continue;
-                    this.expenseControl.friendListPicker.SelectedItems.Add(member);
+                    this.expenseControl.friendListPicker.SelectedItems.Add(new Expense_Share() { user = member, user_id = member.id });
                 }
             }
 
@@ -188,44 +183,6 @@ namespace Split_It_.Add_Expense_Pages
                 //this.friendListPicker.SelectedItems.Clear();
                 this.expenseControl.groupListPicker.SelectedItems.Clear();
             }
-        }
-
-        private void friendListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            this.expenseControl.expenseShareUsers.Clear();
-            //add yourself to the the list of expense users.
-            this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = App.currentUser, user_id = App.currentUser.id });
-            enableOkButton();
-
-            if (this.expenseControl.friendListPicker.SelectedItems == null)
-                return;
-            foreach (var item in this.expenseControl.friendListPicker.SelectedItems)
-            {
-                User user = item as User;
-                this.expenseControl.expenseShareUsers.Add(new Expense_Share() { user = user, user_id = user.id });
-            }
-        }
-
-        protected void tbDescription_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.description = this.expenseControl.tbDescription.Text;
-            enableOkButton();
-        }
-
-        protected void tbAmount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.expenseControl.expense.cost = this.expenseControl.tbAmount.Text;
-            enableOkButton();
-        }
-        
-        private void enableOkButton()
-        {
-            if (this.expenseControl.friendListPicker.SelectedItems.Count!=0 && !String.IsNullOrEmpty(this.expenseControl.tbAmount.Text) && !String.IsNullOrEmpty(this.expenseControl.tbDescription.Text))
-            {
-                btnOkay.IsEnabled = true;
-            }
-            else
-                btnOkay.IsEnabled = false;
         }
 
         private void addExpenseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -261,6 +218,20 @@ namespace Split_It_.Add_Expense_Pages
                         MessageBox.Show("Unable to add expense", "Error", MessageBoxButton.OK);
                     }
                 });
+            }
+        }
+
+        private void DimBackGround(bool dim)
+        {
+            if (dim)
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Visible;
+                ApplicationBar.IsVisible = false;
+            }
+            else
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+                ApplicationBar.IsVisible = true;
             }
         }
     }

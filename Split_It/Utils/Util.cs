@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
+using Split_It_.Controller;
 using Split_It_.Model;
 using System;
 using System.Collections.Generic;
@@ -243,6 +244,8 @@ namespace Split_It_.Utils
             {
                 settings.Remove(Constants.ACCESS_TOKEN_SECRET_TAG);
             }
+
+            SyncDatabase.DeleteAllDataInDB();
         }
 
         public static bool isResetNeeded()

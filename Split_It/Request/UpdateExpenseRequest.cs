@@ -33,7 +33,7 @@ namespace Split_It_.Request
             else
                 request.AddParameter("payment", "false", ParameterType.GetOrPost);
 
-            request.AddParameter("cost", updatedExpense.cost, ParameterType.GetOrPost);
+            request.AddParameter("cost", Convert.ToString(Convert.ToDouble(updatedExpense.cost), System.Globalization.CultureInfo.InvariantCulture), ParameterType.GetOrPost);
             request.AddParameter("description", updatedExpense.description, ParameterType.GetOrPost);
 
             if (!String.IsNullOrEmpty(updatedExpense.currency_code))
@@ -66,8 +66,8 @@ namespace Split_It_.Request
                 string paidKey = String.Format("users__array_{0}__paid_share", count);
                 string owedKey = String.Format("users__array_{0}__owed_share", count);
                 request.AddParameter(idKey, user.user_id, ParameterType.GetOrPost);
-                request.AddParameter(paidKey, user.paid_share, ParameterType.GetOrPost);
-                request.AddParameter(owedKey, user.owed_share, ParameterType.GetOrPost);
+                request.AddParameter(paidKey, Convert.ToString(Convert.ToDouble(user.paid_share), System.Globalization.CultureInfo.InvariantCulture), ParameterType.GetOrPost);
+                request.AddParameter(owedKey, Convert.ToString(Convert.ToDouble(user.owed_share), System.Globalization.CultureInfo.InvariantCulture), ParameterType.GetOrPost);
 
                 count++;
             }

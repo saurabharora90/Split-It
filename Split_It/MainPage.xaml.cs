@@ -45,8 +45,6 @@ namespace Split_It_
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
 
-        
-
         public MainPage()
         {
             InitializeComponent();
@@ -467,7 +465,6 @@ namespace Split_It_
                     else
                     {
                         MessageBox.Show("Unable to sync with splitwise. You can continue to browse cached data", "Error", MessageBoxButton.OK);
-                        NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                     }
                 });
             }
