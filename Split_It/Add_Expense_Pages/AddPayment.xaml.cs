@@ -12,6 +12,7 @@ using Split_It_.Utils;
 using System.Windows.Media;
 using System.ComponentModel;
 using Split_It_.Controller;
+using System.Globalization;
 
 namespace Split_It_.Add_Expense_Pages
 {
@@ -22,6 +23,8 @@ namespace Split_It_.Add_Expense_Pages
         public double transferAmount { get; set; }
         public string currency { get; set; }
         public string details { get; set; }
+
+        string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
         public AddPayment()
         {
@@ -81,6 +84,15 @@ namespace Split_It_.Add_Expense_Pages
 
                 addPaymentBackgroundWorker.RunWorkerAsync();
             }
+        }
+
+        protected void tbAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            //do not allow user to input more than one decimal point
+            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
+                e.Handled = true;
         }
 
         private void btnCanel_Click(object sender, EventArgs e)

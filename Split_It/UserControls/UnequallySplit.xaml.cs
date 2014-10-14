@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using Split_It_.Model;
+using System.Globalization;
 
 namespace Split_It_.UserControls
 {
@@ -20,6 +21,8 @@ namespace Split_It_.UserControls
         ObservableCollection<Expense_Share> expenseShareUsers;
         decimal expenseAmount;
         Action<ObservableCollection<Expense_Share>> Close;
+
+        string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
         public UnequallySplit(ObservableCollection<Expense_Share> users, decimal cost, Action<ObservableCollection<Expense_Share>> close)
         {
@@ -165,6 +168,15 @@ namespace Split_It_.UserControls
         {
             if (divideExpenseUnequally())
                 Close(expenseShareUsers);
+        }
+
+        protected void tbAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            //do not allow user to input more than one decimal point
+            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
+                e.Handled = true;
         }
     }
 }
