@@ -136,6 +136,14 @@ namespace Split_It_.UserControls
                         totalShares += expenseShareUsers[i].share;
                     }
 
+                    if (totalShares == 0)
+                    {
+                        tbError.Text = "Total share cannot be 0";
+                        tbSum.Text = "";
+                        proceed = false;
+                        return proceed;
+                    }
+
                     decimal perShareAmount = expenseAmount / totalShares;
                     for (int i = 0; i < numberOfExpenseMembers; i++)
                     {
