@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using Split_It_.Model;
+using System.Globalization;
 
 namespace Split_It_.UserControls
 {
@@ -16,6 +17,8 @@ namespace Split_It_.UserControls
     {
         Action Close;
         double ExpenseCost;
+
+        string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
         public MultiplePayeeInputPopUpControl(ref ObservableCollection<Expense_Share> expenseUsers, Action close, double total)
         {
@@ -52,6 +55,15 @@ namespace Split_It_.UserControls
                 tbSum.Text = "Total: " + total + "/" + ExpenseCost;
                 return false;
             }
+        }
+
+        protected void tbAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            PhoneTextBox textBox = sender as PhoneTextBox;
+
+            //do not allow user to input more than one decimal point
+            if (textBox.Text.Contains(decimalsep) && (e.PlatformKeyCode == 190 || e.PlatformKeyCode == 188))
+                e.Handled = true;
         }
     }
 }

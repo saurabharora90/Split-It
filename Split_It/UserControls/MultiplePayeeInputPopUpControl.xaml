@@ -63,6 +63,7 @@
                                 MinWidth="50"
                                 Grid.Column="3" 
                                 Foreground="Black"
+                                KeyDown="tbAmount_KeyDown"
                                 InputScope="Number"
                                 VerticalAlignment="Center"
                                 FontSize="{StaticResource amountSize}" 

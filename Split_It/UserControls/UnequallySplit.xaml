@@ -191,6 +191,7 @@
                                  FontSize="{StaticResource expenseDetailAmount}" 
                                  HorizontalAlignment="Right" 
                                  Foreground="Black" 
+                                 KeyDown="tbAmount_KeyDown"
                                  Background="{StaticResource splitwiseGreyBG}" 
                                  MinWidth="100"
                                  InputScope="Number"/>
@@ -221,6 +222,7 @@
                                  FontSize="{StaticResource expenseDetailAmount}" 
                                  HorizontalAlignment="Right" 
                                  Foreground="Black" 
+                                 KeyDown="tbAmount_KeyDown"
                                  Background="{StaticResource splitwiseGreyBG}" 
                                  Width="100"
                                  InputScope="Number"/>
@@ -251,6 +253,7 @@
                                  FontSize="{StaticResource expenseDetailAmount}" 
                                  HorizontalAlignment="Right" 
                                  Foreground="Black" 
+                                 KeyDown="tbAmount_KeyDown"
                                  Background="{StaticResource splitwiseGreyBG}" 
                                  Width="100"
                                  InputScope="Number"/>
