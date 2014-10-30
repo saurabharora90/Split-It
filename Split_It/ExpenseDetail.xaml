@@ -60,7 +60,7 @@
                         <TextBlock HorizontalAlignment="Center" FontSize="{StaticResource expenseDetailAmount}" Margin="0,12">
                             <TextBlock.Inlines>
                                 <Run Text="{Binding Converter={StaticResource CurrentUserRepaymentsConverter}}" Foreground="Black" />
-                                <Run Foreground="{Binding users, Converter={StaticResource ExpenseShareColorConverter}}" Text="{Binding Converter={StaticResource ExpenseShareAmountConverter}}" FontWeight="Bold" />
+                                <Run Foreground="Black" Text="{Binding Converter={StaticResource ExpenseShareAmountConverter}}" FontWeight="Bold" />
                                 <Run Text="for this." Foreground="Black" />
                             </TextBlock.Inlines>
                         </TextBlock>
