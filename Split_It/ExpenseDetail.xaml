@@ -69,14 +69,14 @@
                     <telerikPrimitives:RadDataBoundListBox Grid.Row="2" Name="llsRepayments">
                         <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="15,10">
+                                <Grid Margin="12">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" 
                                            Source="{Binding user.PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
-                                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,12,0"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Converter={StaticResource ExpenseShareRepaymentConverter}}" FontSize="{StaticResource expenseDetailAmount}" VerticalAlignment="Center" Foreground="Black" TextWrapping="Wrap"/>
                                 </Grid>
                             </DataTemplate>
