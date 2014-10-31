@@ -22,7 +22,7 @@ namespace Split_It_.ExpandableListHelper
             if (finalBalance != 0)
             {
                 string currency = allDebts[0].currency_code;
-                amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
+                amount = currency + String.Format("{0:N2}", Math.Abs(finalBalance));
             }
 
             return amount;

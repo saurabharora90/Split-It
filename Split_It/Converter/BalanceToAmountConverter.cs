@@ -23,7 +23,7 @@ namespace Split_It_.Converter
             else
             {
                 string currency = defaultBalance.currency_code;
-                string amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
+                string amount = currency + String.Format("{0:N2}", Math.Abs(finalBalance));
                 if (hasMultipleBalances)
                     return amount + "*";
                 else

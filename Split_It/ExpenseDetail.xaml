@@ -75,7 +75,7 @@
                     </Grid>
                     
                     <Border Grid.Row="1" Background="{Binding users, Converter={StaticResource ExpenseShareColorConverter}, ConverterParameter='expenseDetail'}" Margin="0,15">
-                        <TextBlock HorizontalAlignment="Center" FontSize="{StaticResource expenseDetailAmount}" Margin="0,12">
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" FontSize="{StaticResource expenseDetailAmount}" Margin="0,12">
                             <TextBlock.Inlines>
                                 <Run Text="{Binding Converter={StaticResource CurrentUserRepaymentsConverter}}" Foreground="Black" />
                                 <Run Foreground="Black" Text="{Binding Converter={StaticResource ExpenseShareAmountConverter}}" FontWeight="Bold" />

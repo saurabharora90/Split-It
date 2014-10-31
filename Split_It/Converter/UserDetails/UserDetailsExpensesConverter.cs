@@ -16,7 +16,7 @@ namespace Split_It_.Converter.UserDetails
             double finalBalance = 0;
             Balance_User balance = value as Balance_User;
             finalBalance = System.Convert.ToDouble(balance.amount, System.Globalization.CultureInfo.InvariantCulture);
-            string amount = balance.currency_code + String.Format("{0:0.00}", Math.Abs(finalBalance));
+            string amount = balance.currency_code + String.Format("{0:N2}", Math.Abs(finalBalance));
             
             if (finalBalance > 0)
                 description = "owes you " + amount;

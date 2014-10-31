@@ -14,7 +14,7 @@ namespace Split_It_.Converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             Expense expense = value as Expense;
-            return expense.currency_code + String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(expense.cost, System.Globalization.CultureInfo.InvariantCulture)));
+            return expense.currency_code + String.Format("{0:N2}", Math.Abs(System.Convert.ToDouble(expense.cost, System.Globalization.CultureInfo.InvariantCulture)));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
