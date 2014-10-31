@@ -35,7 +35,7 @@ namespace Split_It_.Converter
                 return null;
 
             string amount = null;
-            amount = String.Format("{0:N2}", Math.Abs(System.Convert.ToDouble(paidUser.paid_share, System.Globalization.CultureInfo.InvariantCulture)));
+            amount = String.Format("{0:0.00}", Math.Abs(System.Convert.ToDouble(paidUser.paid_share, System.Globalization.CultureInfo.InvariantCulture)));
             string paid = " paid";
 
             return getPaidUserName(paidUser.user) + paid + " " + expense.currency_code + amount;

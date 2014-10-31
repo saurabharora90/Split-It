@@ -27,17 +27,17 @@ namespace Split_It_.Converter
 
             if (paidShare > 0)
             {
-                result = username + " paid " + currency + String.Format("{0:N2}", paidShare);
+                result = username + " paid " + currency + String.Format("{0:0.00}", paidShare);
 
                 if (owedShare > 0)
                 {
-                    result += " and owes " + currency + String.Format("{0:N2}", owedShare);
+                    result += " and owes " + currency + String.Format("{0:0.00}", owedShare);
                 }
 
             }
             else
             {
-                result = username + " owes " + currency + String.Format("{0:N2}", owedShare);
+                result = username + " owes " + currency + String.Format("{0:0.00}", owedShare);
             }
 
             return result;
