@@ -34,18 +34,35 @@
         <phone:Pivot Title="expense detail">
             <!--Pivot item one-->
             <phone:PivotItem Margin="0,5,0,0" Header="summary">
-                <Grid Margin="0,12">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <Image Source="{Binding payment, Converter={StaticResource PaymentImageConverter}}" Width="70" Height="80" Margin="8,0"/>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock x:Name="tbTitle" TextWrapping="Wrap" Text="{Binding description}" Foreground="Black" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left" MaxWidth="400"/>
-                            <TextBlock x:Name="tbAmount" Text="{Binding Converter={StaticResource ExpenseAmountCurrencyConverter}}" Foreground="Black" FontSize="{StaticResource amountSize}" HorizontalAlignment="Left" FontWeight="Bold"/>
-                            <TextBlock x:Name="tbDate" TextWrapping="Wrap" Foreground="{StaticResource settled}" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left" MaxWidth="390">
+                    
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" 
+                               Source="{Binding payment, Converter={StaticResource PaymentImageConverter}}" 
+                               VerticalAlignment="Top" HorizontalAlignment="Left" 
+                               Margin="12"
+                               />
+
+                        <Grid Grid.Column="1" Margin="0,12,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" x:Name="tbTitle" TextWrapping="Wrap" Text="{Binding description}" Foreground="Black" FontSize="{StaticResource expenseTitleSize}" HorizontalAlignment="Left" MaxWidth="400"/>
+                            <TextBlock Grid.Row="1" x:Name="tbAmount" Text="{Binding Converter={StaticResource ExpenseAmountCurrencyConverter}}" Foreground="Black" FontSize="{StaticResource amountSize}" HorizontalAlignment="Left" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="2" x:Name="tbDate" TextWrapping="Wrap" Foreground="{StaticResource settled}" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left" MaxWidth="400">
                                 <TextBlock.Inlines>
                                     <Run Text="Added by" />
                                     <Run Text="{Binding created_by.name}" />
@@ -53,9 +70,10 @@
                                     <Run Text="{Binding created_at, Converter={StaticResource ExpenseDateConverter}}"/>
                                 </TextBlock.Inlines>
                             </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-
+                        </Grid>
+                        
+                    </Grid>
+                    
                     <Border Grid.Row="1" Background="{Binding users, Converter={StaticResource ExpenseShareColorConverter}, ConverterParameter='expenseDetail'}" Margin="0,15">
                         <TextBlock HorizontalAlignment="Center" FontSize="{StaticResource expenseDetailAmount}" Margin="0,12">
                             <TextBlock.Inlines>
