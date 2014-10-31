@@ -108,8 +108,9 @@
                             <TextBlock Foreground="Red"
                                        Text="No expenses found."
                                        TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Top"
+                                       Margin="12"
+                                       HorizontalAlignment="Left"
                                        FontSize="{StaticResource nameSize}"/>
                         </DataTemplate>
                     </telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>

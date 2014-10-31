@@ -74,11 +74,12 @@
                 <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                     <DataTemplate>
                         <TextBlock Foreground="Red"
-                                       Text="No expenses found."
-                                       TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
-                                       FontSize="{StaticResource nameSize}"/>
+                                   Text="No expenses found."
+                                   Margin="12"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   FontSize="{StaticResource nameSize}"/>
                     </DataTemplate>
                 </telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
             </telerikPrimitives:RadDataBoundListBox>
