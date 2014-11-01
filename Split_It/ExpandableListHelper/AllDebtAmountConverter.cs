@@ -13,7 +13,7 @@ namespace Split_It_.ExpandableListHelper
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string amount = "settled up";
+            string amount = "";
             ExpandableListModel expandableModel = value as ExpandableListModel;
             List<Debt_Group> allDebts = expandableModel.debtList;
             double finalBalance = Util.getUserGroupDebtAmount(allDebts, expandableModel.groupUser.id);

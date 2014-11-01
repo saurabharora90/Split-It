@@ -20,11 +20,11 @@ namespace Split_It_.ExpandableListHelper
 
             //if final balance is 0, then anyways we are not shwoing the balance.
             if (finalBalance == 0)
-                text = " is ";
-            else if (finalBalance > 0)
-                text = " is owed ";
+                text = "settled up";
+            if (finalBalance > 0)
+                text = "is owed";
             else if (finalBalance < 0)
-                text = " owes ";
+                text = "owes";
 
             return text;
         }

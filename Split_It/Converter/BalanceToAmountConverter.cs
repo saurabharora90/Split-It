@@ -1,4 +1,5 @@
-﻿using Split_It_.Model;
+﻿using Split_It_.Controller;
+using Split_It_.Model;
 using Split_It_.Utils;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,10 @@ namespace Split_It_.Converter
             else
             {
                 string currency = defaultBalance.currency_code;
+                
+                //QueryDatabase obj = new QueryDatabase();
+                //string unit = obj.getUnitForCurrency(currency);
+
                 string amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
                 if (hasMultipleBalances)
                     return amount + "*";

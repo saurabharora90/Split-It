@@ -249,7 +249,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <ListBoxItem x:Name="ExpandableContent" Grid.ColumnSpan="2" Grid.Column="0" toolkit:TiltEffect.IsTiltEnabled="True" Grid.Row="0" Grid.RowSpan="2">
+                            <ListBoxItem x:Name="ExpandableContent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="2" Grid.Column="0" toolkit:TiltEffect.IsTiltEnabled="True" Grid.Row="0" Grid.RowSpan="2">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="41"/>
