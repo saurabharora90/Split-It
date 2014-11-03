@@ -45,6 +45,8 @@ namespace Split_It_
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
 
+        private ApplicationBarIconButton btnAddExpense, btnSearchExpense;
+
         public MainPage()
         {
             InitializeComponent();
@@ -101,14 +103,14 @@ namespace Split_It_
             btnOwesYouFriends.Click += new EventHandler(btnOwesYouFriends_Click);
 
             //add expense button
-            ApplicationBarIconButton btnAddExpense = new ApplicationBarIconButton();
+            btnAddExpense = new ApplicationBarIconButton();
             btnAddExpense.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
             btnAddExpense.Text = "add";
             ApplicationBar.Buttons.Add(btnAddExpense);
             btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
 
             //search expense button
-            ApplicationBarIconButton btnSearchExpense = new ApplicationBarIconButton();
+            btnSearchExpense = new ApplicationBarIconButton();
             btnSearchExpense.IconUri = new Uri("/Assets/Icons/feature.search.png", UriKind.Relative);
             btnSearchExpense.Text = "search";
             ApplicationBar.Buttons.Add(btnSearchExpense);
@@ -175,6 +177,10 @@ namespace Split_It_
                     {
                         databaseSync.isFirstSync(true);
                         busyIndicator.Content = "Setting up for first use";
+
+                        //disable the add expense and searchtill first sycn is complete
+                        btnAddExpense.IsEnabled = false;
+                        btnSearchExpense.IsEnabled = false;
                     }
                 }
 
@@ -431,7 +437,9 @@ namespace Split_It_
 
         private void account_settings_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/AccountSettings.xaml", UriKind.Relative));
+            //This makes sure that the user does not go to the account setting page before the first sync is complete.
+            if (App.currentUser != null && App.currentUser.id != null)
+                NavigationService.Navigate(new Uri("/AccountSettings.xaml", UriKind.Relative));
         }
 
         private void syncDatabaseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -449,6 +457,9 @@ namespace Split_It_
                     pageNo = 0;
                     populateData();
                     hasDataLoaded = true;
+
+                    btnAddExpense.IsEnabled = true;
+                    btnSearchExpense.IsEnabled = true;
                 });
             }
             else
