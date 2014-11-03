@@ -198,6 +198,18 @@ namespace Split_It_.Controller
             return currencyList;
         }
 
+        public string getUnitForCurrency(string currencyCode)
+        {
+            List<Currency> currencyList = dbConn.Query<Currency>("SELECT * FROM currency WHERE currency_code = ?", new Object[] { currencyCode });
+            if (currencyList != null && currencyList.Count != 0)
+            {
+                Currency currency = currencyList.First();
+                return currency.unit;
+            }
+            else
+                return currencyCode;
+        }
+
         public List<Expense> searchForExpense(string searchText)
         {
             //int offset = EXPENSES_ROWS * pageNo;

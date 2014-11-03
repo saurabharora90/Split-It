@@ -43,8 +43,9 @@
                         <DataTemplate>
                             <TextBlock Foreground="Red"
                                        Text="No balance found."
+                                       Margin="12"
                                        TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
+                                       VerticalAlignment="Top"
                                        HorizontalAlignment="Center"
                                        FontSize="{StaticResource nameSize}"/>
                         </DataTemplate>
@@ -62,16 +63,17 @@
                                     <Image Grid.Column="0" 
                                            Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
                                            VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
-                                    <TextBlock x:Name="tbName" TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Column="1" FontSize="{StaticResource nameSize}" VerticalAlignment="Center"/>
-                                    <Grid Grid.Column="2">
+                                    
+                                    <Grid Grid.Column="1" VerticalAlignment="Center">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-
-                                        <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Grid.Row="0" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="tbAmount" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Row="1" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
-                                    </Grid>
+                                        
+                                        <TextBlock x:Name="tbName" TextTrimming="WordEllipsis" Foreground="Black" Text="{Binding name}" Grid.Row="0" FontSize="{StaticResource nameSize}"/>
+                                        <TextBlock x:Name="tbDescription" Text="{Binding balance, Converter={StaticResource BalanceDescriptionConverter}}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}"/>
+                                        </Grid>
+                                    <TextBlock x:Name="tbAmount" VerticalAlignment="Center" Foreground="{Binding balance, Converter={StaticResource BalanceColorConverter}}" Text="{Binding balance, Converter={StaticResource BalanceAmountConverter}}" Grid.Column="2" FontSize="{StaticResource amountSize}" HorizontalAlignment="Right" Visibility="{Binding balance, Converter={StaticResource BalanceVisibilityConverter}}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -90,8 +92,9 @@
                             <TextBlock Foreground="Red"
                                        Text="No expenses found."
                                        TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
+                                       Margin="12"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
                                        FontSize="{StaticResource nameSize}"/>
                         </DataTemplate>
                     </telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
@@ -108,8 +111,9 @@
                             <TextBlock Foreground="Red"
                                        Text="No groups found."
                                        TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
+                                       Margin="12"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
                                        FontSize="{StaticResource nameSize}"/>
                         </DataTemplate>
                     </telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
@@ -162,16 +166,16 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0" >
+                        <Grid Grid.Row="0" Margin="12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" 
                                    Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
-                                   VerticalAlignment="Center"  Margin="12"/>
+                                   VerticalAlignment="Top"/>
 
-                            <Grid Grid.Column="1" VerticalAlignment="Center">
+                            <Grid Grid.Column="1" Margin="12,6,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>

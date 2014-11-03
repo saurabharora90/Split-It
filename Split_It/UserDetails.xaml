@@ -28,20 +28,19 @@
     <Grid x:Name="LayoutRoot" Background="{StaticResource splitwiseGreyBG}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" 
                    Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
-                   VerticalAlignment="Center" Width="120" Height="120" Margin="12"/>
+                   VerticalAlignment="Top" Width="120" Height="120"/>
 
-            <Grid Grid.Column="1" VerticalAlignment="Center">
+            <Grid Grid.Column="1" Margin="12,6,12,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -51,7 +50,7 @@
                 <TextBlock x:Name="tbName" Text="{Binding name}" Foreground="Black" Grid.Row="0" FontSize="{StaticResource userDetailnameSize}" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="tbEmail" Text="{Binding email}" Foreground="{StaticResource settled}" Grid.Row="1" FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left"/>
                 <Grid Grid.Row="2">
-                    <telerikPrimitives:RadDataBoundListBox x:Name="balanceList">
+                    <telerikPrimitives:RadDataBoundListBox x:Name="balanceList" MinHeight="0">
                         <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Converter={StaticResource UserDetailsExpensesConverter}}" Foreground="{Binding Converter={StaticResource UserDetailsExpenseColorConverter}}" FontSize="{StaticResource userDetaildescriptionSize}" HorizontalAlignment="Left"/>
@@ -60,13 +59,9 @@
                     </telerikPrimitives:RadDataBoundListBox>
                 </Grid>
             </Grid>
-
         </Grid>
-        <Border BorderThickness="0,2,0,0" Grid.Row="1" BorderBrush="{StaticResource settled}">
-            <TextBlock Text="All Expenses" Foreground="Black"  FontSize="{StaticResource descriptionSize}" HorizontalAlignment="Left" Margin="10,3,0,3"/>
-        </Border>
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="2" Margin="0,5,0,0" Background="White">
+        
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,5,0,0" Background="White">
             <telerikPrimitives:RadDataBoundListBox Name="llsExpenses" 
                                                    ItemTemplate="{StaticResource expensesTemplate}" 
                                                    DataVirtualizationMode="OnDemandAutomatic"
@@ -74,11 +69,12 @@
                 <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                     <DataTemplate>
                         <TextBlock Foreground="Red"
-                                       Text="No expenses found."
-                                       TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
-                                       FontSize="{StaticResource nameSize}"/>
+                                   Text="No expenses found."
+                                   Margin="12"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   FontSize="{StaticResource nameSize}"/>
                     </DataTemplate>
                 </telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
             </telerikPrimitives:RadDataBoundListBox>

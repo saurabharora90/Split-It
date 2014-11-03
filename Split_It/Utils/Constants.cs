@@ -41,6 +41,6 @@ namespace Split_It_.Utils
 
         public static string ADD_EXPENSE_TILE_SHORTCUT = "/Add_Expense_Pages/AddExpense.xaml";
 
-        public static string APP_UPDATE_RATE_RESET = "v1_2_5";
+        public static string APP_UPDATE_RATE_RESET = "v1_3_3";
     }
 }

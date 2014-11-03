@@ -27,29 +27,33 @@
         <helper:SpecificDebtColorConverter x:Key="SpecificDebtColorConverter"/>
 
         <DataTemplate x:Key="CustomHeaderTemplate">
-                <Grid Margin="15" toolkit:TiltEffect.IsTiltEnabled="True">
+                <Grid Margin="12" toolkit:TiltEffect.IsTiltEnabled="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" 
                            Source="{Binding groupUser.PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
-                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,15,0"/>
+                           VerticalAlignment="Center" Width="75" Height="75" Margin="0,0,12,0"/>
+                    
                     <Grid Grid.Column="1" VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock TextWrapping="Wrap" Grid.Column="0" Text="{Binding 'groupUser.name'}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
-                        <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="{Binding Converter={StaticResource AllDebtTextConverter}}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
-                        <TextBlock TextWrapping="Wrap" Grid.Column="2" Text="{Binding Converter={StaticResource AllDebtAmountConverter}}" Foreground="{Binding Converter={StaticResource AllDebtColorConverter}}" FontSize="{StaticResource nameSize}"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock TextTrimming="WordEllipsis" Grid.Row="0" Text="{Binding 'groupUser.name'}" Foreground="Black" FontSize="{StaticResource nameSize}"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Converter={StaticResource AllDebtTextConverter}}" Foreground="{StaticResource settled}" FontSize="{StaticResource descriptionSize}"/>
                     </Grid>
-                </Grid>
+
+                <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{Binding Converter={StaticResource AllDebtAmountConverter}}" Foreground="{Binding Converter={StaticResource AllDebtColorConverter}}" FontSize="{StaticResource amountSize}"/>
+
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="CustomItemTemplate">
-            <TextBlock Margin="0,0,0,7" TextWrapping="Wrap" FontSize="{StaticResource expenseDetailAmount}" Foreground="Black">
+            <TextBlock Margin="0,0,0,12" TextWrapping="Wrap" FontSize="{StaticResource expenseDetailAmount}" Foreground="Black">
                 <TextBlock.Inlines>
                     <Run x:Name="from_user" Text="{Binding 'fromUser.name'}"/>
                     <Run Text="owes"/>
@@ -73,11 +77,6 @@
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         </Style>
                     </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource splitwiseGreyBG}">
@@ -89,7 +88,8 @@
                                     IsExpanded="False"
                                     HeaderTemplate="{StaticResource CustomHeaderTemplate}"
                                     ItemTemplate="{StaticResource CustomItemTemplate}"
-                                    NonExpandableHeaderTemplate="{StaticResource CustomHeaderTemplate}"/>
+                                    NonExpandableHeaderTemplate="{StaticResource CustomHeaderTemplate}" 
+                                    HorizontalContentAlignment="Stretch"/>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -108,8 +108,9 @@
                             <TextBlock Foreground="Red"
                                        Text="No expenses found."
                                        TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Top"
+                                       Margin="12"
+                                       HorizontalAlignment="Left"
                                        FontSize="{StaticResource nameSize}"/>
                         </DataTemplate>
                     </telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
