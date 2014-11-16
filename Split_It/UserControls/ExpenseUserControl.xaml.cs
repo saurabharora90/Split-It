@@ -529,9 +529,9 @@ namespace Split_It_.UserControls
         //and in that case, even the paid share is already handled for us by the MultiplePayeeInputPopUpControl
         private bool divideExpenseUnequally()
         {
-            double totalPaidBy = 0;
-            double totalOwed = 0;
-            double amountToSplit = Convert.ToDouble(expense.cost);
+            decimal totalPaidBy = 0;
+            decimal totalOwed = 0;
+            decimal amountToSplit = Convert.ToDecimal(expense.cost);
             int numberOfExpenseMembers = expenseShareUsers.Count;
 
             for (int i = 0; i < numberOfExpenseMembers; i++)
@@ -542,10 +542,10 @@ namespace Split_It_.UserControls
                 }
 
                 if (!String.IsNullOrEmpty(expenseShareUsers[i].paid_share))
-                    totalPaidBy += Convert.ToDouble(expenseShareUsers[i].paid_share);
+                    totalPaidBy += Convert.ToDecimal(expenseShareUsers[i].paid_share);
 
                 if (!String.IsNullOrEmpty(expenseShareUsers[i].owed_share))
-                    totalOwed += Convert.ToDouble(expenseShareUsers[i].owed_share);
+                    totalOwed += Convert.ToDecimal(expenseShareUsers[i].owed_share);
             }
 
             if (totalPaidBy == amountToSplit && totalOwed == amountToSplit)
