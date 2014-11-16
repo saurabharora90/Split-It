@@ -60,7 +60,7 @@ namespace Split_It_.Controller
             dbConn.Insert(friend);
             friend.picture.user_id = friend.id;
             dbConn.Insert(friend.picture);
-            dbConn.Close();
+            dbConn.Dispose();
 
             callback(true, HttpStatusCode.OK);
         }
@@ -89,7 +89,7 @@ namespace Split_It_.Controller
             }
             
             dbConn.Commit();
-            dbConn.Close();
+            dbConn.Dispose();
 
             callback(true, HttpStatusCode.OK);
         }
