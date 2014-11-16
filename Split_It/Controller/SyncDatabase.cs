@@ -82,7 +82,7 @@ namespace Split_It_.Controller
             //if no expenses were recieved, then there wasnt any change in user balances or groups.
             if (expensesList == null || expensesList.Count == 0)
             {
-                dbConn.Close();
+                dbConn.Dispose();
                 CallbackOnSuccess(true, HttpStatusCode.OK);
                 return;
             }
@@ -234,13 +234,14 @@ namespace Split_It_.Controller
             {
                 dbConn.DeleteAll<Currency>();
                 dbConn.InsertAll(currencyList);
-                dbConn.Close();
+                dbConn.Dispose();
             }
             CallbackOnSuccess(true, HttpStatusCode.OK);
         }
 
         private void _OnErrorReceived(HttpStatusCode statusCode)
         {
+            dbConn.Dispose();
             switch (statusCode)
             {
                 case HttpStatusCode.Unauthorized:
@@ -265,7 +266,7 @@ namespace Split_It_.Controller
             dbConn.DeleteAll<Expense_Share>();
             dbConn.DeleteAll<Group_Members>();
 
-            dbConn.Close();
+            dbConn.Dispose();
         }
     }
 }

@@ -247,7 +247,7 @@ namespace Split_It_.Controller
         
         public void closeDatabaseConnection()
         {
-            dbConn.Close();
+            dbConn.Dispose();
         }
 
         private List<Expense_Share> getExpenseShareUsers(int expenseId, string currencyCode)
