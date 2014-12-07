@@ -77,15 +77,15 @@ namespace Split_It_
             btnSettle.IconUri = new Uri("/Assets/Icons/settle.png", UriKind.Relative);
             btnSettle.Text = "settle";
 
-            //disable both by default
+            //disable reminder by default
             btnReminder.IsEnabled = false;
-            btnSettle.IsEnabled = false;
+            //btnSettle.IsEnabled = false;
 
             if (hasOwesYouBalance())
                 btnReminder.IsEnabled = true;
 
-            if (hasYouOweBalance())
-                btnSettle.IsEnabled = true;
+            //if (hasYouOweBalance())
+                //btnSettle.IsEnabled = true;
 
             ApplicationBar.Buttons.Add(btnReminder);
             ApplicationBar.Buttons.Add(btnSettle);
@@ -126,7 +126,15 @@ namespace Split_It_
 
         private void btnSettle_Click(object sender, EventArgs e)
         {
-            PhoneApplicationService.Current.State[Constants.PAYMENT_TO_USER] = selectedUser;
+            int navParams;
+            if (hasOwesYouBalance())
+                navParams = Constants.PAYMENT_FROM;
+            else
+                navParams = Constants.PAYMENT_TO;
+
+            PhoneApplicationService.Current.State[Constants.PAYMENT_USER] = selectedUser;
+            PhoneApplicationService.Current.State[Constants.PAYMENT_TYPE] = navParams;
+
             NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddPayment.xaml", UriKind.Relative));
         }
 

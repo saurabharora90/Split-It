@@ -28,8 +28,12 @@ namespace Split_It_.Utils
         public static string SELECTED_USER = "selected_user";
         public static string SELECTED_EXPENSE = "selected_expense";
         public static string SELECTED_GROUP = "selected_group";
-        public static string PAYMENT_TO_USER = "payment_to_user";
+        public static string PAYMENT_USER = "payment_user";
         public static string ADD_EXPENSE = "add_expense";
+
+        public static string PAYMENT_TYPE = "payment_type";
+        public static int PAYMENT_TO = 1000;
+        public static int PAYMENT_FROM = 1001;
 
         public static string NEW_USER = "new_user";
         public static string NEW_GROUP = "new_group";

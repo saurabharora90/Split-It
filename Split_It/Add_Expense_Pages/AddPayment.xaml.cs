@@ -24,23 +24,34 @@ namespace Split_It_.Add_Expense_Pages
         public string currency { get; set; }
         public string details { get; set; }
 
+        int paymentType;
+
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
         public AddPayment()
         {
             InitializeComponent();
 
-            paymentUser = PhoneApplicationService.Current.State[Constants.PAYMENT_TO_USER] as User;
+            paymentUser = PhoneApplicationService.Current.State[Constants.PAYMENT_USER] as User;
+            paymentType = Convert.ToInt32(PhoneApplicationService.Current.State[Constants.PAYMENT_TYPE]);
             
             addPaymentBackgroundWorker = new BackgroundWorker();
             addPaymentBackgroundWorker.WorkerSupportsCancellation = true;
             addPaymentBackgroundWorker.DoWork += new DoWorkEventHandler(addPaymentBackgroundWorker_DoWork);
 
-            createAppBar();
             setupData();
+            createAppBar();
 
-            toUser.DataContext = paymentUser;
-            fromUser.DataContext = App.currentUser;
+            if (paymentType == Constants.PAYMENT_TO)
+            {
+                toUser.DataContext = paymentUser;
+                fromUser.DataContext = App.currentUser;
+            }
+            else
+            {
+                toUser.DataContext = App.currentUser;
+                fromUser.DataContext = paymentUser;
+            }
         }
 
         private void createAppBar()
@@ -73,7 +84,14 @@ namespace Split_It_.Add_Expense_Pages
             //to hide the keyboard if any
             this.Focus();
 
-            transferAmount = Convert.ToDouble(tbAmount.Text);
+            try
+            {
+                transferAmount = Convert.ToDouble(tbAmount.Text);
+            }
+            catch (FormatException exception)
+            {
+                return;
+            }
             currency = tbCurrency.Text;
             details = tbDetails.Text;
 
@@ -102,7 +120,7 @@ namespace Split_It_.Add_Expense_Pages
 
         private void setupData()
         {
-            Balance_User defaultBalance = getYouOweBalance();
+            Balance_User defaultBalance = getPaymentAmount();
             transferAmount = System.Convert.ToDouble(defaultBalance.amount, System.Globalization.CultureInfo.InvariantCulture);
             currency = defaultBalance.currency_code;
 
@@ -114,12 +132,20 @@ namespace Split_It_.Add_Expense_Pages
             tbDate.Text = "on " + dateString;
         }
 
-        private Balance_User getYouOweBalance()
+        private Balance_User getPaymentAmount()
         {
             foreach (var balance in paymentUser.balance)
             {
-                if (System.Convert.ToDouble(balance.amount, System.Globalization.CultureInfo.InvariantCulture) < 0)
-                    return balance;
+                if (paymentType == Constants.PAYMENT_TO)
+                {
+                    if (System.Convert.ToDouble(balance.amount, System.Globalization.CultureInfo.InvariantCulture) < 0)
+                        return balance;
+                }
+                else
+                {
+                    if (System.Convert.ToDouble(balance.amount, System.Globalization.CultureInfo.InvariantCulture) > 0)
+                        return balance;
+                }
             }
 
             return null;
@@ -138,14 +164,27 @@ namespace Split_It_.Add_Expense_Pages
             paymentExpense.users = new List<Expense_Share>();
 
             Expense_Share fromUser = new Expense_Share();
-            fromUser.user_id = App.currentUser.id;
-            fromUser.owed_share = "0";
-            fromUser.paid_share = transferAmount.ToString();
-
             Expense_Share toUser = new Expense_Share();
-            toUser.user_id = paymentUser.id;
-            toUser.paid_share = "0";
-            toUser.owed_share = transferAmount.ToString();
+            if (paymentType == Constants.PAYMENT_TO)
+            {
+                fromUser.user_id = App.currentUser.id;
+                fromUser.owed_share = "0";
+                fromUser.paid_share = transferAmount.ToString();
+
+                toUser.user_id = paymentUser.id;
+                toUser.paid_share = "0";
+                toUser.owed_share = transferAmount.ToString();
+            }
+            else
+            {
+                toUser.user_id = App.currentUser.id;
+                toUser.paid_share = "0";
+                toUser.owed_share = transferAmount.ToString();
+
+                fromUser.user_id = paymentUser.id;
+                fromUser.paid_share = transferAmount.ToString();
+                fromUser.owed_share = "0";
+            }
 
             paymentExpense.users.Add(fromUser);
             paymentExpense.users.Add(toUser);

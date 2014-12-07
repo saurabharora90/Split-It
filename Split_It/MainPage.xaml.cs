@@ -45,7 +45,7 @@ namespace Split_It_
         private double postiveBalance = 0, negativeBalance = 0, totalBalance = 0;
         private NetBalances netBalanceObj = new NetBalances();
 
-        private ApplicationBarIconButton btnAddExpense, btnSearchExpense;
+        private ApplicationBarIconButton btnAddExpense, btnSearchExpense, btnRefresh;
 
         public MainPage()
         {
@@ -109,6 +109,13 @@ namespace Split_It_
             ApplicationBar.Buttons.Add(btnAddExpense);
             btnAddExpense.Click += new EventHandler(btnAddExpense_Click);
 
+            //refresh button
+            btnRefresh = new ApplicationBarIconButton();
+            btnRefresh.IconUri = new Uri("/Assets/Icons/refresh.png", UriKind.Relative);
+            btnRefresh.Text = "refresh";
+            ApplicationBar.Buttons.Add(btnRefresh);
+            btnRefresh.Click += new EventHandler(btnRefresh_Click);
+
             //search expense button
             btnSearchExpense = new ApplicationBarIconButton();
             btnSearchExpense.IconUri = new Uri("/Assets/Icons/feature.search.png", UriKind.Relative);
@@ -120,6 +127,11 @@ namespace Split_It_
             ApplicationBar.MenuItems.Add(btnBalanceFriends);
             ApplicationBar.MenuItems.Add(btnYouOweFriends);
             ApplicationBar.MenuItems.Add(btnOwesYouFriends);
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            fetchData();
         }
 
         private void btnAddExpense_Click(object sender, EventArgs e)
@@ -188,8 +200,22 @@ namespace Split_It_
                 {
                     busyIndicator.IsRunning = true;
                     syncDatabaseBackgroundWorker.RunWorkerAsync();
+                    btnRefresh.IsEnabled = false;
                 }
             }
+        }
+
+        private void fetchData()
+        {
+            if(databaseSync == null)
+                databaseSync = new SyncDatabase(_SyncConpleted);
+
+            busyIndicator.Content = "Syncing";
+            busyIndicator.IsRunning = true;
+            btnRefresh.IsEnabled = false;
+
+            if(!syncDatabaseBackgroundWorker.IsBusy)
+                syncDatabaseBackgroundWorker.RunWorkerAsync();
         }
 
         private void expenseLoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -460,12 +486,19 @@ namespace Split_It_
 
                     btnAddExpense.IsEnabled = true;
                     btnSearchExpense.IsEnabled = true;
+
+                    btnRefresh.IsEnabled = true;
                 });
             }
             else
             {
                 Dispatcher.BeginInvoke(() =>
                 {
+                    btnRefresh.IsEnabled = true;
+                    
+                    // don't need to handle the below two as there two are only disabled on first launch. If first launch sync fails, then these two buttons cannot be activated.
+                   // btnAddExpense.IsEnabled = true;
+                    //btnSearchExpense.IsEnabled = true;
 
                     busyIndicator.IsRunning = false;
                     if (errorCode == HttpStatusCode.Unauthorized)

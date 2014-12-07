@@ -267,5 +267,17 @@ namespace Split_It_.Utils
             // Return true if emailAddress is in valid e-mail format.
             return Regex.IsMatch(emailAddress, @"^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$");
         }
+
+        public static bool isEmpty(string value)
+        {
+            if (value == null)
+                return true;
+
+            value = value.Trim();
+            if (value.Length == 0)
+                return true;
+
+            return false;
+        }
     }
 }

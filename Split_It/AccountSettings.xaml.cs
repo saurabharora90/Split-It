@@ -147,7 +147,9 @@ namespace Split_It_
         {
             if(currencyModified)
                 MessageBox.Show("In order to set exisiting expenses to new default currency, please go to Account Settings on Splitwise.com", "Success", MessageBoxButton.OK);
-            NavigationService.GoBack();
+            
+            if(NavigationService.CanGoBack)
+                NavigationService.GoBack();
         }
 
         private void getSupportedCurrenciesBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

@@ -33,6 +33,9 @@ namespace Split_It_.Converter
             if (currentUser == null)
                 return "You owe";
 
+            if (Util.isEmpty(currentUser.net_balance))
+                return "You owe";
+
             double netBalance = System.Convert.ToDouble(currentUser.net_balance, System.Globalization.CultureInfo.InvariantCulture);
             
             if(netBalance == 0)
