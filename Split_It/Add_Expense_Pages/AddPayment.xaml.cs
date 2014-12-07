@@ -84,7 +84,14 @@ namespace Split_It_.Add_Expense_Pages
             //to hide the keyboard if any
             this.Focus();
 
-            transferAmount = Convert.ToDouble(tbAmount.Text);
+            try
+            {
+                transferAmount = Convert.ToDouble(tbAmount.Text);
+            }
+            catch (FormatException exception)
+            {
+                return;
+            }
             currency = tbCurrency.Text;
             details = tbDetails.Text;
 
