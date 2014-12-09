@@ -32,7 +32,7 @@
         </Grid.RowDefinitions>
         
         <local:AdControl Grid.Row="0"/>
-        <AppPromo:RateReminder />
+        <AppPromo:RateReminder CustomReminderText="I am solo developer building this app. It would be great if you could leave a review or update your existing review if your requested features and bugs have been resolved" RunsBeforeReminder="5" />
         <!--Pivot Control-->
         <phone:Pivot Grid.Row="1" Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
