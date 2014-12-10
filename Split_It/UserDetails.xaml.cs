@@ -77,15 +77,15 @@ namespace Split_It_
             btnSettle.IconUri = new Uri("/Assets/Icons/settle.png", UriKind.Relative);
             btnSettle.Text = "settle";
 
-            //disable reminder by default
+            //disable both by default
             btnReminder.IsEnabled = false;
-            //btnSettle.IsEnabled = false;
+            btnSettle.IsEnabled = false;
 
             if (hasOwesYouBalance())
                 btnReminder.IsEnabled = true;
 
-            //if (hasYouOweBalance())
-                //btnSettle.IsEnabled = true;
+            if (hasYouOweBalance() || hasOwesYouBalance())
+                btnSettle.IsEnabled = true;
 
             ApplicationBar.Buttons.Add(btnReminder);
             ApplicationBar.Buttons.Add(btnSettle);
