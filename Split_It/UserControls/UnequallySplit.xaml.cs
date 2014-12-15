@@ -85,6 +85,10 @@ namespace Split_It_.UserControls
                     {
                         if (!String.IsNullOrEmpty(expenseShareUsers[i].owed_share))
                         {
+                            if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                                expenseShareUsers[i].owed_share = expenseShareUsers[i].owed_share.Replace(".", ",");
+                            else
+                                expenseShareUsers[i].owed_share = expenseShareUsers[i].owed_share.Replace(",", ".");
                             decimal amount = Convert.ToDecimal(expenseShareUsers[i].owed_share);
                             totalAmount += amount;
                         }
@@ -106,7 +110,15 @@ namespace Split_It_.UserControls
                         {
                             currentUserIndex = i;
                         }
-                        decimal shareAmount = expenseAmount * expenseShareUsers[i].percentage / 100;
+                        if (Utils.Util.isEmpty(expenseShareUsers[i].percentage))
+                            expenseShareUsers[i].percentage = "0";
+
+                        if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                            expenseShareUsers[i].percentage = expenseShareUsers[i].percentage.Replace(".", ",");
+                        else
+                            expenseShareUsers[i].percentage = expenseShareUsers[i].percentage.Replace(",", ".");
+
+                        decimal shareAmount = expenseAmount * Convert.ToDecimal(expenseShareUsers[i].percentage) / 100;
 
                         //round off amount to digits
                         decimal shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);
@@ -114,7 +126,7 @@ namespace Split_It_.UserControls
 
                         expenseShareUsers[i].owed_share = shareAmountRounded.ToString();
 
-                        totalPercentage += expenseShareUsers[i].percentage;
+                        totalPercentage += Convert.ToDecimal(expenseShareUsers[i].percentage);
                     }
 
                     currenUserShareAmount = Convert.ToDecimal(expenseShareUsers[currentUserIndex].owed_share);
@@ -133,7 +145,15 @@ namespace Split_It_.UserControls
 
                     for (int i = 0; i < numberOfExpenseMembers; i++)
                     {
-                        totalShares += expenseShareUsers[i].share;
+                        if (Utils.Util.isEmpty(expenseShareUsers[i].share))
+                            expenseShareUsers[i].share = "0";
+
+                        if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                            expenseShareUsers[i].share = expenseShareUsers[i].share.Replace(".", ",");
+                        else
+                            expenseShareUsers[i].share = expenseShareUsers[i].share.Replace(",", ".");
+
+                        totalShares += Convert.ToDecimal(expenseShareUsers[i].share);
                     }
 
                     if (totalShares == 0)
@@ -151,7 +171,7 @@ namespace Split_It_.UserControls
                         {
                             currentUserIndex = i;
                         }
-                        decimal shareAmount = expenseShareUsers[i].share * perShareAmount;
+                        decimal shareAmount = Convert.ToDecimal(expenseShareUsers[i].share) * perShareAmount;
 
                         //round off amount to digits
                         decimal shareAmountRounded = Math.Round(shareAmount, 2, MidpointRounding.AwayFromZero);

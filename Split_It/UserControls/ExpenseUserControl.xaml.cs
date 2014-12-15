@@ -278,8 +278,13 @@ namespace Split_It_.UserControls
         private void showMultiplePayeePopUp()
         {
             MultiplePayeeWindow = new RadWindow();
+            String cost;
+            if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                cost = tbAmount.Text.Replace(".", ",");
+            else
+                cost = tbAmount.Text.Replace(",", ".");
             MultiplePayeeInputPopUpControl MultiplePayeeInputPopup = new MultiplePayeeInputPopUpControl
-                                                            (ref expenseShareUsers, _MultiplePayeeInputClose, Convert.ToDouble(tbAmount.Text));
+                                                            (ref expenseShareUsers, _MultiplePayeeInputClose, Convert.ToDecimal(cost));
             MultiplePayeeInputPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.1;
             MultiplePayeeInputPopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
@@ -304,7 +309,12 @@ namespace Split_It_.UserControls
                 {
                     //show unequall split pop up;
                     SplitUnequallyWindow = new RadWindow();
-                    UnequallySplit UnequallySplitPopup = new UnequallySplit(expenseShareUsers, Convert.ToDecimal(tbAmount.Text), _UnequallyClose);
+                    String cost;
+                    if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                        cost = tbAmount.Text.Replace(".", ",");
+                    else
+                        cost = tbAmount.Text.Replace(",", "."); ;
+                    UnequallySplit UnequallySplitPopup = new UnequallySplit(expenseShareUsers, Convert.ToDecimal(cost), _UnequallyClose);
                     UnequallySplitPopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.1;
                     UnequallySplitPopup.MaxWidth = App.Current.Host.Content.ActualWidth / 1.1;
 
@@ -402,7 +412,15 @@ namespace Split_It_.UserControls
 
                 //Check if description and amount are present.
                 expense.description = tbDescription.Text;
-                expense.cost = tbAmount.Text;
+
+                if (!Utils.Util.isEmpty(tbAmount.Text))
+                {
+                    if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                        expense.cost = tbAmount.Text.Replace(".", ",");
+                    else
+                        expense.cost = tbAmount.Text.Replace(",", ".");
+                }
+
                 if (String.IsNullOrEmpty(expense.cost) || String.IsNullOrEmpty(expense.description))
                 {
                     MessageBox.Show("Please enter amount and description", "Error", MessageBoxButton.OK);
@@ -512,7 +530,7 @@ namespace Split_It_.UserControls
                 if (!String.IsNullOrEmpty(expenseShareUsers[i].paid_share))
                     totalPaidBy += Convert.ToDouble(expenseShareUsers[i].paid_share);
 
-                expenseShareUsers[i].share = 1;
+                expenseShareUsers[i].share = "1";
             }
 
             if (totalPaidBy == amountToSplit)
