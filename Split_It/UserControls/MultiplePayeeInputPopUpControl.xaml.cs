@@ -16,11 +16,11 @@ namespace Split_It_.UserControls
     public partial class MultiplePayeeInputPopUpControl : UserControl
     {
         Action Close;
-        double ExpenseCost;
+        decimal ExpenseCost;
 
         string decimalsep = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
-        public MultiplePayeeInputPopUpControl(ref ObservableCollection<Expense_Share> expenseUsers, Action close, double total)
+        public MultiplePayeeInputPopUpControl(ref ObservableCollection<Expense_Share> expenseUsers, Action close, decimal total)
         {
             InitializeComponent();
             llsFriends.ItemsSource = expenseUsers;
@@ -37,12 +37,16 @@ namespace Split_It_.UserControls
         private bool calculateTotalInput()
         {
             ObservableCollection<Expense_Share> expenseUsers = llsFriends.ItemsSource as ObservableCollection<Expense_Share>;
-            double total = 0;
-            foreach (var item in expenseUsers)
+            decimal total = 0;
+            for (int i = 0; i < expenseUsers.Count; i++)
             {
-                if (!String.IsNullOrEmpty(item.paid_share))
+                if (!String.IsNullOrEmpty(expenseUsers[i].paid_share))
                 {
-                    total += Convert.ToDouble(item.paid_share);
+                    if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                        expenseUsers[i].paid_share = expenseUsers[i].paid_share.Replace(".", ",");
+                    else
+                        expenseUsers[i].paid_share = expenseUsers[i].paid_share.Replace(",", ".");
+                    total += Convert.ToDecimal(expenseUsers[i].paid_share);
                 }
             }
 
