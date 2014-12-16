@@ -86,7 +86,13 @@ namespace Split_It_.Add_Expense_Pages
 
             try
             {
-                transferAmount = Convert.ToDouble(tbAmount.Text);
+                String cost;
+                if (System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
+                    cost = tbAmount.Text.Replace(".", ",");
+                else
+                    cost = tbAmount.Text.Replace(",", ".");
+
+                transferAmount = Convert.ToDouble(cost);
             }
             catch (FormatException exception)
             {
