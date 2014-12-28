@@ -121,7 +121,10 @@ namespace Split_It_
                     //App.friendsList.Add(friend);
                     PhoneApplicationService.Current.State[Constants.NEW_USER] = null;
                     busyIndicator.IsRunning = false;
-                    NavigationService.GoBack();
+                    if(NavigationService.CanGoBack)
+                        NavigationService.GoBack();
+                    else
+                        MessageBox.Show("User has successfully been added as friend.", "Error", MessageBoxButton.OK);
                 });
             }
             else
