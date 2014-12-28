@@ -19,12 +19,10 @@ namespace Split_It_.ExpandableListHelper
             Debt_Group specificDebt = value as Debt_Group;
             double finalBalance = System.Convert.ToDouble(specificDebt.amount, culture);
 
-            if (finalBalance > 0)
-                colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;
-            else if (finalBalance == 0)
-                colorBrush = Application.Current.Resources["settled"] as SolidColorBrush;
-            else
+            if (specificDebt.ownerId == specificDebt.from)
                 colorBrush = Application.Current.Resources["negative"] as SolidColorBrush;
+            else
+                colorBrush = Application.Current.Resources["positive"] as SolidColorBrush;
 
             return colorBrush;
         }

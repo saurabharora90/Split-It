@@ -19,5 +19,9 @@ namespace Split_It_.Model
         public User fromUser { get; set; }
         [Ignore]
         public User toUser { get; set; }
+
+        //the following is used in group summary expandable list
+        [Ignore]
+        public int ownerId { get; set; }
     }
 }

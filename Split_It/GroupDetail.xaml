@@ -53,15 +53,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CustomItemTemplate">
-            <TextBlock Margin="0,0,0,12" TextWrapping="Wrap" FontSize="{StaticResource expenseDetailAmount}" Foreground="Black">
-                <TextBlock.Inlines>
-                    <Run x:Name="from_user" Text="{Binding 'fromUser.name'}"/>
-                    <Run Text="owes"/>
-                    <Run x:Name="amount" Text="{Binding Converter={StaticResource SpecificDebtAmountConverter}}"/> <!-- Foreground="{Binding Converter={StaticResource SpecificDebtColorConverter}}"-->
-                    <Run Text="to"/>
-                    <Run x:Name="to_user" Text="{Binding 'toUser.name'}"/>
-                </TextBlock.Inlines>
-            </TextBlock>
+            <TextBlock Margin="0,0,0,12" TextWrapping="Wrap" FontSize="23" Foreground="{Binding Converter={StaticResource SpecificDebtColorConverter}}" Text="{Binding Converter={StaticResource SpecificDebtAmountConverter}}"/>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 

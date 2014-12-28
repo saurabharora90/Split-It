@@ -198,10 +198,13 @@ namespace Split_It_.Utils
         public static List<Debt_Group> getUsersGroupDebtsList(List<Debt_Group> allDebts, int userId)
         {
             List<Debt_Group> currentUserDebts = new List<Debt_Group>();
-            foreach (var debt in allDebts)
-            {
-                if (debt.from == userId || debt.to == userId)
-                    currentUserDebts.Add(debt);
+            for (int i = 0; i < allDebts.Count; i++)
+			{
+                if (allDebts[i].from == userId || allDebts[i].to == userId)
+                {
+                    allDebts[i].ownerId = userId;
+                    currentUserDebts.Add(allDebts[i]);
+                }
             }
             return currentUserDebts;
         }
