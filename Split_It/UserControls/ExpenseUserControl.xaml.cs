@@ -126,7 +126,7 @@ namespace Split_It_.UserControls
                 }
             }
 
-            obj.closeDatabaseConnection();
+             
         }
 
         private void loadFriends()
@@ -140,7 +140,7 @@ namespace Split_It_.UserControls
                     friends.Add(new Expense_Share() { user = friend, user_id = friend.id });
                 }
             }
-            obj.closeDatabaseConnection();
+             
         }
 
 #region Event Handlers

@@ -129,7 +129,7 @@ namespace Split_It_
                 }
             });
 
-            obj.closeDatabaseConnection();
+             
         }
 
         private void OnDataRequested(object sender, EventArgs e)

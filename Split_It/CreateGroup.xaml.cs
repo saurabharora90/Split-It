@@ -65,7 +65,6 @@ namespace Split_It_
                     }
                 }
             });
-            obj.closeDatabaseConnection();
         }
 
         protected void createAppBar()

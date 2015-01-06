@@ -55,12 +55,13 @@ namespace Split_It_.Controller
         {
             //add user to database and to friends list in App.xaml
             PhoneApplicationService.Current.State[Constants.NEW_USER] = friend;
-            
-            SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
-            dbConn.Insert(friend);
-            friend.picture.user_id = friend.id;
-            dbConn.Insert(friend.picture);
-            dbConn.Dispose();
+
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
+            {
+                dbConn.Insert(friend);
+                friend.picture.user_id = friend.id;
+                dbConn.Insert(friend.picture);
+            }
 
             callback(true, HttpStatusCode.OK);
         }
@@ -70,26 +71,27 @@ namespace Split_It_.Controller
             //add user to database and to friends list in App.xaml
             PhoneApplicationService.Current.State[Constants.NEW_GROUP] = group;
 
-            SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
-            dbConn.BeginTransaction();
-            dbConn.Insert(group);
-            
-            foreach (var debt in group.simplified_debts)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                debt.group_id = group.id;
-                dbConn.InsertOrReplace(debt);
+                dbConn.BeginTransaction();
+                dbConn.Insert(group);
+
+                foreach (var debt in group.simplified_debts)
+                {
+                    debt.group_id = group.id;
+                    dbConn.InsertOrReplace(debt);
+                }
+
+                foreach (var member in group.members)
+                {
+                    Group_Members group_member = new Group_Members();
+                    group_member.group_id = group.id;
+                    group_member.user_id = member.id;
+                    dbConn.InsertOrReplace(group_member);
+                }
+
+                dbConn.Commit();
             }
-            
-            foreach (var member in group.members)
-            {
-                Group_Members group_member = new Group_Members();
-                group_member.group_id = group.id;
-                group_member.user_id = member.id;
-                dbConn.InsertOrReplace(group_member);
-            }
-            
-            dbConn.Commit();
-            dbConn.Dispose();
 
             callback(true, HttpStatusCode.OK);
         }
