@@ -20,7 +20,10 @@ namespace Split_It_.ExpandableListHelper
             string currency = specificDebt.currency_code;
             amount = currency + String.Format("{0:0.00}", Math.Abs(finalBalance));
 
-            return amount;
+            if (specificDebt.ownerId == specificDebt.from)
+                return amount + " to " + specificDebt.toUser.name;
+            else
+                return amount + " by " + specificDebt.fromUser.name;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

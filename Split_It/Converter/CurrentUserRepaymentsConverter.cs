@@ -16,6 +16,9 @@ namespace Split_It_.Converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             expense = value as Expense;
+            if (expense == null)
+                return "You";
+
             List<Expense_Share> users = expense.users;
 
             Expense_Share currentUser = null;
@@ -59,7 +62,10 @@ namespace Split_It_.Converter
                 else
                 {
                     User user = getUserWhoOwesYou();
-                    return user.name + " owes you";// + amount + " for this.";
+                    if (user == null)
+                        return "You paid";
+                    else
+                        return user.name + " owes you";// + amount + " for this.";
                 }
             }
             else
@@ -77,6 +83,10 @@ namespace Split_It_.Converter
                 else
                 {
                     User user = getUserWhoYouOweTo();
+                    if (user == null)
+                        return "You owe";
+                    else
+                        
                     return "You owe " + user.name;// + amount + " for this.";
                 }
             }

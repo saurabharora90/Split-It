@@ -265,7 +265,7 @@ namespace Split_It_
 
             if (App.currentUser == null)
             {
-                obj.closeDatabaseConnection();
+                 
                 return;
             }
 
@@ -276,7 +276,7 @@ namespace Split_It_
             btnOwesYouFriends.Text = netBalanceObj.PositiveBalance;
             btnYouOweFriends.Text = netBalanceObj.NegativeBalance;
             btnBalanceFriends.Text = netBalanceObj.NetBalance;
-            obj.closeDatabaseConnection();
+             
 
             more.DataContext = App.currentUser;
         }
@@ -321,7 +321,7 @@ namespace Split_It_
                     }
                 });
 
-                obj.closeDatabaseConnection();
+                 
             }
         }
 
@@ -340,7 +340,7 @@ namespace Split_It_
                     }
                 }
             });
-            obj.closeDatabaseConnection();
+             
         }
 
         private void OnDataRequested(object sender, EventArgs e)

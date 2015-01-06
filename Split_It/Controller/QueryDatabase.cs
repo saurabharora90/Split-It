@@ -12,42 +12,42 @@ namespace Split_It_.Controller
     class QueryDatabase
     {
         private static int EXPENSES_ROWS = 15;
-        SQLiteConnection dbConn;
-
-        public QueryDatabase()
-        {
-            dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true);
-        }
 
         //Returns the list of friends along with the balance and their picture.
         public List<User> getAllFriends()
         {
-            List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
-            //remove the current user from the list as the user table also contains his details.
-            for (var x = 0; x < friendsList.Count; x++)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                if (friendsList[x].id == Util.getCurrentUserId())
+                List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
+                //remove the current user from the list as the user table also contains his details.
+                for (var x = 0; x < friendsList.Count; x++)
                 {
-                    App.currentUser = friendsList[x];
-                    App.currentUser.picture = getUserPicture(friendsList[x].id);
-                    friendsList.Remove(friendsList[x]);
-                    //As one element has been removed
-                    x--;
-                    continue;
+                    if (friendsList[x].id == Util.getCurrentUserId())
+                    {
+                        App.currentUser = friendsList[x];
+                        App.currentUser.picture = getUserPicture(friendsList[x].id);
+                        friendsList.Remove(friendsList[x]);
+                        //As one element has been removed
+                        x--;
+                        continue;
+                    }
+
+                    object[] param = { friendsList[x].id };
+                    friendsList[x].balance = dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ?  AND amount <> '0.0' AND amount <> '-0.0'", param).ToList<Balance_User>();
+                    friendsList[x].picture = getUserPicture(friendsList[x].id);
                 }
 
-                object[] param = { friendsList[x].id };
-                friendsList[x].balance = dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ?  AND amount <> '0.0' AND amount <> '-0.0'", param).ToList<Balance_User>();
-                friendsList[x].picture = getUserPicture(friendsList[x].id);
+                return friendsList;
             }
-
-            return friendsList;
         }
 
         public List<User> getAllUsersIncludingMyself()
         {
-            List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
-            return friendsList;
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
+            {
+                List<User> friendsList = dbConn.Query<User>("SELECT * FROM user ORDER BY first_name").ToList<User>();
+                return friendsList;
+            }
         }
 
         public List<Expense> getAllExpenses(int pageNo=0)
@@ -55,33 +55,36 @@ namespace Split_It_.Controller
             int offset = EXPENSES_ROWS * pageNo;
             object[] param = { offset, EXPENSES_ROWS };
 
-            //Only retrieve expenses that have not been deleted
-            List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense WHERE deleted_by=0 ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
-            
-            //Get list of repayments for expense.
-            //Get the created by, updated by and deleted by user
-            //Get the expense share per user. Within each expense user, fill in the user details.
-            for (var x = 0; x < expensesList.Count; x++)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
-                expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
-                expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
-                
-                if(expensesList[x].updated_by_user_id!=0)
-                    expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+                //Only retrieve expenses that have not been deleted
+                List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense WHERE deleted_by=0 ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
 
-                if (expensesList[x].deleted_by_user_id != 0)
-                    expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
-
-                expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
-
-                for (var y = 0; y < expensesList[x].users.Count; y++)
+                //Get list of repayments for expense.
+                //Get the created by, updated by and deleted by user
+                //Get the expense share per user. Within each expense user, fill in the user details.
+                for (var x = 0; x < expensesList.Count; x++)
                 {
-                    expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
+                    expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
+                    expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
+                    expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
+
+                    if (expensesList[x].updated_by_user_id != 0)
+                        expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+
+                    if (expensesList[x].deleted_by_user_id != 0)
+                        expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
+
+                    expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
+
+                    for (var y = 0; y < expensesList[x].users.Count; y++)
+                    {
+                        expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
+                    }
                 }
+
+                return expensesList;
             }
-            
-            return expensesList;
         }
 
         public List<Expense> getExpensesForUser(int userId, int pageNo=0)
@@ -94,120 +97,135 @@ namespace Split_It_.Controller
             //Only retrieve expenses that have not been deleted
 
             object[] param = { Util.getCurrentUserId(), userId, userId, Util.getCurrentUserId(), offset, EXPENSES_ROWS };
-            List<Expense> expensesList = dbConn.Query<Expense>("SELECT expense.id, expense.group_id, expense.description, expense.details, expense.payment, expense.transaction_confirmed, expense.creation_method, expense.cost, expense.currency_code, expense.date, expense.created_by, expense.created_at, expense.updated_by, expense.updated_at, expense.deleted_at, expense.deleted_by FROM expense INNER JOIN debt_expense ON expense.id = debt_expense.expense_id WHERE expense.deleted_by=0 AND expense.group_id = 0 AND  ((debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?) OR (debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?)) ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
-
-            if (expensesList == null && expensesList.Count == 0)
-                return null;
-
-            //Get list of repayments for expense.
-            //Get the created by, updated by and deleted by user
-            //Get the expense share per user. Within each expense user, fill in the user details.
-            for (var x = 0; x < expensesList.Count; x++)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                //display amount details specific to user
-                expensesList[x].displayType = Expense.DISPLAY_FOR_SPECIFIC_USER;
-                expensesList[x].specificUserId = userId;
+                List<Expense> expensesList = dbConn.Query<Expense>("SELECT expense.id, expense.group_id, expense.description, expense.details, expense.payment, expense.transaction_confirmed, expense.creation_method, expense.cost, expense.currency_code, expense.date, expense.created_by, expense.created_at, expense.updated_by, expense.updated_at, expense.deleted_at, expense.deleted_by FROM expense INNER JOIN debt_expense ON expense.id = debt_expense.expense_id WHERE expense.deleted_by=0 AND expense.group_id = 0 AND  ((debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?) OR (debt_expense.\"from\" = ? AND debt_expense.\"to\" = ?)) ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
 
-                expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
-                expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
+                if (expensesList == null && expensesList.Count == 0)
+                    return null;
 
-                if (expensesList[x].updated_by_user_id != 0)
-                    expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
-
-                if (expensesList[x].deleted_by_user_id != 0)
-                    expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
-
-                expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
-
-                for (var y = 0; y < expensesList[x].users.Count; y++)
+                //Get list of repayments for expense.
+                //Get the created by, updated by and deleted by user
+                //Get the expense share per user. Within each expense user, fill in the user details.
+                for (var x = 0; x < expensesList.Count; x++)
                 {
-                    expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
-                }
-            }
+                    //display amount details specific to user
+                    expensesList[x].displayType = Expense.DISPLAY_FOR_SPECIFIC_USER;
+                    expensesList[x].specificUserId = userId;
 
-            return expensesList;
+                    expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
+                    expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
+
+                    if (expensesList[x].updated_by_user_id != 0)
+                        expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+
+                    if (expensesList[x].deleted_by_user_id != 0)
+                        expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
+
+                    expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
+
+                    for (var y = 0; y < expensesList[x].users.Count; y++)
+                    {
+                        expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
+                    }
+                }
+
+                return expensesList;
+            }
         }
 
         public List<Group> getAllGroups()
         {
-            List<Group> groupsList = dbConn.Query<Group>("SELECT * FROM [group] WHERE id <> 0 ORDER BY name").ToList<Group>();
-            if (groupsList != null)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                for (var x = 0; x < groupsList.Count; x++)
+                List<Group> groupsList = dbConn.Query<Group>("SELECT * FROM [group] WHERE id <> 0 ORDER BY name").ToList<Group>();
+                if (groupsList != null)
                 {
-                    groupsList[x].members = new List<User>();
-                    groupsList[x].simplified_debts = new List<Debt_Group>();
-
-                    object[] param = { groupsList[x].id };
-                    List<Group_Members> groupMembers = dbConn.Query<Group_Members>("SELECT * FROM group_members WHERE group_id= ?", param).ToList<Group_Members>();
-                    foreach (var member in groupMembers)
+                    for (var x = 0; x < groupsList.Count; x++)
                     {
-                        groupsList[x].members.Add(getUserDetails(member.user_id));
-                    }
+                        groupsList[x].members = new List<User>();
+                        groupsList[x].simplified_debts = new List<Debt_Group>();
 
-                    List<Debt_Group> groupSimplifiedDebts = dbConn.Query<Debt_Group>("SELECT * FROM debt_group WHERE group_id= ?", param).ToList<Debt_Group>();
-                    foreach (var groupDebt in groupSimplifiedDebts)
-                    {
-                        groupDebt.fromUser = getUserDetails(groupDebt.from);
-                        groupDebt.toUser = getUserDetails(groupDebt.to);
+                        object[] param = { groupsList[x].id };
+                        List<Group_Members> groupMembers = dbConn.Query<Group_Members>("SELECT * FROM group_members WHERE group_id= ?", param).ToList<Group_Members>();
+                        foreach (var member in groupMembers)
+                        {
+                            groupsList[x].members.Add(getUserDetails(member.user_id));
+                        }
 
-                        groupsList[x].simplified_debts.Add(groupDebt);
+                        List<Debt_Group> groupSimplifiedDebts = dbConn.Query<Debt_Group>("SELECT * FROM debt_group WHERE group_id= ?", param).ToList<Debt_Group>();
+                        foreach (var groupDebt in groupSimplifiedDebts)
+                        {
+                            groupDebt.fromUser = getUserDetails(groupDebt.from);
+                            groupDebt.toUser = getUserDetails(groupDebt.to);
+
+                            groupsList[x].simplified_debts.Add(groupDebt);
+                        }
                     }
                 }
+                return groupsList;
             }
-            return groupsList;
         }
 
         public List<Expense> getAllExpensesForGroup(int groupId, int pageNo = 0)
         {
-            int offset = EXPENSES_ROWS * pageNo;
-            object[] param = { groupId, offset, EXPENSES_ROWS };
-
-            //Only retrieve expenses that have not been deleted
-            List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense WHERE deleted_by=0 AND group_id=? ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
-
-            //Get list of repayments for expense.
-            //Get the created by, updated by and deleted by user
-            //Get the expense share per user. Within each expense user, fill in the user details.
-            for (var x = 0; x < expensesList.Count; x++)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
-                expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
-                expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
+                int offset = EXPENSES_ROWS * pageNo;
+                object[] param = { groupId, offset, EXPENSES_ROWS };
 
-                if (expensesList[x].updated_by_user_id != 0)
-                    expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+                //Only retrieve expenses that have not been deleted
+                List<Expense> expensesList = dbConn.Query<Expense>("SELECT * FROM expense WHERE deleted_by=0 AND group_id=? ORDER BY datetime(date) DESC LIMIT ?,?", param).ToList<Expense>();
 
-                if (expensesList[x].deleted_by_user_id != 0)
-                    expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
-
-                expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
-
-                for (var y = 0; y < expensesList[x].users.Count; y++)
+                //Get list of repayments for expense.
+                //Get the created by, updated by and deleted by user
+                //Get the expense share per user. Within each expense user, fill in the user details.
+                for (var x = 0; x < expensesList.Count; x++)
                 {
-                    expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
-                }
-            }
+                    expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
+                    expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
+                    expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
 
-            return expensesList;
+                    if (expensesList[x].updated_by_user_id != 0)
+                        expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+
+                    if (expensesList[x].deleted_by_user_id != 0)
+                        expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
+
+                    expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
+
+                    for (var y = 0; y < expensesList[x].users.Count; y++)
+                    {
+                        expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
+                    }
+                }
+
+                return expensesList;
+            }
         }
 
         public List<Currency> getSupportedCurrencies()
         {
-            List<Currency> currencyList = dbConn.Query<Currency>("SELECT * FROM currency ORDER BY currency_code");
-            return currencyList;
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
+            {
+                List<Currency> currencyList = dbConn.Query<Currency>("SELECT * FROM currency ORDER BY currency_code");
+                return currencyList;
+            }
         }
 
         public string getUnitForCurrency(string currencyCode)
         {
-            List<Currency> currencyList = dbConn.Query<Currency>("SELECT * FROM currency WHERE currency_code = ?", new Object[] { currencyCode });
-            if (currencyList != null && currencyList.Count != 0)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                Currency currency = currencyList.First();
-                return currency.unit;
+                List<Currency> currencyList = dbConn.Query<Currency>("SELECT * FROM currency WHERE currency_code = ?", new Object[] { currencyCode });
+                if (currencyList != null && currencyList.Count != 0)
+                {
+                    Currency currency = currencyList.First();
+                    return currency.unit;
+                }
+                else
+                    return currencyCode;
             }
-            else
-                return currencyCode;
         }
 
         public List<Expense> searchForExpense(string searchText)
@@ -217,79 +235,98 @@ namespace Split_It_.Controller
 
             //Only retrieve expenses that have not been deleted
             string query = "SELECT * FROM expense WHERE deleted_by=0 AND upper(description) LIKE upper('%" + searchText + "%') ORDER BY datetime(date) DESC LIMIT ?";
-            List<Expense> expensesList = dbConn.Query<Expense>(query, param).ToList<Expense>();
-
-            //Get list of repayments for expense.
-            //Get the created by, updated by and deleted by user
-            //Get the expense share per user. Within each expense user, fill in the user details.
-            for (var x = 0; x < expensesList.Count; x++)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
-                expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
-                expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
+                List<Expense> expensesList = dbConn.Query<Expense>(query, param).ToList<Expense>();
 
-                if (expensesList[x].updated_by_user_id != 0)
-                    expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
-
-                if (expensesList[x].deleted_by_user_id != 0)
-                    expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
-
-                expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
-
-                for (var y = 0; y < expensesList[x].users.Count; y++)
+                //Get list of repayments for expense.
+                //Get the created by, updated by and deleted by user
+                //Get the expense share per user. Within each expense user, fill in the user details.
+                for (var x = 0; x < expensesList.Count; x++)
                 {
-                    expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
-                }
-            }
+                    expensesList[x].displayType = Expense.DISPLAY_FOR_ALL_USER;
+                    expensesList[x].repayments = getExpenseRepayments(expensesList[x].id);
+                    expensesList[x].created_by = getUserDetails(expensesList[x].created_by_user_id);
 
-            return expensesList;
+                    if (expensesList[x].updated_by_user_id != 0)
+                        expensesList[x].updated_by = getUserDetails(expensesList[x].updated_by_user_id);
+
+                    if (expensesList[x].deleted_by_user_id != 0)
+                        expensesList[x].deleted_by = getUserDetails(expensesList[x].deleted_by_user_id);
+
+                    expensesList[x].users = getExpenseShareUsers(expensesList[x].id, expensesList[x].currency_code);
+
+                    for (var y = 0; y < expensesList[x].users.Count; y++)
+                    {
+                        expensesList[x].users[y].user = getUserDetails(expensesList[x].users[y].user_id);
+                    }
+                }
+
+                return expensesList;
+            }
         }
-        
-        public void closeDatabaseConnection()
+
+        public List<Balance_User> getUserBalance(int userId)
         {
-            dbConn.Dispose();
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
+            {
+                object[] param = { userId };
+                return dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ?  AND amount <> '0.0' AND amount <> '-0.0'", param).ToList<Balance_User>();
+            }
         }
 
         private List<Expense_Share> getExpenseShareUsers(int expenseId, string currencyCode)
         {
-            List<Expense_Share> expenseShareList = dbConn.Query<Expense_Share>("SELECT * FROM expense_share WHERE expense_id= ?", new object[] { expenseId }).ToList<Expense_Share>();
-
-            for (var y = 0; y < expenseShareList.Count; y++)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                expenseShareList[y].currency = currencyCode;
+                List<Expense_Share> expenseShareList = dbConn.Query<Expense_Share>("SELECT * FROM expense_share WHERE expense_id= ?", new object[] { expenseId }).ToList<Expense_Share>();
+
+                for (var y = 0; y < expenseShareList.Count; y++)
+                {
+                    expenseShareList[y].currency = currencyCode;
+                }
+                return expenseShareList;
             }
-            return expenseShareList;
         }
 
         private List<Debt_Expense> getExpenseRepayments(int expenseId)
         {
-            List<Debt_Expense> debtExpensesList = dbConn.Query<Debt_Expense>("SELECT * FROM debt_expense WHERE expense_id= ?", new object[] { expenseId }).ToList<Debt_Expense>();
-
-            for (var y = 0; y < debtExpensesList.Count; y++)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                debtExpensesList[y].fromUser = getUserDetails(debtExpensesList[y].from);
-                debtExpensesList[y].toUser = getUserDetails(debtExpensesList[y].to);
-            }
+                List<Debt_Expense> debtExpensesList = dbConn.Query<Debt_Expense>("SELECT * FROM debt_expense WHERE expense_id= ?", new object[] { expenseId }).ToList<Debt_Expense>();
 
-            return debtExpensesList;
+                for (var y = 0; y < debtExpensesList.Count; y++)
+                {
+                    debtExpensesList[y].fromUser = getUserDetails(debtExpensesList[y].from);
+                    debtExpensesList[y].toUser = getUserDetails(debtExpensesList[y].to);
+                }
+
+                return debtExpensesList;
+            }
         }
 
         private User getUserDetails(int userId)
         {
-            List<User> users = dbConn.Query<User>("SELECT * FROM user WHERE id= ?", new object[] { userId });
-            if (users != null && users.Count != 0)
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
             {
-                User user = users.First();
-                user.picture = getUserPicture(userId);
-                return user;
+                List<User> users = dbConn.Query<User>("SELECT * FROM user WHERE id= ?", new object[] { userId });
+                if (users != null && users.Count != 0)
+                {
+                    User user = users.First();
+                    user.picture = getUserPicture(userId);
+                    return user;
+                }
+                else
+                    return null;
             }
-            else
-                return null;
         }
 
         private Picture getUserPicture(int userId)
         {
-            return dbConn.Query<Picture>("SELECT * FROM picture WHERE user_id= ?", new object[] { userId }).First();
+            using (SQLiteConnection dbConn = new SQLiteConnection(Constants.DB_PATH, SQLiteOpenFlags.ReadWrite, true))
+            {
+                return dbConn.Query<Picture>("SELECT * FROM picture WHERE user_id= ?", new object[] { userId }).First();
+            }
         }
     }
 }

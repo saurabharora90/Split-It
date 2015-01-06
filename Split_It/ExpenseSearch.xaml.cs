@@ -85,7 +85,6 @@ namespace Split_It_
 
                 busyIndicator.IsRunning = false;
             });
-            obj.closeDatabaseConnection();
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
