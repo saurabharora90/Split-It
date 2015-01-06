@@ -200,12 +200,11 @@ namespace Split_It_.Utils
             List<Debt_Group> currentUserDebts = new List<Debt_Group>();
             for (int i = 0; i < allDebts.Count; i++)
 			{
-                if (allDebts[i].from == userId || allDebts[i].to == userId)
+                Debt_Group debtGroup = new Debt_Group(allDebts[i]);
+                if (debtGroup.from == userId || debtGroup.to == userId)
                 {
-                    //only set owner id if it wasn't set earlier. default value of int is 0
-                    if(allDebts[i].ownerId == 0)
-                        allDebts[i].ownerId = userId;
-                    currentUserDebts.Add(allDebts[i]);
+                    debtGroup.ownerId = userId;
+                    currentUserDebts.Add(debtGroup);
                 }
             }
             return currentUserDebts;
