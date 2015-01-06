@@ -23,5 +23,22 @@ namespace Split_It_.Model
         //the following is used in group summary expandable list
         [Ignore]
         public int ownerId { get; set; }
+
+        //need a copy contructor for this
+        public Debt_Group(Debt_Group other)
+        {
+            this.from = other.from;
+            this.to = other.to;
+            this.currency_code = other.currency_code;
+            this.amount = other.amount;
+            this.group_id = other.group_id;
+            this.fromUser = other.fromUser;
+            this.toUser = other.toUser;
+            this.ownerId = other.ownerId;
+        }
+
+        public Debt_Group()
+        {
+        }
     }
 }
