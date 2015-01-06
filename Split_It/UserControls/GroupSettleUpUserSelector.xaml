@@ -13,7 +13,7 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <UserControl.Resources>
-        <helper:AllDebtAmountConverter x:Key="AllDebtAmountConverter"/>
+        <helper:SpecificDebtAmountConverter x:Key="SpecificDebtAmountConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Background="White">
@@ -43,7 +43,7 @@
                             Foreground="Black"
                             VerticalAlignment="Center"
                             FontSize="{StaticResource nameSize}" 
-                            Text="{Binding Converter={StaticResource AllDebtAmountConverter}}"/>
+                            Text="{Binding Converter={StaticResource SpecificDebtAmountConverter}}"/>
                     </Border>
                 </DataTemplate>
             </phone:LongListSelector.ItemTemplate>

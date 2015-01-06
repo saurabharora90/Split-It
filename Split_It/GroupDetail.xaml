@@ -109,6 +109,11 @@
                 </telerikPrimitives:RadDataBoundListBox>
             </phone:PivotItem>
         </phone:Pivot>
+
+        <StackPanel Background="#CC000000"
+                    Visibility="Collapsed"
+                    x:Name="DimContainer"
+                    Grid.Row="0"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

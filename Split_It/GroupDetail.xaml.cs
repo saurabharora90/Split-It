@@ -171,6 +171,7 @@ namespace Split_It_
                 recordPayment(currentUserExpanderInfo.debtList[0]);
             else
             {
+                DimBackGround(true);
                 SettleUpWindow = new Telerik.Windows.Controls.RadWindow();
                 GroupSettleUpUserSelector ChoosePayeePopup = new GroupSettleUpUserSelector(currentUserExpanderInfo.debtList, _SettleUpSelectorClose);
                 ChoosePayeePopup.MaxHeight = App.Current.Host.Content.ActualHeight / 1.1;
@@ -184,6 +185,7 @@ namespace Split_It_
         private void _SettleUpSelectorClose(Debt_Group debt)
         {
             SettleUpWindow.IsOpen = false;
+            DimBackGround(false);
             recordPayment(debt);
         }
 
@@ -191,6 +193,20 @@ namespace Split_It_
         {
             window.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
             window.IsOpen = true;
+        }
+
+        private void DimBackGround(bool dim)
+        {
+            if (dim)
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Visible;
+                ApplicationBar.IsVisible = false;
+            }
+            else
+            {
+                DimContainer.Visibility = System.Windows.Visibility.Collapsed;
+                ApplicationBar.IsVisible = true;
+            }
         }
 
         private void recordPayment(Debt_Group debt)

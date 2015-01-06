@@ -202,7 +202,9 @@ namespace Split_It_.Utils
 			{
                 if (allDebts[i].from == userId || allDebts[i].to == userId)
                 {
-                    allDebts[i].ownerId = userId;
+                    //only set owner id if it wasn't set earlier. default value of int is 0
+                    if(allDebts[i].ownerId == 0)
+                        allDebts[i].ownerId = userId;
                     currentUserDebts.Add(allDebts[i]);
                 }
             }
