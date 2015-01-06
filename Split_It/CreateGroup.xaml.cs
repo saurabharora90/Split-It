@@ -154,7 +154,10 @@ namespace Split_It_
                     //App.groupsList.Add(group);
                     PhoneApplicationService.Current.State[Constants.NEW_GROUP] = null;
                     busyIndicator.IsRunning = false;
-                    NavigationService.GoBack();
+                    if (NavigationService.CanGoBack)
+                        NavigationService.GoBack();
+                    else
+                        MessageBox.Show("Group has been successfully created.", "Success", MessageBoxButton.OK);
                 });
             }
             else

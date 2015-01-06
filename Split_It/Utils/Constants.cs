@@ -34,6 +34,7 @@ namespace Split_It_.Utils
         public static string PAYMENT_TYPE = "payment_type";
         public static int PAYMENT_TO = 1000;
         public static int PAYMENT_FROM = 1001;
+        public static string PAYMENT_GROUP = "payment_group";
 
         public static string NEW_USER = "new_user";
         public static string NEW_GROUP = "new_group";

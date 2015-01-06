@@ -124,7 +124,7 @@ namespace Split_It_
                     if(NavigationService.CanGoBack)
                         NavigationService.GoBack();
                     else
-                        MessageBox.Show("User has successfully been added as friend.", "Error", MessageBoxButton.OK);
+                        MessageBox.Show("User has successfully been added as friend.", "Success", MessageBoxButton.OK);
                 });
             }
             else

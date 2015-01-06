@@ -250,6 +250,12 @@ namespace Split_It_.Controller
             dbConn.Dispose();
         }
 
+        public List<Balance_User> getUserBalance(int userId)
+        {
+            object[] param = { userId };
+            return dbConn.Query<Balance_User>("SELECT * FROM balance_user WHERE user_id= ?  AND amount <> '0.0' AND amount <> '-0.0'", param).ToList<Balance_User>();
+        }
+
         private List<Expense_Share> getExpenseShareUsers(int expenseId, string currencyCode)
         {
             List<Expense_Share> expenseShareList = dbConn.Query<Expense_Share>("SELECT * FROM expense_share WHERE expense_id= ?", new object[] { expenseId }).ToList<Expense_Share>();

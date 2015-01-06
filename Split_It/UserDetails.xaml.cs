@@ -134,6 +134,7 @@ namespace Split_It_
 
             PhoneApplicationService.Current.State[Constants.PAYMENT_USER] = selectedUser;
             PhoneApplicationService.Current.State[Constants.PAYMENT_TYPE] = navParams;
+            PhoneApplicationService.Current.State[Constants.PAYMENT_GROUP] = 0;
 
             NavigationService.Navigate(new Uri("/Add_Expense_Pages/AddPayment.xaml", UriKind.Relative));
         }

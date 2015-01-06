@@ -167,6 +167,7 @@ namespace Split_It_.Add_Expense_Pages
             paymentExpense.creation_method = "payment";
             paymentExpense.description = "Payment";
             paymentExpense.details = details;
+            paymentExpense.group_id = (int) PhoneApplicationService.Current.State[Constants.PAYMENT_GROUP];
             paymentExpense.users = new List<Expense_Share>();
 
             Expense_Share fromUser = new Expense_Share();
