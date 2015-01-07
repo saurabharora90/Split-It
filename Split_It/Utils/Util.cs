@@ -147,6 +147,28 @@ namespace Split_It_.Utils
             return 0;
         }
 
+        public static void setDonNotShowDebtSimplifationBox()
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.DEBT_SIMPLIFICATION_DO_NOT_SHOW))
+            {
+                settings.Remove(Constants.DEBT_SIMPLIFICATION_DO_NOT_SHOW);
+            }
+
+            settings.Add(Constants.DEBT_SIMPLIFICATION_DO_NOT_SHOW, true);
+            settings.Save();
+        }
+
+        public static bool doNotShowDebtSimplificationBox()
+        {
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(Constants.DEBT_SIMPLIFICATION_DO_NOT_SHOW))
+            {
+                return Convert.ToBoolean(IsolatedStorageSettings.ApplicationSettings[Constants.DEBT_SIMPLIFICATION_DO_NOT_SHOW]);
+            }
+            return false;
+        }
+
         public static bool checkNetworkConnection()
         {
             var ni = NetworkInterface.NetworkInterfaceType;

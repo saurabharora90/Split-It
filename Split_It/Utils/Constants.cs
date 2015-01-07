@@ -25,6 +25,8 @@ namespace Split_It_.Utils
         public static String LAST_UPDATED_TIME = "last_update";
         public static String CURRENT_USER_ID = "current_user_id";
 
+        public static String DEBT_SIMPLIFICATION_DO_NOT_SHOW = "debt_simplification_do_not_show";
+
         public static string SELECTED_USER = "selected_user";
         public static string SELECTED_EXPENSE = "selected_expense";
         public static string SELECTED_GROUP = "selected_group";
