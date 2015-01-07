@@ -55,6 +55,21 @@ namespace Split_It_
         private void browser_Navigated(object sender, NavigationEventArgs e)
         {
             busyIndicator.IsRunning = false;
+            /*if (e.Uri.ToString().Contains("account/settings"))
+            {
+                CustomMessageBox box = new CustomMessageBox()
+                {
+                    Message = "Debt simplification was successful",
+                    Caption = "Success",
+                    LeftButtonContent = "Okay"
+                };
+                box.Dismissed += (s1, e1) =>
+                {
+                    if (NavigationService.CanGoBack)
+                        NavigationService.GoBack();
+                };
+
+            }*/
         }
 
         private void browser_NavigationFailed(object sender, NavigationFailedEventArgs e)
