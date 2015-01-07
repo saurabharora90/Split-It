@@ -442,22 +442,20 @@ namespace Split_It_
             }
             catch (Exception exception)
             {
-                if (App.isBeta)
-                {
-                    MessageBoxResult result = MessageBox.Show("An error has occured. Submit report?",
-                                                                "IAP Error", MessageBoxButton.OKCancel);
+                MessageBoxResult result = MessageBox.Show("An error has occured. Submit report?",
+                                                            "IAP Error", MessageBoxButton.OKCancel);
 
-                    if (result == MessageBoxResult.OK)
-                    {
-                        EmailComposeTask task = new EmailComposeTask();
-                        task.To = "saurabh_arora129@hotmail.com";
-                        task.Body = exception.Data.ToString() + "\n \n Inner Exception: \n" +
-                                    exception.InnerException + "\n \n Message: \n" +
-                                    exception.Message + "\n \n Stack Trace: \n" +
-                                    exception.StackTrace;
-                        task.Show();
-                    }
+                if (result == MessageBoxResult.OK)
+                {
+                    EmailComposeTask task = new EmailComposeTask();
+                    task.To = "saurabh_arora129@hotmail.com";
+                    task.Body = exception.Data.ToString() + "\n \n Inner Exception: \n" +
+                                exception.InnerException + "\n \n Message: \n" +
+                                exception.Message + "\n \n Stack Trace: \n" +
+                                exception.StackTrace;
+                    task.Show();
                 }
+
             }
         }
 
