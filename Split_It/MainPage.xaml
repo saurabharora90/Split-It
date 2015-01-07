@@ -172,8 +172,9 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" 
+                                   MaxHeight="150"
                                    Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
-                                   VerticalAlignment="Top"/>
+                                   VerticalAlignment="Top" Stretch="UniformToFill"/>
 
                             <Grid Grid.Column="1" Margin="12,6,0,0">
                                 <Grid.RowDefinitions>
@@ -186,9 +187,9 @@
                             </Grid>
                         </Grid>
 
-                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,15">
+                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,10">
                             <TextBlock Name="add_user" 
-                                   Padding="12" 
+                                   Padding="12,8" 
                                    Text="add friend" 
                                    Foreground="Black"
                                    toolkit:TiltEffect.IsTiltEnabled="True"
@@ -196,7 +197,7 @@
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
                             <TextBlock Name="create_group" 
-                                   Padding="12" 
+                                   Padding="12,8" 
                                    Text="create group" 
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
@@ -204,15 +205,23 @@
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
                             <TextBlock Name="account_settings" 
-                                   Padding="12" 
+                                   Padding="12,8" 
                                    Text="account settings" 
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
                                    Tap="account_settings_Tap"
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
+                            <TextBlock Name="simplify_debt" 
+                                   Padding="12,8"  
+                                   Text="debt simplification" 
+                                   Foreground="Black" 
+                                   toolkit:TiltEffect.IsTiltEnabled="True"
+                                   Tap="simplify_debt_Tap"
+                                   FontSize="{StaticResource userDetailnameSize}"/>
+
                             <TextBlock Name="logout" 
-                                   Padding="12" 
+                                   Padding="12,8"  
                                    Text="logout" 
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
@@ -220,7 +229,7 @@
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
                             <TextBlock Name="rate" 
-                                   Padding="12" 
+                                   Padding="12,8" 
                                    Text="rate and review" 
                                    Foreground="Black" 
                                    toolkit:TiltEffect.IsTiltEnabled="True"
@@ -228,7 +237,7 @@
                                    FontSize="{StaticResource userDetailnameSize}"/>
 
                             <TextBlock Name="beer" 
-                                   Padding="12" 
+                                   Padding="12,8"  
                                    Text="buy me a beer (remove ads)" 
                                    Foreground="Black" 
                                    Tap="beer_Tap"

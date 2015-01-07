@@ -104,6 +104,9 @@
       <DependentUpon>EditExpense.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter\MyAppJetImageLoaderConverter.cs" />
+    <Compile Include="DebtSimplification.xaml.cs">
+      <DependentUpon>DebtSimplification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\AmountSplit.cs" />
     <Compile Include="Model\ExpenseType.cs" />
     <Compile Include="Request\UpdateUserRequest.cs" />
@@ -238,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Add_Expense_Pages\EditExpense.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DebtSimplification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

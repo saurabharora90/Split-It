@@ -466,6 +466,11 @@ namespace Split_It_
                 NavigationService.Navigate(new Uri("/AccountSettings.xaml", UriKind.Relative));
         }
 
+        private void simplify_debt_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/DebtSimplification.xaml", UriKind.Relative));
+        }
+        
         private void syncDatabaseBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             databaseSync.performSync();
