@@ -24,6 +24,7 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="0" Margin="12,0,12,0">
             <phone:WebBrowser Name="browser" 
+                              IsScriptEnabled="True"
                               Navigating="browser_Navigating"
                               Navigated="browser_Navigated" 
                               NavigationFailed="browser_NavigationFailed"/>
