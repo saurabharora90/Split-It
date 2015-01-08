@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace Split_It_
 {
@@ -55,8 +56,10 @@ namespace Split_It_
         private void browser_Navigated(object sender, NavigationEventArgs e)
         {
             busyIndicator.IsRunning = false;
-            /*if (e.Uri.ToString().Contains("account/settings"))
+            if (e.Uri.ToString().Contains("edit"))
             {
+                Debug.WriteLine("Simplification done. Show prompt to exit");
+
                 CustomMessageBox box = new CustomMessageBox()
                 {
                     Message = "Debt simplification was successful",
@@ -68,8 +71,8 @@ namespace Split_It_
                     if (NavigationService.CanGoBack)
                         NavigationService.GoBack();
                 };
-
-            }*/
+                box.Show();
+            }
         }
 
         private void browser_NavigationFailed(object sender, NavigationFailedEventArgs e)

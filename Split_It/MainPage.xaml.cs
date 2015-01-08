@@ -16,7 +16,13 @@ using System.Windows.Media;
 using System.Windows.Data;
 using Microsoft.Phone.Tasks;
 using System.Globalization;
+
+#if DEBUG
+using MockIAPLib;
+using Store = MockIAPLib;
+#else
 using Windows.ApplicationModel.Store;
+#endif
 
 namespace Split_It_
 {
@@ -431,13 +437,11 @@ namespace Split_It_
         {
             try
             {
-                await CurrentApp.RequestProductPurchaseAsync(Constants.REMOVE_ADS_PRODUCT_ID, false);
+                await CurrentApp.RequestProductPurchaseAsync(Constants.REMOVE_ADS_NEW_PRODUCT_ID, false);
                 //check if purchase was made
-                if (App.AdsRemoved)
+                if (CurrentApp.LicenseInformation.ProductLicenses[Constants.REMOVE_ADS_NEW_PRODUCT_ID].IsActive)
                 {
-                    MessageBox.Show("Success!", "Thank you for your contribution. You might have to restart the app for the ads to fully disappear", MessageBoxButton.OK);
-                    // notify marketplace that product has been delivered
-                    CurrentApp.ReportProductFulfillment(Constants.REMOVE_ADS_PRODUCT_ID);
+                    MessageBox.Show("Thank you for your contribution. You might have to restart the app for the ads to fully disappear", "Success!", MessageBoxButton.OK);
                 }
             }
             catch (Exception exception)

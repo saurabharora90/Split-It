@@ -10,7 +10,13 @@ using Split_It_.Resources;
 using Split_It_.Utils;
 using Split_It_.Model;
 using System.Collections.ObjectModel;
+
+#if DEBUG
+using MockIAPLib;
+using Store = MockIAPLib;
+#else
 using Windows.ApplicationModel.Store;
+#endif
 
 namespace Split_It_
 {
@@ -25,22 +31,30 @@ namespace Split_It_
         public static string accessToken, accessTokenSecret;
         public static User currentUser;
 
-        public static bool isBeta = true;
+        public static bool isBeta = false;
 
         private static bool? _adsRemoved;
         public static bool AdsRemoved
         {
             get
             {
-                if (_adsRemoved == null)
+                if (_adsRemoved != null)
+                    return _adsRemoved.Value;
+
+                bool oldRemoved = CurrentApp.LicenseInformation.ProductLicenses[Constants.REMOVE_ADS_OLD_PRODUCT_ID].IsActive;
+                bool newRemoved = CurrentApp.LicenseInformation.ProductLicenses[Constants.REMOVE_ADS_NEW_PRODUCT_ID].IsActive;
+                /*ProductLicense productLicense;
+                if (CurrentApp.LicenseInformation.ProductLicenses.TryGetValue(Constants.REMOVE_ADS_PRODUCT_ID, out productLicense))
                 {
-                    _adsRemoved = CurrentApp.LicenseInformation.ProductLicenses[Constants.REMOVE_ADS_PRODUCT_ID].IsActive;
+                    _adsRemoved = true;
                 }
+                else
+                    _adsRemoved = false;*/
+                Debug.WriteLine("Old: " + oldRemoved.ToString());
+                Debug.WriteLine("New: " + newRemoved.ToString());
+
+                _adsRemoved = oldRemoved || newRemoved;
                 return _adsRemoved.Value;
-            }
-            set
-            {
-                _adsRemoved = CurrentApp.LicenseInformation.ProductLicenses[Constants.REMOVE_ADS_PRODUCT_ID].IsActive;
             }
         }
 
@@ -81,7 +95,47 @@ namespace Split_It_
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+            SetupMockIAP();
+
         }
+
+        private void SetupMockIAP()
+        {
+#if DEBUG
+            MockIAP.Init();
+
+            MockIAP.RunInMockMode(true);
+            MockIAP.SetListingInformation(1, "en-us", "A description", "1", "TestApp");
+
+            // Add some more items manually.
+            ProductListing p = new ProductListing
+            {
+                Name = Constants.REMOVE_ADS_OLD_PRODUCT_ID,
+                ImageUri = new Uri("/Assets/Icons/refresh.png", UriKind.Relative),
+                ProductId = Constants.REMOVE_ADS_OLD_PRODUCT_ID,
+                ProductType = Windows.ApplicationModel.Store.ProductType.Consumable,
+                Keywords = new string[] { "image" },
+                Description = "An image",
+                FormattedPrice = "1.99",
+                Tag = string.Empty
+            };
+            MockIAP.AddProductListing(Constants.REMOVE_ADS_OLD_PRODUCT_ID, p);
+
+            ProductListing p1 = new ProductListing
+            {
+                Name = "Remove Ads Split It",
+                ImageUri = new Uri("/Assets/Icons/refresh.png", UriKind.Relative),
+                ProductId = Constants.REMOVE_ADS_NEW_PRODUCT_ID,
+                ProductType = Windows.ApplicationModel.Store.ProductType.Durable,
+                Keywords = new string[] { "image" },
+                Description = "An image",
+                FormattedPrice = "1.99",
+                Tag = string.Empty
+            };
+            MockIAP.AddProductListing(Constants.REMOVE_ADS_NEW_PRODUCT_ID, p1);
+#endif
+        }
+
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
