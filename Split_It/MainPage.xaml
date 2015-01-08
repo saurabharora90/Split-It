@@ -173,8 +173,9 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" 
                                    MaxHeight="150"
+                                   MaxWidth="150"
                                    Source="{Binding PictureUrl, Converter={StaticResource JetImageLoaderConverter}}"
-                                   VerticalAlignment="Top" Stretch="UniformToFill"/>
+                                   VerticalAlignment="Top" Stretch="Uniform"/>
 
                             <Grid Grid.Column="1" Margin="12,6,0,0">
                                 <Grid.RowDefinitions>

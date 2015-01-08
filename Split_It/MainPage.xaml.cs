@@ -79,7 +79,7 @@ namespace Split_It_
             syncDatabaseBackgroundWorker.WorkerSupportsCancellation = true;
             syncDatabaseBackgroundWorker.DoWork += new DoWorkEventHandler(syncDatabaseBackgroundWorker_DoWork);
 
-            if (App.AdsRemoved)
+            if (App.AdsRemoved || App.isBeta)
                 beer.Visibility = System.Windows.Visibility.Collapsed;
         }
 
