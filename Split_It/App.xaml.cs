@@ -31,7 +31,7 @@ namespace Split_It_
         public static string accessToken, accessTokenSecret;
         public static User currentUser;
 
-        public static bool isBeta = false;
+        public static bool isBeta = true;
 
         private static bool? _adsRemoved;
         public static bool AdsRemoved
