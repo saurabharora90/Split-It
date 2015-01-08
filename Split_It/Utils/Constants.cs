@@ -44,7 +44,8 @@ namespace Split_It_.Utils
         public static string CRITTERCISM_ID = "5360ad740729df4d95000002";
         public static string CRITTERCISM_BETA_ID = "541bdab407229a2e75000002";
 
-        public static string REMOVE_ADS_PRODUCT_ID = "Remove_Ads";
+        public static string REMOVE_ADS_OLD_PRODUCT_ID = "Remove_Ads";
+        public static string REMOVE_ADS_NEW_PRODUCT_ID = "Remove_Ads_new";
 
         public static string ADD_EXPENSE_TILE_SHORTCUT = "/Add_Expense_Pages/AddExpense.xaml";
 
