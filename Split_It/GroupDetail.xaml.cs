@@ -185,14 +185,19 @@ namespace Split_It_
         private void _SettleUpSelectorClose(Debt_Group debt)
         {
             SettleUpWindow.IsOpen = false;
-            DimBackGround(false);
             recordPayment(debt);
         }
 
         private void ShowRadWindow(ref RadWindow window)
         {
             window.Placement = Telerik.Windows.Controls.PlacementMode.CenterCenter;
+            window.WindowClosed += RadWindow_WindowClosed;
             window.IsOpen = true;
+        }
+
+        void RadWindow_WindowClosed(object sender, WindowClosedEventArgs e)
+        {
+            DimBackGround(false);
         }
 
         private void DimBackGround(bool dim)
