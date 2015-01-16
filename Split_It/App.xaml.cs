@@ -154,6 +154,14 @@ namespace Split_It_
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            if (String.IsNullOrEmpty(App.accessToken))
+            {
+                Debug.WriteLine("App to foreground. App token is null");
+                App.accessToken = Util.getAccessToken();
+                App.accessTokenSecret = Util.getAccessTokenSecret();
+            }
+
+            Debug.WriteLine("App to foreground. App token: {0}", App.accessToken);
         }
 
         // Code to execute when the application is deactivated (sent to background)
