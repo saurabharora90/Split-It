@@ -24,8 +24,11 @@ namespace Split_It_.Controller
                 {
                     if (friendsList[x].id == Util.getCurrentUserId())
                     {
-                        App.currentUser = friendsList[x];
-                        App.currentUser.picture = getUserPicture(friendsList[x].id);
+                        if (App.currentUser == null)
+                        {
+                            App.currentUser = friendsList[x];
+                            App.currentUser.picture = getUserPicture(friendsList[x].id);
+                        }
                         friendsList.Remove(friendsList[x]);
                         //As one element has been removed
                         x--;
