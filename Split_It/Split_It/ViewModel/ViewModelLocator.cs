@@ -13,6 +13,8 @@ namespace Split_It.ViewModel
 {
     public class ViewModelLocator
     {
+        public const string MainPageKey = "MainPage";
+
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);

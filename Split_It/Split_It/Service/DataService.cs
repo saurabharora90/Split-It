@@ -8,5 +8,7 @@ namespace Split_It.Service
 {
     public class DataService : IDataService
     {
+        public string AccessToken { get; set; }
+        public string AccessTokenSecret { get; set; }
     }
 }
