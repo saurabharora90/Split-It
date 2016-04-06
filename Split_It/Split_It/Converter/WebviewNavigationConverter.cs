@@ -12,10 +12,22 @@ namespace Split_It.Converter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var args = (WebViewNavigationCompletedEventArgs)value;
-            if (args == null)
+            if (value == null)
                 return null;
-            return args.Uri.AbsoluteUri;
+            Uri uri;
+            if(value is WebViewNavigationCompletedEventArgs)
+            {
+                var args = (WebViewNavigationCompletedEventArgs)value;
+                uri = args.Uri;
+            }
+                
+            else
+            {
+                var args = (WebViewNavigationStartingEventArgs)value;
+                uri = args.Uri;
+            }
+                
+            return uri.AbsoluteUri;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
