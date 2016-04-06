@@ -23,9 +23,22 @@ namespace Split_It.Service
 
         private string _oAuthToken, _oAuthTokenSecret;
 
-        public Task<Tuple<string, string>> getAccessToken(string param)
+        public async Task<Tuple<string, string>> getAccessToken(string uri)
         {
-            throw new NotImplementedException();
+            string oauth_veririfer = Util.GetQueryParameter(uri, "oauth_verifier");
+            var client = new RestClient(Constants.SPLITWISE_API_URL);
+            client.Authenticator = OAuth1Authenticator.ForAccessToken(Constants.consumerKey, Constants.consumerSecret, _oAuthToken, _oAuthTokenSecret, oauth_veririfer);
+            var request = new RestRequest(accessTokenURL, Method.POST);
+            var response = await client.Execute(request);
+            if (response.IsSuccess)
+            {
+                string s = System.Text.Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
+                string accessToken = Util.GetQueryParameter(s, "oauth_token");
+                string accessTokenSecret = Util.GetQueryParameter(s, "oauth_token_secret");
+
+                return new Tuple<string, string>(accessToken, accessTokenSecret);
+            }
+            return null;
         }
 
         public async Task<Uri> getRequestToken()
@@ -43,21 +56,8 @@ namespace Split_It.Service
             if (response.IsSuccess)
             {
                 string s = System.Text.Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
-                String[] Tokens = s.Split('&');
-
-                for (int i = 0; i < Tokens.Length; i++)
-                {
-                    String[] splits = Tokens[i].Split('=');
-                    switch (splits[0])
-                    {
-                        case "oauth_token":
-                            _oAuthToken = splits[1];
-                            break;
-                        case "oauth_token_secret":
-                            _oAuthTokenSecret = splits[1];
-                            break;
-                    }
-                }
+                _oAuthToken = Util.GetQueryParameter(s, "oauth_token");
+                _oAuthTokenSecret = Util.GetQueryParameter(s, "oauth_token_secret");
 
                 return _oAuthToken;
             }

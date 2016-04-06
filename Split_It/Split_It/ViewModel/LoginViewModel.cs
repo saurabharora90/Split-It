@@ -46,20 +46,9 @@ namespace Split_It.ViewModel
             {
                 return _webviewNavigatedCommand
                     ?? (_webviewNavigatedCommand = new RelayCommand<string>(
-                    async url =>
+                    url =>
                     {
-                        if (url.Contains(Constants.OAUTH_CALLBACK))
-                        {
-                            var arguments = url.Split('?');
-                            if (arguments.Length < 1)
-                                return;
-
-                            Tuple<string, string> tuple = await _loginService.getAccessToken(arguments[1]);
-                            ServiceLocator.Current.GetInstance<IDataService>().AccessToken = tuple.Item1;
-                            ServiceLocator.Current.GetInstance<IDataService>().AccessTokenSecret = tuple.Item2;
-
-                            _navigationService.NavigateTo(ViewModelLocator.MainPageKey);
-                        }
+                        
                     }));
             }
         }
@@ -75,9 +64,21 @@ namespace Split_It.ViewModel
             {
                 return _webviewNavigatingCommand
                     ?? (_webviewNavigatingCommand = new RelayCommand<string>(
-                    url =>
+                    async url =>
                     {
                         //TODO: show busy indicator
+                        if (url.Contains(Constants.OAUTH_CALLBACK))
+                        {
+                            var arguments = url.Split('?');
+                            if (arguments.Length < 1)
+                                return;
+
+                            Tuple<string, string> tuple = await _loginService.getAccessToken(arguments[1]);
+                            ServiceLocator.Current.GetInstance<IDataService>().AccessToken = tuple.Item1;
+                            ServiceLocator.Current.GetInstance<IDataService>().AccessTokenSecret = tuple.Item2;
+
+                            _navigationService.NavigateTo(ViewModelLocator.MainPageKey);
+                        }
                     }));
             }
         }
