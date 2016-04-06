@@ -19,6 +19,10 @@ namespace Split_It.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
+            var nav = new NavigationService();
+            nav.Configure(MainPageKey, typeof(MainPage));
+            SimpleIoc.Default.Register<INavigationService>(() => nav);
+
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
@@ -29,7 +33,6 @@ namespace Split_It.ViewModel
             }
 
             SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<INavigationService, NavigationService>();
             SimpleIoc.Default.Register<ILoginService, LoginService>();
             SimpleIoc.Default.Register<IWebviewService, WebviewService>();
 
