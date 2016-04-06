@@ -9,5 +9,7 @@ namespace Split_It.Design
 {
     public class DesignDataService : IDataService
     {
+        public string AccessToken { get; set; }
+        public string AccessTokenSecret { get; set; }
     }
 }

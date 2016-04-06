@@ -8,7 +8,7 @@ namespace Split_It.Utils
 {
     public class Constants
     {
-        public static String SPLITWISE_API_URL = " https://secure.splitwise.com/api/v3.0/";
+        public static String SPLITWISE_API_URL = "https://secure.splitwise.com/api/v3.0/";
         public static String SPLITWISE_AUTHORIZE_URL = "https://secure.splitwise.com/authorize";
         public static String OAUTH_CALLBACK = "http://saurabhsplit";
         public static String consumerKey = "wQukgHsUKubX5gal5rVKFXJ48lfvhxTXL9H12SkE";
