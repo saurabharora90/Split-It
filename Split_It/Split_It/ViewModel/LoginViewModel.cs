@@ -104,8 +104,12 @@ namespace Split_It.ViewModel
                                 return;
 
                             Tuple<string, string> tuple = await _loginService.getAccessToken(arguments[1]);
-                            ServiceLocator.Current.GetInstance<IDataService>().AccessToken = tuple.Item1;
-                            ServiceLocator.Current.GetInstance<IDataService>().AccessTokenSecret = tuple.Item2;
+                            AppState.AccessToken = tuple.Item1;
+                            AppState.AccessTokenSecret = tuple.Item2;
+
+                            Util.saveString(Constants.SETTINGS_ACCESS_TOKEN, tuple.Item1);
+                            Util.saveString(Constants.SETTINGS_ACCESS_TOKEN_SECRET, tuple.Item2);
+
                             IsBusy = false;
                             _navigationService.NavigateTo(ViewModelLocator.MainPageKey);
                         }

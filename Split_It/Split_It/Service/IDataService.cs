@@ -8,7 +8,6 @@ namespace Split_It.Service
 {
     public interface IDataService
     {
-        string AccessToken { get; set; }
-        string AccessTokenSecret { get; set; }
+        
     }
 }

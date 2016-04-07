@@ -21,5 +21,18 @@ namespace Split_It.Utils
             return String.Empty;
         }
 
+        public static object getSetting(string key)
+        {
+            Windows.Storage.ApplicationDataContainer localSettings =
+    Windows.Storage.ApplicationData.Current.LocalSettings;
+            return localSettings.Values[key];
+        }
+
+        public static void saveString(string key, object value)
+        {
+            Windows.Storage.ApplicationDataContainer localSettings =
+    Windows.Storage.ApplicationData.Current.LocalSettings;
+            localSettings.Values[key] = value;
+        }
     }
 }

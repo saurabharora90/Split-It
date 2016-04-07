@@ -9,6 +9,17 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot Title="Split It">
+            <PivotItem Header="Friends">
+                <Grid/>
+            </PivotItem>
+            <PivotItem Header="Groups">
+                <Grid/>
+            </PivotItem>
+            <PivotItem Header="Activity">
+                <Grid/>
+            </PivotItem>
+        </Pivot>
 
     </Grid>
 </Page>

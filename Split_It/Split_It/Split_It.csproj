@@ -115,6 +115,7 @@
     <Compile Include="Service\IWebviewService.cs" />
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\WebviewService.cs" />
+    <Compile Include="Utils\AppState.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
