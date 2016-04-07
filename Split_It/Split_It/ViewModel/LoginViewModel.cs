@@ -33,6 +33,36 @@ namespace Split_It.ViewModel
 
         }
 
+        /// <summary>
+        /// The <see cref="IsBusy" /> property's name.
+        /// </summary>
+        public const string IsBusyPropertyName = "IsBusy";
+
+        private bool _isBusy = true;
+
+        /// <summary>
+        /// Sets and gets the IsBusy property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+
+            set
+            {
+                if (_isBusy == value)
+                {
+                    return;
+                }
+
+                _isBusy = value;
+                RaisePropertyChanged(IsBusyPropertyName);
+            }
+        }
+
         #region Commands
 
         private RelayCommand<string> _webviewNavigatedCommand;
@@ -48,7 +78,7 @@ namespace Split_It.ViewModel
                     ?? (_webviewNavigatedCommand = new RelayCommand<string>(
                     url =>
                     {
-                        
+                        IsBusy = false;
                     }));
             }
         }
@@ -66,7 +96,7 @@ namespace Split_It.ViewModel
                     ?? (_webviewNavigatingCommand = new RelayCommand<string>(
                     async url =>
                     {
-                        //TODO: show busy indicator
+                        IsBusy = true;
                         if (url.Contains(Constants.OAUTH_CALLBACK))
                         {
                             var arguments = url.Split('?');
@@ -76,7 +106,7 @@ namespace Split_It.ViewModel
                             Tuple<string, string> tuple = await _loginService.getAccessToken(arguments[1]);
                             ServiceLocator.Current.GetInstance<IDataService>().AccessToken = tuple.Item1;
                             ServiceLocator.Current.GetInstance<IDataService>().AccessTokenSecret = tuple.Item2;
-
+                            IsBusy = false;
                             _navigationService.NavigateTo(ViewModelLocator.MainPageKey);
                         }
                     }));

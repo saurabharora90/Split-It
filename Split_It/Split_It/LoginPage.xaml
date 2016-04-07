@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="using:Split_It.Converter"
+    xmlns:winux="using:WinUX.Xaml.Converters"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="Split_It.LoginPage"
     DataContext="{Binding LoginVM, Source={StaticResource Locator}}"
@@ -12,6 +13,7 @@
 
     <Page.Resources>
         <converter:WebviewNavigationConverter x:Key="webviewNavigationConverter" />
+        <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -29,5 +31,7 @@
                 </Core:EventTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
         </WebView>
+        <Canvas Background="DarkGray" Opacity="0.5" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressRing IsActive="{Binding IsBusy}" />
     </Grid>
 </Page>

@@ -13,7 +13,8 @@ namespace Split_It.Service
 
         public void NavigateTo(Uri uri)
         {
-            MyWebView.Navigate(uri);
+            if(MyWebView!=null)
+                MyWebView.Navigate(uri);
         }
     }
 }
