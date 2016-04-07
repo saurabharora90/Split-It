@@ -27,6 +27,11 @@ namespace Split_It.Service
             _jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, ContractResolver = new DeliminatorSeparatedPropertyNamesContractResolver('_') };
         }
 
+        private string getStringFromResponse(IRestResponse response)
+        {
+            return System.Text.Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
+        }
+
         public async Task<User> getCurrentUser()
         {
             var request = new RestRequest("get_current_user");
@@ -47,9 +52,15 @@ namespace Split_It.Service
             return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friend>>(testToken.ToString(), _jsonSettings);
         }
 
-        private string getStringFromResponse(IRestResponse response)
+        public async Task<IEnumerable<Group>> getGroupsList()
         {
-            return System.Text.Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
+            var request = new RestRequest("get_groups");
+            var response = await _splitwiseClient.Execute(request);
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["groups"];
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Group>>(testToken.ToString(), _jsonSettings);
         }
+
     }
 }

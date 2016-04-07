@@ -19,5 +19,10 @@ namespace Split_It.Design
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Group>> getGroupsList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

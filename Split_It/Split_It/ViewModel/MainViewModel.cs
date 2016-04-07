@@ -28,11 +28,13 @@ namespace Split_It.ViewModel
         {
             Task<User> userTask = _dataService.getCurrentUser();
             Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
+            Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
             //TODO: groups, recent activity
-            await Task.WhenAll(userTask, friendsTask);
+            await Task.WhenAll(userTask, friendsTask, groupsTask);
 
             CurrentUser = userTask.Result;
             FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
+            GroupsList = new ObservableCollection<Group>(groupsTask.Result);
         }
 
         #region Properties
@@ -93,6 +95,36 @@ namespace Split_It.ViewModel
 
                 _friendsList = value;
                 RaisePropertyChanged(FriendsListPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GroupsList" /> property's name.
+        /// </summary>
+        public const string GroupsListPropertyName = "GroupsList";
+
+        private ObservableCollection<Group> _groupsList = null;
+
+        /// <summary>
+        /// Sets and gets the GroupsList property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Group> GroupsList
+        {
+            get
+            {
+                return _groupsList;
+            }
+
+            set
+            {
+                if (_groupsList == value)
+                {
+                    return;
+                }
+
+                _groupsList = value;
+                RaisePropertyChanged(GroupsListPropertyName);
             }
         }
         #endregion

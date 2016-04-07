@@ -8,5 +8,6 @@ namespace Split_It.Service
     {
         Task<User> getCurrentUser();
         Task<IEnumerable<Friend>> getFriendsList();
+        Task<IEnumerable<Group>> getGroupsList();
     }
 }
