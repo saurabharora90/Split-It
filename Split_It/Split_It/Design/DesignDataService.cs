@@ -15,7 +15,7 @@ namespace Split_It.Design
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> getFriendsList()
+        public Task<IEnumerable<Friend>> getFriendsList()
         {
             throw new NotImplementedException();
         }

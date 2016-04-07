@@ -7,6 +7,6 @@ namespace Split_It.Service
     public interface IDataService
     {
         Task<User> getCurrentUser();
-        Task<IEnumerable<User>> getFriendsList();
+        Task<IEnumerable<Friend>> getFriendsList();
     }
 }

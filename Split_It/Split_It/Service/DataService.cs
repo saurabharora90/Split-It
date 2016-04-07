@@ -37,12 +37,14 @@ namespace Split_It.Service
             return JsonConvert.DeserializeObject<User>(testToken.ToString(), _jsonSettings);
         }
 
-        public async Task<IEnumerable<User>> getFriendsList()
+        public async Task<IEnumerable<Friend>> getFriendsList()
         {
             var request = new RestRequest("get_friends");
             var response = await _splitwiseClient.Execute(request);
-            string s = System.Text.Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
-            return null;
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["friends"];
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friend>>(testToken.ToString(), _jsonSettings);
         }
 
         private string getStringFromResponse(IRestResponse response)

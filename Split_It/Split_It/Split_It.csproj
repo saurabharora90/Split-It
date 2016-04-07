@@ -105,7 +105,10 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\UserBalance.cs" />
     <Compile Include="Model\Currency.cs" />
+    <Compile Include="Model\Friend.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

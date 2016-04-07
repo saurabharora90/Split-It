@@ -27,12 +27,12 @@ namespace Split_It.ViewModel
         private async void initTasks()
         {
             Task<User> userTask = _dataService.getCurrentUser();
-            Task<IEnumerable<User>> friendsTask = _dataService.getFriendsList();
+            Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
             //TODO: groups, recent activity
             await Task.WhenAll(userTask, friendsTask);
 
             CurrentUser = userTask.Result;
-            FriendsList = new ObservableCollection<User>(friendsTask.Result);
+            FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
         }
 
         #region Properties
@@ -71,13 +71,13 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string FriendsListPropertyName = "FriendsList";
 
-        private ObservableCollection<User> _friendsList = null;
+        private ObservableCollection<Friend> _friendsList = null;
 
         /// <summary>
         /// Sets and gets the FriendsList property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public ObservableCollection<User> FriendsList
+        public ObservableCollection<Friend> FriendsList
         {
             get
             {
