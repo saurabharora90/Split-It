@@ -29,7 +29,7 @@ namespace Split_It.ViewModel
             Task<User> userTask = _dataService.getCurrentUser();
             Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
             Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
-            //TODO: groups, recent activity
+            //TODO: recent activity
             await Task.WhenAll(userTask, friendsTask, groupsTask);
 
             CurrentUser = userTask.Result;

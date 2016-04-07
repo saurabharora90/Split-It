@@ -12,17 +12,17 @@ namespace Split_It.Design
     {
         public Task<User> getCurrentUser()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new User { FirstName = "Saurabh", LastName = "Arora", Picture = new Photo { Medium = "https://graph.facebook.com/598294269/picture?type=normal" } });
         }
 
         public Task<IEnumerable<Friend>> getFriendsList()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task<IEnumerable<Group>> getGroupsList()
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

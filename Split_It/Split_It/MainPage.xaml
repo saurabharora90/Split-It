@@ -5,21 +5,44 @@
     xmlns:local="using:Split_It"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:as="using:TommasoScalici.AppShell"
     DataContext="{Binding MainVM, Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot Title="Split It">
-            <PivotItem Header="Friends">
-                <Grid/>
-            </PivotItem>
-            <PivotItem Header="Groups">
-                <Grid/>
-            </PivotItem>
-            <PivotItem Header="Activity">
-                <Grid/>
-            </PivotItem>
-        </Pivot>
+    <as:AppShell>
+        <as:AppShell.Menu>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-    </Grid>
+                <as:MenuListView Margin="0,48,0,0">
+                    <as:MenuItem Label="Home" Symbol="Home" />
+                    <as:MenuItem Label="Add Friend" Symbol="AddFriend" />
+                    <as:MenuItem Label="Create Group" Symbol="People" />
+                    <as:MenuItem Label="Rate" Symbol="OutlineStar" />
+                    <as:MenuItem Label="Log Out" Symbol="Account" />
+                    <as:MenuItem Label="Remove Ads" SymbolAsGlyph="&#xE946;" />
+                </as:MenuListView>
+
+                <as:MenuListView Grid.Row="1">
+                    <as:MenuItem IsSelectable="False"
+                                 Label="{Binding CurrentUser.FirstName}"
+                                 SymbolVisibility="Collapsed">
+                        <as:MenuItem.UIContent>
+                            <Ellipse Width="38"
+                                     Height="38"
+                                     Margin="5,0,10,0">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="Assets/UserImage.png" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </as:MenuItem.UIContent>
+                    </as:MenuItem>
+                </as:MenuListView>
+
+            </Grid>
+        </as:AppShell.Menu>
+    </as:AppShell>
 </Page>
