@@ -1,11 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Split_It.Model
+﻿namespace Split_It.Model
 {
     public class User : GalaSoft.MvvmLight.ObservableObject
     {
@@ -22,8 +15,6 @@ namespace Split_It.Model
         /// Sets and gets the FirstName property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        /// 
-        [JsonProperty(PropertyName = "first_name")]
         public string FirstName
         {
             get
@@ -54,8 +45,6 @@ namespace Split_It.Model
         /// Sets and gets the LastName property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        /// 
-        [JsonProperty(PropertyName = "last_name")]
         public string LastName
         {
             get
@@ -86,8 +75,6 @@ namespace Split_It.Model
         /// Sets and gets the Email property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        /// 
-        [JsonProperty(PropertyName = "email")]
         public string Email
         {
             get
@@ -118,8 +105,6 @@ namespace Split_It.Model
         /// Sets and gets the Picture property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        /// 
-        [JsonProperty(PropertyName = "picture")]
         public Photo Picture
         {
             get
@@ -136,6 +121,66 @@ namespace Split_It.Model
 
                 _picture = value;
                 RaisePropertyChanged(PicturePropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CountryCode" /> property's name.
+        /// </summary>
+        public const string CountryCodePropertyName = "CountryCode";
+
+        private string _countryCode = null;
+
+        /// <summary>
+        /// Sets and gets the CountryCode property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string CountryCode
+        {
+            get
+            {
+                return _countryCode;
+            }
+
+            set
+            {
+                if (_countryCode == value)
+                {
+                    return;
+                }
+
+                _countryCode = value;
+                RaisePropertyChanged(CountryCodePropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="DefaultCurrency" /> property's name.
+        /// </summary>
+        public const string DefaultCurrencyPropertyName = "DefaultCurrency";
+
+        private string _defaultCurrency = null;
+
+        /// <summary>
+        /// Sets and gets the DefaultCurrency property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string DefaultCurrency
+        {
+            get
+            {
+                return _defaultCurrency;
+            }
+
+            set
+            {
+                if (_defaultCurrency == value)
+                {
+                    return;
+                }
+
+                _defaultCurrency = value;
+                RaisePropertyChanged(DefaultCurrencyPropertyName);
             }
         }
     }
