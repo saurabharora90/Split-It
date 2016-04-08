@@ -12,7 +12,7 @@ namespace Split_It.Design
     {
         public Task<User> getCurrentUser()
         {
-            return Task.FromResult(new User { FirstName = "Saurabh", LastName = "Arora", Picture = new Photo { Medium = "https://graph.facebook.com/598294269/picture?type=normal" } });
+            return Task.FromResult(new User { FirstName = "Saurabh", LastName = "Arora", DefaultCurrency = "SGD", Picture = new Photo { Medium = "https://graph.facebook.com/598294269/picture?type=normal" } });
         }
 
         public Task<IEnumerable<Friend>> getFriendsList()

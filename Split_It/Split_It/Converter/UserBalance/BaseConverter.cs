@@ -27,7 +27,7 @@ namespace Split_It.Converter.UserBalance
                     finalBalance = currentBalance;
 
                 amount = System.Convert.ToDouble(currentBalance.Amount);
-                if (currentBalance.CurrencyCode == user.DefaultCurrency && amount != 0)
+                if (currentBalance.CurrencyCode.Equals(user.DefaultCurrency, StringComparison.CurrentCultureIgnoreCase) && amount != 0)
                     finalBalance = currentBalance;
             }
             return getFinalValue(finalBalance, balance.Count());
