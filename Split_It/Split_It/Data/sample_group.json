@@ -1,0 +1,2218 @@
+﻿{
+  "groups": [
+    {
+      "id": 0,
+      "name": "Non-group expenses",
+      "updated_at": "2016-04-08T17:31:13Z",
+      "members": [
+        {
+          "id": 569955,
+          "first_name": "Aankita",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "amount": "-1001.27",
+              "currency_code": "SGD"
+            },
+            {
+              "amount": "20.0",
+              "currency_code": "THB"
+            }
+          ]
+        }
+      ],
+      "simplify_by_default": false,
+      "original_debts": [
+        {
+          "from": 569955,
+          "to": 494985,
+          "amount": "49.01",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 534476,
+          "amount": "133.35",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 420615,
+          "amount": "62.84",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 431051,
+          "amount": "14.78",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 99915,
+          "amount": "51.55",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 103249,
+          "amount": "231.99",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 402862,
+          "amount": "30.64",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 494981,
+          "amount": "58.06",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 249491,
+          "amount": "21.18",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 569955,
+          "amount": "20.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 569955,
+          "to": 262888,
+          "amount": "346.3",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 402861,
+          "amount": "1.57",
+          "currency_code": "SGD"
+        }
+      ],
+      "simplified_debts": [
+        {
+          "from": 569955,
+          "to": 494985,
+          "amount": "49.01",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 534476,
+          "amount": "133.35",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 420615,
+          "amount": "62.84",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 431051,
+          "amount": "14.78",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 99915,
+          "amount": "51.55",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 103249,
+          "amount": "231.99",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 402862,
+          "amount": "30.64",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 494981,
+          "amount": "58.06",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 249491,
+          "amount": "21.18",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 569955,
+          "amount": "20.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 569955,
+          "to": 262888,
+          "amount": "346.3",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 402861,
+          "amount": "1.57",
+          "currency_code": "SGD"
+        }
+      ]
+    },
+    {
+      "id": 1478752,
+      "name": "Thailand Baby",
+      "updated_at": "2016-04-03T14:21:59Z",
+      "members": [
+        {
+          "id": 101915,
+          "first_name": "Angad",
+          "last_name": "Singh",
+          "picture": {
+            "medium": "https://graph.facebook.com/614248225/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-6.3"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "1307.04"
+            }
+          ]
+        },
+        {
+          "id": 249491,
+          "first_name": "Geetika",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "70.23"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "-2258.64"
+            }
+          ]
+        },
+        {
+          "id": 262888,
+          "first_name": "Sahil",
+          "last_name": "Gupta",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-47.76"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "1894.35"
+            }
+          ]
+        },
+        {
+          "id": 402862,
+          "first_name": "Kripa",
+          "last_name": "Agarwal",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-47.76"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "-1145.37"
+            }
+          ]
+        },
+        {
+          "id": 431051,
+          "first_name": "Sasha",
+          "last_name": "Cyriac",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "128.95"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "202.62"
+            }
+          ]
+        },
+        {
+          "id": 494985,
+          "first_name": "Saurabh",
+          "last_name": null,
+          "picture": {
+            "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "43.1"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 534476,
+          "first_name": "Selina",
+          "last_name": "Patra",
+          "picture": {
+            "medium": "https://splitwise.s3.amazonaws.com/uploads/user/avatar/534476/medium_Picture1.jpg"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-21.71"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 569955,
+          "first_name": "Aankita",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-25.82"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "207.42"
+            }
+          ]
+        },
+        {
+          "id": 609859,
+          "first_name": "Sudha",
+          "last_name": "Sundaram",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-47.76"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "581.44"
+            }
+          ]
+        },
+        {
+          "id": 830676,
+          "first_name": "Roop",
+          "last_name": "Wadhwani",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-45.17"
+            },
+            {
+              "currency_code": "THB",
+              "amount": "-788.86"
+            }
+          ]
+        }
+      ],
+      "simplify_by_default": true,
+      "original_debts": [
+        {
+          "from": 431051,
+          "to": 101915,
+          "amount": "2.6",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 101915,
+          "to": 431051,
+          "amount": "166.8",
+          "currency_code": "THB"
+        },
+        {
+          "from": 101915,
+          "to": 249491,
+          "amount": "9.2",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 101915,
+          "amount": "568.2",
+          "currency_code": "THB"
+        },
+        {
+          "from": 101915,
+          "to": 494985,
+          "amount": "12.7",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 494985,
+          "to": 101915,
+          "amount": "176.7",
+          "currency_code": "THB"
+        },
+        {
+          "from": 262888,
+          "to": 101915,
+          "amount": "142.2",
+          "currency_code": "THB"
+        },
+        {
+          "from": 262888,
+          "to": 101915,
+          "amount": "2.6",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 402862,
+          "to": 101915,
+          "amount": "448.2",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 101915,
+          "amount": "2.6",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 101915,
+          "to": 534476,
+          "amount": "82.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 534476,
+          "to": 101915,
+          "amount": "2.6",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 101915,
+          "amount": "86.45",
+          "currency_code": "THB"
+        },
+        {
+          "from": 569955,
+          "to": 101915,
+          "amount": "2.6",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 609859,
+          "to": 101915,
+          "amount": "134.59",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 101915,
+          "amount": "2.6",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 431051,
+          "amount": "6.27",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 431051,
+          "amount": "675.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 262888,
+          "to": 249491,
+          "amount": "11.8",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 262888,
+          "amount": "676.67",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 249491,
+          "amount": "11.8",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 402862,
+          "to": 249491,
+          "amount": "23.34",
+          "currency_code": "THB"
+        },
+        {
+          "from": 249491,
+          "to": 494985,
+          "amount": "3.5",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 494985,
+          "amount": "31.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 534476,
+          "to": 249491,
+          "amount": "11.8",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 534476,
+          "amount": "108.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 569955,
+          "to": 249491,
+          "amount": "11.8",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 569955,
+          "amount": "36.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 249491,
+          "amount": "11.8",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 609859,
+          "to": 249491,
+          "amount": "28.89",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 249491,
+          "amount": "11.8",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 830676,
+          "amount": "215.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 262888,
+          "to": 431051,
+          "amount": "18.06",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 262888,
+          "to": 431051,
+          "amount": "180.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 262888,
+          "to": 494985,
+          "amount": "15.3",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 494985,
+          "to": 262888,
+          "amount": "313.49",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 262888,
+          "amount": "600.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 262888,
+          "to": 534476,
+          "amount": "88.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 569955,
+          "to": 262888,
+          "amount": "109.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 262888,
+          "amount": "203.89",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 262888,
+          "amount": "402.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 431051,
+          "amount": "18.06",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 402862,
+          "to": 431051,
+          "amount": "158.33",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 494985,
+          "amount": "15.3",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 494985,
+          "to": 402862,
+          "amount": "53.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 534476,
+          "amount": "263.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 569955,
+          "amount": "36.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 402862,
+          "amount": "330.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 494985,
+          "to": 431051,
+          "amount": "16.89",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 494985,
+          "to": 431051,
+          "amount": "5.44",
+          "currency_code": "THB"
+        },
+        {
+          "from": 534476,
+          "to": 431051,
+          "amount": "18.07",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 534476,
+          "to": 431051,
+          "amount": "41.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 569955,
+          "to": 431051,
+          "amount": "18.07",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 431051,
+          "amount": "832.66",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 431051,
+          "amount": "18.06",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 431051,
+          "to": 609859,
+          "amount": "1937.11",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 431051,
+          "amount": "18.07",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 830676,
+          "to": 431051,
+          "amount": "80.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 494985,
+          "to": 534476,
+          "amount": "10.76",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 534476,
+          "to": 494985,
+          "amount": "461.39",
+          "currency_code": "THB"
+        },
+        {
+          "from": 494985,
+          "to": 569955,
+          "amount": "6.65",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 494985,
+          "amount": "109.35",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 494985,
+          "amount": "15.3",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 494985,
+          "to": 609859,
+          "amount": "94.61",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 494985,
+          "amount": "15.3",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 830676,
+          "to": 494985,
+          "amount": "41.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 830676,
+          "amount": "53.89",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 534476,
+          "amount": "182.39",
+          "currency_code": "THB"
+        },
+        {
+          "from": 534476,
+          "to": 569955,
+          "amount": "305.0",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 534476,
+          "amount": "82.5",
+          "currency_code": "THB"
+        },
+        {
+          "from": 609859,
+          "to": 569955,
+          "amount": "516.13",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 569955,
+          "amount": "451.75",
+          "currency_code": "THB"
+        }
+      ],
+      "simplified_debts": [
+        {
+          "from": 101915,
+          "to": 249491,
+          "amount": "6.3",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 262888,
+          "to": 249491,
+          "amount": "47.76",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 402862,
+          "to": 249491,
+          "amount": "16.17",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 402862,
+          "to": 431051,
+          "amount": "31.59",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 534476,
+          "to": 431051,
+          "amount": "21.71",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 431051,
+          "amount": "25.82",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 609859,
+          "to": 431051,
+          "amount": "47.76",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 830676,
+          "to": 431051,
+          "amount": "2.07",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 830676,
+          "to": 494985,
+          "amount": "43.1",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 249491,
+          "to": 101915,
+          "amount": "1307.04",
+          "currency_code": "THB"
+        },
+        {
+          "from": 249491,
+          "to": 262888,
+          "amount": "951.6",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 262888,
+          "amount": "942.75",
+          "currency_code": "THB"
+        },
+        {
+          "from": 402862,
+          "to": 431051,
+          "amount": "202.62",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 569955,
+          "amount": "207.42",
+          "currency_code": "THB"
+        },
+        {
+          "from": 830676,
+          "to": 609859,
+          "amount": "581.44",
+          "currency_code": "THB"
+        }
+      ],
+      "whiteboard": null,
+      "group_type": "travel",
+      "invite_link": "http://splitwise.com/join/fff7ff62a014"
+    },
+    {
+      "id": 803064,
+      "name": "Bali Bali!! ",
+      "updated_at": "2016-02-02T16:27:07Z",
+      "members": [
+        {
+          "id": 402862,
+          "first_name": "Kripa",
+          "last_name": "Agarwal",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "IDR",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "SGD",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "USD",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 420613,
+          "first_name": "Sukrit",
+          "last_name": null,
+          "picture": {
+            "medium": "https://graph.facebook.com/560337410/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "IDR",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "SGD",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "USD",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 431051,
+          "first_name": "Sasha",
+          "last_name": "Cyriac",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "IDR",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "SGD",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "USD",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 494985,
+          "first_name": "Saurabh",
+          "last_name": null,
+          "picture": {
+            "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "IDR",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "SGD",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "USD",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 569955,
+          "first_name": "Aankita",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "IDR",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "SGD",
+              "amount": "0.0"
+            },
+            {
+              "currency_code": "USD",
+              "amount": "0.0"
+            }
+          ]
+        }
+      ],
+      "simplify_by_default": true,
+      "original_debts": [
+        {
+          "from": 402862,
+          "to": 494985,
+          "amount": "193733.33",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 402862,
+          "to": 494985,
+          "amount": "1.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 494985,
+          "to": 402862,
+          "amount": "28.7",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 420613,
+          "to": 402862,
+          "amount": "35.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 420613,
+          "to": 402862,
+          "amount": "193956.6",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 402862,
+          "to": 420613,
+          "amount": "9.28",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 402862,
+          "to": 569955,
+          "amount": "33.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 569955,
+          "to": 402862,
+          "amount": "95230.52",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 402862,
+          "to": 431051,
+          "amount": "95453.79",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 402862,
+          "to": 431051,
+          "amount": "1.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 402862,
+          "to": 431051,
+          "amount": "19.42",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 494985,
+          "to": 420613,
+          "amount": "190960.0",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 431051,
+          "to": 420613,
+          "amount": "14.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 431051,
+          "to": 420613,
+          "amount": "60102.6",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 420613,
+          "to": 431051,
+          "amount": "9.28",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 420613,
+          "amount": "21.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 420613,
+          "to": 569955,
+          "amount": "57106.0",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 494985,
+          "to": 431051,
+          "amount": "116124.07",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 494985,
+          "to": 431051,
+          "amount": "1.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 431051,
+          "to": 494985,
+          "amount": "57.08",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 431051,
+          "amount": "12.0",
+          "currency_code": "USD"
+        },
+        {
+          "from": 431051,
+          "to": 569955,
+          "amount": "151475.26",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 569955,
+          "to": 431051,
+          "amount": "28.38",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 494985,
+          "amount": "113350.74",
+          "currency_code": "IDR"
+        },
+        {
+          "from": 494985,
+          "to": 569955,
+          "amount": "28.38",
+          "currency_code": "SGD"
+        }
+      ],
+      "simplified_debts": [ ],
+      "whiteboard": null,
+      "group_type": "apartment",
+      "invite_link": "http://splitwise.com/join/5d44dd7fdb84"
+    },
+    {
+      "id": 297326,
+      "name": "Cameron ",
+      "updated_at": "2016-01-04T02:43:29Z",
+      "members": [
+        {
+          "id": 249491,
+          "first_name": "Geetika",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 249492,
+          "first_name": "Akash",
+          "last_name": "Ranka",
+          "picture": {
+            "medium": "https://splitwise.s3.amazonaws.com/uploads/user/avatar/249492/medium_avatar.jpeg"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 262888,
+          "first_name": "Sahil",
+          "last_name": "Gupta",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 305505,
+          "first_name": "Gaurav",
+          "last_name": "Juneja",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 402862,
+          "first_name": "Kripa",
+          "last_name": "Agarwal",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 420613,
+          "first_name": "Sukrit",
+          "last_name": null,
+          "picture": {
+            "medium": "https://graph.facebook.com/560337410/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 420615,
+          "first_name": "Mohit",
+          "last_name": "Surana",
+          "picture": {
+            "medium": "https://splitwise.s3.amazonaws.com/uploads/user/avatar/420615/medium_avatar.jpeg"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 424918,
+          "first_name": "Rohan",
+          "last_name": "Jain",
+          "picture": {
+            "medium": "https://splitwise.s3.amazonaws.com/uploads/user/avatar/424918/medium_36ba2e80-575c-40b7-802b-1675759b672a.jpeg"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 494981,
+          "first_name": "Anuj",
+          "last_name": "Khemka",
+          "picture": {
+            "medium": "https://splitwise.s3.amazonaws.com/uploads/user/avatar/494981/medium_avatar.jpeg"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 494985,
+          "first_name": "Saurabh",
+          "last_name": null,
+          "picture": {
+            "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 496779,
+          "first_name": "Meenu",
+          "last_name": "James",
+          "picture": {
+            "medium": "https://graph.facebook.com/611426817/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 506086,
+          "first_name": "shivam.pathak18",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 516553,
+          "first_name": "Shiv",
+          "last_name": "",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 529080,
+          "first_name": "Manas",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 534476,
+          "first_name": "Selina",
+          "last_name": "Patra",
+          "picture": {
+            "medium": "https://splitwise.s3.amazonaws.com/uploads/user/avatar/534476/medium_Picture1.jpg"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 569955,
+          "first_name": "Aankita",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        },
+        {
+          "id": 609859,
+          "first_name": "Sudha",
+          "last_name": "Sundaram",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "MYR",
+              "amount": "0.0"
+            }
+          ]
+        }
+      ],
+      "simplify_by_default": true,
+      "original_debts": [
+        {
+          "from": 249491,
+          "to": 424918,
+          "amount": "39.62",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249491,
+          "to": 420615,
+          "amount": "16.77",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249492,
+          "to": 249491,
+          "amount": "25.16",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 249491,
+          "amount": "33.15",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249491,
+          "to": 569955,
+          "amount": "19.83",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249491,
+          "to": 534476,
+          "amount": "7.67",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249491,
+          "to": 494985,
+          "amount": "5.39",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 609859,
+          "to": 249491,
+          "amount": "40.17",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249491,
+          "to": 420613,
+          "amount": "2.65",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 249491,
+          "amount": "5.8",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249491,
+          "to": 529080,
+          "amount": "12.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249492,
+          "to": 424918,
+          "amount": "0.66",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420615,
+          "to": 249492,
+          "amount": "3.08",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 249492,
+          "amount": "21.98",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 305505,
+          "to": 249492,
+          "amount": "9.04",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 249492,
+          "amount": "22.08",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420613,
+          "to": 249492,
+          "amount": "6.33",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249492,
+          "to": 494981,
+          "amount": "95.69",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 249492,
+          "amount": "8.98",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 506086,
+          "to": 249492,
+          "amount": "8.98",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 249492,
+          "amount": "8.98",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249492,
+          "to": 529080,
+          "amount": "3.37",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 534476,
+          "to": 249492,
+          "amount": "7.98",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 609859,
+          "to": 249492,
+          "amount": "26.44",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 249492,
+          "to": 569955,
+          "amount": "3.23",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494985,
+          "to": 249492,
+          "amount": "4.24",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 424918,
+          "amount": "32.36",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 262888,
+          "amount": "97.54",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 569955,
+          "amount": "16.7",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 534476,
+          "amount": "7.66",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 494985,
+          "amount": "2.05",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 420613,
+          "amount": "2.64",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 529080,
+          "amount": "12.36",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 262888,
+          "to": 609859,
+          "amount": "1.79",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 305505,
+          "amount": "38.42",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 305505,
+          "to": 569955,
+          "amount": "9.53",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 305505,
+          "to": 534476,
+          "amount": "1.0",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 305505,
+          "to": 494985,
+          "amount": "2.06",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 305505,
+          "to": 420613,
+          "amount": "2.65",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 305505,
+          "to": 529080,
+          "amount": "12.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 305505,
+          "to": 609859,
+          "amount": "1.79",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 402862,
+          "amount": "28.96",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 420615,
+          "amount": "16.77",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 424918,
+          "amount": "15.0",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420613,
+          "to": 402862,
+          "amount": "21.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 402862,
+          "amount": "30.2",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 534476,
+          "amount": "14.76",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 402862,
+          "amount": "21.0",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 569955,
+          "amount": "16.7",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 494985,
+          "amount": "2.06",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 529080,
+          "amount": "12.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 402862,
+          "to": 609859,
+          "amount": "1.79",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 420613,
+          "amount": "44.45",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420613,
+          "to": 420615,
+          "amount": "14.12",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420613,
+          "to": 569955,
+          "amount": "14.04",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 534476,
+          "to": 420613,
+          "amount": "10.94",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420613,
+          "to": 494985,
+          "amount": "3.42",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 420613,
+          "amount": "6.15",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420613,
+          "to": 609859,
+          "amount": "12.45",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 424918,
+          "to": 420613,
+          "amount": "2.64",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 506086,
+          "to": 420613,
+          "amount": "2.65",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 420613,
+          "amount": "6.65",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420613,
+          "to": 529080,
+          "amount": "9.71",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420615,
+          "to": 494981,
+          "amount": "143.56",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 424918,
+          "to": 420615,
+          "amount": "47.17",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494985,
+          "to": 420615,
+          "amount": "35.26",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 420615,
+          "amount": "16.77",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 420615,
+          "amount": "16.77",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 534476,
+          "to": 420615,
+          "amount": "5.85",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 569955,
+          "to": 420615,
+          "amount": "65.82",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420615,
+          "to": 609859,
+          "amount": "76.31",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 420615,
+          "to": 529080,
+          "amount": "12.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 506086,
+          "amount": "52.19",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 516553,
+          "amount": "131.65",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 534476,
+          "amount": "24.52",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 609859,
+          "to": 494981,
+          "amount": "48.5",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 494985,
+          "amount": "10.91",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494981,
+          "to": 496779,
+          "amount": "16.03",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 569955,
+          "to": 494981,
+          "amount": "47.98",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 529080,
+          "to": 494981,
+          "amount": "85.56",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 494985,
+          "amount": "16.75",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 529080,
+          "to": 494985,
+          "amount": "49.59",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 534476,
+          "to": 494985,
+          "amount": "0.28",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494985,
+          "to": 569955,
+          "amount": "7.38",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 494985,
+          "amount": "1.4",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 506086,
+          "to": 494985,
+          "amount": "2.06",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494985,
+          "to": 609859,
+          "amount": "27.03",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 569955,
+          "to": 496779,
+          "amount": "20.87",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 609859,
+          "to": 496779,
+          "amount": "40.79",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 534476,
+          "amount": "5.74",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 496779,
+          "amount": "0.5",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 496779,
+          "to": 529080,
+          "amount": "12.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 494985,
+          "to": 424918,
+          "amount": "22.06",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 569955,
+          "to": 424918,
+          "amount": "10.79",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 424918,
+          "to": 494981,
+          "amount": "56.53",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 424918,
+          "to": 609859,
+          "amount": "0.79",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 424918,
+          "to": 534476,
+          "amount": "1.0",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 424918,
+          "to": 529080,
+          "amount": "12.36",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 506086,
+          "to": 569955,
+          "amount": "16.69",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 506086,
+          "to": 534476,
+          "amount": "7.67",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 506086,
+          "to": 529080,
+          "amount": "12.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 506086,
+          "to": 609859,
+          "amount": "1.79",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 569955,
+          "amount": "16.7",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 534476,
+          "amount": "7.67",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 609859,
+          "amount": "15.08",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 516553,
+          "to": 529080,
+          "amount": "12.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 529080,
+          "to": 569955,
+          "amount": "4.35",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 534476,
+          "to": 529080,
+          "amount": "4.68",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 609859,
+          "to": 529080,
+          "amount": "10.57",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 534476,
+          "to": 569955,
+          "amount": "33.87",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 534476,
+          "to": 609859,
+          "amount": "14.09",
+          "currency_code": "MYR"
+        },
+        {
+          "from": 569955,
+          "to": 609859,
+          "amount": "13.56",
+          "currency_code": "MYR"
+        }
+      ],
+      "simplified_debts": [ ],
+      "whiteboard": null,
+      "group_type": "apartment",
+      "invite_link": "http://splitwise.com/join/a56859da56d4"
+    },
+    {
+      "id": 171328,
+      "name": "House!!",
+      "updated_at": "2016-04-05T15:11:54Z",
+      "members": [
+        {
+          "id": 99915,
+          "first_name": "Subashree",
+          "last_name": "Sekar",
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-4.49"
+            }
+          ]
+        },
+        {
+          "id": 496779,
+          "first_name": "Meenu",
+          "last_name": "James",
+          "picture": {
+            "medium": "https://graph.facebook.com/611426817/picture?type=normal"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "127.02"
+            }
+          ]
+        },
+        {
+          "id": 534476,
+          "first_name": "Selina",
+          "last_name": "Patra",
+          "picture": {
+            "medium": "https://splitwise.s3.amazonaws.com/uploads/user/avatar/534476/medium_Picture1.jpg"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "19.55"
+            }
+          ]
+        },
+        {
+          "id": 569955,
+          "first_name": "Aankita",
+          "last_name": null,
+          "picture": {
+            "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+          },
+          "balance": [
+            {
+              "currency_code": "SGD",
+              "amount": "-142.08"
+            }
+          ]
+        }
+      ],
+      "simplify_by_default": true,
+      "original_debts": [
+        {
+          "from": 496779,
+          "to": 99915,
+          "amount": "277.05",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 99915,
+          "to": 534476,
+          "amount": "224.37",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 99915,
+          "to": 569955,
+          "amount": "57.17",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 534476,
+          "to": 496779,
+          "amount": "280.69",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 496779,
+          "amount": "123.38",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 534476,
+          "amount": "75.87",
+          "currency_code": "SGD"
+        }
+      ],
+      "simplified_debts": [
+        {
+          "from": 99915,
+          "to": 496779,
+          "amount": "4.49",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 496779,
+          "amount": "122.53",
+          "currency_code": "SGD"
+        },
+        {
+          "from": 569955,
+          "to": 534476,
+          "amount": "19.55",
+          "currency_code": "SGD"
+        }
+      ],
+      "whiteboard": null,
+      "group_type": "apartment",
+      "invite_link": "http://splitwise.com/join/e74d03934f9a"
+    }
+  ]
+}

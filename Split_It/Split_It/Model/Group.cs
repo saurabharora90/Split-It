@@ -328,7 +328,6 @@ namespace Split_It.Model
         {
             // TODO: write your implementation of GetHashCode() here
             throw new NotImplementedException();
-            return base.GetHashCode();
         }
     }
 }

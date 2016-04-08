@@ -170,12 +170,12 @@ namespace Split_It.ViewModel
                     {
                         IsBusy = true;
                         Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
-                        //Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
+                        Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
                         //TODO: recent activity
-                        await Task.WhenAll(friendsTask);//, groupsTask);
+                        await Task.WhenAll(friendsTask, groupsTask);
 
                         FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
-                        //GroupsList = new ObservableCollection<Group>(groupsTask.Result);
+                        GroupsList = new ObservableCollection<Group>(groupsTask.Result);
                         IsBusy = false;
                     }));
             }
