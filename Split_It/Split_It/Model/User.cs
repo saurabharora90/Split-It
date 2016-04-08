@@ -31,6 +31,7 @@
 
                 _firstName = value;
                 RaisePropertyChanged(FirstNamePropertyName);
+                RaisePropertyChanged(NamePropertyName);
             }
         }
 
@@ -61,6 +62,7 @@
 
                 _lastName = value;
                 RaisePropertyChanged(LastNamePropertyName);
+                RaisePropertyChanged(NamePropertyName);
             }
         }
 
@@ -181,6 +183,26 @@
 
                 _defaultCurrency = value;
                 RaisePropertyChanged(DefaultCurrencyPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="Name" /> property's name.
+        /// </summary>
+        public const string NamePropertyName = "Name";
+
+        /// <summary>
+        /// Sets and gets the Name property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                if (LastName == null)
+                    return FirstName;
+                else
+                    return FirstName + " " + LastName;
             }
         }
     }

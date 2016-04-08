@@ -460,7 +460,4 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="FriendsTemplate">
-        <TextBlock Text="{Binding FirstName}"/>
-    </DataTemplate>
 </ResourceDictionary>
