@@ -7,6 +7,7 @@
     xmlns:pr="using:PullToRefresh.UWP"
     xmlns:winux="using:WinUX.Xaml.Converters"
     xmlns:con_bal="using:Split_It.Converter.UserBalance"
+    xmlns:grp_bal="using:Split_It.Converter.GroupBalance"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="Split_It.MainPage"
     mc:Ignorable="d">
@@ -17,10 +18,16 @@
                 <ResourceDictionary Source="Skins/MainViewSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            
             <con_bal:TextConverter x:Key="UserBalanceTextConverter"/>
             <con_bal:TextColorConverter x:Key="UserBalanceTextColorConverter"/>
             <con_bal:AmountConverter x:Key="UserBalanceAmountConverter"/>
             <con_bal:VisibilityConverter x:Key="UserBalanceVisibilityConverter"/>
+
+            <grp_bal:TextConverter x:Key="GroupBalanceTextConverter"/>
+            <grp_bal:TextColorConverter x:Key="GroupBalanceTextColorConverter"/>
+            <grp_bal:AmountConverter x:Key="GroupBalanceAmountConverter"/>
+            <grp_bal:VisibilityConverter x:Key="GroupBalanceVisibilityConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -159,13 +166,13 @@
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Foreground="{Binding Balance, Converter={StaticResource UserBalanceTextColorConverter}}"
+                                                <TextBlock Foreground="{Binding Members, Converter={StaticResource GroupBalanceTextColorConverter}}"
                                                                HorizontalAlignment="Right"
-                                                               Text="{Binding Balance, Converter={StaticResource UserBalanceTextConverter}}" FontSize="13"/>
-                                                <TextBlock Foreground="{Binding Balance, Converter={StaticResource UserBalanceTextColorConverter}}"
+                                                               Text="{Binding Members, Converter={StaticResource GroupBalanceTextConverter}}" FontSize="13"/>
+                                                <TextBlock Foreground="{Binding Members, Converter={StaticResource GroupBalanceTextColorConverter}}"
                                                                Grid.Row="1" HorizontalAlignment="Right"
-                                                               Visibility="{Binding Balance, Converter={StaticResource UserBalanceVisibilityConverter}}"
-                                                               Text="{Binding Balance, Converter={StaticResource UserBalanceAmountConverter}}" FontSize="18"/>
+                                                               Visibility="{Binding Members, Converter={StaticResource GroupBalanceVisibilityConverter}}"
+                                                               Text="{Binding Members, Converter={StaticResource GroupBalanceAmountConverter}}" FontSize="18"/>
                                             </Grid>
                                         </RelativePanel>
                                     </DataTemplate>
