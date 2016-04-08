@@ -18,6 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <con_bal:TextAmountConverter x:Key="UserBalanceTextAmountConverter"/>
+            <con_bal:TextColorConverter x:Key="UserBalanceTextColorConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -102,6 +103,7 @@
                                                        RelativePanel.RightOf="image" Margin="15,0,0,0"/>
                                                 <TextBlock RelativePanel.AlignRightWithPanel="True"
                                                            RelativePanel.AlignVerticalCenterWithPanel="True"
+                                                           Foreground="{Binding Balance, Converter={StaticResource UserBalanceTextColorConverter}}"
                                                            Text="{Binding Balance, Converter={StaticResource UserBalanceTextAmountConverter}}"/>
                                             </RelativePanel>
                                         </DataTemplate>
