@@ -20,7 +20,7 @@ namespace Split_It.Design
             List<Friend> friendsList = new List<Friend>(4);
             Photo picture = new Photo { Medium = "https://graph.facebook.com/598294269/picture?type=normal" };
             UserBalance noBalance = new UserBalance { Amount = "-0.0", CurrencyCode = "SGD" };
-            UserBalance sgdBalance = new UserBalance { Amount = "-12.0", CurrencyCode = "SGD" };
+            UserBalance sgdBalance = new UserBalance { Amount = "-12.25", CurrencyCode = "SGD" };
             UserBalance thbBalance = new UserBalance { Amount = "25.0", CurrencyCode = "THB" };
 
             friendsList.Add(new Friend { FirstName = "No Balance", Picture = picture, Balance = new List<UserBalance> { noBalance } });

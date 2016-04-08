@@ -17,8 +17,10 @@
                 <ResourceDictionary Source="Skins/MainViewSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <con_bal:TextAmountConverter x:Key="UserBalanceTextAmountConverter"/>
+            <con_bal:TextConverter x:Key="UserBalanceTextConverter"/>
             <con_bal:TextColorConverter x:Key="UserBalanceTextColorConverter"/>
+            <con_bal:AmountConverter x:Key="UserBalanceAmountConverter"/>
+            <con_bal:VisibilityConverter x:Key="UserBalanceVisibilityConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -101,10 +103,20 @@
                                                 <TextBlock Text="{Binding Name}" 
                                                        RelativePanel.AlignVerticalCenterWith="image"
                                                        RelativePanel.RightOf="image" Margin="15,0,0,0"/>
-                                                <TextBlock RelativePanel.AlignRightWithPanel="True"
-                                                           RelativePanel.AlignVerticalCenterWithPanel="True"
-                                                           Foreground="{Binding Balance, Converter={StaticResource UserBalanceTextColorConverter}}"
-                                                           Text="{Binding Balance, Converter={StaticResource UserBalanceTextAmountConverter}}"/>
+                                                <Grid RelativePanel.AlignRightWithPanel="True"
+                                                      RelativePanel.AlignVerticalCenterWithPanel="True">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Foreground="{Binding Balance, Converter={StaticResource UserBalanceTextColorConverter}}"
+                                                               HorizontalAlignment="Right"
+                                                               Text="{Binding Balance, Converter={StaticResource UserBalanceTextConverter}}" FontSize="13"/>
+                                                    <TextBlock Foreground="{Binding Balance, Converter={StaticResource UserBalanceTextColorConverter}}"
+                                                               Grid.Row="1" HorizontalAlignment="Right"
+                                                               Visibility="{Binding Balance, Converter={StaticResource UserBalanceVisibilityConverter}}"
+                                                               Text="{Binding Balance, Converter={StaticResource UserBalanceAmountConverter}}" FontSize="18"/>
+                                                </Grid>
                                             </RelativePanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
