@@ -63,8 +63,8 @@
                         </Ellipse.Fill>
                     </Ellipse>
                 </RelativePanel>
-                
-                <Pivot Grid.Row="1">
+
+                <Pivot Grid.Row="1" Style="{StaticResource TabsStylePivotStyle}">
                     <PivotItem Header="Friends">
                         <Grid/>
                     </PivotItem>
