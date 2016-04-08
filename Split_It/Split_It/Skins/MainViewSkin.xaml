@@ -111,7 +111,7 @@
                             <!-- While used here to remove the spacing between header items, the PivotHeaderItem template can also be used to 
                                 display custom 'selected' visuals -->
                             <Style TargetType="PivotHeaderItem">
-                                <Setter Property="Padding" Value="30,0" />
+                                <Setter Property="Padding" Value="20,0" />
                                 <Setter Property="Foreground" Value="#80FFFFFF" />
                                 <Setter Property="Template">
                                     <Setter.Value>
@@ -461,6 +461,6 @@
     </Style>
 
     <DataTemplate x:Key="FriendsTemplate">
-        
+        <TextBlock Text="{Binding FirstName}"/>
     </DataTemplate>
 </ResourceDictionary>

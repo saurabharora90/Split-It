@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using Split_It.Model;
 using Split_It.Service;
@@ -21,20 +22,13 @@ namespace Split_It.ViewModel
             _dataService = dataService;
             _navigationService = navigationService;
 
-            initTasks();
+            getCurrentUSer();
+            RefreshDataCommand.Execute(null);
         }
 
-        private async void initTasks()
+        private async void getCurrentUSer()
         {
-            Task<User> userTask = _dataService.getCurrentUser();
-            Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
-            Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
-            //TODO: recent activity
-            await Task.WhenAll(userTask, friendsTask, groupsTask);
-
-            CurrentUser = userTask.Result;
-            FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
-            GroupsList = new ObservableCollection<Group>(groupsTask.Result);
+            CurrentUser = await _dataService.getCurrentUser();
         }
 
         #region Properties
@@ -126,6 +120,64 @@ namespace Split_It.ViewModel
 
                 _groupsList = value;
                 RaisePropertyChanged(GroupsListPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="IsBusy" /> property's name.
+        /// </summary>
+        public const string IsBusyPropertyName = "IsBusy";
+
+        private bool _isBusy = true;
+
+        /// <summary>
+        /// Sets and gets the IsBusy property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+
+            set
+            {
+                if (_isBusy == value)
+                {
+                    return;
+                }
+
+                _isBusy = value;
+                RaisePropertyChanged(IsBusyPropertyName);
+            }
+        }
+        #endregion
+
+        #region Commands
+        private RelayCommand _refreshDataCommand;
+
+        /// <summary>
+        /// Gets the RefreshDataCommand.
+        /// </summary>
+        public RelayCommand RefreshDataCommand
+        {
+            get
+            {
+                return _refreshDataCommand
+                    ?? (_refreshDataCommand = new RelayCommand(
+                    async () =>
+                    {
+                        IsBusy = true;
+                        Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
+                        Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
+                        //TODO: recent activity
+                        await Task.WhenAll(friendsTask, groupsTask);
+
+                        FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
+                        GroupsList = new ObservableCollection<Group>(groupsTask.Result);
+                        IsBusy = false;
+                    }));
             }
         }
         #endregion
