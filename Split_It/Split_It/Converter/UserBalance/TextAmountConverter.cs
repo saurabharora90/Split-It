@@ -10,30 +10,15 @@ using Windows.UI.Xaml.Data;
 
 namespace Split_It.Converter.UserBalance
 {
-    public class TextAmountConverter : IValueConverter
+    public class TextAmountConverter : BaseConverter
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public override object getFinalValue(Model.UserBalance finalBalance, int numberOfBalances)
         {
-            var balance = value as IEnumerable<Model.UserBalance>;
-            var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
-
-            if (balance == null || balance.Count() == 0)
-                return "settled up";
-
-            Model.UserBalance finalBalance = null;
-            double amount;
-            foreach (var currentBalance in balance)
-            {
-                if(finalBalance == null)
-                    finalBalance = currentBalance;
-
-                amount = System.Convert.ToDouble(currentBalance.Amount);
-                if (currentBalance.CurrencyCode == user.DefaultCurrency && amount != 0)
-                    finalBalance = currentBalance;
-            }
+            if (finalBalance == null)
+                return "settle up";
 
             //TODO: map currencycode to currency symbol
-            amount = System.Convert.ToDouble(finalBalance.Amount);
+            double amount = System.Convert.ToDouble(finalBalance.Amount);
             string returnValue = String.Empty;
             if (amount == 0)
                 return "settled up";
@@ -44,15 +29,10 @@ namespace Split_It.Converter.UserBalance
 
             returnValue += "\n" + finalBalance.CurrencyCode + Math.Abs(amount).ToString();
 
-            if (balance.Count() > 1)
+            if (numberOfBalances > 1)
                 return returnValue += "*";
             else
                 return returnValue;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
         }
     }
 }

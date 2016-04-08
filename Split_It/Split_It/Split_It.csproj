@@ -97,6 +97,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\UserBalance\BaseConverter.cs" />
     <Compile Include="Converter\UserBalance\TextAmountConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
