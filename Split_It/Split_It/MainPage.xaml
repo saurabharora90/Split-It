@@ -5,44 +5,80 @@
     xmlns:local="using:Split_It"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:as="using:TommasoScalici.AppShell"
     DataContext="{Binding MainVM, Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
-    <as:AppShell>
-        <as:AppShell.Menu>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Skins/MainViewSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <SplitView x:Name="MySplitView" DisplayMode="Inline" IsPaneOpen="False" 
+               Background="{StaticResource ApplicationPageBackgroundThemeBrush}" OpenPaneLength="150">
+        <SplitView.Pane>
+            <Grid Background="{StaticResource splitwiseGreyBG}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical">
+                    <SymbolIcon Symbol="Home"/>
+                    <SymbolIcon Symbol="AddFriend"/>
+                    <SymbolIcon Symbol="People"/>
+                    <SymbolIcon Symbol="OutlineStar"/>
+                    <SymbolIcon Symbol="Account"/>
+                    <SymbolIcon Symbol="ZoomOut"/>
+                </StackPanel>
+            </Grid>
+        </SplitView.Pane>
+        <SplitView.Content>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <RelativePanel Grid.Row="0" Background="{StaticResource splitwiseGreen}">
+                    <Button FontFamily="Segoe MDL2 Assets" 
+                            Foreground="White"
+                            Content="&#xE700;"
+                            Width="50" Height="50" 
+                            Background="Transparent" 
+                            Click="HamburgerButton_Click" Style="{StaticResource NoBorderSelectButton}"/>
 
-                <as:MenuListView Margin="0,48,0,0">
-                    <as:MenuItem Label="Home" Symbol="Home" />
-                    <as:MenuItem Label="Add Friend" Symbol="AddFriend" />
-                    <as:MenuItem Label="Create Group" Symbol="People" />
-                    <as:MenuItem Label="Rate" Symbol="OutlineStar" />
-                    <as:MenuItem Label="Log Out" Symbol="Account" />
-                    <as:MenuItem Label="Remove Ads" SymbolAsGlyph="&#xE946;" />
-                </as:MenuListView>
+                    <TextBlock Text="{Binding CurrentUser.FirstName}" Foreground="White"
+                               Name="NameHolder" 
+                               RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="10,0"/>
+                    <Ellipse Width="38" Height="38"
+                             RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="NameHolder">
+                        <Ellipse.Fill>
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage DecodePixelHeight="38" DecodePixelWidth="38" 
+                                                 UriSource="{Binding CurrentUser.Picture.Medium}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </RelativePanel>
+                
+                <Pivot Grid.Row="1">
+                    <PivotItem Header="Friends">
+                        <Grid/>
+                    </PivotItem>
 
-                <as:MenuListView Grid.Row="1">
-                    <as:MenuItem IsSelectable="False"
-                                 Label="{Binding CurrentUser.FirstName}"
-                                 SymbolVisibility="Collapsed">
-                        <as:MenuItem.UIContent>
-                            <Ellipse Width="38"
-                                     Height="38"
-                                     Margin="5,0,10,0">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="Assets/UserImage.png" />
-                                </Ellipse.Fill>
-                            </Ellipse>
-                        </as:MenuItem.UIContent>
-                    </as:MenuItem>
-                </as:MenuListView>
+                    <PivotItem Header="Groups">
+                        <Grid/>
+                    </PivotItem>
 
+                    <PivotItem Header="Recent">
+                        <Grid/>
+                    </PivotItem>
+                </Pivot>
             </Grid>
-        </as:AppShell.Menu>
-    </as:AppShell>
+            
+        </SplitView.Content>
+    </SplitView>
 </Page>
