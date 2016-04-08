@@ -43,7 +43,7 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string CurrentUserPropertyName = "CurrentUser";
 
-        private User _currentUser = null;
+        private User _currentUser = Utils.Util.getCurrentUserData();
 
         /// <summary>
         /// Sets and gets the CurrentUser property.
@@ -65,6 +65,7 @@ namespace Split_It.ViewModel
 
                 _currentUser = value;
                 RaisePropertyChanged(CurrentUserPropertyName);
+                Utils.Util.saveCurrentUserData(value);
             }
         }
 

@@ -107,8 +107,8 @@ namespace Split_It.ViewModel
                             AppState.AccessToken = tuple.Item1;
                             AppState.AccessTokenSecret = tuple.Item2;
 
-                            Util.saveString(Constants.SETTINGS_ACCESS_TOKEN, tuple.Item1);
-                            Util.saveString(Constants.SETTINGS_ACCESS_TOKEN_SECRET, tuple.Item2);
+                            Util.saveSetting(Constants.SETTINGS_ACCESS_TOKEN, tuple.Item1);
+                            Util.saveSetting(Constants.SETTINGS_ACCESS_TOKEN_SECRET, tuple.Item2);
 
                             IsBusy = false;
                             _navigationService.NavigateTo(ViewModelLocator.MainPageKey);

@@ -459,4 +459,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <DataTemplate x:Key="FriendsTemplate">
+        
+    </DataTemplate>
 </ResourceDictionary>

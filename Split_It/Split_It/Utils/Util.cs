@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Split_It.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,11 +30,25 @@ namespace Split_It.Utils
             return localSettings.Values[key];
         }
 
-        public static void saveString(string key, object value)
+        public static void saveSetting(string key, object value)
         {
             Windows.Storage.ApplicationDataContainer localSettings =
     Windows.Storage.ApplicationData.Current.LocalSettings;
             localSettings.Values[key] = value;
+        }
+
+        public static void saveCurrentUserData(User user)
+        {
+            string output = JsonConvert.SerializeObject(user);
+            saveSetting(Constants.SETTINGS_CURRENT_USER, output);
+        }
+
+        public static User getCurrentUserData()
+        {
+            string input = getSetting(Constants.SETTINGS_CURRENT_USER) as string;
+            if (input == null)
+                return null;
+            return JsonConvert.DeserializeObject<User>(input); ;
         }
     }
 }

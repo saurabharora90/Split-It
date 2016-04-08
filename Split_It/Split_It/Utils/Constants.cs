@@ -24,5 +24,6 @@ namespace Split_It.Utils
         ///
         public static string SETTINGS_ACCESS_TOKEN = "Access_Token";
         public static string SETTINGS_ACCESS_TOKEN_SECRET = "Access_Token_Secret";
+        public static string SETTINGS_CURRENT_USER = "Current_User";
     }
 }
