@@ -100,16 +100,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter\GroupBalance\AmountConverter.cs" />
-    <Compile Include="Converter\GroupBalance\BaseMemberConverter.cs" />
-    <Compile Include="Converter\GroupBalance\TextColorConverter.cs" />
-    <Compile Include="Converter\GroupBalance\TextConverter.cs" />
-    <Compile Include="Converter\GroupBalance\VisibilityConverter.cs" />
-    <Compile Include="Converter\UserBalance\AmountConverter.cs" />
-    <Compile Include="Converter\UserBalance\BaseConverter.cs" />
-    <Compile Include="Converter\UserBalance\TextConverter.cs" />
-    <Compile Include="Converter\UserBalance\TextColorConverter.cs" />
-    <Compile Include="Converter\UserBalance\VisibilityConverter.cs" />
+    <Compile Include="Converter\Balance\AmountConverter.cs" />
+    <Compile Include="Converter\Balance\BaseConverter.cs" />
+    <Compile Include="Converter\Balance\TextConverter.cs" />
+    <Compile Include="Converter\Balance\TextColorConverter.cs" />
+    <Compile Include="Converter\Balance\VisibilityConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="LoginPage.xaml.cs">

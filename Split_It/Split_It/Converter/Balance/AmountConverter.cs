@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Split_It.Model;
 
-namespace Split_It.Converter.UserBalance
+namespace Split_It.Converter.Balance
 {
     public class AmountConverter : BaseConverter
     {

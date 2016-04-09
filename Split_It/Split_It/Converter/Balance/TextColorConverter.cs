@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
+using Split_It.Model;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml;
 
-namespace Split_It.Converter.GroupBalance
+namespace Split_It.Converter.Balance
 {
-    public class TextColorConverter : BaseMemberConverter
+    public class TextColorConverter : BaseConverter
     {
         public override object getFinalValue(Model.UserBalance finalBalance, int numberOfBalances)
         {

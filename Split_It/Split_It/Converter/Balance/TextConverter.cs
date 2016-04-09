@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace Split_It.Converter.GroupBalance
+namespace Split_It.Converter.Balance
 {
-    public class TextConverter : BaseMemberConverter
+    public class TextConverter : BaseConverter
     {
         public override object getFinalValue(Model.UserBalance finalBalance, int numberOfBalances)
         {
@@ -22,7 +22,7 @@ namespace Split_It.Converter.GroupBalance
             if (amount == 0)
                 returnValue = "settled up";
             else if (amount > 0)
-                returnValue = "you are owed";
+                returnValue = "owes you";
             else
                 returnValue = "you owe";
 
