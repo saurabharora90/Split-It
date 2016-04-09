@@ -22,12 +22,12 @@ namespace Split_It.Converter.Summary
                 {
                     if (member.id == debt.From) //this means current user is in "to" field
                     {
-                        returnText = member.FirstName + " owes you ";
+                        returnText = member.FirstName + " owes you";
                         break;
                     }
                     else if(member.id == debt.To)
                     {
-                        returnText = "You owe " + member.FirstName + " ";
+                        returnText = "You owe " + member.FirstName;
                         break;
                     }
                 }

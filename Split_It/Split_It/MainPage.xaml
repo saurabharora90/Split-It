@@ -175,8 +175,7 @@
                                                                Text="{Binding Members, Converter={StaticResource BalanceAmountConverter}}" FontSize="18"/>
                                             </Grid>
 
-                                            <Grid RelativePanel.AlignBottomWithPanel="True" 
-                                                  RelativePanel.Below="textName" 
+                                            <Grid RelativePanel.Below="textName" 
                                                   RelativePanel.AlignLeftWith="textName"
                                                   Margin="15,0,0,0">
                                                 <Grid.RowDefinitions>
