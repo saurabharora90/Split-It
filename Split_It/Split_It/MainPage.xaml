@@ -7,6 +7,7 @@
     xmlns:pr="using:PullToRefresh.UWP"
     xmlns:winux="using:WinUX.Xaml.Converters"
     xmlns:con_bal="using:Split_It.Converter.Balance"
+    xmlns:con_summ="using:Split_It.Converter.Summary"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="Split_It.MainPage"
     mc:Ignorable="d">
@@ -22,6 +23,11 @@
             <con_bal:TextColorConverter x:Key="BalanceTextColorConverter"/>
             <con_bal:AmountConverter x:Key="BalanceAmountConverter"/>
             <con_bal:VisibilityConverter x:Key="BalanceVisibilityConverter"/>
+
+            <con_summ:GroupSummaryUserTextConverter x:Key="GroupSummaryUserTextConverter"/>
+            <con_summ:GroupSummaryAmountConverter x:Key="GroupSummaryAmountConverter"/>
+            <con_summ:GroupSummaryTextColorConverter x:Key="GroupSummaryTextColorConverter"/>
+            <con_summ:GroupSummaryVisibilityConverter x:Key="GroupSummaryVisibilityConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -151,7 +157,7 @@
                                                     <ImageBrush ImageSource="Assets/Images/groupIcon.png"/>
                                                 </Ellipse.Fill>
                                             </Ellipse>
-                                            <TextBlock Text="{Binding Name}" 
+                                            <TextBlock Text="{Binding Name}" x:Name="textName"
                                                        RelativePanel.AlignVerticalCenterWith="image"
                                                        RelativePanel.RightOf="image" Margin="15,0,0,0"/>
                                             <Grid RelativePanel.AlignRightWithPanel="True"
@@ -167,6 +173,33 @@
                                                                Grid.Row="1" HorizontalAlignment="Right"
                                                                Visibility="{Binding Members, Converter={StaticResource BalanceVisibilityConverter}}"
                                                                Text="{Binding Members, Converter={StaticResource BalanceAmountConverter}}" FontSize="18"/>
+                                            </Grid>
+
+                                            <Grid RelativePanel.AlignBottomWithPanel="True" 
+                                                  RelativePanel.Below="textName" 
+                                                  RelativePanel.AlignLeftWith="textName"
+                                                  Margin="15,0,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=0}" 
+                                                         Foreground="{StaticResource settled}" FontSize="13"/>
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=0}" FontSize="13"
+                                                         Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}}"/>
+                                                </TextBlock>
+                                                <TextBlock Grid.Row="1" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=1}">
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=1}" 
+                                                         Foreground="{StaticResource settled}" FontSize="13"/>
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=1}" FontSize="13"
+                                                         Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}}"/>
+                                                </TextBlock>
+                                                <TextBlock Grid.Row="2" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=2}">
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=2}" 
+                                                         Foreground="{StaticResource settled}" FontSize="13"/>
+                                                </TextBlock>
                                             </Grid>
                                         </RelativePanel>
                                     </DataTemplate>
