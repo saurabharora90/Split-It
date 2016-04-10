@@ -12,6 +12,8 @@ namespace Split_It.Converter.Balance
     {
         public override object getFinalValue(Model.UserBalance finalBalance, int numberOfBalances)
         {
+            if (finalBalance == null)
+                return Visibility.Collapsed;
             double amount = System.Convert.ToDouble(finalBalance.Amount);
             if (amount == 0)
                 return Visibility.Collapsed;

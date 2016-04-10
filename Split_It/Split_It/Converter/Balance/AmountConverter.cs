@@ -11,6 +11,9 @@ namespace Split_It.Converter.Balance
     {
         public override object getFinalValue(Model.UserBalance finalBalance, int numberOfBalances)
         {
+            if (finalBalance == null)
+                return String.Empty;
+
             double amount = System.Convert.ToDouble(finalBalance.Amount);
             //TODO: map currencycode to currency symbol
             string returnValue = finalBalance.CurrencyCode + Math.Abs(amount).ToString();
