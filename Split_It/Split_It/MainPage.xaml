@@ -150,9 +150,8 @@
                             <ListView ItemsSource="{Binding GroupsList}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <RelativePanel Height="100">
-                                            <Ellipse Height="40" Width="40" x:Name="image"
-                                                     RelativePanel.AlignVerticalCenterWithPanel="True">
+                                        <RelativePanel Margin="0,15">
+                                            <Ellipse Height="40" Width="40" x:Name="image">
                                                 <Ellipse.Fill>
                                                     <ImageBrush ImageSource="Assets/Images/groupIcon.png"/>
                                                 </Ellipse.Fill>
@@ -161,7 +160,7 @@
                                                        RelativePanel.AlignVerticalCenterWith="image"
                                                        RelativePanel.RightOf="image" Margin="15,0,0,0"/>
                                             <Grid RelativePanel.AlignRightWithPanel="True"
-                                                      RelativePanel.AlignVerticalCenterWithPanel="True">
+                                                       RelativePanel.AlignVerticalCenterWith="image">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>
@@ -177,7 +176,7 @@
 
                                             <Grid RelativePanel.Below="textName" 
                                                   RelativePanel.AlignLeftWith="textName"
-                                                  Margin="15,0,0,0">
+                                                  Margin="15,5,0,0" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>

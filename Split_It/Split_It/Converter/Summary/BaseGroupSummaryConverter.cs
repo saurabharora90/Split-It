@@ -29,8 +29,6 @@ namespace Split_It.Converter.Summary
                 if (debt.From == user.id || debt.To == user.id)
                     userDebts.Add(debt);
             }
-            if (userDebts.Count == 0)
-                return String.Empty;
 
             int position = System.Convert.ToInt32(parameter);
             List<Friend> otherGroupMembers = new List<Friend>();
