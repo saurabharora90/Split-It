@@ -46,7 +46,18 @@ namespace Split_It.Design
             string text = File.ReadAllText("Data/sample_group.json");
             Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(text);
             Newtonsoft.Json.Linq.JToken testToken = root["groups"];
-            return Task.FromResult(JsonConvert.DeserializeObject<IEnumerable<Group>>(testToken.ToString(), _jsonSettings));
+            var groups = JsonConvert.DeserializeObject<List<Group>>(testToken.ToString(), _jsonSettings);
+
+            for (int i = 0; i < groups.Count(); i++)
+            {
+                if(groups[i].Id == 0 || groups[i].GroupId == 0)
+                {
+                    groups.RemoveAt(i);
+                    break;
+                }
+            }
+
+            return Task.FromResult(groups as IEnumerable<Group>);
         }
     }
 }
