@@ -94,6 +94,10 @@ namespace Split_It.ViewModel
 
                 _currentFriend = value;
                 RaisePropertyChanged(CurrentFriendPropertyName);
+
+                if (ExpensesList!=null)
+                    ExpensesList.Clear();
+
                 RefreshExpensesCommand.Execute(null);
             }
         }

@@ -83,6 +83,9 @@
             <ListView ItemsSource="{Binding ExpensesList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
+                        <RelativePanel Margin="15,10">
+                            <TextBlock Text="{Binding Description}" Foreground="Black"/>
+                        </RelativePanel>
                         
                     </DataTemplate>
                 </ListView.ItemTemplate>
