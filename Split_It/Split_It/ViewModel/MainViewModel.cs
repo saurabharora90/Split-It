@@ -17,6 +17,7 @@ namespace Split_It.ViewModel
     {
         IDataService _dataService;
         INavigationService _navigationService;
+        ObservableCollection<Group> _allGroupsList;
         public ObservableCollection<GroupFilter> GroupsFiltersList { get; private set; }
 
         public MainViewModel(IDataService dataService, INavigationService navigationService)
@@ -27,6 +28,7 @@ namespace Split_It.ViewModel
             GroupsFiltersList = new ObservableCollection<GroupFilter>();
             GroupsFiltersList.Add(GroupFilter.RecentGroups);
             GroupsFiltersList.Add(GroupFilter.AllGroups);
+            SelectedGroupFilter = GroupFilter.RecentGroups;
 
             getCurrentUSer();
             RefreshDataCommand.Execute(null);
@@ -106,8 +108,6 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string GroupsListPropertyName = "GroupsList";
 
-        private ObservableCollection<Group> _groupsList = null;
-
         /// <summary>
         /// Sets and gets the GroupsList property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -116,18 +116,38 @@ namespace Split_It.ViewModel
         {
             get
             {
-                return _groupsList;
-            }
-
-            set
-            {
-                if (_groupsList == value)
+                if (SelectedGroupFilter == GroupFilter.AllGroups)
+                    return _allGroupsList;
+                else
                 {
-                    return;
-                }
+                    ObservableCollection<Group> filteredGroupsList = new ObservableCollection<Group>();
+                    foreach (var group in _allGroupsList)
+                    {
+                        bool canAdd = false;
+                        Friend currentUser = null;
+                        foreach (var member in group.Members)
+                        {
+                            if(member.id == CurrentUser.id)
+                            {
+                                currentUser = member;
+                                break;
+                            }
+                        }
 
-                _groupsList = value;
-                RaisePropertyChanged(GroupsListPropertyName);
+                        foreach (var balance in currentUser.Balance)
+                        {
+                            if(Convert.ToDouble(balance.Amount)!=0)
+                            {
+                                canAdd = true;
+                                break;
+                            }
+                        }
+
+                        if (canAdd)
+                            filteredGroupsList.Add(group);
+                    }
+                    return filteredGroupsList;
+                }
             }
         }
 
@@ -158,6 +178,7 @@ namespace Split_It.ViewModel
 
                 _selectedGroupFilter = value;
                 RaisePropertyChanged(SelectedGroupFilterPropertyName);
+                RaisePropertyChanged(GroupsListPropertyName);
             }
         }
 
@@ -215,9 +236,9 @@ namespace Split_It.ViewModel
                         await Task.WhenAll(friendsTask, groupsTask);
 
                         FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
-                        GroupsList = new ObservableCollection<Group>(groupsTask.Result);
+                        _allGroupsList = new ObservableCollection<Group>(groupsTask.Result);
+                        RaisePropertyChanged(GroupsListPropertyName);
                         IsBusy = false;
-                        SelectedGroupFilter = GroupFilter.RecentGroups;
                     }));
             }
         }

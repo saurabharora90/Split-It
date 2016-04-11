@@ -459,4 +459,15 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ComboxNoBorderStyle" TargetType="ComboBox">
+        <Setter Property="Margin" Value="15,5"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+
+    <Style x:Key="ComboxText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource settled}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
 </ResourceDictionary>
