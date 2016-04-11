@@ -30,6 +30,8 @@ namespace Split_It.Converter.Balance
                 }
                 balance = currentUserInGroup.Balance;
             }
+            else if (value is Model.UserBalance)
+                return getFinalValue(value as Model.UserBalance, 1);
             else
                 balance = value as IEnumerable<Model.UserBalance>;
 

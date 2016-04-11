@@ -113,6 +113,9 @@
     <Compile Include="Converter\Summary\GroupSummaryUserTextConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
+    <Compile Include="FriendDetailPage.xaml.cs">
+      <DependentUpon>FriendDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -140,6 +143,7 @@
     <Compile Include="Utils\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
     <Compile Include="Utils\DisplayAttribute.cs" />
     <Compile Include="Utils\Util.cs" />
+    <Compile Include="ViewModel\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -166,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="FriendDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

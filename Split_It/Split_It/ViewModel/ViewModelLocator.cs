@@ -9,6 +9,7 @@ namespace Split_It.ViewModel
     public class ViewModelLocator
     {
         public const string MainPageKey = "MainPage";
+        public const string FriendDetailPageKey = "FriendDetailPage";
 
         static ViewModelLocator()
         {
@@ -16,6 +17,7 @@ namespace Split_It.ViewModel
 
             var nav = new NavigationService();
             nav.Configure(MainPageKey, typeof(MainPage));
+            nav.Configure(FriendDetailPageKey, typeof(FriendDetailPage));
             SimpleIoc.Default.Register<INavigationService>(() => nav);
 
             if (ViewModelBase.IsInDesignModeStatic)
@@ -33,6 +35,7 @@ namespace Split_It.ViewModel
 
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<FriendDetailViewModel>();
         }
 
         /// <summary>
@@ -60,6 +63,20 @@ namespace Split_It.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<LoginViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the FriendDetailVM property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public FriendDetailViewModel FriendDetailVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<FriendDetailViewModel>();
             }
         }
     }

@@ -110,7 +110,7 @@
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <RelativePanel Height="70">
-                                                <Ellipse Height="40" Width="40" x:Name="image"
+                                                <Ellipse Style="{StaticResource RoundImage}" x:Name="image"
                                                      RelativePanel.AlignVerticalCenterWithPanel="True">
                                                     <Ellipse.Fill>
                                                         <ImageBrush ImageSource="{Binding Picture.Medium}"/>
@@ -167,7 +167,7 @@
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <RelativePanel Margin="0,15">
-                                                <Ellipse Height="40" Width="40" x:Name="image">
+                                                <Ellipse Style="{StaticResource RoundImage}" x:Name="image">
                                                     <Ellipse.Fill>
                                                         <ImageBrush ImageSource="Assets/Images/groupIcon.png"/>
                                                     </Ellipse.Fill>
