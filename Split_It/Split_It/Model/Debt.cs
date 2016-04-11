@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Split_It.Model
 {
-    public class GroupDebt : ObservableObject
+    public class Debt : ObservableObject
     {
         /// <summary>
         /// The <see cref="From" /> property's name.

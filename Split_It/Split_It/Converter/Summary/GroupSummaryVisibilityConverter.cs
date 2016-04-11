@@ -10,7 +10,7 @@ namespace Split_It.Converter.Summary
 {
     class GroupSummaryVisibilityConverter : BaseGroupSummaryConverter
     {
-        public override object getFinalValue(int position, IEnumerable<Friend> members, List<GroupDebt> userDebts)
+        public override object getFinalValue(int position, IEnumerable<Friend> members, List<Debt> userDebts)
         {
             if (position >= userDebts.Count)
                 return Visibility.Collapsed;

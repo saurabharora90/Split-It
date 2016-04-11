@@ -17,8 +17,8 @@ namespace Split_It.Converter.Summary
             var group = value as Group;
             var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
             //find current user in group.
-            List<GroupDebt> userDebts = new List<GroupDebt>();
-            IEnumerable<GroupDebt> allDebts = null;
+            List<Debt> userDebts = new List<Debt>();
+            IEnumerable<Debt> allDebts = null;
             if (group.SimplifyByDefault)
                 allDebts = group.SimplifiedDebts;
             else
@@ -45,6 +45,6 @@ namespace Split_It.Converter.Summary
             throw new NotImplementedException();
         }
 
-        public abstract Object getFinalValue(int position, IEnumerable<Friend> members, List<GroupDebt> userDebts);
+        public abstract Object getFinalValue(int position, IEnumerable<Friend> members, List<Debt> userDebts);
     }
 }

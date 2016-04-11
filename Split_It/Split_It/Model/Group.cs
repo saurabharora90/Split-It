@@ -224,13 +224,13 @@ namespace Split_It.Model
         /// </summary>
         public const string OriginalDebtsPropertyName = "OriginalDebts";
 
-        private IEnumerable<GroupDebt> _originalDebts = null;
+        private IEnumerable<Debt> _originalDebts = null;
 
         /// <summary>
         /// Sets and gets the OriginalDebts property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IEnumerable<GroupDebt> OriginalDebts
+        public IEnumerable<Debt> OriginalDebts
         {
             get
             {
@@ -254,13 +254,13 @@ namespace Split_It.Model
         /// </summary>
         public const string SimplifiedDebtsPropertyName = "SimplifiedDebts";
 
-        private IEnumerable<GroupDebt> _simplifiedDebts = null;
+        private IEnumerable<Debt> _simplifiedDebts = null;
 
         /// <summary>
         /// Sets and gets the SimplifiedDebts property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public IEnumerable<GroupDebt> SimplifiedDebts
+        public IEnumerable<Debt> SimplifiedDebts
         {
             get
             {
