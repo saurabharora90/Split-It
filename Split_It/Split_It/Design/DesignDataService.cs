@@ -22,7 +22,7 @@ namespace Split_It.Design
 
         public Task<User> getCurrentUser()
         {
-            return Task.FromResult(new User { id = 569955, FirstName = "Saurabh", LastName = "Arora", DefaultCurrency = "SGD", Picture = new Photo { Medium = "https://graph.facebook.com/598294269/picture?type=normal" } });
+            return Task.FromResult(new User { id = 494985, FirstName = "Saurabh", LastName = "Arora", DefaultCurrency = "SGD", Picture = new Photo { Medium = "https://graph.facebook.com/598294269/picture?type=normal" } });
         }
 
         public Task<IEnumerable<Friend>> getFriendsList()
@@ -62,7 +62,12 @@ namespace Split_It.Design
 
         public Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int offset = 0)
         {
-            throw new NotImplementedException();
+            string text = File.ReadAllText("Data/sample_expenses.json");
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(text);
+            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+            var groups = JsonConvert.DeserializeObject<List<Expense>>(testToken.ToString(), _jsonSettings);
+            
+            return Task.FromResult(groups as IEnumerable<Expense>);
         }
 
         public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int offset = 0)
