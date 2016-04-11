@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="Converter\Balance\AmountConverter.cs" />
     <Compile Include="Converter\Balance\BaseConverter.cs" />
+    <Compile Include="Converter\EnumToStringConverter.cs" />
     <Compile Include="Converter\Summary\BaseGroupSummaryConverter.cs" />
     <Compile Include="Converter\Balance\TextConverter.cs" />
     <Compile Include="Converter\Balance\TextColorConverter.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Enum\GroupFilter.cs" />
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\GroupDebt.cs" />
     <Compile Include="Model\UserBalance.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Utils\AppState.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
+    <Compile Include="Utils\DisplayAttribute.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -184,9 +187,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Enum\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

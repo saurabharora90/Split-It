@@ -29,7 +29,7 @@ namespace Split_It.ViewModel
             }
             else
             {
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
             }
 
             SimpleIoc.Default.Register<IDialogService, DialogService>();

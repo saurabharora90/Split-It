@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using Split_It.Model;
+using Split_It.Model.Enum;
 using Split_It.Service;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,16 @@ namespace Split_It.ViewModel
     {
         IDataService _dataService;
         INavigationService _navigationService;
+        public ObservableCollection<GroupFilter> GroupsFiltersList { get; private set; }
 
         public MainViewModel(IDataService dataService, INavigationService navigationService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
+
+            GroupsFiltersList = new ObservableCollection<GroupFilter>();
+            GroupsFiltersList.Add(GroupFilter.RecentGroups);
+            GroupsFiltersList.Add(GroupFilter.AllGroups);
 
             getCurrentUSer();
             RefreshDataCommand.Execute(null);
@@ -93,6 +99,8 @@ namespace Split_It.ViewModel
             }
         }
 
+        #region Groups
+
         /// <summary>
         /// The <see cref="GroupsList" /> property's name.
         /// </summary>
@@ -122,6 +130,38 @@ namespace Split_It.ViewModel
                 RaisePropertyChanged(GroupsListPropertyName);
             }
         }
+
+        /// <summary>
+        /// The <see cref="SelectedGroupFilter" /> property's name.
+        /// </summary>
+        public const string SelectedGroupFilterPropertyName = "SelectedGroupFilter";
+
+        private GroupFilter _selectedGroupFilter;
+
+        /// <summary>
+        /// Sets and gets the SelectedGroupFilter property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public GroupFilter SelectedGroupFilter
+        {
+            get
+            {
+                return _selectedGroupFilter;
+            }
+
+            set
+            {
+                if (_selectedGroupFilter == value)
+                {
+                    return;
+                }
+
+                _selectedGroupFilter = value;
+                RaisePropertyChanged(SelectedGroupFilterPropertyName);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// The <see cref="IsBusy" /> property's name.
@@ -177,6 +217,7 @@ namespace Split_It.ViewModel
                         FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
                         GroupsList = new ObservableCollection<Group>(groupsTask.Result);
                         IsBusy = false;
+                        SelectedGroupFilter = GroupFilter.RecentGroups;
                     }));
             }
         }

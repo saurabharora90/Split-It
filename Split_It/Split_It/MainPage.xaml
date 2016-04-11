@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pr="using:PullToRefresh.UWP"
     xmlns:winux="using:WinUX.Xaml.Converters"
+    xmlns:conveter="using:Split_It.Converter"
     xmlns:con_bal="using:Split_It.Converter.Balance"
     xmlns:con_summ="using:Split_It.Converter.Summary"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
@@ -18,6 +19,7 @@
                 <ResourceDictionary Source="Skins/MainViewSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <conveter:EnumToStringConverter x:Key="EnumToStringConverter"/>
             
             <con_bal:TextConverter x:Key="BalanceTextConverter"/>
             <con_bal:TextColorConverter x:Key="BalanceTextColorConverter"/>
@@ -88,7 +90,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <ComboBox HorizontalAlignment="Right" Margin="0,10" Width="100"/>
+                            <ComboBox HorizontalAlignment="Right" Margin="0,10" Width="100" Visibility="Collapsed"/>
                             <pr:PullToRefreshBox Grid.Row="1">
                                 <pr:PullToRefreshBox.TopIndicatorTemplate>
                                     <DataTemplate>
@@ -139,77 +141,93 @@
                     </PivotItem>
 
                     <PivotItem Header="Groups">
-                        <pr:PullToRefreshBox>
-                            <pr:PullToRefreshBox.TopIndicatorTemplate>
-                                <DataTemplate>
-                                    <pr:PullRefreshProgressControl
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ComboBox HorizontalAlignment="Right" Margin="0,5" BorderThickness="0"
+                                      ItemsSource="{Binding GroupsFiltersList}" SelectedItem="{Binding SelectedGroupFilter, Mode=TwoWay}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}" 
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource settled}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <pr:PullToRefreshBox Grid.Row="1">
+                                <pr:PullToRefreshBox.TopIndicatorTemplate>
+                                    <DataTemplate>
+                                        <pr:PullRefreshProgressControl
 										    PullToRefreshText="Pull to Refresh"
 										    ReleaseToRefreshText="Release To Refresh"/>
-                                </DataTemplate>
-                            </pr:PullToRefreshBox.TopIndicatorTemplate>
+                                    </DataTemplate>
+                                </pr:PullToRefreshBox.TopIndicatorTemplate>
 
-                            <ListView ItemsSource="{Binding GroupsList}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <RelativePanel Margin="0,15">
-                                            <Ellipse Height="40" Width="40" x:Name="image">
-                                                <Ellipse.Fill>
-                                                    <ImageBrush ImageSource="Assets/Images/groupIcon.png"/>
-                                                </Ellipse.Fill>
-                                            </Ellipse>
-                                            <TextBlock Text="{Binding Name}" x:Name="textName"
+                                <ListView ItemsSource="{Binding GroupsList}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <RelativePanel Margin="0,15">
+                                                <Ellipse Height="40" Width="40" x:Name="image">
+                                                    <Ellipse.Fill>
+                                                        <ImageBrush ImageSource="Assets/Images/groupIcon.png"/>
+                                                    </Ellipse.Fill>
+                                                </Ellipse>
+                                                <TextBlock Text="{Binding Name}" x:Name="textName"
                                                        RelativePanel.AlignVerticalCenterWith="image"
                                                        RelativePanel.RightOf="image" Margin="15,0,0,0"/>
-                                            <Grid RelativePanel.AlignRightWithPanel="True"
+                                                <Grid RelativePanel.AlignRightWithPanel="True"
                                                        RelativePanel.AlignVerticalCenterWith="image">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                <TextBlock Foreground="{Binding Members, Converter={StaticResource BalanceTextColorConverter}}"
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Foreground="{Binding Members, Converter={StaticResource BalanceTextColorConverter}}"
                                                                HorizontalAlignment="Right"
                                                                Text="{Binding Members, Converter={StaticResource BalanceTextConverter}}" FontSize="13"/>
-                                                <TextBlock Foreground="{Binding Members, Converter={StaticResource BalanceTextColorConverter}}"
+                                                    <TextBlock Foreground="{Binding Members, Converter={StaticResource BalanceTextColorConverter}}"
                                                                Grid.Row="1" HorizontalAlignment="Right"
                                                                Visibility="{Binding Members, Converter={StaticResource BalanceVisibilityConverter}}"
                                                                Text="{Binding Members, Converter={StaticResource BalanceAmountConverter}}" FontSize="16"/>
-                                            </Grid>
+                                                </Grid>
 
-                                            <Grid RelativePanel.Below="textName" 
+                                                <Grid RelativePanel.Below="textName" 
                                                   RelativePanel.AlignLeftWith="textName"
                                                   Margin="15,5,0,0" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                <TextBlock Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
                                                     <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=0}" 
                                                          Foreground="{StaticResource settled}" FontSize="13"/>
                                                     <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=0}" FontSize="13"
                                                          Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}, ConverterParameter=0}"/>
-                                                </TextBlock>
-                                                <TextBlock Grid.Row="1" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=1}">
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Row="1" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=1}">
                                                     <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=1}" 
                                                          Foreground="{StaticResource settled}" FontSize="13"/>
                                                     <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=1}" FontSize="13"
                                                          Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}, ConverterParameter=1}"/>
-                                                </TextBlock>
-                                                <TextBlock Grid.Row="2" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=2}">
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Row="2" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=2}">
                                                     <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=2}" 
                                                          Foreground="{StaticResource settled}" FontSize="13"/>
-                                                </TextBlock>
-                                            </Grid>
-                                        </RelativePanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <Interactivity:Interaction.Behaviors>
-                                <Core:EventTriggerBehavior EventName="RefreshInvoked">
-                                    <Core:InvokeCommandAction Command="{Binding RefreshDataCommand, Mode=OneWay}"/>
-                                </Core:EventTriggerBehavior>
-                            </Interactivity:Interaction.Behaviors>
-                        </pr:PullToRefreshBox>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </RelativePanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Interactivity:Interaction.Behaviors>
+                                    <Core:EventTriggerBehavior EventName="RefreshInvoked">
+                                        <Core:InvokeCommandAction Command="{Binding RefreshDataCommand, Mode=OneWay}"/>
+                                    </Core:EventTriggerBehavior>
+                                </Interactivity:Interaction.Behaviors>
+                            </pr:PullToRefreshBox>
+                        </Grid>
                     </PivotItem>
 
                     <PivotItem Header="Recent">
