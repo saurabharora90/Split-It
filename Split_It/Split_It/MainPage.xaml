@@ -40,10 +40,21 @@
         <SplitView.Pane>
             <Grid Background="{StaticResource splitwiseGreyBG}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Vertical">
+
+                <Ellipse Width="60" Height="60" Grid.Row="1">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding CurrentUser.Picture.Medium}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="{Binding CurrentUser.Name}" Foreground="Black" 
+                           Margin="15" Grid.Row="2" HorizontalAlignment="Center"/>
+                
+                <StackPanel Orientation="Vertical" Grid.Row="3">
                     <SymbolIcon Symbol="Home"/>
                     <SymbolIcon Symbol="AddFriend"/>
                     <SymbolIcon Symbol="People"/>
@@ -58,8 +69,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                    <!--For ad-->
                 </Grid.RowDefinitions>
                 <RelativePanel Grid.Row="0" Background="{StaticResource splitwiseGreen}">
                     <Button FontFamily="Segoe MDL2 Assets" 
@@ -69,15 +78,7 @@
 						Background="Transparent" 
 						Click="HamburgerButton_Click" Style="{StaticResource NoBorderSelectButton}"/>
 
-                    <TextBlock Text="{Binding CurrentUser.Name}" Foreground="White"
-						x:Name="NameHolder" 
-						RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="10,0"/>
-                    <Ellipse Width="40" Height="40"
-						RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="NameHolder">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{Binding CurrentUser.Picture.Medium}"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
+                    <!--Show Ad-->
                 </RelativePanel>
 
                 <Pivot Grid.Row="1" Style="{StaticResource TabsStylePivotStyle}">
