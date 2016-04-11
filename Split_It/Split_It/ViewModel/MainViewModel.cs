@@ -18,6 +18,7 @@ namespace Split_It.ViewModel
         IDataService _dataService;
         INavigationService _navigationService;
         ObservableCollection<Group> _allGroupsList;
+
         public ObservableCollection<GroupFilter> GroupsFiltersList { get; private set; }
 
         public MainViewModel(IDataService dataService, INavigationService navigationService)
@@ -143,7 +144,7 @@ namespace Split_It.ViewModel
                             }
                         }
 
-                        if (canAdd)
+                        if (canAdd || DateTime.Now.Subtract(Convert.ToDateTime(group.UpdatedAt)).Days < 30)
                             filteredGroupsList.Add(group);
                     }
                     return filteredGroupsList;
