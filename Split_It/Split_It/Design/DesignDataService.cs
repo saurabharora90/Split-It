@@ -36,7 +36,7 @@ namespace Split_It.Design
             friendsList.Add(new Friend { FirstName = "No Balance", Picture = picture, Balance = new List<UserBalance> { noBalance } });
             friendsList.Add(new Friend { FirstName = "I Owe", Picture = picture, Balance = new List<UserBalance> { sgdBalance } });
             friendsList.Add(new Friend { FirstName = "She owes", Email = "saurabharora90@gmail.com", Picture = picture, Balance = new List<UserBalance> { thbBalance } });
-            friendsList.Add(new Friend { FirstName = "Multiple", Picture = picture, Balance = new List<UserBalance> { thbBalance, sgdBalance } });
+            friendsList.Add(new Friend { FirstName = "Multiple", Email = "", Picture = picture, Balance = new List<UserBalance> { thbBalance, sgdBalance } });
 
             return Task.FromResult(friendsList.AsEnumerable());
         }
