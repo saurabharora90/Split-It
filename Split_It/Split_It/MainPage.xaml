@@ -106,7 +106,7 @@
                                     </DataTemplate>
                                 </pr:PullToRefreshBox.TopIndicatorTemplate>
 
-                                <ListView ItemsSource="{Binding FriendsList}">
+                                <ListView ItemsSource="{Binding FriendsList}" SelectedItem="{Binding SelectedItem,Mode=TwoWay}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <RelativePanel Height="70">
@@ -163,7 +163,7 @@
                                     </DataTemplate>
                                 </pr:PullToRefreshBox.TopIndicatorTemplate>
 
-                                <ListView ItemsSource="{Binding GroupsList}">
+                                <ListView ItemsSource="{Binding GroupsList}" SelectedItem="{Binding SelectedItem,Mode=TwoWay}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <RelativePanel Margin="0,15">

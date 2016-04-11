@@ -28,7 +28,7 @@ namespace Split_It.ViewModel
             if (IsInDesignModeStatic)
             {
                 List<Friend> list = new List<Friend>(await _dataService.getFriendsList());
-                CurrentFriend = list[2];
+                CurrentFriend = list[3];
             }
         }
 

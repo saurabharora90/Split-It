@@ -81,6 +81,22 @@ namespace Split_It.ViewModel
             }
         }
 
+        /// <summary>
+        /// Sets and gets the SelectedItem property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public object SelectedItem
+        {
+            set
+            {
+                if (value != null)
+                {
+                    if (value is Friend)
+                        _navigationService.NavigateTo(ViewModelLocator.FriendDetailPageKey, value);
+                }
+            }
+        }
+
         #region Friends
 
         /// <summary>
