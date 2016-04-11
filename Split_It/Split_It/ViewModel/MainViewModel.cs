@@ -18,13 +18,21 @@ namespace Split_It.ViewModel
         IDataService _dataService;
         INavigationService _navigationService;
         ObservableCollection<Group> _allGroupsList;
+        ObservableCollection<Friend> _allFriendsList;
 
         public ObservableCollection<GroupFilter> GroupsFiltersList { get; private set; }
+        public ObservableCollection<FriendFilter> FriendsFiltersList { get; private set; }
 
         public MainViewModel(IDataService dataService, INavigationService navigationService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
+
+            FriendsFiltersList = new ObservableCollection<FriendFilter>();
+            FriendsFiltersList.Add(FriendFilter.All);
+            FriendsFiltersList.Add(FriendFilter.OwesYou);
+            FriendsFiltersList.Add(FriendFilter.YouOwe);
+            SelectedFriendFilter = FriendFilter.All;
 
             GroupsFiltersList = new ObservableCollection<GroupFilter>();
             GroupsFiltersList.Add(GroupFilter.RecentGroups);
@@ -41,6 +49,7 @@ namespace Split_It.ViewModel
         }
 
         #region Properties
+
         /// <summary>
         /// The <see cref="CurrentUser" /> property's name.
         /// </summary>
@@ -72,12 +81,12 @@ namespace Split_It.ViewModel
             }
         }
 
+        #region Friends
+
         /// <summary>
         /// The <see cref="FriendsList" /> property's name.
         /// </summary>
         public const string FriendsListPropertyName = "FriendsList";
-
-        private ObservableCollection<Friend> _friendsList = null;
 
         /// <summary>
         /// Sets and gets the FriendsList property.
@@ -87,20 +96,42 @@ namespace Split_It.ViewModel
         {
             get
             {
-                return _friendsList;
+                return _allFriendsList;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="SelectedFriendFilter" /> property's name.
+        /// </summary>
+        public const string SelectedFriendFilterPropertyName = "SelectedFriendFilter";
+
+        private FriendFilter _selectedFriendFilter;
+
+        /// <summary>
+        /// Sets and gets the SelectedFriendFilter property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public FriendFilter SelectedFriendFilter
+        {
+            get
+            {
+                return _selectedFriendFilter;
             }
 
             set
             {
-                if (_friendsList == value)
+                if (_selectedFriendFilter == value)
                 {
                     return;
                 }
 
-                _friendsList = value;
+                _selectedFriendFilter = value;
+                RaisePropertyChanged(SelectedFriendFilterPropertyName);
                 RaisePropertyChanged(FriendsListPropertyName);
             }
         }
+
+        #endregion
 
         #region Groups
 
@@ -236,9 +267,12 @@ namespace Split_It.ViewModel
                         //TODO: recent activity
                         await Task.WhenAll(friendsTask, groupsTask);
 
-                        FriendsList = new ObservableCollection<Friend>(friendsTask.Result);
+                        _allFriendsList = new ObservableCollection<Friend>(friendsTask.Result);
                         _allGroupsList = new ObservableCollection<Group>(groupsTask.Result);
+
+                        RaisePropertyChanged(FriendsListPropertyName);
                         RaisePropertyChanged(GroupsListPropertyName);
+
                         IsBusy = false;
                     }));
             }

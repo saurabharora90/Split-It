@@ -30,6 +30,11 @@
             <con_summ:GroupSummaryAmountConverter x:Key="GroupSummaryAmountConverter"/>
             <con_summ:GroupSummaryTextColorConverter x:Key="GroupSummaryTextColorConverter"/>
             <con_summ:GroupSummaryVisibilityConverter x:Key="GroupSummaryVisibilityConverter"/>
+
+            <DataTemplate x:Key="ComboboxDataTemplate">
+                <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}" 
+                           Style="{StaticResource ComboxText}"/>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -90,7 +95,8 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <ComboBox Style="{StaticResource ComboxNoBorderStyle}" Visibility="Collapsed"/>
+                            <ComboBox Style="{StaticResource ComboxNoBorderStyle}" ItemTemplate="{StaticResource ComboboxDataTemplate}"
+                                      ItemsSource="{Binding FriendsFiltersList}" SelectedItem="{Binding SelectedFriendFilter, Mode=TwoWay}"/>
                             <pr:PullToRefreshBox Grid.Row="1">
                                 <pr:PullToRefreshBox.TopIndicatorTemplate>
                                     <DataTemplate>
@@ -146,15 +152,8 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <ComboBox Style="{StaticResource ComboxNoBorderStyle}"
-                                      ItemsSource="{Binding GroupsFiltersList}" SelectedItem="{Binding SelectedGroupFilter, Mode=TwoWay}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}" 
-                                                   Style="{StaticResource ComboxText}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <ComboBox Style="{StaticResource ComboxNoBorderStyle}" ItemTemplate="{StaticResource ComboboxDataTemplate}"
+                                      ItemsSource="{Binding GroupsFiltersList}" SelectedItem="{Binding SelectedGroupFilter, Mode=TwoWay}"/>
                             <pr:PullToRefreshBox Grid.Row="1">
                                 <pr:PullToRefreshBox.TopIndicatorTemplate>
                                     <DataTemplate>
