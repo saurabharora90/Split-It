@@ -8,7 +8,7 @@ namespace Split_It.Model.Enum
         All,
         [Display("You owe")]
         YouOwe,
-        [Display("Owes you")]
+        [Display("You are owed")]
         OwesYou
     }
 }
