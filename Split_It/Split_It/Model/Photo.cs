@@ -98,5 +98,35 @@ namespace Split_It.Model
                 RaisePropertyChanged(LargePropertyName);
             }
         }
+
+        /// <summary>
+        /// The <see cref="Original" /> property's name.
+        /// </summary>
+        public const string OriginalPropertyName = "Original";
+
+        private string _original = null;
+
+        /// <summary>
+        /// Sets and gets the Original property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Original
+        {
+            get
+            {
+                return _original;
+            }
+
+            set
+            {
+                if (_original == value)
+                {
+                    return;
+                }
+
+                _original = value;
+                RaisePropertyChanged(OriginalPropertyName);
+            }
+        }
     }
 }

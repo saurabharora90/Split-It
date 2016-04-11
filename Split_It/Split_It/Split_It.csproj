@@ -122,9 +122,11 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Enum\FriendFilter.cs" />
     <Compile Include="Model\Enum\GroupFilter.cs" />
     <Compile Include="Model\Expense.cs" />
+    <Compile Include="Model\ExpenseUser.cs" />
     <Compile Include="Model\Friendship.cs" />
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Debt.cs" />
