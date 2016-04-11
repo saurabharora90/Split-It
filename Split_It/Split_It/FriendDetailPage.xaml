@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Split_It"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:pr="using:PullToRefresh.UWP"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:con_bal="using:Split_It.Converter.Balance"
     xmlns:winux="using:WinUX.Xaml.Converters"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -15,6 +17,7 @@
 
     <Page.Resources>
         <winux:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+        <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         
         <con_bal:TextConverter x:Key="BalanceTextConverter"/>
         <con_bal:AmountConverter x:Key="BalanceAmountConverter"/>
@@ -69,5 +72,31 @@
                 </ListView.ItemTemplate>
             </ListView>
         </RelativePanel>
+
+        <pr:PullToRefreshBox Grid.Row="1">
+            <pr:PullToRefreshBox.TopIndicatorTemplate>
+                <DataTemplate>
+                    <pr:PullRefreshProgressControl PullToRefreshText="Pull to Refresh" ReleaseToRefreshText="Release To Refresh"/>
+                </DataTemplate>
+            </pr:PullToRefreshBox.TopIndicatorTemplate>
+
+            <ListView>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Interactivity:Interaction.Behaviors>
+                <Core:EventTriggerBehavior EventName="RefreshInvoked">
+                    <Core:InvokeCommandAction Command="{Binding RefreshExpensesCommand, Mode=OneWay}"/>
+                </Core:EventTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
+        </pr:PullToRefreshBox>
+
+        <Canvas Background="DarkGray" Opacity="0.5" 
+					Grid.Row="1"
+					Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressRing IsActive="{Binding IsBusy}" Grid.Row="1"/>
     </Grid>
 </Page>

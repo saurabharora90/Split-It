@@ -31,6 +31,9 @@ namespace Split_It.ViewModel
                 List<Friend> list = new List<Friend>(await _dataService.getFriendsList());
                 CurrentFriend = list[3];
             }
+
+            //await RefreshExpensesCommand.Execute(null);
+            //IsBusy = false;
         }
 
         #region Properties
@@ -112,6 +115,24 @@ namespace Split_It.ViewModel
                     () =>
                     {
                         _navigationService.GoBack();
+                    }));
+            }
+        }
+
+        private RelayCommand _refeshExpensesCommand;
+
+        /// <summary>
+        /// Gets the RefreshExpensesCommand.
+        /// </summary>
+        public RelayCommand RefreshExpensesCommand
+        {
+            get
+            {
+                return _refeshExpensesCommand
+                    ?? (_refeshExpensesCommand = new RelayCommand(
+                    () =>
+                    {
+
                     }));
             }
         }
