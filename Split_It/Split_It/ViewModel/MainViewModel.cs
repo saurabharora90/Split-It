@@ -96,7 +96,35 @@ namespace Split_It.ViewModel
         {
             get
             {
-                return _allFriendsList;
+                if(SelectedFriendFilter == FriendFilter.All)
+                    return _allFriendsList;
+                else
+                {
+                    ObservableCollection<Friend> filteredFriends = new ObservableCollection<Friend>();
+                    foreach (var friend in _allFriendsList)
+                    {
+                        UserBalance defaultBalance = null;
+                        foreach (var balance in friend.Balance)
+                        {
+                            if (defaultBalance == null)
+                                defaultBalance = balance;
+
+                            if (balance.CurrencyCode.Equals(CurrentUser.DefaultCurrency, StringComparison.CurrentCultureIgnoreCase) && Convert.ToDouble(balance.Amount) != 0)
+                            {
+                                defaultBalance = balance;
+                                break;
+                            }
+                        }
+                        if(defaultBalance!=null)
+                        {
+                            if (SelectedFriendFilter == FriendFilter.OwesYou && Convert.ToDouble(defaultBalance.Amount) > 0)
+                                filteredFriends.Add(friend);
+                            else if (SelectedFriendFilter == FriendFilter.YouOwe && Convert.ToDouble(defaultBalance.Amount) < 0)
+                                filteredFriends.Add(friend);
+                        }
+                    }
+                    return filteredFriends;
+                }
             }
         }
 
