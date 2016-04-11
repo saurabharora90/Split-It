@@ -80,7 +80,7 @@
                 </DataTemplate>
             </pr:PullToRefreshBox.TopIndicatorTemplate>
 
-            <ListView>
+            <ListView ItemsSource="{Binding ExpensesList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         

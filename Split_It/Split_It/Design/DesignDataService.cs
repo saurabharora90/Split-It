@@ -59,5 +59,20 @@ namespace Split_It.Design
 
             return Task.FromResult(groups as IEnumerable<Group>);
         }
+
+        public Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Friendship>> getFriendShip()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

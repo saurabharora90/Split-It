@@ -1,5 +1,7 @@
 ﻿using Split_It.Model;
 using Split_It.ViewModel;
+using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,7 +22,9 @@ namespace Split_It
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ((FriendDetailViewModel)DataContext).CurrentFriend = e.Parameter as Friend;
+            Tuple<int, Friend> dict = e.Parameter as Tuple<int, Friend>;
+            ((FriendDetailViewModel)DataContext).FriendshipId = dict.Item1;
+            ((FriendDetailViewModel)DataContext).CurrentFriend = dict.Item2;
         }
     }
 }

@@ -5,6 +5,7 @@ using Split_It.Model;
 using Split_It.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Split_It.ViewModel
     {
         IDataService _dataService;
         INavigationService _navigationService;
+        public int FriendshipId { get; set; }
 
         public FriendDetailViewModel(IDataService dataService, INavigationService navigationService)
         {
@@ -31,9 +33,6 @@ namespace Split_It.ViewModel
                 List<Friend> list = new List<Friend>(await _dataService.getFriendsList());
                 CurrentFriend = list[3];
             }
-
-            //await RefreshExpensesCommand.Execute(null);
-            //IsBusy = false;
         }
 
         #region Properties
@@ -95,9 +94,40 @@ namespace Split_It.ViewModel
 
                 _currentFriend = value;
                 RaisePropertyChanged(CurrentFriendPropertyName);
+                RefreshExpensesCommand.Execute(null);
             }
         }
 
+        /// <summary>
+        /// The <see cref="ExpensesList" /> property's name.
+        /// </summary>
+        public const string ExpensesListPropertyName = "ExpensesList";
+
+        private ObservableCollection<Expense> _expensesList = null;
+
+        /// <summary>
+        /// Sets and gets the ExpensesList property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Expense> ExpensesList
+        {
+            get
+            {
+                return _expensesList;
+            }
+
+            set
+            {
+                if (_expensesList == value)
+                {
+                    return;
+                }
+
+                _expensesList = value;
+                RaisePropertyChanged(ExpensesListPropertyName);
+            }
+        }
+        
         #endregion
 
         #region Commands
@@ -130,9 +160,11 @@ namespace Split_It.ViewModel
             {
                 return _refeshExpensesCommand
                     ?? (_refeshExpensesCommand = new RelayCommand(
-                    () =>
+                    async () =>
                     {
-
+                        IsBusy = true;
+                        ExpensesList = new ObservableCollection<Expense>(await _dataService.getExpenseForFriend(FriendshipId));
+                        IsBusy = false;
                     }));
             }
         }

@@ -19,6 +19,7 @@ namespace Split_It.ViewModel
         INavigationService _navigationService;
         ObservableCollection<Group> _allGroupsList;
         ObservableCollection<Friend> _allFriendsList;
+        ObservableCollection<Friendship> _friendshipList;
 
         public ObservableCollection<GroupFilter> GroupsFiltersList { get; private set; }
         public ObservableCollection<FriendFilter> FriendsFiltersList { get; private set; }
@@ -92,7 +93,22 @@ namespace Split_It.ViewModel
                 if (value != null)
                 {
                     if (value is Friend)
-                        _navigationService.NavigateTo(ViewModelLocator.FriendDetailPageKey, value);
+                    {
+                        Friend friend = value as Friend;
+                        Tuple<int, Friend> tuple = null;
+                        foreach (var friendship in _friendshipList)
+                        {
+                            foreach (var user in friendship.Users)
+                            {
+                                if(user.id == friend.id)
+                                {
+                                    tuple = new Tuple<int, Friend>(friendship.id, friend);
+                                    break;
+                                }
+                            }
+                        }
+                        _navigationService.NavigateTo(ViewModelLocator.FriendDetailPageKey, tuple);
+                    }
                 }
             }
         }
@@ -308,11 +324,13 @@ namespace Split_It.ViewModel
                         IsBusy = true;
                         Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
                         Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
+                        Task<IEnumerable<Friendship>> friendshipTask = _dataService.getFriendShip();
                         //TODO: recent activity
-                        await Task.WhenAll(friendsTask, groupsTask);
+                        await Task.WhenAll(friendsTask, groupsTask, friendshipTask);
 
                         _allFriendsList = new ObservableCollection<Friend>(friendsTask.Result);
                         _allGroupsList = new ObservableCollection<Group>(groupsTask.Result);
+                        _friendshipList = new ObservableCollection<Friendship>(friendshipTask.Result);
 
                         RaisePropertyChanged(FriendsListPropertyName);
                         RaisePropertyChanged(GroupsListPropertyName);

@@ -6,11 +6,8 @@ using Split_It.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Collections;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Split_It.Service
 {
@@ -73,5 +70,31 @@ namespace Split_It.Service
             return groups as IEnumerable<Group>;
         }
 
+        public async Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int offset = 0)
+        {
+            var request = new RestRequest("get_expenses");
+            request.AddParameter("offset", offset, ParameterType.GetOrPost);
+            request.AddParameter("friendship_id", friendshipId, ParameterType.GetOrPost);
+            var response = await _splitwiseClient.Execute(request);
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+        }
+
+        public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Friendship>> getFriendShip()
+        {
+            var request = new RestRequest("get_friendships");
+            var response = await _splitwiseClient.Execute(request);
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["friendships"];
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friendship>>(testToken.ToString(), _jsonSettings);
+        }
     }
 }
