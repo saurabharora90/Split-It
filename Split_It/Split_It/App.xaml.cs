@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Threading;
+﻿using Bezysoftware.Navigation.BackButton;
+using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using Split_It.Service;
 using Split_It.Utils;
@@ -76,6 +77,7 @@ namespace Split_It
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
             }
+            BackButtonManager.RegisterFrame(rootFrame, true, true, true);
             // Ensure the current window is active
             Window.Current.Activate();
             DispatcherHelper.Initialize();

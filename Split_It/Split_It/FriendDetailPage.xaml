@@ -32,7 +32,8 @@
 					Foreground="White"
 					Content="&#xE72B;"
 					Width="50" Height="50" 
-					Background="Transparent" Style="{StaticResource NoBorderSelectButton}"/>
+					Background="Transparent" Style="{StaticResource NoBorderSelectButton}" 
+                    Command="{Binding FriendDetailVM.GoBackCommand, Mode=OneWay}" DataContext="{Binding Source={StaticResource Locator}}"/>
             <Ellipse Style="{StaticResource RoundImage}" x:Name="image" RelativePanel.RightOf="BackButton" RelativePanel.AlignVerticalCenterWith="BackButton">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding Picture.Medium}"/>
@@ -48,7 +49,7 @@
                            Visibility="{Binding Email, Converter={StaticResource EmptyStringToVisibilityConverter}}" Grid.Row="1"/>
             </Grid>
             <ListView RelativePanel.Below="image" ItemsSource="{Binding Balance}" 
-                      Margin="0,10"
+                      Margin="0,10" SelectionMode="None"
                       RelativePanel.RightOf="BackButton">
                 <ListView.ItemTemplate>
                     <DataTemplate>

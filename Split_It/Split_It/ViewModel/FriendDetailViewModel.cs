@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using Split_It.Model;
 using Split_It.Service;
@@ -97,7 +98,23 @@ namespace Split_It.ViewModel
         #endregion
 
         #region Commands
+        private RelayCommand _goBackCommand;
 
+        /// <summary>
+        /// Gets the GoBackCommand.
+        /// </summary>
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return _goBackCommand
+                    ?? (_goBackCommand = new RelayCommand(
+                    () =>
+                    {
+                        _navigationService.GoBack();
+                    }));
+            }
+        }
         #endregion
     }
 }
