@@ -32,6 +32,8 @@ namespace Split_It.ViewModel
             {
                 List<Friend> list = new List<Friend>(await _dataService.getFriendsList());
                 CurrentFriend = list[3];
+
+                RefreshExpensesCommand.Execute(null);
             }
         }
 

@@ -91,6 +91,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Data\categories.json" />
     <None Include="Data\currencies.json" />
+    <Content Include="Assets\Images\expense_general.png" />
     <Content Include="Data\sample_group.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -106,6 +107,10 @@
     <Compile Include="Converter\Balance\AmountConverter.cs" />
     <Compile Include="Converter\Balance\BaseConverter.cs" />
     <Compile Include="Converter\EnumToStringConverter.cs" />
+    <Compile Include="Converter\Repayment\BaseRepaymentConverter.cs" />
+    <Compile Include="Converter\Repayment\RepaymentAmountConverter.cs" />
+    <Compile Include="Converter\Repayment\RepaymentColorConverter.cs" />
+    <Compile Include="Converter\Repayment\RepaymentBorrowLentConverter.cs" />
     <Compile Include="Converter\Summary\BaseGroupSummaryConverter.cs" />
     <Compile Include="Converter\Balance\TextConverter.cs" />
     <Compile Include="Converter\Balance\TextColorConverter.cs" />

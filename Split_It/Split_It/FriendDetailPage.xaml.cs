@@ -23,6 +23,8 @@ namespace Split_It
         {
             base.OnNavigatedTo(e);
             Tuple<int, Friend> dict = e.Parameter as Tuple<int, Friend>;
+            if (dict == null)
+                return;
             ((FriendDetailViewModel)DataContext).FriendshipId = dict.Item1;
             ((FriendDetailViewModel)DataContext).CurrentFriend = dict.Item2;
         }

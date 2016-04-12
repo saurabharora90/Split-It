@@ -77,7 +77,8 @@ namespace Split_It.Design
 
         public Task<IEnumerable<Friendship>> getFriendShip()
         {
-            throw new NotImplementedException();
+            var list = new List<Friendship>();
+            return Task.FromResult(list as IEnumerable<Friendship>);
         }
     }
 }
