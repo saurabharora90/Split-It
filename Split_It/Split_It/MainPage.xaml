@@ -176,6 +176,7 @@
                                                        RelativePanel.AlignVerticalCenterWith="image"
                                                        RelativePanel.RightOf="image" Margin="15,0,0,0"/>
                                                 <Grid RelativePanel.AlignRightWithPanel="True"
+                                                      x:Name="AmountGrid"
                                                        RelativePanel.AlignVerticalCenterWith="image">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto"/>
@@ -191,8 +192,9 @@
                                                 </Grid>
 
                                                 <Grid RelativePanel.Below="textName" 
-                                                  RelativePanel.AlignLeftWith="textName"
-                                                  Margin="15,5,0,0" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
+                                                      RelativePanel.RightOf="image"
+                                                      RelativePanel.LeftOf="AmountGrid"
+                                                      Margin="15,5,0,0" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto"/>
                                                         <RowDefinition Height="Auto"/>

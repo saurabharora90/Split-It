@@ -14,7 +14,7 @@ namespace Split_It.Converter.Repayment
             if (currentUserDebt == null)
                 return "0.00";
             else
-                return currentUserDebt.CurrencyCode + currentUserDebt.Amount;
+                return currentUserDebt.Amount;
         }
     }
 }

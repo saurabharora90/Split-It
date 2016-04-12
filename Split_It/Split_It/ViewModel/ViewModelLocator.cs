@@ -20,14 +20,14 @@ namespace Split_It.ViewModel
             nav.Configure(FriendDetailPageKey, typeof(FriendDetailPage));
             SimpleIoc.Default.Register<INavigationService>(() => nav);
 
-            //if (ViewModelBase.IsInDesignModeStatic)
-            //{
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
                 SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            /*}
+            }
             else
             {
                 SimpleIoc.Default.Register<IDataService, DataService>();
-            }*/
+            }
 
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<ILoginService, LoginService>();

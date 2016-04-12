@@ -107,6 +107,7 @@
     <Compile Include="Converter\Balance\AmountConverter.cs" />
     <Compile Include="Converter\Balance\BaseConverter.cs" />
     <Compile Include="Converter\EnumToStringConverter.cs" />
+    <Compile Include="Converter\ExpenseWhoPaidConverter.cs" />
     <Compile Include="Converter\Repayment\BaseRepaymentConverter.cs" />
     <Compile Include="Converter\Repayment\RepaymentAmountConverter.cs" />
     <Compile Include="Converter\Repayment\RepaymentColorConverter.cs" />
