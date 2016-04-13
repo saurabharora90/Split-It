@@ -60,5 +60,9 @@
             </Grid>
         </RelativePanel>
     </DataTemplate>
+
+    <DataTemplate x:Key="FooterTemplate">
+        
+    </DataTemplate>
     
 </ResourceDictionary>

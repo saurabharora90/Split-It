@@ -3,17 +3,16 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using Split_It.Model;
 using Split_It.Service;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WinUX.Extensions;
 
 namespace Split_It.ViewModel
 {
     public class FriendDetailViewModel : ViewModelBase
     {
+        private readonly int _limit = 20;
+        private int _pageNo = 0;
         IDataService _dataService;
         INavigationService _navigationService;
         public int FriendshipId { get; set; }
@@ -66,6 +65,36 @@ namespace Split_It.ViewModel
 
                 _isBusy = value;
                 RaisePropertyChanged(IsBusyPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="IsLoadingNewPage" /> property's name.
+        /// </summary>
+        public const string IsLoadingNewPagePropertyName = "IsLoadingNewPage";
+
+        private bool _isLoadingNewPage = false;
+
+        /// <summary>
+        /// Sets and gets the IsLoadingNewPage property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsLoadingNewPage
+        {
+            get
+            {
+                return _isLoadingNewPage;
+            }
+
+            set
+            {
+                if (_isLoadingNewPage == value)
+                {
+                    return;
+                }
+
+                _isLoadingNewPage = value;
+                RaisePropertyChanged(IsLoadingNewPagePropertyName);
             }
         }
 
@@ -166,14 +195,47 @@ namespace Split_It.ViewModel
             {
                 return _refeshExpensesCommand
                     ?? (_refeshExpensesCommand = new RelayCommand(
-                    async () =>
+                    () =>
                     {
-                        IsBusy = true;
-                        ExpensesList = new ObservableCollection<Expense>(await _dataService.getExpenseForFriend(FriendshipId));
-                        IsBusy = false;
+                        _pageNo = 0;
+                        loadData();
+                    }));
+            }
+        }
+
+        private RelayCommand _loadMoreCommand;
+
+        /// <summary>
+        /// Gets the LoadMoreCommand.
+        /// </summary>
+        public RelayCommand LoadMoreCommand
+        {
+            get
+            {
+                return _loadMoreCommand
+                    ?? (_loadMoreCommand = new RelayCommand(
+                    () =>
+                    {
+                        IsLoadingNewPage = true;
+                        _pageNo++;
+                        loadData();
                     }));
             }
         }
         #endregion
+
+        private async void loadData()
+        {
+            if (_pageNo == 0)
+                IsBusy = true;
+
+            var list = await _dataService.getExpenseForFriend(FriendshipId, _limit, _pageNo * _limit);
+            if (_pageNo == 0)
+                ExpensesList = new ObservableCollection<Expense>(list);
+            else
+                ExpensesList.AddRange(list);
+            IsBusy = false;
+            IsLoadingNewPage = false;
+        }
     }
 }

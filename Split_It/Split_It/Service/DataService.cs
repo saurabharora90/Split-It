@@ -70,11 +70,12 @@ namespace Split_It.Service
             return groups as IEnumerable<Group>;
         }
 
-        public async Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int offset = 0)
+        public async Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int limit, int offset = 0)
         {
             var request = new RestRequest("get_expenses");
             request.AddParameter("offset", offset, ParameterType.GetOrPost);
             request.AddParameter("friendship_id", friendshipId, ParameterType.GetOrPost);
+            request.AddParameter("limit", limit, ParameterType.GetOrPost);
             var response = await _splitwiseClient.Execute(request);
             Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
             Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
@@ -82,7 +83,7 @@ namespace Split_It.Service
             return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
         }
 
-        public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int offset = 0)
+        public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int limit, int offset = 0)
         {
             throw new NotImplementedException();
         }

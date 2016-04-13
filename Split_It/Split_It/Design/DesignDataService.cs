@@ -60,7 +60,7 @@ namespace Split_It.Design
             return Task.FromResult(groups as IEnumerable<Group>);
         }
 
-        public Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int offset = 0)
+        public Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int limit, int offset = 0)
         {
             string text = File.ReadAllText("Data/sample_expenses.json");
             Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(text);
@@ -70,7 +70,7 @@ namespace Split_It.Design
             return Task.FromResult(groups as IEnumerable<Expense>);
         }
 
-        public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int offset = 0)
+        public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int limit, int offset = 0)
         {
             throw new NotImplementedException();
         }
