@@ -156,6 +156,8 @@
     <Compile Include="Utils\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
     <Compile Include="Utils\DisplayAttribute.cs" />
     <Compile Include="Utils\Util.cs" />
+    <Compile Include="ViewModel\BaseEntityDetailViewModel.cs" />
+    <Compile Include="ViewModel\ExpenseDetailViewModel.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

@@ -85,23 +85,7 @@
                 </DataTemplate>
             </pr:PullToRefreshBox.TopIndicatorTemplate>
 
-            <ListView ItemsSource="{Binding ExpensesList}" ItemTemplate="{StaticResource ExpenseTemplate}">
-                <ListView.FooterTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Button Content="Load older expenses" Foreground="{StaticResource settled}" 
-                                    Background="Transparent"
-                                    Command="{Binding LoadMoreCommand}"
-                                    Visibility="{Binding IsLoadingNewPage, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                                    Style="{StaticResource NoBorderSelectButton}" 
-                                    HorizontalAlignment="Center" Height="30"/>
-                            <ProgressRing IsActive="{Binding IsLoadingNewPage}"/>
-                        </Grid>
-                        
-
-                    </DataTemplate>
-                </ListView.FooterTemplate>
-            </ListView>
+            <ListView ItemsSource="{Binding ExpensesList}" ItemTemplate="{StaticResource ExpenseTemplate}" FooterTemplate="{StaticResource FooterTemplate}"/>
             <Interactivity:Interaction.Behaviors>
                 <Core:EventTriggerBehavior EventName="RefreshInvoked">
                     <Core:InvokeCommandAction Command="{Binding RefreshExpensesCommand, Mode=OneWay}"/>

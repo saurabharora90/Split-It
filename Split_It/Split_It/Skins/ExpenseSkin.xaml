@@ -62,7 +62,15 @@
     </DataTemplate>
 
     <DataTemplate x:Key="FooterTemplate">
-        
+        <Grid>
+            <Button Content="Load older expenses" Foreground="{StaticResource settled}" 
+                    Background="Transparent"
+                    Command="{Binding LoadMoreCommand}"
+                    Visibility="{Binding IsLoadingNewPage, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                    Style="{StaticResource NoBorderSelectButton}" 
+                    HorizontalAlignment="Center" Height="30"/>
+            <ProgressRing IsActive="{Binding IsLoadingNewPage}"/>
+        </Grid>
     </DataTemplate>
     
 </ResourceDictionary>
