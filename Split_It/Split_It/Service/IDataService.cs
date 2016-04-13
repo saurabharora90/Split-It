@@ -12,5 +12,7 @@ namespace Split_It.Service
         Task<IEnumerable<Group>> getGroupsList();
         Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int limit, int offset = 0);
         Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int limit, int offset = 0);
+
+        Task<bool> deleteExpense(int expenseId);
     }
 }

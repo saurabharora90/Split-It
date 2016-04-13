@@ -12,7 +12,7 @@ namespace Split_It.ViewModel
     {
         public int FriendshipId { get; set; }
 
-        public FriendDetailViewModel(IDataService dataService, INavigationService navigationService) : base(dataService, navigationService)
+        public FriendDetailViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService) : base(dataService, navigationService, dialogService)
         {
             init();
         }
@@ -114,8 +114,16 @@ namespace Split_It.ViewModel
 
         protected override void handleExpenseSelection()
         {
-            _navigationService.NavigateTo(ViewModelLocator.ExpenseDetailPageKey, ExpenseDetailPage.TYPE_FRIEND);
+            if(SelectedExpense!=null) 
+                _navigationService.NavigateTo(ViewModelLocator.ExpenseDetailPageKey, ExpenseDetailPage.TYPE_FRIEND);
             base.handleExpenseSelection();
+        }
+
+        protected override void expenseUpdated()
+        {
+            base.expenseUpdated();
+            _navigationService.GoBack();
+            RefreshExpensesCommand.Execute(null);
         }
     }
 }

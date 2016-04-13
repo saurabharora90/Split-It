@@ -105,5 +105,20 @@ namespace Split_It.Service
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friendship>>(testToken.ToString(), _jsonSettings);
         }
+
+        public async Task<bool> deleteExpense(int expenseId)
+        {
+            var request = new RestRequest("delete_expense/{id}", Method.POST);
+            request.AddUrlSegment("id", expenseId.ToString());
+            var response = await _splitwiseClient.Execute(request);
+            var delete = Newtonsoft.Json.JsonConvert.DeserializeObject<DeleteExpense>(getStringFromResponse(response), _jsonSettings);
+            return delete.success;
+        }
+
+        private class DeleteExpense
+        {
+            public Boolean success { get; set; }
+            public Object error { get; set; }
+        }
     }
 }

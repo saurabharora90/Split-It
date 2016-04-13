@@ -13,7 +13,7 @@ namespace Split_It.ViewModel
         protected readonly int _limit = 20;
         protected int _pageNo = 0;
 
-        public BaseEntityDetailViewModel(IDataService dataService, INavigationService navigationService) : base(dataService, navigationService)
+        public BaseEntityDetailViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService) : base(dataService, navigationService, dialogService)
         {
 
         }

@@ -80,5 +80,10 @@ namespace Split_It.Design
             var list = new List<Friendship>();
             return Task.FromResult(list as IEnumerable<Friendship>);
         }
+
+        public Task<bool> deleteExpense(int expenseId)
+        {
+            return Task.FromResult(true);
+        }
     }
 }

@@ -15,11 +15,13 @@ namespace Split_It.ViewModel
     {
         protected IDataService _dataService;
         protected INavigationService _navigationService;
+        protected IDialogService _dialogService;
 
-        public ExpenseDetailViewModel(IDataService dataService, INavigationService navigationService)
+        public ExpenseDetailViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
 
             init();
         }
@@ -128,9 +130,15 @@ namespace Split_It.ViewModel
             {
                 return _deleteCommand
                     ?? (_deleteCommand = new RelayCommand(
-                    () =>
+                    async () =>
                     {
-                        expenseUpdated();
+                        IsBusyWithCommentOperation = true;
+                        bool result = await _dataService.deleteExpense(SelectedExpense.Id);
+                        IsBusyWithCommentOperation = false;
+                        if (result)
+                            expenseUpdated();
+                        else
+                            await _dialogService.ShowMessage("Unable to delete expense", "Error");
                     }));
             }
         }
@@ -174,6 +182,9 @@ namespace Split_It.ViewModel
 
         protected virtual void handleExpenseSelection()
         {
+            if (SelectedExpense == null)
+                return;
+
             if(SelectedExpense.CommentCount > 0)
             {
                 //TODO: fetch comments
