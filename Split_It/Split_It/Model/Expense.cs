@@ -458,5 +458,35 @@ namespace Split_It.Model
                 RaisePropertyChanged(UsersPropertyName);
             }
         }
+
+        /// <summary>
+        /// The <see cref="DeletedAt" /> property's name.
+        /// </summary>
+        public const string DeletedAtPropertyName = "DeletedAt";
+
+        private string _deletedAt = null;
+
+        /// <summary>
+        /// Sets and gets the DeletedAt property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string DeletedAt
+        {
+            get
+            {
+                return _deletedAt;
+            }
+
+            set
+            {
+                if (_deletedAt == value)
+                {
+                    return;
+                }
+
+                _deletedAt = value;
+                RaisePropertyChanged(DeletedAtPropertyName);
+            }
+        }
     }
 }

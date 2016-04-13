@@ -12,10 +12,12 @@
 
     <winux:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
     <converter:ExpenseWhoPaidConverter x:Key="ExpenseWhoPaidConverter"/>
+    <converter:ExpenseImageConveter x:Key="ExpenseImageConveter"/>
+    <converter:ExpenseDescriptionConverter x:Key="ExpenseDescriptionConverter"/>
 
     <DataTemplate x:Key="ExpenseTemplate">
         <RelativePanel Margin="15,10">
-            <Image Source="Assets/Images/expense_general.png" x:Name="image" Stretch="Uniform" Width="25">
+            <Image Source="{Binding Payment, Converter={StaticResource ExpenseImageConveter}}" x:Name="image" Stretch="Uniform" Width="25">
                 <Interactivity:Interaction.Behaviors>
                     <Core:IncrementalUpdateBehavior Phase="3"/>
                 </Interactivity:Interaction.Behaviors>
@@ -46,7 +48,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis"/>
+                <TextBlock Text="{Binding Converter={StaticResource ExpenseDescriptionConverter}}" TextTrimming="CharacterEllipsis"/>
                 <TextBlock Foreground="{StaticResource settled}"
                                            Visibility="{Binding Payment, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                                            FontSize="13" Grid.Row="1">
