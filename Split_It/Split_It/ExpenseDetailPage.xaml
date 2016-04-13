@@ -23,6 +23,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <RelativePanel Background="{StaticResource splitwiseGreen}" Padding="0,0,0,10">
@@ -57,7 +58,15 @@
             </StackPanel>
         </RelativePanel>
 
-        <ListView ItemsSource="{Binding SelectedExpense.Users}" Grid.Row="1" Padding="20,20,20,0">
+        <RelativePanel Grid.Row="1" Padding="20,20,20,0" Visibility="{Binding SelectedExpense.Details, Converter={StaticResource EmptyStringToVisibilityConverter}}">
+            <SymbolIcon Symbol="Message" Width="30" Margin="0,0,10,0" x:Name="noteIcon"/>
+            <TextBlock RelativePanel.RightOf="noteIcon" RelativePanel.AlignTopWith="noteIcon" x:Name="noteTitle"
+                       Text="NOTES" FontWeight="Bold" FontSize="11" Foreground="{StaticResource settled}"/>
+            <TextBlock Text="{Binding SelectedExpense.Details}" FontSize="11" TextWrapping="Wrap"
+                       RelativePanel.Below="noteTitle" RelativePanel.AlignLeftWith="noteTitle"/>
+        </RelativePanel>
+        
+        <ListView ItemsSource="{Binding SelectedExpense.Users}" Grid.Row="2" Padding="20,20,20,0">
             <ListView.HeaderTemplate>
                 <DataTemplate>
                     <TextBlock Text="SPLIT DETAILS" FontWeight="Bold" Foreground="{StaticResource settled}" FontSize="11"/>
@@ -73,6 +82,7 @@
                             </Ellipse.Fill>
                         </Ellipse>
                         <TextBlock RelativePanel.RightOf="image" RelativePanel.AlignVerticalCenterWith="image"
+                                   TextWrapping="Wrap"
                                    Text="{Binding Converter={StaticResource ExpenseDetailPaidSectionConverter}}"/>
                         <!--
                             <VariableSizedWrapGrid Orientation="Horizontal" 

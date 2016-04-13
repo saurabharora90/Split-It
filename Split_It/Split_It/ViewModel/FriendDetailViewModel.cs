@@ -58,6 +58,9 @@ namespace Split_It.ViewModel
                 _currentFriend = value;
                 RaisePropertyChanged(CurrentFriendPropertyName);
 
+                if(CurrentFriend.Balance.Count() > 1)
+                    CurrentFriend.Balance = CurrentFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
+
                 if (ExpensesList!=null)
                     ExpensesList.Clear();
 
