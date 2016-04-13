@@ -85,7 +85,8 @@
                 </DataTemplate>
             </pr:PullToRefreshBox.TopIndicatorTemplate>
 
-            <ListView ItemsSource="{Binding ExpensesList}" ItemTemplate="{StaticResource ExpenseTemplate}" FooterTemplate="{StaticResource FooterTemplate}"/>
+            <ListView ItemsSource="{Binding ExpensesList}" ItemTemplate="{StaticResource ExpenseTemplate}" 
+                      FooterTemplate="{StaticResource FooterTemplate}" SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"/>
             <Interactivity:Interaction.Behaviors>
                 <Core:EventTriggerBehavior EventName="RefreshInvoked">
                     <Core:InvokeCommandAction Command="{Binding RefreshExpensesCommand, Mode=OneWay}"/>

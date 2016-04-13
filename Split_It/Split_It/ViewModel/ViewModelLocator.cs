@@ -10,6 +10,7 @@ namespace Split_It.ViewModel
     {
         public const string MainPageKey = "MainPage";
         public const string FriendDetailPageKey = "FriendDetailPage";
+        public const string ExpenseDetailPageKey = "ExpenseDetailPage";
 
         static ViewModelLocator()
         {
@@ -18,6 +19,7 @@ namespace Split_It.ViewModel
             var nav = new NavigationService();
             nav.Configure(MainPageKey, typeof(MainPage));
             nav.Configure(FriendDetailPageKey, typeof(FriendDetailPage));
+            nav.Configure(ExpenseDetailPageKey, typeof(ExpenseDetailPage));
             SimpleIoc.Default.Register<INavigationService>(() => nav);
 
             if (ViewModelBase.IsInDesignModeStatic)
@@ -35,7 +37,8 @@ namespace Split_It.ViewModel
 
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<FriendDetailViewModel>();
+            SimpleIoc.Default.Register<FriendDetailViewModel>(); ;
+            SimpleIoc.Default.Register<ExpenseDetailViewModel>();
         }
 
         /// <summary>
@@ -77,6 +80,20 @@ namespace Split_It.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<FriendDetailViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the ExpenseDetailVM property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public ExpenseDetailViewModel ExpenseDetailVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ExpenseDetailViewModel>();
             }
         }
     }

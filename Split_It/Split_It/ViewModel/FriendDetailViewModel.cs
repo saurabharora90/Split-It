@@ -111,5 +111,10 @@ namespace Split_It.ViewModel
             IsBusy = false;
             IsLoadingNewPage = false;
         }
+
+        protected override void handleExpenseSelection()
+        {
+            _navigationService.NavigateTo(ViewModelLocator.ExpenseDetailPageKey, ExpenseDetailPage.TYPE_FRIEND);
+        }
     }
 }
