@@ -1,4 +1,6 @@
-﻿using Split_It.Model;
+﻿using Microsoft.Practices.ServiceLocation;
+using Split_It.Model;
+using Split_It.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,13 @@ namespace Split_It.Converter
             if (numberOfPeoplePaid > 1)
                 return numberOfPeoplePaid.ToString() + " people";
             else
-                return paidUser.FirstName;
+            {
+                var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+                if (paidUser.id == user.id)
+                    return "You";
+                else
+                    return paidUser.FirstName;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
