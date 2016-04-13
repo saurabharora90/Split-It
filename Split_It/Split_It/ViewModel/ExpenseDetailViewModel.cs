@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using Microsoft.Practices.ServiceLocation;
 using Split_It.Model;
 using Split_It.Service;
 using System;
@@ -64,7 +65,8 @@ namespace Split_It.ViewModel
 
                 _selectedExpense = value;
                 RaisePropertyChanged(SelectedExpensePropertyName);
-                handleExpenseSelection();
+                if(value!=null)
+                    handleExpenseSelection();
             }
         }
 
@@ -136,7 +138,7 @@ namespace Split_It.ViewModel
                         bool result = await _dataService.deleteExpense(SelectedExpense.Id);
                         IsBusyWithCommentOperation = false;
                         if (result)
-                            expenseUpdated();
+                            expenseUpdated(true);
                         else
                             await _dialogService.ShowMessage("Unable to delete expense", "Error");
                     }));
@@ -182,9 +184,6 @@ namespace Split_It.ViewModel
 
         protected virtual void handleExpenseSelection()
         {
-            if (SelectedExpense == null)
-                return;
-
             if(SelectedExpense.CommentCount > 0)
             {
                 //TODO: fetch comments
@@ -195,9 +194,10 @@ namespace Split_It.ViewModel
             }
         }
         
-        protected virtual void expenseUpdated()
+        protected virtual void expenseUpdated(bool isDeleted)
         {
-
+            var vm = ServiceLocator.Current.GetInstance<MainViewModel>();
+            vm.RefreshDataCommand.Execute(null);
         }
     }
 }

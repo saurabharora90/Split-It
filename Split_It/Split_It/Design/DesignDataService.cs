@@ -85,5 +85,10 @@ namespace Split_It.Design
         {
             return Task.FromResult(true);
         }
+
+        public Task<Friend> getFriendInfo(int friendId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

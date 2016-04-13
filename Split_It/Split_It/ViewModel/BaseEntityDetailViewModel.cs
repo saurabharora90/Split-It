@@ -9,7 +9,6 @@ namespace Split_It.ViewModel
     /// </summary>
     public abstract class BaseEntityDetailViewModel : ExpenseDetailViewModel
     {
-
         protected readonly int _limit = 20;
         protected int _pageNo = 0;
 

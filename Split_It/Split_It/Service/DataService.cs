@@ -115,6 +115,17 @@ namespace Split_It.Service
             return delete.success;
         }
 
+        public async Task<Friend> getFriendInfo(int friendId)
+        {
+            var request = new RestRequest("get_friend/{id}", Method.POST);
+            request.AddUrlSegment("id", friendId.ToString());
+            var response = await _splitwiseClient.Execute(request);
+
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["friend"];
+            return JsonConvert.DeserializeObject<Friend>(testToken.ToString(), _jsonSettings);
+        }
+
         private class DeleteExpense
         {
             public Boolean success { get; set; }

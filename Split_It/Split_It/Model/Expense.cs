@@ -540,5 +540,26 @@ namespace Split_It.Model
         }
 
         #endregion
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            var other = obj as Expense;
+            if (Id == other.Id)
+                return true;
+
+            return false;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }

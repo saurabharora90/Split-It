@@ -114,16 +114,18 @@ namespace Split_It.ViewModel
 
         protected override void handleExpenseSelection()
         {
-            if(SelectedExpense!=null) 
-                _navigationService.NavigateTo(ViewModelLocator.ExpenseDetailPageKey, ExpenseDetailPage.TYPE_FRIEND);
+            _navigationService.NavigateTo(ViewModelLocator.ExpenseDetailPageKey, ExpenseDetailPage.TYPE_FRIEND);
             base.handleExpenseSelection();
         }
 
-        protected override void expenseUpdated()
+        protected async override void expenseUpdated(bool isDeleted)
         {
-            base.expenseUpdated();
+            base.expenseUpdated(isDeleted);
             _navigationService.GoBack();
-            RefreshExpensesCommand.Execute(null);
+            if(isDeleted)
+                ExpensesList.Remove(SelectedExpense);
+
+            CurrentFriend.Balance = (await _dataService.getFriendInfo(CurrentFriend.id)).Balance;
         }
     }
 }
