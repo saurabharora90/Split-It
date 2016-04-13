@@ -81,24 +81,6 @@ namespace Split_It.ViewModel
         #endregion
 
         #region Commands
-        private RelayCommand _goBackCommand;
-
-        /// <summary>
-        /// Gets the GoBackCommand.
-        /// </summary>
-        public RelayCommand GoBackCommand
-        {
-            get
-            {
-                return _goBackCommand
-                    ?? (_goBackCommand = new RelayCommand(
-                    () =>
-                    {
-                        _navigationService.GoBack();
-                    }));
-            }
-        }
-
         private RelayCommand _refeshExpensesCommand;
 
         /// <summary>

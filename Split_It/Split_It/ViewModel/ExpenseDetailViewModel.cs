@@ -20,6 +20,17 @@ namespace Split_It.ViewModel
         {
             _dataService = dataService;
             _navigationService = navigationService;
+
+            init();
+        }
+
+        private async void init()
+        {
+            if (IsInDesignModeStatic)
+            {
+                List<Expense> list = new List<Expense>(await _dataService.getExpenseForFriend(-1, 20));
+                SelectedExpense = list[4];
+            }
         }
 
         /// <summary>
@@ -54,6 +65,24 @@ namespace Split_It.ViewModel
         }
 
         #region Commands
+        private RelayCommand _goBackCommand;
+
+        /// <summary>
+        /// Gets the GoBackCommand.
+        /// </summary>
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return _goBackCommand
+                    ?? (_goBackCommand = new RelayCommand(
+                    () =>
+                    {
+                        _navigationService.GoBack();
+                    }));
+            }
+        }
+
         private RelayCommand _deleteCommand;
 
         /// <summary>
@@ -67,7 +96,7 @@ namespace Split_It.ViewModel
                     ?? (_deleteCommand = new RelayCommand(
                     () =>
                     {
-
+                        expenseUpdated();
                     }));
             }
         }
@@ -110,6 +139,18 @@ namespace Split_It.ViewModel
         #endregion
 
         protected virtual void handleExpenseSelection()
+        {
+            if(SelectedExpense.CommentCount > 0)
+            {
+                //TODO: fetch comments
+            }
+            else
+            {
+                //TODO: reset comments
+            }
+        }
+        
+        protected virtual void expenseUpdated()
         {
 
         }

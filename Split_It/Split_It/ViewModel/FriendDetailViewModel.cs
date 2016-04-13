@@ -115,6 +115,7 @@ namespace Split_It.ViewModel
         protected override void handleExpenseSelection()
         {
             _navigationService.NavigateTo(ViewModelLocator.ExpenseDetailPageKey, ExpenseDetailPage.TYPE_FRIEND);
+            base.handleExpenseSelection();
         }
     }
 }

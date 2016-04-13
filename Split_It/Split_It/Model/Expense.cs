@@ -340,6 +340,36 @@ namespace Split_It.Model
         }
 
         /// <summary>
+        /// The <see cref="UpdatedBy" /> property's name.
+        /// </summary>
+        public const string UpdatedByPropertyName = "UpdatedBy";
+
+        private User _updatedBy = null;
+
+        /// <summary>
+        /// Sets and gets the UpdatedBy property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public User UpdatedBy
+        {
+            get
+            {
+                return _updatedBy;
+            }
+
+            set
+            {
+                if (_updatedBy == value)
+                {
+                    return;
+                }
+
+                _updatedBy = value;
+                RaisePropertyChanged(UpdatedByPropertyName);
+            }
+        }
+
+        /// <summary>
         /// The <see cref="Repayments" /> property's name.
         /// </summary>
         public const string RepaymentsPropertyName = "Repayments";
@@ -488,5 +518,27 @@ namespace Split_It.Model
                 RaisePropertyChanged(DeletedAtPropertyName);
             }
         }
+
+        #region HelperProperties
+        public DateTime? CreatedDate
+        {
+            get
+            {
+                return Convert.ToDateTime(CreatedAt);
+            }
+        }
+
+        public DateTime? UpdatedDate
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(UpdatedAt))
+                    return null;
+
+                return Convert.ToDateTime(UpdatedAt);
+            }
+        }
+
+        #endregion
     }
 }

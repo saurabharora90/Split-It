@@ -5,9 +5,57 @@
     xmlns:local="using:Split_It"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wxup="using:WinUX.Xaml.Converters"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <Binding Path="ExpenseDetailVM" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
 
+    <Page.Resources>
+        <wxup:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+        <wxup:DateTimeFormatConverter x:Key="DateTimeFormatConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <RelativePanel Background="{StaticResource splitwiseGreen}" Padding="0,0,0,10">
+            <Button FontFamily="Segoe MDL2 Assets" 
+                    x:Name="BackButton"
+					Foreground="White"
+					Content="&#xE72B;"
+					Width="50" Height="50" 
+                    Command="{Binding GoBackCommand}"
+					Background="Transparent" Style="{StaticResource NoBorderSelectButton}"/>
+
+            <TextBlock RelativePanel.RightOf="BackButton" Text="{Binding SelectedExpense.Description}" TextWrapping="Wrap"
+                       Foreground="White"
+                       RelativePanel.AlignVerticalCenterWith="BackButton" Margin="10,0,0,0"/>
+            <Image RelativePanel.Below="BackButton" Source="Assets/Images/expense_general.png" 
+                   x:Name="expenseImage"
+                   Width="30" Stretch="Uniform" Margin="20,0,10,0" />
+            <StackPanel Orientation="Vertical" RelativePanel.RightOf="expenseImage" RelativePanel.AlignTopWith="expenseImage">
+                <TextBlock FontWeight="Bold" FontSize="18" Foreground="White">
+                    <Run Text="{Binding SelectedExpense.CurrencyCode}"/><Run Text="{Binding SelectedExpense.Cost}"/>
+                </TextBlock>
+                <TextBlock Foreground="White" FontSize="11">
+                    <Run Text="Added by"/>
+                    <Run Text="{Binding SelectedExpense.CreatedBy.FirstName}"/>
+                    <Run Text="on"/>
+                    <Run Text="{Binding SelectedExpense.CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd/MM/yyyy'}"/>
+                </TextBlock>
+                <TextBlock Foreground="White" FontSize="11" Visibility="{Binding SelectedExpense.UpdatedBy, Converter={StaticResource EmptyStringToVisibilityConverter}}">
+                    <Run Text="Last updated on"/>
+                    <Run Text="{Binding SelectedExpense.UpdatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd/MM/yyyy'}"/>
+                </TextBlock>
+            </StackPanel>
+        </RelativePanel>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="25,20,0,0">
+            <TextBlock Text="SPLIT DETAILS" FontWeight="Bold" Foreground="{StaticResource settled}" FontSize="11"/>
+        </StackPanel>
     </Grid>
 </Page>
