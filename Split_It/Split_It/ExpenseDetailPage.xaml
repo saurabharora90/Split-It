@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wxup="using:WinUX.Xaml.Converters"
+    xmlns:converter="using:Split_It.Converter"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -14,7 +15,9 @@
 
     <Page.Resources>
         <wxup:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+        <wxup:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <wxup:DateTimeFormatConverter x:Key="DateTimeFormatConverter"/>
+        <converter:ExpenseDetailPaidSectionConverter x:Key="ExpenseDetailPaidSectionConverter" CurrencyCode="{Binding SelectedExpense.CurrencyCode}"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -54,8 +57,56 @@
             </StackPanel>
         </RelativePanel>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="25,20,0,0">
-            <TextBlock Text="SPLIT DETAILS" FontWeight="Bold" Foreground="{StaticResource settled}" FontSize="11"/>
-        </StackPanel>
+        <ListView ItemsSource="{Binding SelectedExpense.Users}" Grid.Row="1" Padding="20,20,20,0">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="SPLIT DETAILS" FontWeight="Bold" Foreground="{StaticResource settled}" FontSize="11"/>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <RelativePanel Height="50">
+                        <Ellipse Height="30" Width="30" x:Name="image" 
+                                     RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,10,0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock RelativePanel.RightOf="image" RelativePanel.AlignVerticalCenterWith="image"
+                                   Text="{Binding Converter={StaticResource ExpenseDetailPaidSectionConverter}}"/>
+                        <!--
+                            <VariableSizedWrapGrid Orientation="Horizontal" 
+                                                   RelativePanel.RightOf="image" RelativePanel.AlignVerticalCenterWith="image">
+                                <TextBlock Text="{Binding User.Name}" FontWeight="SemiBold"/>
+                                <TextBlock Visibility="{Binding PaidShare, Converter={StaticResource ExpenseDetailPaidSectionConverter}}">
+                                    <Run Text=""/>
+                                    <Run Text="paid"/>
+                                    <Run Text="{Binding DataContext.SelectedExpense.CurrencyCode, ElementName=expenseImage}" FontWeight="SemiBold"/><Run Text="{Binding PaidShare}" FontWeight="SemiBold"/>
+                                    <Run Text="and"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text=""/>
+                                    <Run Text="owes"/>
+                                    <Run Text="{Binding DataContext.SelectedExpense.CurrencyCode, ElementName=expenseImage}" FontWeight="SemiBold"/><Run Text="{Binding OwedShare}" FontWeight="SemiBold"/>
+                                </TextBlock>
+                            </VariableSizedWrapGrid>
+                            -->
+                    </RelativePanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Canvas Background="DarkGray" Opacity="0.5" 
+					Grid.RowSpan="2"
+					Visibility="{Binding IsBusyWithCommentOperation, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressRing IsActive="{Binding IsBusyWithCommentOperation}"/>
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar Foreground="{StaticResource settled}">
+            <AppBarButton Command="{Binding DeleteCommand}" Icon="Delete" Label="delete"/>
+            <AppBarButton Command="{Binding EditCommand}" Icon="Edit" Label="edit"/>
+            <AppBarButton Command="{Binding AddCommentCommand}" Icon="Comment" Label="comment"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

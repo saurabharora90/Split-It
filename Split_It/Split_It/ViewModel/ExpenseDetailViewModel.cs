@@ -33,6 +33,8 @@ namespace Split_It.ViewModel
             }
         }
 
+        #region Properties
+
         /// <summary>
         /// The <see cref="SelectedExpense" /> property's name.
         /// </summary>
@@ -63,6 +65,38 @@ namespace Split_It.ViewModel
                 handleExpenseSelection();
             }
         }
+
+        /// <summary>
+        /// The <see cref="IsBusyWithCommentOperation" /> property's name.
+        /// </summary>
+        public const string IsBusyWithCommentOperationPropertyName = "IsBusyWithCommentOperation";
+
+        private bool _isBusyWithCommentOperation = false;
+
+        /// <summary>
+        /// Sets and gets the IsBusyWithCommentOperation property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsBusyWithCommentOperation
+        {
+            get
+            {
+                return _isBusyWithCommentOperation;
+            }
+
+            set
+            {
+                if (_isBusyWithCommentOperation == value)
+                {
+                    return;
+                }
+
+                _isBusyWithCommentOperation = value;
+                RaisePropertyChanged(IsBusyWithCommentOperationPropertyName);
+            }
+        }
+
+        #endregion
 
         #region Commands
         private RelayCommand _goBackCommand;
