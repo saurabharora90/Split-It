@@ -3,6 +3,7 @@ using Split_It.Model;
 using Split_It.Service;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using WinUX.Extensions;
 
 namespace Split_It.ViewModel
@@ -102,6 +103,7 @@ namespace Split_It.ViewModel
                 IsBusy = true;
 
             var list = await _dataService.getExpenseForFriend(FriendshipId, _limit, _pageNo * _limit);
+            list = list.Where(p => p.DeletedAt == null);
             if (_pageNo == 0)
                 ExpensesList = new ObservableCollection<Expense>(list);
             else

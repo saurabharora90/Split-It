@@ -80,16 +80,7 @@ namespace Split_It.Service
             Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
             Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
 
-            List<Expense> list = new List<Expense>(JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings));
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (list[i].DeletedAt != null)
-                {
-                    list.RemoveAt(i);
-                    i--;
-                }
-            }
-            return list;
+            return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
         }
 
         public async Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int limit, int offset = 0)
@@ -102,16 +93,7 @@ namespace Split_It.Service
             Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
             Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
 
-            List<Expense> list = new List<Expense>(JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings));
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (list[i].DeletedAt != null)
-                {
-                    list.RemoveAt(i);
-                    i--;
-                }
-            }
-            return list;
+            return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
         }
 
         public async Task<IEnumerable<Friendship>> getFriendShip()
