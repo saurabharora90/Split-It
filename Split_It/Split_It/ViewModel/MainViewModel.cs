@@ -328,8 +328,8 @@ namespace Split_It.ViewModel
                         //TODO: recent activity
                         await Task.WhenAll(friendsTask, groupsTask, friendshipTask);
 
-                        _allFriendsList = new ObservableCollection<Friend>(friendsTask.Result);
-                        _allGroupsList = new ObservableCollection<Group>(groupsTask.Result);
+                        _allFriendsList = new ObservableCollection<Friend>(friendsTask.Result.OrderBy(p => p.FirstName));
+                        _allGroupsList = new ObservableCollection<Group>(groupsTask.Result.OrderBy(p => p.Name));
                         _friendshipList = new ObservableCollection<Friendship>(friendshipTask.Result);
 
                         RaisePropertyChanged(FriendsListPropertyName);
