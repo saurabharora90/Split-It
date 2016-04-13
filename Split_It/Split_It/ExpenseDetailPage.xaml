@@ -23,7 +23,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <RelativePanel Background="{StaticResource splitwiseGreen}" Padding="0,0,0,10">
@@ -58,18 +57,19 @@
             </StackPanel>
         </RelativePanel>
 
-        <RelativePanel Grid.Row="1" Padding="20,20,20,0" Visibility="{Binding SelectedExpense.Details, Converter={StaticResource EmptyStringToVisibilityConverter}}">
-            <SymbolIcon Symbol="Message" Width="30" Margin="0,0,10,0" x:Name="noteIcon"/>
-            <TextBlock RelativePanel.RightOf="noteIcon" RelativePanel.AlignTopWith="noteIcon" x:Name="noteTitle"
-                       Text="NOTES" FontWeight="Bold" FontSize="11" Foreground="{StaticResource settled}"/>
-            <TextBlock Text="{Binding SelectedExpense.Details}" FontSize="11" TextWrapping="Wrap"
-                       RelativePanel.Below="noteTitle" RelativePanel.AlignLeftWith="noteTitle"/>
-        </RelativePanel>
-        
-        <ListView ItemsSource="{Binding SelectedExpense.Users}" Grid.Row="2" Padding="20,20,20,0">
+        <ListView ItemsSource="{Binding SelectedExpense.Users}" Grid.Row="1" Padding="20,20,20,0">
             <ListView.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock Text="SPLIT DETAILS" FontWeight="Bold" Foreground="{StaticResource settled}" FontSize="11"/>
+                    <StackPanel Orientation="Vertical">
+                        <RelativePanel Visibility="{Binding SelectedExpense.Details, Converter={StaticResource EmptyStringToVisibilityConverter}}" Margin="0,0,0,20">
+                            <SymbolIcon Symbol="Message" Width="30" Margin="0,0,10,0" x:Name="noteIcon"/>
+                            <TextBlock RelativePanel.RightOf="noteIcon" RelativePanel.AlignTopWith="noteIcon" x:Name="noteTitle"
+                                       Text="NOTES" FontWeight="Bold" FontSize="11" Foreground="{StaticResource settled}"/>
+                            <TextBlock Text="{Binding SelectedExpense.Details}" FontSize="11" TextWrapping="Wrap"
+                                       RelativePanel.Below="noteTitle" RelativePanel.AlignLeftWith="noteTitle"/>
+                        </RelativePanel>
+                        <TextBlock Text="SPLIT DETAILS" FontWeight="Bold" Foreground="{StaticResource settled}" FontSize="11"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
