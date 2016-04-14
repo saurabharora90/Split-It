@@ -75,8 +75,9 @@ namespace Split_It.ViewModel
                 _currentGroup = value;
                 RaisePropertyChanged(CurrentGroupPropertyName);
 
-                if (CurrentGroup.Balance.Count() > 1)
-                    CurrentGroup.Balance = CurrentGroup.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
+                //we cannot use balance for group. we need to use Members for this
+                //if (CurrentGroup.Balance.Count() > 1)
+                  //  CurrentGroup.Balance = CurrentGroup.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
 
                 if (ExpensesList != null)
                     ExpensesList.Clear();

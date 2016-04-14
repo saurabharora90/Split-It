@@ -190,36 +190,6 @@ namespace Split_It.Model
         }
 
         /// <summary>
-        /// The <see cref="Balance" /> property's name.
-        /// </summary>
-        public const string BalancePropertyName = "Balance";
-
-        private IEnumerable<UserBalance> _balance = null;
-
-        /// <summary>
-        /// Sets and gets the Balance property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public IEnumerable<UserBalance> Balance
-        {
-            get
-            {
-                return _balance;
-            }
-
-            set
-            {
-                if (_balance == value)
-                {
-                    return;
-                }
-
-                _balance = value;
-                RaisePropertyChanged(BalancePropertyName);
-            }
-        }
-
-        /// <summary>
         /// The <see cref="OriginalDebts" /> property's name.
         /// </summary>
         public const string OriginalDebtsPropertyName = "OriginalDebts";
