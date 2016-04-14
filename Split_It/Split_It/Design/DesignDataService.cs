@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Split_It.Model;
 using System.IO;
@@ -72,7 +71,12 @@ namespace Split_It.Design
 
         public Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int limit, int offset = 0)
         {
-            throw new NotImplementedException();
+            string text = File.ReadAllText("Data/sample_expenses.json");
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(text);
+            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+            var groups = JsonConvert.DeserializeObject<List<Expense>>(testToken.ToString(), _jsonSettings);
+
+            return Task.FromResult(groups as IEnumerable<Expense>);
         }
 
         public Task<IEnumerable<Friendship>> getFriendShip()

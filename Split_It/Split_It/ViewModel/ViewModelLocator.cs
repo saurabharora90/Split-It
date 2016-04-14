@@ -38,6 +38,7 @@ namespace Split_It.ViewModel
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<FriendDetailViewModel>(); ;
+            SimpleIoc.Default.Register<GroupDetailViewModel>();
             SimpleIoc.Default.Register<ExpenseDetailViewModel>();
         }
 
@@ -94,6 +95,20 @@ namespace Split_It.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<ExpenseDetailViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the GroupDetailVM property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public GroupDetailViewModel GroupDetailVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<GroupDetailViewModel>();
             }
         }
     }
