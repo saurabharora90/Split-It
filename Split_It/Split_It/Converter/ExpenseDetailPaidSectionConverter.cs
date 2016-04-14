@@ -11,10 +11,18 @@ namespace Split_It.Converter
         {
             var expenseUser = value as ExpenseUser;
             string returnValue = expenseUser.User.Name + " ";
+            bool hasPaidShare = false;
             if (System.Convert.ToDouble(expenseUser.PaidShare) != 0)
-                returnValue += "paid " + CurrencyCode + expenseUser.PaidShare + " and ";
-
-            returnValue += "owes " + CurrencyCode + expenseUser.OwedShare;
+            {
+                returnValue += "paid " + CurrencyCode + expenseUser.PaidShare;
+                hasPaidShare = true;
+            }
+            if (System.Convert.ToDouble(expenseUser.OwedShare) != 0)
+            {
+                if (hasPaidShare)
+                    returnValue += " and ";
+                returnValue += "owes " + CurrencyCode + expenseUser.OwedShare;
+            }
             return returnValue;
         }
 
