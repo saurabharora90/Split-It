@@ -214,23 +214,28 @@ namespace Split_It.ViewModel
             }
         }
 
-        private RelayCommand _addCommentCommand;
+        private RelayCommand<string> _addCommentCommand;
 
         /// <summary>
         /// Gets the AddCommentCommand.
         /// </summary>
-        public RelayCommand AddCommentCommand
+        public RelayCommand<string> AddCommentCommand
         {
             get
             {
                 return _addCommentCommand
-                    ?? (_addCommentCommand = new RelayCommand(
-                    () =>
+                    ?? (_addCommentCommand = new RelayCommand<string>(
+                    async p =>
                     {
-
+                        var comment = await _dataService.postCommentOnExpense(SelectedExpense.Id, p);
+                        if (CommentsList == null)
+                            CommentsList = new ObservableCollection<Comment>();
+                        CommentsList.Add(comment);
+                        SelectedExpense.CommentsCount += 1;
                     }));
             }
         }
+        
         #endregion
 
         public override void Cleanup()

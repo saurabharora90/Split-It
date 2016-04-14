@@ -17,5 +17,7 @@ namespace Split_It.Service
         Task<Friend> getFriendInfo(int friendId);
         Task<Group> getGroupInfo(int groupId);
         Task<IEnumerable<Comment>> getComments(int expenseId);
+
+        Task<Comment> postCommentOnExpense(int expenseId, string comment);
     }
 }

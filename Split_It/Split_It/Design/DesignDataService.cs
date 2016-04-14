@@ -104,5 +104,10 @@ namespace Split_It.Design
         {
             throw new NotImplementedException();
         }
+
+        public Task<Comment> postCommentOnExpense(int expenseId, string comment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -148,6 +148,17 @@ namespace Split_It.Service
             return JsonConvert.DeserializeObject<IEnumerable<Comment>>(testToken.ToString(), _jsonSettings);
         }
 
+        public async Task<Comment> postCommentOnExpense(int expenseId, string comment)
+        {
+            var request = new RestRequest("create_comment");
+            request.AddParameter("expense_id", expenseId, ParameterType.GetOrPost);
+            request.AddParameter("content", comment, ParameterType.GetOrPost);
+            var response = await _splitwiseClient.Execute(request);
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["comment"];
+            return JsonConvert.DeserializeObject<Comment>(testToken.ToString(), _jsonSettings);
+        }
+
         private class DeleteExpense
         {
             public Boolean success { get; set; }

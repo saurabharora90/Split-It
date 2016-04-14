@@ -153,7 +153,23 @@
         <CommandBar>
             <AppBarButton Command="{Binding DeleteCommand}" Icon="Delete" Label="delete"/>
             <AppBarButton Command="{Binding EditCommand}" Icon="Edit" Label="edit"/>
-            <AppBarButton Command="{Binding AddCommentCommand}" Icon="Comment" Label="comment"/>
+            <AppBarButton Icon="Comment" Label="comment">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <Grid Width="300">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox TextWrapping="Wrap" Grid.Column="0" x:Name="commentBox" 
+                                     AcceptsReturn="True" PlaceholderText="Enter comment" InputScope="Text"/>
+                            <Button Command="{Binding AddCommentCommand}" Content="Send" 
+                                    Grid.Column="1" Margin="10,0,0,0" 
+                                    CommandParameter="{Binding Text, ElementName=commentBox}"/>
+                        </Grid>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>
