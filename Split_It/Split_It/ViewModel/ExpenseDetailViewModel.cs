@@ -2,13 +2,10 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
+using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Split_It.ViewModel
 {
@@ -66,37 +63,43 @@ namespace Split_It.ViewModel
                 _selectedExpense = value;
                 RaisePropertyChanged(SelectedExpensePropertyName);
                 if(value!=null)
-                    handleExpenseSelection();
+                {
+                    //TODO: reset comments
+                    if (SelectedExpense.CommentCount > 0)
+                    {
+                        //TODO: fetch comments
+                    }
+                }
             }
         }
 
         /// <summary>
-        /// The <see cref="IsBusyWithCommentOperation" /> property's name.
+        /// The <see cref="IsBusy" /> property's name.
         /// </summary>
-        public const string IsBusyWithCommentOperationPropertyName = "IsBusyWithCommentOperation";
+        public const string IsBusyPropertyName = "IsBusy";
 
-        private bool _isBusyWithCommentOperation = false;
+        private bool _isBusy = false;
 
         /// <summary>
-        /// Sets and gets the IsBusyWithCommentOperation property.
+        /// Sets and gets the IsBusy property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public bool IsBusyWithCommentOperation
+        public bool IsBusy
         {
             get
             {
-                return _isBusyWithCommentOperation;
+                return _isBusy;
             }
 
             set
             {
-                if (_isBusyWithCommentOperation == value)
+                if (_isBusy == value)
                 {
                     return;
                 }
 
-                _isBusyWithCommentOperation = value;
-                RaisePropertyChanged(IsBusyWithCommentOperationPropertyName);
+                _isBusy = value;
+                RaisePropertyChanged(IsBusyPropertyName);
             }
         }
 
@@ -134,11 +137,14 @@ namespace Split_It.ViewModel
                     ?? (_deleteCommand = new RelayCommand(
                     async () =>
                     {
-                        IsBusyWithCommentOperation = true;
+                        IsBusy = true;
                         bool result = await _dataService.deleteExpense(SelectedExpense.Id);
-                        IsBusyWithCommentOperation = false;
+                        IsBusy = false;
                         if (result)
-                            expenseUpdated(true);
+                        {
+                            MessengerInstance.Send(new ExpenseDeletedEvent(SelectedExpense));
+                            _navigationService.GoBack();
+                        }
                         else
                             await _dialogService.ShowMessage("Unable to delete expense", "Error");
                     }));
@@ -181,23 +187,5 @@ namespace Split_It.ViewModel
             }
         }
         #endregion
-
-        protected virtual void handleExpenseSelection()
-        {
-            if(SelectedExpense.CommentCount > 0)
-            {
-                //TODO: fetch comments
-            }
-            else
-            {
-                //TODO: reset comments
-            }
-        }
-        
-        protected virtual void expenseUpdated(bool isDeleted)
-        {
-            var vm = ServiceLocator.Current.GetInstance<MainViewModel>();
-            vm.RefreshDataCommand.Execute(null);
-        }
     }
 }

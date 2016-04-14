@@ -126,6 +126,10 @@
     <Compile Include="Converter\Summary\GroupSummaryUserTextConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
+    <Compile Include="Events\BaseExpenseChangeEvent.cs" />
+    <Compile Include="Events\ExpenseAddedEvent.cs" />
+    <Compile Include="Events\ExpenseDeletedEvent.cs" />
+    <Compile Include="Events\ExpenseEditedEvent.cs" />
     <Compile Include="ExpenseDetailPage.xaml.cs">
       <DependentUpon>ExpenseDetailPage.xaml</DependentUpon>
     </Compile>

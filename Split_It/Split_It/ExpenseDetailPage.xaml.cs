@@ -25,9 +25,6 @@ namespace Split_It
     /// </summary>
     public sealed partial class ExpenseDetailPage : Page
     {
-        public static int TYPE_GROUP = 1000;
-        public static int TYPE_FRIEND = 1001;
-
         public ExpenseDetailPage()
         {
             this.InitializeComponent();
@@ -35,24 +32,8 @@ namespace Split_It
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var expense = e.Parameter as Expense;
-            if(expense!=null)
-            {
-                var VM = ServiceLocator.Current.GetInstance<ExpenseDetailViewModel>();
-                VM.SelectedExpense = expense;
-                DataContext = VM;
-            }
-            else
-            {
-                int type = (int)e.Parameter;
-                if(type == TYPE_FRIEND)
-                {
-                    var VM = ServiceLocator.Current.GetInstance<FriendDetailViewModel>();
-                    DataContext = VM;
-                }
-
-            }
             base.OnNavigatedTo(e);
+            ((ExpenseDetailViewModel)(DataContext)).SelectedExpense = e.Parameter as Expense;
         }
     }
 }

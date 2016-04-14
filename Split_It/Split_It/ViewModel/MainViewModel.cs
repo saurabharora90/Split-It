@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using Split_It.Events;
 using Split_It.Model;
 using Split_It.Model.Enum;
 using Split_It.Service;

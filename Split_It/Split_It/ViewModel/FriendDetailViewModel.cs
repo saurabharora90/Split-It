@@ -12,7 +12,7 @@ namespace Split_It.ViewModel
     {
         public int FriendshipId { get; set; }
 
-        public FriendDetailViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService) : base(dataService, navigationService, dialogService)
+        public FriendDetailViewModel(IDataService dataService, INavigationService navigationService) : base(dataService, navigationService)
         {
             init();
         }
@@ -67,36 +67,6 @@ namespace Split_It.ViewModel
                 RefreshExpensesCommand.Execute(null);
             }
         }
-
-        /// <summary>
-        /// The <see cref="ExpensesList" /> property's name.
-        /// </summary>
-        public const string ExpensesListPropertyName = "ExpensesList";
-
-        private ObservableCollection<Expense> _expensesList = null;
-
-        /// <summary>
-        /// Sets and gets the ExpensesList property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<Expense> ExpensesList
-        {
-            get
-            {
-                return _expensesList;
-            }
-
-            set
-            {
-                if (_expensesList == value)
-                {
-                    return;
-                }
-
-                _expensesList = value;
-                RaisePropertyChanged(ExpensesListPropertyName);
-            }
-        }
         
         #endregion
 
@@ -115,20 +85,11 @@ namespace Split_It.ViewModel
             IsLoadingNewPage = false;
         }
 
-        protected override void handleExpenseSelection()
+        protected async override void refreshAfterExpenseOperation()
         {
-            _navigationService.NavigateTo(ViewModelLocator.ExpenseDetailPageKey, ExpenseDetailPage.TYPE_FRIEND);
-            base.handleExpenseSelection();
-        }
-
-        protected async override void expenseUpdated(bool isDeleted)
-        {
-            base.expenseUpdated(isDeleted);
-            _navigationService.GoBack();
-            if(isDeleted)
-                ExpensesList.Remove(SelectedExpense);
-
+            IsBusy = true;
             CurrentFriend.Balance = (await _dataService.getFriendInfo(CurrentFriend.id)).Balance;
+            IsBusy = false;
         }
     }
 }

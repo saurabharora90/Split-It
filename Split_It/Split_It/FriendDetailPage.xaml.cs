@@ -1,7 +1,6 @@
 ﻿using Split_It.Model;
 using Split_It.ViewModel;
 using System;
-using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -27,6 +26,14 @@ namespace Split_It
                 return;
             ((FriendDetailViewModel)DataContext).FriendshipId = dict.Item1;
             ((FriendDetailViewModel)DataContext).CurrentFriend = dict.Item2;
+            ((FriendDetailViewModel)DataContext).RegisterMessengerCommand.Execute(null);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+                ((FriendDetailViewModel)DataContext).UnregisterMessengerCommand.Execute(null);
+            base.OnNavigatedFrom(e);
         }
     }
 }

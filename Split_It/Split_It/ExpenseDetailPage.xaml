@@ -108,8 +108,8 @@
 
         <Canvas Background="DarkGray" Opacity="0.5" 
 					Grid.RowSpan="2"
-					Visibility="{Binding IsBusyWithCommentOperation, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        <ProgressRing IsActive="{Binding IsBusyWithCommentOperation}"/>
+					Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressRing IsActive="{Binding IsBusy}"/>
     </Grid>
 
     <Page.BottomAppBar>
