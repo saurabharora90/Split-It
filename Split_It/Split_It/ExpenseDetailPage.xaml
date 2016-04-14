@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wxup="using:WinUX.Xaml.Converters"
     xmlns:converter="using:Split_It.Converter"
+    xmlns:con_comm="using:Split_It.Converter.Comment"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -19,16 +20,23 @@
         <wxup:DateTimeFormatConverter x:Key="DateTimeFormatConverter"/>
         <converter:ExpenseDetailPaidSectionConverter x:Key="ExpenseDetailPaidSectionConverter" CurrencyCode="{Binding SelectedExpense.CurrencyCode}"/>
 
+        <con_comm:CommentTypeColorConverter x:Key="CommentTypeColorConverter"/>
+        <con_comm:CommentTypeFontWeightConverter x:Key="CommentTypeFontWeightConverter"/>
+        <con_comm:CommentTypeVisibilityConverter x:Key="CommentTypeVisibilityConverter"/>
+
         <DataTemplate x:Key="CommentTemplate">
-            <RelativePanel Height="50">
-                <Ellipse Height="15" Width="15" x:Name="commentImage" 
-                                 RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,25,0">
+            <RelativePanel Margin="0,0,0,8" >
+                <Ellipse Height="20" Width="20" x:Name="commentImage" Margin="12.5,0,12.5,0">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock RelativePanel.RightOf="commentImage" FontSize="12" Text="{Binding User.Name}" x:Name="name" Foreground="DarkGray"/>
+                <TextBlock RelativePanel.RightOf="commentImage" FontSize="12" FontWeight="SemiBold"
+                           Visibility="{Binding CommentType, Converter={StaticResource CommentTypeVisibilityConverter}}"
+                           Text="{Binding User.Name}" x:Name="name"/>
                 <TextBlock RelativePanel.AlignLeftWith="name" RelativePanel.Below="name" FontSize="11"
+                           FontWeight="{Binding CommentType, Converter={StaticResource CommentTypeFontWeightConverter}}"
+                           Foreground="{Binding CommentType, Converter={StaticResource CommentTypeColorConverter}}"
                            TextWrapping="Wrap" Text="{Binding Content}"/>
             </RelativePanel>
         </DataTemplate>
@@ -75,7 +83,7 @@
             <ListView.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <RelativePanel Visibility="{Binding SelectedExpense.Details, Converter={StaticResource EmptyStringToVisibilityConverter}}" Margin="0,0,0,20">
+                        <RelativePanel Visibility="{Binding SelectedExpense.Details, Converter={StaticResource EmptyStringToVisibilityConverter}}" Margin="0,0,0,10">
                             <SymbolIcon Symbol="Message" Width="30" Margin="0,0,10,0" x:Name="noteIcon"/>
                             <TextBlock RelativePanel.RightOf="noteIcon" RelativePanel.AlignTopWith="noteIcon" x:Name="noteTitle"
                                        Text="NOTES" FontWeight="Bold" FontSize="11" Foreground="{StaticResource settled}"/>
@@ -118,6 +126,21 @@
                     </RelativePanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.FooterTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="COMMENTS" FontWeight="Bold" 
+                                   Foreground="{StaticResource settled}" FontSize="11"/>
+                        <ListView ItemTemplate="{StaticResource CommentTemplate}" 
+                                  Grid.Row="1"
+                                  ItemsSource="{Binding CommentsList}" Margin="0,8,0,0"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.FooterTemplate>
         </ListView>
 
         <Canvas Background="DarkGray" Opacity="0.5" 
