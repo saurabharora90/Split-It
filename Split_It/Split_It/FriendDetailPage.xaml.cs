@@ -21,6 +21,8 @@ namespace Split_It
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            if (e.NavigationMode == NavigationMode.Back)
+                return;
             Tuple<int, Friend> dict = e.Parameter as Tuple<int, Friend>;
             if (dict == null)
                 return;
@@ -32,7 +34,7 @@ namespace Split_It
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
-                ((FriendDetailViewModel)DataContext).UnregisterMessengerCommand.Execute(null);
+                ((FriendDetailViewModel)DataContext).Cleanup();
             base.OnNavigatedFrom(e);
         }
     }

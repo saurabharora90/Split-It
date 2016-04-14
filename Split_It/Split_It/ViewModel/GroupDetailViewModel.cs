@@ -49,7 +49,7 @@ namespace Split_It.ViewModel
         {
             IsBusy = true;
             var group = await _dataService.getGroupInfo(CurrentGroup.Id);
-            CurrentGroup.UpdatedAt = group.UpdatedAt;
+            CurrentGroup.UpdatedAt = group.UpdatedAt;   //we copy over individual details instead of entire object in order to maintain reference and hence update the item in the main list of the MainViewModel
             CurrentGroup.SimplifiedDebts = group.SimplifiedDebts;
             CurrentGroup.OriginalDebts = group.OriginalDebts;
             CurrentGroup.Members = group.Members;
@@ -60,6 +60,8 @@ namespace Split_It.ViewModel
 
         private void filterBalance()
         {
+            if (CurrentGroup == null)
+                return;
             Task.Factory.StartNew(() =>
             {
                 var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
@@ -107,7 +109,8 @@ namespace Split_It.ViewModel
 
                 _currentGroup = value;
                 RaisePropertyChanged(CurrentGroupPropertyName);
-
+                if (CurrentGroup == null)
+                    return;
                 //we cannot use balance for group. we need to use Members for this
                 //if (CurrentGroup.Balance.Count() > 1)
                   //  CurrentGroup.Balance = CurrentGroup.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
@@ -150,6 +153,13 @@ namespace Split_It.ViewModel
                 DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged(CurrentUserAsFriendPropertyName); });
                 //RaisePropertyChanged(CurrentUserAsFriendPropertyName);
             }
+        }
+
+        public override void Cleanup()
+        {
+            CurrentUserAsFriend = null;
+            CurrentGroup = null;
+            base.Cleanup();
         }
     }
 }

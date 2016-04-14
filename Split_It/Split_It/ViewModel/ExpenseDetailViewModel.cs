@@ -232,5 +232,16 @@ namespace Split_It.ViewModel
             }
         }
         #endregion
+
+        public override void Cleanup()
+        {
+            SelectedExpense = null;
+
+            if(CommentsList!=null)
+                CommentsList.Clear();
+
+            CommentsList = null;
+            base.Cleanup();
+        }
     }
 }

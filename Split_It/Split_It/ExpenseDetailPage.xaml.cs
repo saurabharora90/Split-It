@@ -22,5 +22,14 @@ namespace Split_It
             base.OnNavigatedTo(e);
             ((ExpenseDetailViewModel)(DataContext)).SelectedExpense = e.Parameter as Expense;
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if(e.NavigationMode == NavigationMode.Back)
+            {
+                ((ExpenseDetailViewModel)(DataContext)).Cleanup();
+            }
+            base.OnNavigatedFrom(e);
+        }
     }
 }

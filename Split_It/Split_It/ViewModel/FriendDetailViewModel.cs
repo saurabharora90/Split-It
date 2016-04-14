@@ -58,12 +58,11 @@ namespace Split_It.ViewModel
                 _currentFriend = value;
                 RaisePropertyChanged(CurrentFriendPropertyName);
 
+                if (CurrentFriend == null)
+                    return;
+
                 if(CurrentFriend.Balance.Count() > 1)
                     CurrentFriend.Balance = CurrentFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
-
-                if (ExpensesList!=null)
-                    ExpensesList.Clear();
-
                 RefreshExpensesCommand.Execute(null);
             }
         }
@@ -88,8 +87,14 @@ namespace Split_It.ViewModel
         protected async override void refreshAfterExpenseOperation()
         {
             IsBusy = true;
-            CurrentFriend.Balance = (await _dataService.getFriendInfo(CurrentFriend.id)).Balance;
+            CurrentFriend.Balance = (await _dataService.getFriendInfo(CurrentFriend.id)).Balance;    //we copy over individual details instead of entire object in order to maintain reference and hence update the item in the main list of the MainViewModel
             IsBusy = false;
+        }
+
+        public override void Cleanup()
+        {
+            CurrentFriend = null;
+            base.Cleanup();
         }
     }
 }

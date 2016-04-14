@@ -206,23 +206,6 @@ namespace Split_It.ViewModel
             }
         }
 
-        private RelayCommand _unregisterMessengerCommand;
-
-        /// <summary>
-        /// Gets the UnregisterMessengerCommand.
-        /// </summary>
-        public RelayCommand UnregisterMessengerCommand
-        {
-            get
-            {
-                return _unregisterMessengerCommand
-                    ?? (_unregisterMessengerCommand = new RelayCommand(
-                    () =>
-                    {
-                        MessengerInstance.Unregister(this);
-                    }));
-            }
-        }
         #endregion
 
         protected abstract void loadData();
@@ -246,7 +229,11 @@ namespace Split_It.ViewModel
 
         public override void Cleanup()
         {
-            //base.Cleanup();
+            MessengerInstance.Unregister(this);
+            if (ExpensesList != null)
+                ExpensesList.Clear();
+            ExpensesList = null;
+            base.Cleanup();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Split_It
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
-                ((GroupDetailViewModel)DataContext).UnregisterMessengerCommand.Execute(null);
+                ((GroupDetailViewModel)DataContext).Cleanup();
             base.OnNavigatedFrom(e);
         }
     }
