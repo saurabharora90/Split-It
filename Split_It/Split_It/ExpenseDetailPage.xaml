@@ -89,7 +89,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <RelativePanel Height="50">
-                        <Ellipse Height="30" Width="30" x:Name="image" 
+                        <Ellipse Style="{StaticResource RoundImage}" x:Name="image" 
                                  RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,10,0">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
