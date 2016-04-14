@@ -5,6 +5,8 @@ using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using WinUX.Extensions;
 
 namespace Split_It.ViewModel
 {
@@ -30,6 +32,15 @@ namespace Split_It.ViewModel
                 List<Expense> list = new List<Expense>(await _dataService.getExpenseForFriend(-1, 20));
                 SelectedExpense = list[4];
             }
+        }
+
+        private async void fetchComments()
+        {
+            var list = await _dataService.getComments(SelectedExpense.Id);
+            if (CommentsList == null)
+                CommentsList = new ObservableCollection<Comment>(list);
+            else
+                CommentsList.AddRange(list);
         }
 
         #region Properties
@@ -63,12 +74,44 @@ namespace Split_It.ViewModel
                 RaisePropertyChanged(SelectedExpensePropertyName);
                 if(value!=null)
                 {
-                    //TODO: reset comments
+                    if (CommentsList != null)
+                        CommentsList.Clear();
+
                     if (SelectedExpense.CommentCount > 0)
                     {
-                        //TODO: fetch comments
+                        fetchComments();
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CommentsList" /> property's name.
+        /// </summary>
+        public const string CommentsListPropertyName = "CommentsList";
+
+        private ObservableCollection<Comment> _commentList = null;
+
+        /// <summary>
+        /// Sets and gets the CommentsList property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Comment> CommentsList
+        {
+            get
+            {
+                return _commentList;
+            }
+
+            set
+            {
+                if (_commentList == value)
+                {
+                    return;
+                }
+
+                _commentList = value;
+                RaisePropertyChanged(CommentsListPropertyName);
             }
         }
 

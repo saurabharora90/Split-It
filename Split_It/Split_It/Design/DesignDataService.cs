@@ -99,5 +99,10 @@ namespace Split_It.Design
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Comment>> getComments(int expenseId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

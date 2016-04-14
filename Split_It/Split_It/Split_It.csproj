@@ -146,6 +146,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Comment.cs" />
     <Compile Include="Model\Enum\FriendFilter.cs" />
     <Compile Include="Model\Enum\GroupFilter.cs" />
     <Compile Include="Model\Expense.cs" />
