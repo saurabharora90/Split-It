@@ -1,10 +1,13 @@
-﻿using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Threading;
+using GalaSoft.MvvmLight.Views;
+using Microsoft.Practices.ServiceLocation;
 using Split_It.Model;
 using Split_It.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using WinUX.Extensions;
 
 namespace Split_It.ViewModel
@@ -32,7 +35,7 @@ namespace Split_It.ViewModel
             if (_pageNo == 0)
                 IsBusy = true;
 
-            var list = await _dataService.getExpenseForFriend(CurrentGroup.GroupId, _limit, _pageNo * _limit);
+            var list = await _dataService.getExpenseForGroup(CurrentGroup.Id, _limit, _pageNo * _limit);
             list = list.Where(p => p.DeletedAt == null);
             if (_pageNo == 0)
                 ExpensesList = new ObservableCollection<Expense>(list);
@@ -83,6 +86,56 @@ namespace Split_It.ViewModel
                     ExpensesList.Clear();
 
                 RefreshExpensesCommand.Execute(null);
+
+                Task.Factory.StartNew(() =>
+                {
+                    var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+                    foreach (var member in CurrentGroup.Members)
+                    {
+                        if (member.id == user.id)
+                        {
+                            CurrentUserAsFriend = member;
+                            break;
+                        }
+                    }
+
+                    //Now for current user we have to remove the 0 balances (assuming there are more than one balance.
+                    if(CurrentUserAsFriend.Balance.Count() > 1)
+                    {
+                        CurrentUserAsFriend.Balance = CurrentUserAsFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CurrentUserAsFriend" /> property's name.
+        /// </summary>
+        public const string CurrentUserAsFriendPropertyName = "CurrentUserAsFriend";
+
+        private Friend _currentUserAsFriend = null;
+
+        /// <summary>
+        /// Sets and gets the CurrentUserAsFriend property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public Friend CurrentUserAsFriend
+        {
+            get
+            {
+                return _currentUserAsFriend;
+            }
+
+            set
+            {
+                if (_currentUserAsFriend == value)
+                {
+                    return;
+                }
+
+                _currentUserAsFriend = value;
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged(CurrentUserAsFriendPropertyName); });
+                //RaisePropertyChanged(CurrentUserAsFriendPropertyName);
             }
         }
     }

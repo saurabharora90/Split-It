@@ -110,6 +110,10 @@ namespace Split_It.ViewModel
                         }
                         _navigationService.NavigateTo(ViewModelLocator.FriendDetailPageKey, tuple);
                     }
+                    else if(value is Group)
+                    {
+                        _navigationService.NavigateTo(ViewModelLocator.GroupDetailPageKey, value);
+                    }
                 }
             }
         }

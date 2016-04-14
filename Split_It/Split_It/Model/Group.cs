@@ -1,14 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Split_It.Model
 {
     public class Group : ObservableObject
     {
+
+        #region ReturnedByFriendAPI
         /// <summary>
         /// The <see cref="GroupId" /> property's name.
         /// </summary>
@@ -39,6 +38,39 @@ namespace Split_It.Model
             }
         }
 
+        /// <summary>
+        /// The <see cref="Balance" /> property's name.
+        /// </summary>
+        public const string BalancePropertyName = "Balance";
+
+        private IEnumerable<UserBalance> _balance = null;
+
+        /// <summary>
+        /// Sets and gets the Balance property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public IEnumerable<UserBalance> Balance
+        {
+            get
+            {
+                return _balance;
+            }
+
+            set
+            {
+                if (_balance == value)
+                {
+                    return;
+                }
+
+                _balance = value;
+                RaisePropertyChanged(BalancePropertyName);
+            }
+        }
+
+        #endregion
+
+        #region ReturnedByGroupAPI
         /// <summary>
         /// The <see cref="Id" /> property's name.
         /// </summary>
@@ -278,6 +310,8 @@ namespace Split_It.Model
                 RaisePropertyChanged(GroupTypePropertyName);
             }
         }
+
+        #endregion
 
         // override object.Equals
         public override bool Equals(object obj)

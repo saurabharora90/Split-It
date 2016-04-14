@@ -1,12 +1,4 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using Split_It.Model;
-using Split_It.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Data;
+﻿using System;
 
 namespace Split_It.Converter.Balance
 {
@@ -15,7 +7,7 @@ namespace Split_It.Converter.Balance
         public override object getFinalValue(Model.UserBalance finalBalance, int numberOfBalances)
         {
             if (finalBalance == null)
-                return "settle up";
+                return "settled up";
 
             double amount = System.Convert.ToDouble(finalBalance.Amount);
             string returnValue = String.Empty;

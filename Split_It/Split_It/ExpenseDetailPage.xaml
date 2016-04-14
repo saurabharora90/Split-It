@@ -113,7 +113,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar Foreground="{StaticResource settled}">
+        <CommandBar>
             <AppBarButton Command="{Binding DeleteCommand}" Icon="Delete" Label="delete"/>
             <AppBarButton Command="{Binding EditCommand}" Icon="Edit" Label="edit"/>
             <AppBarButton Command="{Binding AddCommentCommand}" Icon="Comment" Label="comment"/>

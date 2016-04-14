@@ -20,7 +20,7 @@ namespace Split_It.Converter.Repayment
             Debt currentUserDebt = null;
             foreach (var debt in repayments)
             {
-                if((debt.From == user.id || debt.To == user.id) && (debt.From == OtherUserId || debt.To == OtherUserId))
+                if((debt.From == user.id || debt.To == user.id) && (debt.From == OtherUserId || debt.To == OtherUserId || OtherUserId == 0))
                 {
                     currentUserDebt = debt;
                     break;

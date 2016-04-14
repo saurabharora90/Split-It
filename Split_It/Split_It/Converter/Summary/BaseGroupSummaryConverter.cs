@@ -3,9 +3,6 @@ using Split_It.Model;
 using Split_It.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
 namespace Split_It.Converter.Summary
@@ -45,6 +42,13 @@ namespace Split_It.Converter.Summary
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="members"></param> List of all other group members (excluding the current user).
+        /// <param name="userDebts"></param> The debts in which the current user is involved.
+        /// <returns></returns>
         public abstract Object getFinalValue(int position, IEnumerable<Friend> members, List<Debt> userDebts);
     }
 }
