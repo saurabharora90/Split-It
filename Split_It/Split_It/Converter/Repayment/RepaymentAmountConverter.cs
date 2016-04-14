@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Split_It.Model;
+﻿using Split_It.Model;
+using System.Diagnostics;
 
 namespace Split_It.Converter.Repayment
 {
