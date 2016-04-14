@@ -148,6 +148,36 @@ namespace Split_It.ViewModel
             }
         }
 
+        /// <summary>
+        /// The <see cref="IsFlyoutOpen" /> property's name.
+        /// </summary>
+        public const string IsFlyoutOpenPropertyName = "IsFlyoutOpen";
+
+        private bool _isFlyoutOpen = false;
+
+        /// <summary>
+        /// Sets and gets the IsFlyoutOpen property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsFlyoutOpen
+        {
+            get
+            {
+                return _isFlyoutOpen;
+            }
+
+            set
+            {
+                if (_isFlyoutOpen == value)
+                {
+                    return;
+                }
+
+                _isFlyoutOpen = value;
+                RaisePropertyChanged(IsFlyoutOpenPropertyName);
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -227,11 +257,14 @@ namespace Split_It.ViewModel
                     ?? (_addCommentCommand = new RelayCommand<string>(
                     async p =>
                     {
+                        IsFlyoutOpen = false;
+                        IsBusy = true;
                         var comment = await _dataService.postCommentOnExpense(SelectedExpense.Id, p);
                         if (CommentsList == null)
                             CommentsList = new ObservableCollection<Comment>();
                         CommentsList.Add(comment);
                         SelectedExpense.CommentsCount += 1;
+                        IsBusy = false;
                     }));
             }
         }

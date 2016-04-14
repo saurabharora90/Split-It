@@ -8,6 +8,7 @@
     xmlns:wxup="using:WinUX.Xaml.Converters"
     xmlns:converter="using:Split_It.Converter"
     xmlns:con_comm="using:Split_It.Converter.Comment"
+    xmlns:utils="using:Split_It.Utils"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -153,9 +154,10 @@
         <CommandBar>
             <AppBarButton Command="{Binding DeleteCommand}" Icon="Delete" Label="delete"/>
             <AppBarButton Command="{Binding EditCommand}" Icon="Edit" Label="edit"/>
-            <AppBarButton Icon="Comment" Label="comment">
+            <AppBarButton Icon="Comment" Label="comment" x:Name="commentAppBar">
                 <AppBarButton.Flyout>
-                    <Flyout>
+                    <Flyout utils:FlyoutHelpers.IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}"
+                            utils:FlyoutHelpers.Parent="{Binding ElementName=commentAppBar}">
                         <Grid Width="300">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
