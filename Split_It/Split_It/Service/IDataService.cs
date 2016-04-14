@@ -15,5 +15,6 @@ namespace Split_It.Service
 
         Task<bool> deleteExpense(int expenseId);
         Task<Friend> getFriendInfo(int friendId);
+        Task<Group> getGroupInfo(int groupId);
     }
 }

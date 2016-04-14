@@ -45,9 +45,39 @@ namespace Split_It.ViewModel
             IsLoadingNewPage = false;
         }
 
-        protected override void refreshAfterExpenseOperation()
+        protected async override void refreshAfterExpenseOperation()
         {
-            throw new NotImplementedException();
+            IsBusy = true;
+            var group = await _dataService.getGroupInfo(CurrentGroup.Id);
+            CurrentGroup.UpdatedAt = group.UpdatedAt;
+            CurrentGroup.SimplifiedDebts = group.SimplifiedDebts;
+            CurrentGroup.OriginalDebts = group.OriginalDebts;
+            CurrentGroup.Members = group.Members;
+            CurrentGroup.Balance = group.Balance;
+            IsBusy = false;
+            filterBalance();
+        }
+
+        private void filterBalance()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+                foreach (var member in CurrentGroup.Members)
+                {
+                    if (member.id == user.id)
+                    {
+                        CurrentUserAsFriend = member;
+                        break;
+                    }
+                }
+
+                //Now for current user we have to remove the 0 balances (assuming there are more than one balance.
+                if (CurrentUserAsFriend.Balance.Count() > 1)
+                {
+                    CurrentUserAsFriend.Balance = CurrentUserAsFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
+                }
+            });
         }
 
         /// <summary>
@@ -87,24 +117,7 @@ namespace Split_It.ViewModel
 
                 RefreshExpensesCommand.Execute(null);
 
-                Task.Factory.StartNew(() =>
-                {
-                    var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
-                    foreach (var member in CurrentGroup.Members)
-                    {
-                        if (member.id == user.id)
-                        {
-                            CurrentUserAsFriend = member;
-                            break;
-                        }
-                    }
-
-                    //Now for current user we have to remove the 0 balances (assuming there are more than one balance.
-                    if(CurrentUserAsFriend.Balance.Count() > 1)
-                    {
-                        CurrentUserAsFriend.Balance = CurrentUserAsFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
-                    }
-                });
+                filterBalance();
             }
         }
 

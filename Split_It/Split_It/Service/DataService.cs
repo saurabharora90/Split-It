@@ -126,6 +126,17 @@ namespace Split_It.Service
             return JsonConvert.DeserializeObject<Friend>(testToken.ToString(), _jsonSettings);
         }
 
+        public async Task<Group> getGroupInfo(int groupId)
+        {
+            var request = new RestRequest("get_group/{id}", Method.POST);
+            request.AddUrlSegment("id", groupId.ToString());
+            var response = await _splitwiseClient.Execute(request);
+
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["group"];
+            return JsonConvert.DeserializeObject<Group>(testToken.ToString(), _jsonSettings);
+        }
+
         private class DeleteExpense
         {
             public Boolean success { get; set; }

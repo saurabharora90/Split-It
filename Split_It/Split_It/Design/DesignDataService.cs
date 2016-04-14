@@ -94,5 +94,10 @@ namespace Split_It.Design
         {
             throw new NotImplementedException();
         }
+
+        public Task<Group> getGroupInfo(int friendId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
