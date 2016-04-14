@@ -7,6 +7,8 @@ using Split_It.Service;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using WinUX.Extensions;
+using System.Linq;
+using System;
 
 namespace Split_It.ViewModel
 {
@@ -37,6 +39,7 @@ namespace Split_It.ViewModel
         private async void fetchComments()
         {
             var list = await _dataService.getComments(SelectedExpense.Id);
+            list = list.Where(p => (p.DeletedAt == String.Empty));
             if (CommentsList == null)
                 CommentsList = new ObservableCollection<Comment>(list);
             else
@@ -77,7 +80,7 @@ namespace Split_It.ViewModel
                     if (CommentsList != null)
                         CommentsList.Clear();
 
-                    if (SelectedExpense.CommentCount > 0)
+                    if (SelectedExpense.CommentsCount > 0)
                     {
                         fetchComments();
                     }

@@ -97,31 +97,31 @@ namespace Split_It.Model
         }
 
         /// <summary>
-        /// The <see cref="CommentCount" /> property's name.
+        /// The <see cref="CommentsCount" /> property's name.
         /// </summary>
-        public const string CommentCountPropertyName = "CommentCount";
+        public const string CommentCountPropertyName = "CommentsCount";
 
-        private int _comment_count;
+        private int _commentsCount;
 
         /// <summary>
-        /// Sets and gets the CommentCount property.
+        /// Sets and gets the CommentsCount property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public int CommentCount
+        public int CommentsCount
         {
             get
             {
-                return _comment_count;
+                return _commentsCount;
             }
 
             set
             {
-                if (_comment_count == value)
+                if (_commentsCount == value)
                 {
                     return;
                 }
 
-                _comment_count = value;
+                _commentsCount = value;
                 RaisePropertyChanged(CommentCountPropertyName);
             }
         }
