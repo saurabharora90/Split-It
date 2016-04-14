@@ -18,6 +18,20 @@
         <wxup:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <wxup:DateTimeFormatConverter x:Key="DateTimeFormatConverter"/>
         <converter:ExpenseDetailPaidSectionConverter x:Key="ExpenseDetailPaidSectionConverter" CurrencyCode="{Binding SelectedExpense.CurrencyCode}"/>
+
+        <DataTemplate x:Key="CommentTemplate">
+            <RelativePanel Height="50">
+                <Ellipse Height="15" Width="15" x:Name="commentImage" 
+                                 RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,25,0">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock RelativePanel.RightOf="commentImage" FontSize="12" Text="{Binding User.Name}" x:Name="name" Foreground="DarkGray"/>
+                <TextBlock RelativePanel.AlignLeftWith="name" RelativePanel.Below="name" FontSize="11"
+                           TextWrapping="Wrap" Text="{Binding Content}"/>
+            </RelativePanel>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

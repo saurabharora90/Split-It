@@ -39,7 +39,7 @@ namespace Split_It.ViewModel
         private async void fetchComments()
         {
             var list = await _dataService.getComments(SelectedExpense.Id);
-            list = list.Where(p => (p.DeletedAt == String.Empty));
+            list = list.Where(p => (p.DeletedAt == String.Empty) || (p.DeletedAt == null));
             if (CommentsList == null)
                 CommentsList = new ObservableCollection<Comment>(list);
             else
