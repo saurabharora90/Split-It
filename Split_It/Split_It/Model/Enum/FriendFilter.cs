@@ -9,6 +9,8 @@ namespace Split_It.Model.Enum
         [Display("You owe")]
         YouOwe,
         [Display("You are owed")]
-        OwesYou
+        OwesYou,
+        [Display("Recent")]
+        Recent
     }
 }

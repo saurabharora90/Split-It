@@ -34,7 +34,8 @@ namespace Split_It.ViewModel
             FriendsFiltersList.Add(FriendFilter.All);
             FriendsFiltersList.Add(FriendFilter.OwesYou);
             FriendsFiltersList.Add(FriendFilter.YouOwe);
-            SelectedFriendFilter = FriendFilter.All;
+            FriendsFiltersList.Add(FriendFilter.Recent);
+            SelectedFriendFilter = FriendFilter.Recent;
 
             GroupsFiltersList = new ObservableCollection<GroupFilter>();
             GroupsFiltersList.Add(GroupFilter.RecentGroups);
@@ -133,7 +134,7 @@ namespace Split_It.ViewModel
         {
             get
             {
-                if(SelectedFriendFilter == FriendFilter.All)
+                if(SelectedFriendFilter == FriendFilter.All || _allFriendsList == null)
                     return _allFriendsList;
                 else
                 {
@@ -158,6 +159,12 @@ namespace Split_It.ViewModel
                                 filteredFriends.Add(friend);
                             else if (SelectedFriendFilter == FriendFilter.YouOwe && Convert.ToDouble(defaultBalance.Amount) < 0)
                                 filteredFriends.Add(friend);
+                        }
+                        
+                        if(SelectedFriendFilter == FriendFilter.Recent && defaultBalance!=null 
+                            && Convert.ToDouble(defaultBalance.Amount) != 0)
+                        {
+                            filteredFriends.Add(friend);
                         }
                     }
                     return filteredFriends;
