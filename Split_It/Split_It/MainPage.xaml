@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <conveter:EnumToStringConverter x:Key="EnumToStringConverter"/>
-            
+
             <con_bal:TextConverter x:Key="BalanceTextConverter"/>
             <con_bal:TextColorConverter x:Key="BalanceTextColorConverter"/>
             <con_bal:AmountConverter x:Key="BalanceAmountConverter"/>
@@ -60,7 +60,7 @@
                 </Ellipse>
                 <TextBlock Text="{Binding CurrentUser.Name}" Foreground="Black" 
                            Margin="15" Grid.Row="2" HorizontalAlignment="Center"/>
-                
+
                 <StackPanel Orientation="Vertical" Grid.Row="3">
                     <SymbolIcon Symbol="Home"/>
                     <SymbolIcon Symbol="AddFriend"/>
