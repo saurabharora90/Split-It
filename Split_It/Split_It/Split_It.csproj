@@ -119,6 +119,8 @@
     <Compile Include="Converter\Repayment\RepaymentAmountConverter.cs" />
     <Compile Include="Converter\Repayment\RepaymentColorConverter.cs" />
     <Compile Include="Converter\Repayment\RepaymentBorrowLentConverter.cs" />
+    <Compile Include="Converter\SettleUp\PositiveAmountConverter.cs" />
+    <Compile Include="Converter\SettleUp\AmountToInfoConverter.cs" />
     <Compile Include="Converter\Summary\BaseGroupSummaryConverter.cs" />
     <Compile Include="Converter\Balance\TextConverter.cs" />
     <Compile Include="Converter\Balance\TextColorConverter.cs" />

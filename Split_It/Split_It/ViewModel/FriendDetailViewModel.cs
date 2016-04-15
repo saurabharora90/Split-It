@@ -66,7 +66,96 @@ namespace Split_It.ViewModel
                 RefreshExpensesCommand.Execute(null);
             }
         }
-        
+
+        /// <summary>
+        /// The <see cref="SettleUpBalance" /> property's name.
+        /// </summary>
+        public const string SettleUpBalancePropertyName = "SettleUpBalance";
+
+        private UserBalance _settleUpBalance = null;
+
+        /// <summary>
+        /// Sets and gets the SettleUpBalance property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public UserBalance SettleUpBalance
+        {
+            get
+            {
+                return _settleUpBalance;
+            }
+
+            set
+            {
+                if (_settleUpBalance == value)
+                {
+                    return;
+                }
+
+                _settleUpBalance = value;
+                RaisePropertyChanged(SettleUpBalancePropertyName);
+
+                if(SettleUpBalance!=null)
+                {
+                    IsFlyoutOpen = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="IsFlyoutOpen" /> property's name.
+        /// </summary>
+        public const string IsFlyoutOpenPropertyName = "IsFlyoutOpen";
+
+        private bool _isFlyoutOpen = false;
+
+        /// <summary>
+        /// Sets and gets the IsFlyoutOpen property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsFlyoutOpen
+        {
+            get
+            {
+                return _isFlyoutOpen;
+            }
+
+            set
+            {
+                if (_isFlyoutOpen == value)
+                {
+                    return;
+                }
+
+                _isFlyoutOpen = value;
+                RaisePropertyChanged(IsFlyoutOpenPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CanSettleUp" /> property's name.
+        /// </summary>
+        public const string CanSettleUpPropertyName = "CanSettleUp";
+
+        public bool CanSettleUp
+        {
+            get
+            {
+                if (CurrentFriend == null || CurrentFriend.Balance == null)
+                    return false;
+                else
+                {
+                    foreach (var balance in CurrentFriend.Balance)
+                    {
+                        if (System.Convert.ToDouble(balance.Amount) != 0)
+                            return true;
+                    }
+
+                    return false;
+                }
+            }
+        }
+
         #endregion
 
         protected override async void loadData()
@@ -82,6 +171,7 @@ namespace Split_It.ViewModel
                 ExpensesList.AddRange(list);
             IsBusy = false;
             IsLoadingNewPage = false;
+            RaisePropertyChanged(CanSettleUpPropertyName);
         }
 
         protected async override void refreshAfterExpenseOperation()
@@ -89,6 +179,8 @@ namespace Split_It.ViewModel
             IsBusy = true;
             CurrentFriend.Balance = (await _dataService.getFriendInfo(CurrentFriend.id)).Balance;    //we copy over individual details instead of entire object in order to maintain reference and hence update the item in the main list of the MainViewModel
             IsBusy = false;
+
+            RaisePropertyChanged(CanSettleUpPropertyName);
         }
 
         public override void Cleanup()

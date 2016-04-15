@@ -8,6 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:con_bal="using:Split_It.Converter.Balance"
     xmlns:winux="using:WinUX.Xaml.Converters"
+    xmlns:utils="using:Split_It.Utils"
+    xmlns:con_settle="using:Split_It.Converter.SettleUp"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
@@ -26,6 +28,9 @@
             <con_bal:TextConverter x:Key="BalanceTextConverter"/>
             <con_bal:AmountConverter x:Key="BalanceAmountConverter"/>
             <con_bal:VisibilityConverter x:Key="BalanceVisibilityConverter"/>
+
+            <con_settle:AmountToInfoConverter x:Key="AmountToInfoConverter"/>
+            <con_settle:PositiveAmountConverter x:Key="PositiveAmountConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -101,10 +106,23 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="settle up">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#x1f4b2;" FontFamily="Segoe UI Symbol"/>
-                </AppBarButton.Icon>
+            <AppBarButton Label="new expense" Icon="Add"/>
+            <AppBarButton Label="settle up" Icon="Accept" x:Name="settleAppBar" IsEnabled="{Binding CanSettleUp}">
+                <AppBarButton.Flyout>
+                    <Flyout utils:FlyoutHelpers.IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}"
+                            utils:FlyoutHelpers.Parent="{Binding ElementName=settleAppBar}">
+                        <ListView ItemsSource="{Binding CurrentFriend.Balance}" SelectedItem="{Binding SettleUpBalance, Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="{Binding Amount, Converter={StaticResource AmountToInfoConverter}}"/>
+                                        <Run Text="{Binding CurrencyCode}" FontWeight="SemiBold"/><Run Text="{Binding Amount, Converter={StaticResource PositiveAmountConverter}}" FontWeight="SemiBold"/>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </AppBarButton.Flyout>
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
