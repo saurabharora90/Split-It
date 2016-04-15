@@ -159,6 +159,61 @@ namespace Split_It.Service
             return JsonConvert.DeserializeObject<Comment>(testToken.ToString(), _jsonSettings);
         }
 
+        public async Task<IEnumerable<Expense>> createExpense(Expense paymentExpense)
+        {
+            var request = new RestRequest("create_expense", Method.POST);
+
+            if (paymentExpense.Payment)
+                request.AddParameter("payment", "true", ParameterType.GetOrPost);
+            else
+                request.AddParameter("payment", "false", ParameterType.GetOrPost);
+
+            request.AddParameter("cost", Convert.ToString(Convert.ToDouble(paymentExpense.Cost), System.Globalization.CultureInfo.InvariantCulture), ParameterType.GetOrPost);
+            request.AddParameter("description", paymentExpense.Description, ParameterType.GetOrPost);
+
+            if (!String.IsNullOrEmpty(paymentExpense.CurrencyCode))
+                request.AddParameter("currency_code", paymentExpense.CurrencyCode, ParameterType.GetOrPost);
+
+            if (!String.IsNullOrEmpty(paymentExpense.CreationMethod))
+            {
+                request.AddParameter("creation_method", paymentExpense.CreationMethod, ParameterType.GetOrPost);
+            }
+
+            if (!String.IsNullOrEmpty(paymentExpense.Details))
+            {
+                request.AddParameter("details", paymentExpense.Details, ParameterType.GetOrPost);
+            }
+
+            if (!String.IsNullOrEmpty(paymentExpense.Date)) //Repesents the date this expense belongs to
+            {
+                request.AddParameter("date", paymentExpense.Date, ParameterType.GetOrPost);
+            }
+
+            if (paymentExpense.GroupId != 0)
+            {
+                request.AddParameter("group_id", paymentExpense.GroupId, ParameterType.GetOrPost);
+            }
+
+            int count = 0;
+            foreach (var user in paymentExpense.Users)
+            {
+                string idKey = String.Format("users__array_{0}__user_id", count);
+                string paidKey = String.Format("users__array_{0}__paid_share", count);
+                string owedKey = String.Format("users__array_{0}__owed_share", count);
+                request.AddParameter(idKey, user.UserId, ParameterType.GetOrPost);
+                request.AddParameter(paidKey, Convert.ToString(Convert.ToDouble(user.PaidShare), System.Globalization.CultureInfo.InvariantCulture), ParameterType.GetOrPost);
+                request.AddParameter(owedKey, Convert.ToString(Convert.ToDouble(user.OwedShare), System.Globalization.CultureInfo.InvariantCulture), ParameterType.GetOrPost);
+
+                count++;
+            }
+
+            var response = await _splitwiseClient.Execute(request);
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+
+            return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+        }
+
         private class DeleteExpense
         {
             public Boolean success { get; set; }

@@ -18,11 +18,13 @@ namespace Split_It.ViewModel
 
         protected IDataService _dataService;
         protected INavigationService _navigationService;
+        protected IDialogService _dialogService;
 
-        public BaseEntityDetailViewModel(IDataService dataService, INavigationService navigationService)
+        public BaseEntityDetailViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         #region Properties

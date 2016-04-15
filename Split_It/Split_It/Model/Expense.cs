@@ -516,6 +516,66 @@ namespace Split_It.Model
             }
         }
 
+        /// <summary>
+        /// The <see cref="CreationMethod" /> property's name.
+        /// </summary>
+        public const string CreationMethodPropertyName = "CreationMethod";
+
+        private string _creationMethod = null;
+
+        /// <summary>
+        /// Sets and gets the CreationMethod property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string CreationMethod
+        {
+            get
+            {
+                return _creationMethod;
+            }
+
+            set
+            {
+                if (_creationMethod == value)
+                {
+                    return;
+                }
+
+                _creationMethod = value;
+                RaisePropertyChanged(CreationMethodPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GroupId" /> property's name.
+        /// </summary>
+        public const string GroupIdPropertyName = "GroupId";
+
+        private int _groupId;
+
+        /// <summary>
+        /// Sets and gets the GroupId property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public int GroupId
+        {
+            get
+            {
+                return _groupId;
+            }
+
+            set
+            {
+                if (_groupId == value)
+                {
+                    return;
+                }
+
+                _groupId = value;
+                RaisePropertyChanged(GroupIdPropertyName);
+            }
+        }
+
         #region HelperProperties
         public DateTime? CreatedDate
         {

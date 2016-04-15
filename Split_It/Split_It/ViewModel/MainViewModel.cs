@@ -5,6 +5,7 @@ using Split_It.Events;
 using Split_It.Model;
 using Split_It.Model.Enum;
 using Split_It.Service;
+using Split_It.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,6 +50,7 @@ namespace Split_It.ViewModel
         private async void getCurrentUSer()
         {
             CurrentUser = await _dataService.getCurrentUser();
+            AppState.CurrenUserID = CurrentUser.id;
         }
 
         #region Properties

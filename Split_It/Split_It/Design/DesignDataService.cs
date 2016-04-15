@@ -109,5 +109,10 @@ namespace Split_It.Design
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Expense>> createExpense(Expense expense)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

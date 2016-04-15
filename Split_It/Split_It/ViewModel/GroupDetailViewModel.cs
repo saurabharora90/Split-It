@@ -14,7 +14,7 @@ namespace Split_It.ViewModel
 {
     public class GroupDetailViewModel : BaseEntityDetailViewModel
     {
-        public GroupDetailViewModel(IDataService dataService, INavigationService navigationService) : base(dataService, navigationService)
+        public GroupDetailViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService) : base(dataService, navigationService, dialogService)
         {
             init();
         }

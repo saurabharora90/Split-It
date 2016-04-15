@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Views;
 using Split_It.Model;
 using Split_It.Service;
+using Split_It.Utils;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace Split_It.ViewModel
     {
         public int FriendshipId { get; set; }
 
-        public FriendDetailViewModel(IDataService dataService, INavigationService navigationService) : base(dataService, navigationService)
+        public FriendDetailViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService) : base(dataService, navigationService, dialogService)
         {
             init();
         }
@@ -98,6 +100,7 @@ namespace Split_It.ViewModel
                 if(SettleUpBalance!=null)
                 {
                     IsFlyoutOpen = false;
+                    recordPayment();
                 }
             }
         }
@@ -187,6 +190,45 @@ namespace Split_It.ViewModel
         {
             CurrentFriend = null;
             base.Cleanup();
+        }
+
+        private async void recordPayment()
+        {
+            IsBusy = true;
+            double amount = System.Convert.ToDouble(SettleUpBalance.Amount);
+            //TODO: add payment
+            Expense expense = new Expense();
+            expense.Payment = true;
+            expense.Cost = Math.Abs(amount).ToString();
+            expense.CreationMethod = "payment";
+            expense.Description = "Payment";
+            expense.CurrencyCode = SettleUpBalance.CurrencyCode;
+
+            List<ExpenseUser> expenseUsers = new List<ExpenseUser>(2);
+            if (amount > 0)
+            {
+                expenseUsers.Add(new ExpenseUser { UserId = CurrentFriend.id, PaidShare = expense.Cost, OwedShare = "0" });
+                expenseUsers.Add(new ExpenseUser { UserId = AppState.CurrenUserID, OwedShare = expense.Cost, PaidShare = "0" });
+            }
+            else
+            {
+                expenseUsers.Add(new ExpenseUser { UserId = AppState.CurrenUserID, PaidShare = expense.Cost, OwedShare = "0" });
+                expenseUsers.Add(new ExpenseUser { UserId = CurrentFriend.id, OwedShare = expense.Cost, PaidShare = "0" });
+            }
+
+            expense.Users = expenseUsers;
+
+            Expense returnedExpense = (await _dataService.createExpense(expense)).First();
+            if(returnedExpense.Id!=0)
+            {
+                ExpensesList.Insert(0, returnedExpense);
+                refreshAfterExpenseOperation();
+            }
+            else
+            {
+                IsBusy = false;
+                await _dialogService.ShowMessage("Sorry we were unable to record this expense. Please try again", "Oops");
+            }
         }
     }
 }
