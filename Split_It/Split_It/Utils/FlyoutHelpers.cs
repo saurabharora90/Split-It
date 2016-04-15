@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Split_It.Utils
@@ -60,11 +61,17 @@ namespace Split_It.Utils
             if (flyout != null && parent != null)
             {
                 var newValue = (bool)e.NewValue;
+                try
+                {
+                    if (newValue)
+                        flyout.ShowAt(parent);
+                    else
+                        flyout.Hide();
+                }
+                catch(Exception)
+                {
 
-                if (newValue)
-                    flyout.ShowAt(parent);
-                else
-                    flyout.Hide();
+                }
             }
         }
     }
