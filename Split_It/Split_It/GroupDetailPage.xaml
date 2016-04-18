@@ -8,6 +8,8 @@
     xmlns:pr="using:PullToRefresh.UWP"
     xmlns:con_bal="using:Split_It.Converter.Balance"
     xmlns:winux="using:WinUX.Xaml.Converters"
+    xmlns:utils="using:Split_It.Utils"
+    xmlns:con_settle="using:Split_It.Converter.SettleUp"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
@@ -26,6 +28,9 @@
             <con_bal:TextConverter x:Key="BalanceTextConverter"/>
             <con_bal:AmountConverter x:Key="BalanceAmountConverter"/>
             <con_bal:VisibilityConverter x:Key="BalanceVisibilityConverter"/>
+
+            <con_settle:GroupReceivePayConverter x:Key="GroupReceivePayConverter"/>
+            <con_settle:GroupMemberNameConverter x:Key="GroupMemberNameConverter" GroupMembers="{Binding CurrentGroup.Members}"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -93,4 +98,28 @@
 				Grid.Row="1" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <ProgressRing IsActive="{Binding IsBusy}" Grid.Row="1"/>
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="new expense" Icon="Add"/>
+            <AppBarButton Label="settle up" Icon="Accept" x:Name="settleAppBar" IsEnabled="{Binding CanSettleUp}">
+                <AppBarButton.Flyout>
+                    <Flyout utils:FlyoutHelpers.IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}"
+                            utils:FlyoutHelpers.Parent="{Binding ElementName=settleAppBar}">
+                        <ListView ItemsSource="{Binding UserDebts}" SelectedItem="{Binding SettleUpBalance, Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="{Binding Converter={StaticResource GroupReceivePayConverter}}"/>
+                                        <Run Text="{Binding CurrencyCode}" FontWeight="SemiBold"/><Run Text="{Binding Amount}" FontWeight="SemiBold"/>
+                                        <Run Text="{Binding Converter={StaticResource GroupMemberNameConverter}}"/>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

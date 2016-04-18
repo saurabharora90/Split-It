@@ -79,9 +79,26 @@ namespace Split_It.ViewModel
                 {
                     CurrentUserAsFriend.Balance = CurrentUserAsFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
                 }
+
+                IEnumerable<Debt> allDebts = null;
+                if (CurrentGroup.SimplifyByDefault)
+                    allDebts = CurrentGroup.SimplifiedDebts;
+                else
+                    allDebts = CurrentGroup.OriginalDebts;
+
+                if (UserDebts == null)
+                    UserDebts = new ObservableCollection<Debt>();
+
+                foreach (var debt in allDebts)
+                {
+                    if (debt.From == CurrentUserAsFriend.id || debt.To == CurrentUserAsFriend.id)
+                        UserDebts.Add(debt);
+                }
+
             });
         }
 
+        #region Properties
         /// <summary>
         /// The <see cref="CurrentGroup" /> property's name.
         /// </summary>
@@ -151,14 +168,105 @@ namespace Split_It.ViewModel
 
                 _currentUserAsFriend = value;
                 DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged(CurrentUserAsFriendPropertyName); });
-                //RaisePropertyChanged(CurrentUserAsFriendPropertyName);
             }
         }
+
+        /// <summary>
+        /// The <see cref="UserDebts" /> property's name.
+        /// </summary>
+        public const string UserDebtsPropertyName = "UserDebts";
+
+        private ObservableCollection<Debt> _userDebts = null;
+
+        /// <summary>
+        /// Sets and gets the UserDebts property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Debt> UserDebts
+        {
+            get
+            {
+                return _userDebts;
+            }
+
+            set
+            {
+                if (_userDebts == value)
+                {
+                    return;
+                }
+
+                _userDebts = value;
+
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged(UserDebtsPropertyName); });
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="IsFlyoutOpen" /> property's name.
+        /// </summary>
+        public const string IsFlyoutOpenPropertyName = "IsFlyoutOpen";
+
+        private bool _isFlyoutOpen = false;
+
+        /// <summary>
+        /// Sets and gets the IsFlyoutOpen property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool IsFlyoutOpen
+        {
+            get
+            {
+                return _isFlyoutOpen;
+            }
+
+            set
+            {
+                if (_isFlyoutOpen == value)
+                {
+                    return;
+                }
+
+                _isFlyoutOpen = value;
+                RaisePropertyChanged(IsFlyoutOpenPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CanSettleUp" /> property's name.
+        /// </summary>
+        public const string CanSettleUpPropertyName = "CanSettleUp";
+
+        public bool CanSettleUp
+        {
+            get
+            {
+                if (CurrentUserAsFriend.Balance == null)
+                    return false;
+                else
+                {
+                    foreach (var balance in CurrentUserAsFriend.Balance)
+                    {
+                        if (System.Convert.ToDouble(balance.Amount) != 0)
+                            return true;
+                    }
+
+                    return false;
+                }
+            }
+        }
+
+        #endregion
 
         public override void Cleanup()
         {
             CurrentUserAsFriend = null;
             CurrentGroup = null;
+            if(UserDebts!=null)
+            {
+                UserDebts.Clear();
+                UserDebts = null;
+            }
             base.Cleanup();
         }
     }
