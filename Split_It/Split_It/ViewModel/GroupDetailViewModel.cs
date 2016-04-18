@@ -88,6 +88,8 @@ namespace Split_It.ViewModel
 
             if (UserDebts == null)
                 UserDebts = new ObservableCollection<Debt>();
+            else
+                UserDebts.Clear();
 
             foreach (var debt in allDebts)
             {
@@ -269,6 +271,7 @@ namespace Split_It.ViewModel
 
         private async void recordPayment(Debt debtToSettle)
         {
+            IsFlyoutOpen = false;
             IsBusy = true;
             double amount = System.Convert.ToDouble(debtToSettle.Amount);
             Expense expense = new Expense();

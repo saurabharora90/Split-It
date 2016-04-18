@@ -194,6 +194,7 @@ namespace Split_It.ViewModel
 
         private async void recordPayment()
         {
+            IsFlyoutOpen = false;
             IsBusy = true;
             double amount = System.Convert.ToDouble(SettleUpBalance.Amount);
             Expense expense = new Expense();
