@@ -19,6 +19,8 @@ namespace Split_It.ViewModel
     {
         IDataService _dataService;
         INavigationService _navigationService;
+        IDialogService _dialogService;
+
         ObservableCollection<Group> _allGroupsList;
         ObservableCollection<Friend> _allFriendsList;
         ObservableCollection<Friendship> _friendshipList;
@@ -26,10 +28,11 @@ namespace Split_It.ViewModel
         public ObservableCollection<GroupFilter> GroupsFiltersList { get; private set; }
         public ObservableCollection<FriendFilter> FriendsFiltersList { get; private set; }
 
-        public MainViewModel(IDataService dataService, INavigationService navigationService)
+        public MainViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
 
             FriendsFiltersList = new ObservableCollection<FriendFilter>();
             FriendsFiltersList.Add(FriendFilter.All);
@@ -43,14 +46,21 @@ namespace Split_It.ViewModel
             GroupsFiltersList.Add(GroupFilter.AllGroups);
             SelectedGroupFilter = GroupFilter.RecentGroups;
 
-            getCurrentUSer();
+            MessengerInstance.Register<ApiErrorEvent>(this, ErrorEventReceived);
+
             RefreshDataCommand.Execute(null);
         }
 
-        private async void getCurrentUSer()
+        private void ErrorEventReceived(ApiErrorEvent errorEvent)
         {
-            CurrentUser = await _dataService.getCurrentUser();
-            AppState.CurrenUserID = CurrentUser.id;
+            if(errorEvent.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                _dialogService.ShowMessage("Please make sure you are connected to the internet", "Oops");
+            }
+            else
+            {
+                _dialogService.ShowMessage("Something went wrong. Please try again", "Oops");
+            }
         }
 
         #region Properties
@@ -336,12 +346,15 @@ namespace Split_It.ViewModel
                     async () =>
                     {
                         IsBusy = true;
+                        Task<User> userTask = _dataService.getCurrentUser();
                         Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
                         Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
                         Task<IEnumerable<Friendship>> friendshipTask = _dataService.getFriendShip();
                         //TODO: recent activity
-                        await Task.WhenAll(friendsTask, groupsTask, friendshipTask);
+                        await Task.WhenAll(userTask, friendsTask, groupsTask, friendshipTask);
 
+                        CurrentUser = userTask.Result;
+                        AppState.CurrenUserID = CurrentUser.id;
                         _allFriendsList = new ObservableCollection<Friend>(friendsTask.Result.OrderBy(p => p.FirstName));
                         _allGroupsList = new ObservableCollection<Group>(groupsTask.Result.OrderBy(p => p.Name));
                         _friendshipList = new ObservableCollection<Friendship>(friendshipTask.Result);

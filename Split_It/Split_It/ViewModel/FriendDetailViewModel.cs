@@ -217,17 +217,13 @@ namespace Split_It.ViewModel
 
             expense.Users = expenseUsers;
 
-            Expense returnedExpense = (await _dataService.createExpense(expense)).First();
-            if(returnedExpense.Id!=0)
+            Expense returnedExpense = (await _dataService.createExpense(expense)).FirstOrDefault();
+            if(returnedExpense!=null && returnedExpense.Id!=0)
             {
                 ExpensesList.Insert(0, returnedExpense);
                 refreshAfterExpenseOperation();
             }
-            else
-            {
-                IsBusy = false;
-                await _dialogService.ShowMessage("Sorry we were unable to record this expense. Please try again", "Oops");
-            }
+            IsBusy = false;
         }
     }
 }

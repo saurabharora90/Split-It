@@ -1,6 +1,5 @@
 ﻿using RestSharp.Portable;
 using RestSharp.Portable.Authenticators;
-using RestSharp.Portable.HttpClient;
 using Split_It.Model;
 using Split_It.Utils;
 using System;
@@ -8,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RestSharp.Portable.WebRequest;
+using GalaSoft.MvvmLight.Messaging;
+using Split_It.Events;
 
 namespace Split_It.Service
 {
@@ -18,7 +20,7 @@ namespace Split_It.Service
 
         public DataService()
         {
-            _splitwiseClient = new RestClient(Constants.SPLITWISE_API_URL);
+            _splitwiseClient = new RestClient(Constants.SPLITWISE_API_URL) { IgnoreResponseStatusCode = true };
             _splitwiseClient.Authenticator = OAuth1Authenticator.ForProtectedResource(Constants.consumerKey, Constants.consumerSecret, AppState.AccessToken, AppState.AccessTokenSecret);
 
             _jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, ContractResolver = new DeliminatorSeparatedPropertyNamesContractResolver('_') };
@@ -26,7 +28,7 @@ namespace Split_It.Service
 
         private RestClient getRestClient()
         {
-            RestClient client = new RestClient(Constants.SPLITWISE_API_URL);
+            RestClient client = new RestClient(Constants.SPLITWISE_API_URL) { IgnoreResponseStatusCode = true };
             client.Authenticator = OAuth1Authenticator.ForProtectedResource(Constants.consumerKey, Constants.consumerSecret, AppState.AccessToken, AppState.AccessTokenSecret);
 
             return client;
@@ -45,10 +47,21 @@ namespace Split_It.Service
         {
             var request = new RestRequest("get_current_user");
             var response = await _splitwiseClient.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["user"];
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["user"];
 
-            return JsonConvert.DeserializeObject<User>(testToken.ToString(), _jsonSettings);
+                return JsonConvert.DeserializeObject<User>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                User user = new User();
+                user.FirstName = "";
+                user.id = -1;
+                return user;
+            }
         }
 
         public async Task<IEnumerable<Friend>> getFriendsList()
@@ -56,10 +69,18 @@ namespace Split_It.Service
             RestClient client = getRestClient();
             var request = new RestRequest("get_friends");
             var response = await client.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["friends"];
-            client.Dispose();
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friend>>(testToken.ToString(), _jsonSettings);
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["friends"];
+                client.Dispose();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friend>>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                return new List<Friend>();
+            }
         }
 
         public async Task<IEnumerable<Group>> getGroupsList()
@@ -67,21 +88,29 @@ namespace Split_It.Service
             RestClient client = getRestClient();
             var request = new RestRequest("get_groups");
             var response = await client.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["groups"];
-
-            var groups = JsonConvert.DeserializeObject<List<Group>>(testToken.ToString(), _jsonSettings);
-
-            for (int i = 0; i < groups.Count(); i++)
+            if (response.IsSuccess)
             {
-                if (groups[i].Id == 0 || groups[i].GroupId == 0) //remove non-group expenses.
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["groups"];
+
+                var groups = JsonConvert.DeserializeObject<List<Group>>(testToken.ToString(), _jsonSettings);
+
+                for (int i = 0; i < groups.Count(); i++)
                 {
-                    groups.RemoveAt(i);
-                    break;
+                    if (groups[i].Id == 0 || groups[i].GroupId == 0) //remove non-group expenses.
+                    {
+                        groups.RemoveAt(i);
+                        break;
+                    }
                 }
+                client.Dispose();
+                return groups as IEnumerable<Group>;
             }
-            client.Dispose();
-            return groups as IEnumerable<Group>;
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                return new List<Group>();
+            }
         }
 
         public async Task<IEnumerable<Friendship>> getFriendShip()
@@ -89,10 +118,18 @@ namespace Split_It.Service
             RestClient client = getRestClient();
             var request = new RestRequest("get_friendships");
             var response = await client.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["friendships"];
-            client.Dispose();
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friendship>>(testToken.ToString(), _jsonSettings);
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["friendships"];
+                client.Dispose();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friendship>>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                return new List<Friendship>();
+            }
         }
 
         #endregion
@@ -104,10 +141,18 @@ namespace Split_It.Service
             request.AddParameter("friendship_id", friendshipId, ParameterType.GetOrPost);
             request.AddParameter("limit", limit, ParameterType.GetOrPost);
             var response = await _splitwiseClient.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
 
-            return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+                return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                return new List<Expense>();
+            }
         }
 
         public async Task<IEnumerable<Expense>> getExpenseForGroup(int groupId, int limit, int offset = 0)
@@ -117,19 +162,34 @@ namespace Split_It.Service
             request.AddParameter("group_id", groupId, ParameterType.GetOrPost);
             request.AddParameter("limit", limit, ParameterType.GetOrPost);
             var response = await _splitwiseClient.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
 
-            return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
-        }    
+                return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                return new List<Expense>();
+            }
+        }
 
         public async Task<bool> deleteExpense(int expenseId)
         {
             var request = new RestRequest("delete_expense/{id}", Method.POST);
             request.AddUrlSegment("id", expenseId.ToString());
             var response = await _splitwiseClient.Execute(request);
-            var delete = Newtonsoft.Json.JsonConvert.DeserializeObject<DeleteExpense>(getStringFromResponse(response), _jsonSettings);
-            return delete.success;
+            if (response.IsSuccess)
+            {
+                var delete = Newtonsoft.Json.JsonConvert.DeserializeObject<DeleteExpense>(getStringFromResponse(response), _jsonSettings);
+                return delete.success;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<Friend> getFriendInfo(int friendId)
@@ -159,10 +219,16 @@ namespace Split_It.Service
             var request = new RestRequest("get_comments", Method.POST);
             request.AddParameter("expense_id", expenseId, ParameterType.GetOrPost);
             var response = await _splitwiseClient.Execute(request);
-
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["comments"];
-            return JsonConvert.DeserializeObject<IEnumerable<Comment>>(testToken.ToString(), _jsonSettings);
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["comments"];
+                return JsonConvert.DeserializeObject<IEnumerable<Comment>>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                return new List<Comment>();
+            }
         }
 
         public async Task<Comment> postCommentOnExpense(int expenseId, string comment)
@@ -171,9 +237,17 @@ namespace Split_It.Service
             request.AddParameter("expense_id", expenseId, ParameterType.GetOrPost);
             request.AddParameter("content", comment, ParameterType.GetOrPost);
             var response = await _splitwiseClient.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["comment"];
-            return JsonConvert.DeserializeObject<Comment>(testToken.ToString(), _jsonSettings);
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["comment"];
+                return JsonConvert.DeserializeObject<Comment>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                return null;
+            }
         }
 
         public async Task<IEnumerable<Expense>> createExpense(Expense paymentExpense)
@@ -225,10 +299,18 @@ namespace Split_It.Service
             }
 
             var response = await _splitwiseClient.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
 
-            return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+                return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                return new List<Expense>();
+            }
         }
 
         private class DeleteExpense

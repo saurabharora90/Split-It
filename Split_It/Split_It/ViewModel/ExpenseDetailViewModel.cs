@@ -260,6 +260,11 @@ namespace Split_It.ViewModel
                         IsFlyoutOpen = false;
                         IsBusy = true;
                         var comment = await _dataService.postCommentOnExpense(SelectedExpense.Id, p);
+                        if(comment == null)
+                        {
+                            IsBusy = false;
+                            return;
+                        }
                         if (CommentsList == null)
                             CommentsList = new ObservableCollection<Comment>();
                         CommentsList.Add(comment);

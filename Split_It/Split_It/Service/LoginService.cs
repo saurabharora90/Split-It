@@ -1,18 +1,9 @@
 ﻿using RestSharp.Portable;
 using RestSharp.Portable.Authenticators;
-using RestSharp.Portable.HttpClient;
+using RestSharp.Portable.WebRequest;
 using Split_It.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Security.Authentication.Web;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
-using Windows.Storage.Streams;
-using Windows.Web.Http;
-using Windows.Web.Http.Headers;
 
 namespace Split_It.Service
 {

@@ -131,6 +131,7 @@
     <Compile Include="Converter\Summary\GroupSummaryUserTextConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
+    <Compile Include="Events\ApiErrorEvent.cs" />
     <Compile Include="Events\BaseExpenseChangeEvent.cs" />
     <Compile Include="Events\ExpenseAddedEvent.cs" />
     <Compile Include="Events\ExpenseDeletedEvent.cs" />
