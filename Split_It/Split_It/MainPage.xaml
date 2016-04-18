@@ -166,18 +166,46 @@
                                 <ListView ItemsSource="{Binding GroupsList}" SelectedItem="{Binding SelectedItem,Mode=TwoWay}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <RelativePanel Margin="0,15">
-                                                <Ellipse Style="{StaticResource RoundImage}" x:Name="image">
+                                            <Grid Margin="0,15">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Ellipse Style="{StaticResource RoundImage}" VerticalAlignment="Top">
                                                     <Ellipse.Fill>
                                                         <ImageBrush ImageSource="Assets/Images/groupIcon.png"/>
                                                     </Ellipse.Fill>
                                                 </Ellipse>
-                                                <TextBlock Text="{Binding Name}" x:Name="textName"
-                                                       RelativePanel.AlignVerticalCenterWith="image"
-                                                       RelativePanel.RightOf="image" Margin="15,0,0,0"/>
-                                                <Grid RelativePanel.AlignRightWithPanel="True"
-                                                      x:Name="AmountGrid"
-                                                       RelativePanel.AlignVerticalCenterWith="image">
+
+                                                <Grid Grid.Column="1" Margin="15,0,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Text="{Binding Name}" Margin="0,0,0,5"/>
+
+                                                    <TextBlock Grid.Row="1" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=0}" 
+                                                         Foreground="{StaticResource settled}" FontSize="13"/>
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=0}" FontSize="13"
+                                                         Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}, ConverterParameter=0}"/>
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Row="2" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=1}">
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=1}" 
+                                                         Foreground="{StaticResource settled}" FontSize="13"/>
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=1}" FontSize="13"
+                                                         Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}, ConverterParameter=1}"/>
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Row="3" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=2}">
+                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=2}" 
+                                                         Foreground="{StaticResource settled}" FontSize="13"/>
+                                                    </TextBlock>
+                                                </Grid>
+                                                
+                                                <Grid Grid.Column="2">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto"/>
                                                         <RowDefinition Height="Auto"/>
@@ -190,34 +218,7 @@
                                                                Visibility="{Binding Members, Converter={StaticResource BalanceVisibilityConverter}}"
                                                                Text="{Binding Members, Converter={StaticResource BalanceAmountConverter}}" FontSize="16"/>
                                                 </Grid>
-
-                                                <Grid RelativePanel.Below="textName" 
-                                                      RelativePanel.RightOf="image"
-                                                      RelativePanel.LeftOf="AmountGrid"
-                                                      Margin="15,5,0,0" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=0}">
-                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=0}" 
-                                                         Foreground="{StaticResource settled}" FontSize="13"/>
-                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=0}" FontSize="13"
-                                                         Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}, ConverterParameter=0}"/>
-                                                    </TextBlock>
-                                                    <TextBlock Grid.Row="1" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=1}">
-                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=1}" 
-                                                         Foreground="{StaticResource settled}" FontSize="13"/>
-                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryAmountConverter}, ConverterParameter=1}" FontSize="13"
-                                                         Foreground="{Binding Converter={StaticResource GroupSummaryTextColorConverter}, ConverterParameter=1}"/>
-                                                    </TextBlock>
-                                                    <TextBlock Grid.Row="2" Visibility="{Binding Converter={StaticResource GroupSummaryVisibilityConverter}, ConverterParameter=2}">
-                                                    <Run Text="{Binding Converter={StaticResource GroupSummaryUserTextConverter}, ConverterParameter=2}" 
-                                                         Foreground="{StaticResource settled}" FontSize="13"/>
-                                                    </TextBlock>
-                                                </Grid>
-                                            </RelativePanel>
+                                            </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>

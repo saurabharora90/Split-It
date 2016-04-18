@@ -196,7 +196,6 @@ namespace Split_It.ViewModel
         {
             IsBusy = true;
             double amount = System.Convert.ToDouble(SettleUpBalance.Amount);
-            //TODO: add payment
             Expense expense = new Expense();
             expense.Payment = true;
             expense.Cost = Math.Abs(amount).ToString();
