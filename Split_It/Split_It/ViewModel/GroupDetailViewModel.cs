@@ -54,48 +54,46 @@ namespace Split_It.ViewModel
             CurrentGroup.OriginalDebts = group.OriginalDebts;
             CurrentGroup.Members = group.Members;
             CurrentGroup.Balance = group.Balance;
-            IsBusy = false;
             filterBalance();
+            RaisePropertyChanged(CanSettleUpPropertyName);
+            IsBusy = false;
         }
 
         private void filterBalance()
         {
             if (CurrentGroup == null)
                 return;
-            Task.Factory.StartNew(() =>
+
+            var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+            foreach (var member in CurrentGroup.Members)
             {
-                var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
-                foreach (var member in CurrentGroup.Members)
+                if (member.id == user.id)
                 {
-                    if (member.id == user.id)
-                    {
-                        CurrentUserAsFriend = member;
-                        break;
-                    }
+                    CurrentUserAsFriend = member;
+                    break;
                 }
+            }
 
-                //Now for current user we have to remove the 0 balances (assuming there are more than one balance.
-                if (CurrentUserAsFriend.Balance.Count() > 1)
-                {
-                    CurrentUserAsFriend.Balance = CurrentUserAsFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
-                }
+            //Now for current user we have to remove the 0 balances (assuming there are more than one balance.
+            if (CurrentUserAsFriend.Balance.Count() > 1)
+            {
+                CurrentUserAsFriend.Balance = CurrentUserAsFriend.Balance.Where(p => System.Convert.ToDouble(p.Amount) != 0);
+            }
 
-                IEnumerable<Debt> allDebts = null;
-                if (CurrentGroup.SimplifyByDefault)
-                    allDebts = CurrentGroup.SimplifiedDebts;
-                else
-                    allDebts = CurrentGroup.OriginalDebts;
+            IEnumerable<Debt> allDebts = null;
+            if (CurrentGroup.SimplifyByDefault)
+                allDebts = CurrentGroup.SimplifiedDebts;
+            else
+                allDebts = CurrentGroup.OriginalDebts;
 
-                if (UserDebts == null)
-                    UserDebts = new ObservableCollection<Debt>();
+            if (UserDebts == null)
+                UserDebts = new ObservableCollection<Debt>();
 
-                foreach (var debt in allDebts)
-                {
-                    if (debt.From == CurrentUserAsFriend.id || debt.To == CurrentUserAsFriend.id)
-                        UserDebts.Add(debt);
-                }
-
-            });
+            foreach (var debt in allDebts)
+            {
+                if (debt.From == CurrentUserAsFriend.id || debt.To == CurrentUserAsFriend.id)
+                    UserDebts.Add(debt);
+            }
         }
 
         #region Properties
@@ -167,7 +165,7 @@ namespace Split_It.ViewModel
                 }
 
                 _currentUserAsFriend = value;
-                DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged(CurrentUserAsFriendPropertyName); });
+                RaisePropertyChanged(CurrentUserAsFriendPropertyName);
             }
         }
 
@@ -198,7 +196,7 @@ namespace Split_It.ViewModel
 
                 _userDebts = value;
 
-                DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged(UserDebtsPropertyName); });
+                RaisePropertyChanged(UserDebtsPropertyName);
             }
         }
 
@@ -256,7 +254,45 @@ namespace Split_It.ViewModel
             }
         }
 
+        public Debt DebtToSettle
+        {
+            set
+            {
+                if (value != null)
+                {
+                    recordPayment(value);
+                }
+            }
+        }
+
         #endregion
+
+        private async void recordPayment(Debt debtToSettle)
+        {
+            IsBusy = true;
+            double amount = System.Convert.ToDouble(debtToSettle.Amount);
+            Expense expense = new Expense();
+            expense.Payment = true;
+            expense.Cost = Math.Abs(amount).ToString();
+            expense.CreationMethod = "payment";
+            expense.Description = "Payment";
+            expense.CurrencyCode = debtToSettle.CurrencyCode;
+            expense.GroupId = CurrentGroup.Id;
+
+            List<ExpenseUser> expenseUsers = new List<ExpenseUser>(2);
+            expenseUsers.Add(new ExpenseUser { UserId = debtToSettle.From, PaidShare = expense.Cost, OwedShare = "0" });
+            expenseUsers.Add(new ExpenseUser { UserId = debtToSettle.To, OwedShare = expense.Cost, PaidShare = "0" });
+            
+            expense.Users = expenseUsers;
+
+            Expense returnedExpense = (await _dataService.createExpense(expense)).FirstOrDefault();
+            if (returnedExpense != null && returnedExpense.Id != 0)
+            {
+                ExpensesList.Insert(0, returnedExpense);
+                refreshAfterExpenseOperation();
+            }
+            IsBusy = false;
+        }
 
         public override void Cleanup()
         {
@@ -269,5 +305,6 @@ namespace Split_It.ViewModel
             }
             base.Cleanup();
         }
+        
     }
 }

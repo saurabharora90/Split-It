@@ -106,7 +106,7 @@
                 <AppBarButton.Flyout>
                     <Flyout utils:FlyoutHelpers.IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}"
                             utils:FlyoutHelpers.Parent="{Binding ElementName=settleAppBar}">
-                        <ListView ItemsSource="{Binding UserDebts}" SelectedItem="{Binding SettleUpBalance, Mode=TwoWay}">
+                        <ListView ItemsSource="{Binding UserDebts}" SelectedItem="{Binding DebtToSettle, Mode=TwoWay}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock>
