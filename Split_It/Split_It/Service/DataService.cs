@@ -24,10 +24,22 @@ namespace Split_It.Service
             _jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, ContractResolver = new DeliminatorSeparatedPropertyNamesContractResolver('_') };
         }
 
+        private RestClient getRestClient()
+        {
+            RestClient client = new RestClient(Constants.SPLITWISE_API_URL);
+            client.Authenticator = OAuth1Authenticator.ForProtectedResource(Constants.consumerKey, Constants.consumerSecret, AppState.AccessToken, AppState.AccessTokenSecret);
+
+            return client;
+        }
+
         private string getStringFromResponse(IRestResponse response)
         {
             return System.Text.Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
         }
+
+        #region ParallelRequests
+        // The following requests are supposed to run in parallel and hence they use a different rest client for each request
+        //https://github.com/FubarDevelopment/restsharp.portable/issues/19
 
         public async Task<User> getCurrentUser()
         {
@@ -41,18 +53,20 @@ namespace Split_It.Service
 
         public async Task<IEnumerable<Friend>> getFriendsList()
         {
+            RestClient client = getRestClient();
             var request = new RestRequest("get_friends");
-            var response = await _splitwiseClient.Execute(request);
+            var response = await client.Execute(request);
             Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
             Newtonsoft.Json.Linq.JToken testToken = root["friends"];
-
+            client.Dispose();
             return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friend>>(testToken.ToString(), _jsonSettings);
         }
 
         public async Task<IEnumerable<Group>> getGroupsList()
         {
+            RestClient client = getRestClient();
             var request = new RestRequest("get_groups");
-            var response = await _splitwiseClient.Execute(request);
+            var response = await client.Execute(request);
             Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
             Newtonsoft.Json.Linq.JToken testToken = root["groups"];
 
@@ -66,9 +80,22 @@ namespace Split_It.Service
                     break;
                 }
             }
-
+            client.Dispose();
             return groups as IEnumerable<Group>;
         }
+
+        public async Task<IEnumerable<Friendship>> getFriendShip()
+        {
+            RestClient client = getRestClient();
+            var request = new RestRequest("get_friendships");
+            var response = await client.Execute(request);
+            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+            Newtonsoft.Json.Linq.JToken testToken = root["friendships"];
+            client.Dispose();
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friendship>>(testToken.ToString(), _jsonSettings);
+        }
+
+        #endregion
 
         public async Task<IEnumerable<Expense>> getExpenseForFriend(int friendshipId, int limit, int offset = 0)
         {
@@ -94,17 +121,7 @@ namespace Split_It.Service
             Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
 
             return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
-        }
-
-        public async Task<IEnumerable<Friendship>> getFriendShip()
-        {
-            var request = new RestRequest("get_friendships");
-            var response = await _splitwiseClient.Execute(request);
-            Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
-            Newtonsoft.Json.Linq.JToken testToken = root["friendships"];
-
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Friendship>>(testToken.ToString(), _jsonSettings);
-        }
+        }    
 
         public async Task<bool> deleteExpense(int expenseId)
         {
