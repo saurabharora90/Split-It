@@ -74,7 +74,8 @@
 
                     <TextBlock Text="Friends:" VerticalAlignment="Center"/>
                     <AutoSuggestBox Grid.Column="1" VerticalAlignment="Center" PlaceholderText="Select friends"
-						            DisplayMemberPath="Name" TextMemberPath="Name" x:Name="friendsBox"
+						            DisplayMemberPath="Name" TextMemberPath="Name" x:Name="friendsBox" 
+                                    TextChanged="friendsBox_TextChanged" SuggestionChosen="friendsBox_SuggestionChosen"
                                     ItemsSource="{Binding MainVM.AllFriendsList, Source={StaticResource Locator}}"/>
 
                     <TextBlock Text="Group" VerticalAlignment="Center" Grid.Row="1"/>
