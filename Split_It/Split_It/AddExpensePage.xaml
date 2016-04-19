@@ -17,7 +17,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/AddExpenseSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
             <con_exp:AvailableDetailsToBackgroudColorConverter x:Key="AvailableDetailsToBackgroudColorConverter"/>
+            <con_exp:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -68,7 +70,7 @@
                     </Grid.ColumnDefinitions>
 
                     <DatePicker MonthFormat="{}{month.abbreviated}" 
-                                Date="{Binding ExpenseToAdd.Date, Mode=TwoWay}" />
+                                Date="{Binding ExpenseToAdd.Date, Mode=TwoWay, Converter={StaticResource DateTimeToStringConverter}}" />
                     <ComboBox Grid.Column="1" VerticalAlignment="Center" Margin="15,0"/>
                     <Button Grid.Column="2" Content="&#xE8BD;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                             Background="Transparent" Style="{StaticResource NoBorderSelectButton}"
