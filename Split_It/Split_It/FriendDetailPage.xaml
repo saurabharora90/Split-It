@@ -106,7 +106,7 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="new expense" Icon="Add"/>
+            <AppBarButton Label="new expense" Icon="Add" Command="{Binding AddExpenseCommand}"/>
             <AppBarButton Label="settle up" Icon="Accept" x:Name="settleAppBar" IsEnabled="{Binding CanSettleUp}">
                 <AppBarButton.Flyout>
                     <Flyout utils:FlyoutHelpers.IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}"

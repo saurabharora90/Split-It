@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
 using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
@@ -161,6 +162,24 @@ namespace Split_It.ViewModel
         }
 
         #endregion
+
+        private RelayCommand _addExpenseCommand;
+
+        /// <summary>
+        /// Gets the AddExpenseCommand.
+        /// </summary>
+        public RelayCommand AddExpenseCommand
+        {
+            get
+            {
+                return _addExpenseCommand
+                    ?? (_addExpenseCommand = new RelayCommand(
+                    () =>
+                    {
+                        _navigationService.NavigateTo(ViewModelLocator.AddExpensePageKey);
+                    }));
+            }
+        }
 
         protected override async void loadData()
         {

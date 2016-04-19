@@ -5,6 +5,7 @@ using Split_It.Model;
 using Split_It.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,66 @@ namespace Split_It.ViewModel
 
                 _expenseToAdd = value;
                 RaisePropertyChanged(ExpenseToAddPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="SelectedGroup" /> property's name.
+        /// </summary>
+        public const string SelectedGroupPropertyName = "SelectedGroup";
+
+        private Group _selectedGroup = null;
+
+        /// <summary>
+        /// Sets and gets the SelectedGroup property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public Group SelectedGroup
+        {
+            get
+            {
+                return _selectedGroup;
+            }
+
+            set
+            {
+                if (_selectedGroup == value)
+                {
+                    return;
+                }
+
+                _selectedGroup = value;
+                RaisePropertyChanged(SelectedGroupPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="SelectedFriendsList" /> property's name.
+        /// </summary>
+        public const string SelectedFriendsListPropertyName = "SelectedFriendsList";
+
+        private ObservableCollection<Friend> _selectedFriendsList = null;
+
+        /// <summary>
+        /// Sets and gets the SelectedFriendsList property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Friend> SelectedFriendsList
+        {
+            get
+            {
+                return _selectedFriendsList;
+            }
+
+            set
+            {
+                if (_selectedFriendsList == value)
+                {
+                    return;
+                }
+
+                _selectedFriendsList = value;
+                RaisePropertyChanged(SelectedFriendsListPropertyName);
             }
         }
 
@@ -139,5 +200,15 @@ namespace Split_It.ViewModel
         }
 
         #endregion
+
+        public override void Cleanup()
+        {
+            if (SelectedFriendsList != null)
+                SelectedFriendsList.Clear();
+            SelectedFriendsList = null;
+            SelectedGroup = null;
+            ExpenseToAdd = null;
+            base.Cleanup();
+        }
     }
 }

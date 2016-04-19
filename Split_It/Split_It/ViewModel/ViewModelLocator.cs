@@ -12,6 +12,7 @@ namespace Split_It.ViewModel
         public const string FriendDetailPageKey = "FriendDetailPage";
         public const string ExpenseDetailPageKey = "ExpenseDetailPage";
         public const string GroupDetailPageKey = "GroupDetailPage";
+        public const string AddExpensePageKey = "AddExpensePage";
 
         static ViewModelLocator()
         {
@@ -22,6 +23,7 @@ namespace Split_It.ViewModel
             nav.Configure(FriendDetailPageKey, typeof(FriendDetailPage));
             nav.Configure(ExpenseDetailPageKey, typeof(ExpenseDetailPage));
             nav.Configure(GroupDetailPageKey, typeof(GroupDetailPage));
+            nav.Configure(AddExpensePageKey, typeof(AddExpensePage));
             SimpleIoc.Default.Register<INavigationService>(() => nav);
 
             if (ViewModelBase.IsInDesignModeStatic)
