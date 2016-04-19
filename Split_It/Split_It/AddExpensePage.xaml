@@ -17,8 +17,7 @@
 
             <con_exp:AvailableDetailsToBackgroudColorConverter x:Key="AvailableDetailsToBackgroudColorConverter"/>
             <con_exp:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
-            <con_exp:GroupSelectedToMembersConverter x:Key="GroupSelectedToMembersConverter"/>
-            <con_exp:ListSelectionToMemberConverter x:Key="ListSelectionToMemberConverter"/>
+            <con_exp:SelectionToMemberConverter x:Key="SelectionToMemberConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -86,7 +85,7 @@
 						DisplayMemberPath="Name">
                         <Interactivity:Interaction.Behaviors>
                             <Core:EventTriggerBehavior EventName="SelectionChanged">
-                                <Core:InvokeCommandAction Command="{Binding GroupSelectedCommand, Mode=OneWay}" InputConverter="{StaticResource GroupSelectedToMembersConverter}"/>
+                                <Core:InvokeCommandAction Command="{Binding GroupSelectedCommand, Mode=OneWay}" InputConverter="{StaticResource SelectionToMemberConverter}"/>
                             </Core:EventTriggerBehavior>
                         </Interactivity:Interaction.Behaviors>
                     </ComboBox>
@@ -126,12 +125,12 @@
             <ListView Grid.Row="3" ItemsSource="{Binding ExpenseToAdd.Users}">
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="SelectionChanged">
-                        <Core:InvokeCommandAction Command="{Binding RemoveUserCommand, Mode=OneWay}" InputConverter="{StaticResource ListSelectionToMemberConverter}"/>
+                        <Core:InvokeCommandAction Command="{Binding RemoveUserCommand, Mode=OneWay}" InputConverter="{StaticResource SelectionToMemberConverter}"/>
                     </Core:EventTriggerBehavior>
                 </Interactivity:Interaction.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="50">
+                        <Grid Height="40">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -143,7 +142,7 @@
                                 </Ellipse.Fill>
                             </Ellipse>
                             <TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" Grid.Column="1" Margin="10,0,0,0"/>
-                            <SymbolIcon Grid.Column="2" Symbol="Remove" Foreground="Red" VerticalAlignment="Center"/>
+                            <SymbolIcon Grid.Column="2" Symbol="Cancel" Foreground="Red" VerticalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
