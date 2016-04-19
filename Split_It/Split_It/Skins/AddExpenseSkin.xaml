@@ -4,12 +4,12 @@
     <Style TargetType="DatePicker">
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="MinWidth" Value="146"/>
+        <Setter Property="MinWidth" Value="186"/>
         <Setter Property="MaxWidth" Value="456"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>

@@ -33,7 +33,7 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string ExpenseToAddPropertyName = "ExpenseToAdd";
 
-        private Expense _expenseToAdd = null;
+        private Expense _expenseToAdd = new Expense();
 
         /// <summary>
         /// Sets and gets the ExpenseToAdd property.
@@ -195,6 +195,7 @@ namespace Split_It.ViewModel
                     ?? (_recordExpenseCommand = new RelayCommand(
                     () =>
                     {
+                        string details = ExpenseToAdd.Details;
                         //MessengerInstance.Send(new ExpenseAddedEvent(returnedExpense));
                     }));
             }

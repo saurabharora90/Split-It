@@ -108,6 +108,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\AddExpense\AvailableDetailsToBackgroudColorConverter.cs" />
     <Compile Include="Converter\Balance\AmountConverter.cs" />
     <Compile Include="Converter\Balance\BaseConverter.cs" />
     <Compile Include="Converter\Comment\CommentTypeFontWeightConverter.cs" />
