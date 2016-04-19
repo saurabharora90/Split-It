@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Views;
+using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
 using Split_It.Utils;
@@ -221,8 +222,7 @@ namespace Split_It.ViewModel
             Expense returnedExpense = (await _dataService.createExpense(expense)).FirstOrDefault();
             if(returnedExpense!=null && returnedExpense.Id!=0)
             {
-                ExpensesList.Insert(0, returnedExpense);
-                refreshAfterExpenseOperation();
+                MessengerInstance.Send(new ExpenseAddedEvent(returnedExpense));
             }
             IsBusy = false;
         }

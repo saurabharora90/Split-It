@@ -1,13 +1,12 @@
-﻿using GalaSoft.MvvmLight.Threading;
-using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
+using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using WinUX.Extensions;
 
 namespace Split_It.ViewModel
@@ -291,8 +290,7 @@ namespace Split_It.ViewModel
             Expense returnedExpense = (await _dataService.createExpense(expense)).FirstOrDefault();
             if (returnedExpense != null && returnedExpense.Id != 0)
             {
-                ExpensesList.Insert(0, returnedExpense);
-                refreshAfterExpenseOperation();
+                MessengerInstance.Send(new ExpenseAddedEvent(returnedExpense));
             }
             IsBusy = false;
         }

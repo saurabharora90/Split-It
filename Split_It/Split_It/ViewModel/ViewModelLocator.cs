@@ -43,6 +43,7 @@ namespace Split_It.ViewModel
             SimpleIoc.Default.Register<FriendDetailViewModel>(); ;
             SimpleIoc.Default.Register<GroupDetailViewModel>();
             SimpleIoc.Default.Register<ExpenseDetailViewModel>();
+            SimpleIoc.Default.Register<AddExpenseViewModel>();
         }
 
         /// <summary>
@@ -112,6 +113,20 @@ namespace Split_It.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<GroupDetailViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the AddExpenseVM property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public AddExpenseViewModel AddExpenseVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AddExpenseViewModel>();
             }
         }
     }

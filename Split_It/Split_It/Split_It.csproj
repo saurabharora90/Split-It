@@ -180,6 +180,7 @@
     <Compile Include="Utils\DisplayAttribute.cs" />
     <Compile Include="Utils\FlyoutHelpers.cs" />
     <Compile Include="Utils\Util.cs" />
+    <Compile Include="ViewModel\AddExpenseViewModel.cs" />
     <Compile Include="ViewModel\BaseEntityDetailViewModel.cs" />
     <Compile Include="ViewModel\ExpenseDetailViewModel.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
