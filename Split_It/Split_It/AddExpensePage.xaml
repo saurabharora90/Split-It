@@ -10,7 +10,15 @@
     <Page.DataContext>
         <Binding Path="AddExpenseVM" Source="{StaticResource Locator}"/>
     </Page.DataContext>
-    
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Skins/AddExpenseSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -26,10 +34,60 @@
 
             <TextBlock Text="Add Expense" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0"/>
         </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Padding='20,15'>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center">
+                        <Run Text="With"/>
+                        <Run Text="you" FontWeight="Bold"/>
+                        <Run Text="and:"/>
+                    </TextBlock>
+                    <AutoSuggestBox Grid.Column="1"/>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Date:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <DatePicker Grid.Column="1" MonthFormat="{}{month.abbreviated}" 
+                                Date="{Binding ExpenseToAdd.CreatedAt, Mode=TwoWay}" />
+                    <TextBlock Text="Part of Group:" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Row="1"/>
+                    <ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+                    
+                </Grid>
+
+                <StackPanel Orientation="Vertical" Grid.Row="4" Margin="0,15">
+                    <TextBlock Text="Additional Notes:" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding ExpenseToAdd.Details}" AcceptsReturn="True" 
+                                 Padding="0"
+                                 TextWrapping="Wrap" InputScope="Text"/>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar ClosedDisplayMode="Minimal">
             <AppBarButton Command="{Binding RecordExpenseCommand}" Icon="Save" Label="save"/>
         </CommandBar>
     </Page.BottomAppBar>

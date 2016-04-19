@@ -164,7 +164,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBox TextWrapping="Wrap" Grid.Column="0" x:Name="commentBox" 
-                                     AcceptsReturn="True" PlaceholderText="Enter comment" InputScope="Text"/>
+                                     AcceptsReturn="True" PlaceholderText="Enter comment" InputScope="Text" />
                             <Button Command="{Binding AddCommentCommand}" Content="Send" 
                                     Grid.Column="1" Margin="10,0,0,0" 
                                     CommandParameter="{Binding Text, ElementName=commentBox}"/>
