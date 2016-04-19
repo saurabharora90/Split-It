@@ -366,6 +366,24 @@ namespace Split_It.ViewModel
                     }));
             }
         }
+
+        private RelayCommand _addExpenseCommand;
+
+        /// <summary>
+        /// Gets the AddExpenseCommand.
+        /// </summary>
+        public RelayCommand AddExpenseCommand
+        {
+            get
+            {
+                return _addExpenseCommand
+                    ?? (_addExpenseCommand = new RelayCommand(
+                    () =>
+                    {
+                        _navigationService.NavigateTo(ViewModelLocator.AddExpensePageKey);
+                    }));
+            }
+        }
         #endregion
     }
 }
