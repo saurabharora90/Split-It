@@ -1,11 +1,7 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using Split_It.Model;
-using Split_It.ViewModel;
+﻿using Split_It.Model;
+using Split_It.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
 namespace Split_It.Converter
@@ -29,7 +25,7 @@ namespace Split_It.Converter
                 return numberOfPeoplePaid.ToString() + " people";
             else
             {
-                var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+                var user = AppState.CurrentUser;
                 if (paidUser.id == user.id)
                     return "You";
                 else

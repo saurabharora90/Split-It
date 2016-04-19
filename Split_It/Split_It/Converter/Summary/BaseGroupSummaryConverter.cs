@@ -1,6 +1,5 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using Split_It.Model;
-using Split_It.ViewModel;
+﻿using Split_It.Model;
+using Split_It.Utils;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Data;
@@ -12,7 +11,7 @@ namespace Split_It.Converter.Summary
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var group = value as Group;
-            var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+            var user = AppState.CurrentUser;
             //find current user in group.
             List<Debt> userDebts = new List<Debt>();
             IEnumerable<Debt> allDebts = null;

@@ -15,7 +15,7 @@ namespace Split_It.Converter.SettleUp
             string returnValue = null;
             int idToFind;
 
-            if (debt.From == AppState.CurrenUserID)
+            if (debt.From == AppState.CurrentUser.id)
             {
                 idToFind = debt.To;
                 returnValue = "to ";

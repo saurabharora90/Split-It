@@ -1,11 +1,7 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using Split_It.Model;
-using Split_It.ViewModel;
+﻿using Split_It.Model;
+using Split_It.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
@@ -16,7 +12,7 @@ namespace Split_It.Converter.Repayment
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var repayments = value as IEnumerable<Debt>;
-            var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+            var user = AppState.CurrentUser;
             Debt currentUserDebt = null;
             if (OtherUserId == 0) //this will be 0 when we are dealing with a group.
             {

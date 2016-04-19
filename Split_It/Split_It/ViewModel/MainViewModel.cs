@@ -354,7 +354,7 @@ namespace Split_It.ViewModel
                         await Task.WhenAll(userTask, friendsTask, groupsTask, friendshipTask);
 
                         CurrentUser = userTask.Result;
-                        AppState.CurrenUserID = CurrentUser.id;
+                        AppState.CurrentUser = CurrentUser;
                         _allFriendsList = new ObservableCollection<Friend>(friendsTask.Result.OrderBy(p => p.FirstName));
                         _allGroupsList = new ObservableCollection<Group>(groupsTask.Result.OrderBy(p => p.Name));
                         _friendshipList = new ObservableCollection<Friendship>(friendshipTask.Result);

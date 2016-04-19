@@ -228,11 +228,11 @@ namespace Split_It.ViewModel
             if (amount > 0)
             {
                 expenseUsers.Add(new ExpenseUser { UserId = CurrentFriend.id, PaidShare = expense.Cost, OwedShare = "0" });
-                expenseUsers.Add(new ExpenseUser { UserId = AppState.CurrenUserID, OwedShare = expense.Cost, PaidShare = "0" });
+                expenseUsers.Add(new ExpenseUser { UserId = AppState.CurrentUser.id, OwedShare = expense.Cost, PaidShare = "0" });
             }
             else
             {
-                expenseUsers.Add(new ExpenseUser { UserId = AppState.CurrenUserID, PaidShare = expense.Cost, OwedShare = "0" });
+                expenseUsers.Add(new ExpenseUser { UserId = AppState.CurrentUser.id, PaidShare = expense.Cost, OwedShare = "0" });
                 expenseUsers.Add(new ExpenseUser { UserId = CurrentFriend.id, OwedShare = expense.Cost, PaidShare = "0" });
             }
 

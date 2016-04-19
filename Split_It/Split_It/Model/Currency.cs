@@ -72,5 +72,26 @@ namespace Split_It.Model
                 RaisePropertyChanged(UnitPropertyName);
             }
         }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            var other = obj as Currency;
+            if (CurrencyCode.Equals(other.CurrencyCode, StringComparison.CurrentCultureIgnoreCase))
+                return true;
+            else
+                return false;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return CurrencyCode.GetHashCode();
+        }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using Newtonsoft.Json;
 using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
+using Split_It.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +36,7 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string ExpenseToAddPropertyName = "ExpenseToAdd";
 
-        private Expense _expenseToAdd = new Expense();
+        private Expense _expenseToAdd = new Expense() { CurrencyCode = AppState.CurrentUser.DefaultCurrency };
 
         /// <summary>
         /// Sets and gets the ExpenseToAdd property.
@@ -118,33 +121,14 @@ namespace Split_It.ViewModel
             }
         }
 
-        /// <summary>
-        /// The <see cref="IsFlyoutOpen" /> property's name.
-        /// </summary>
-        public const string IsFlyoutOpenPropertyName = "IsFlyoutOpen";
-
-        private bool _isFlyoutOpen = false;
-
-        /// <summary>
-        /// Sets and gets the IsFlyoutOpen property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool IsFlyoutOpen
+        public ObservableCollection<Currency> SupportedCurrencyList
         {
             get
             {
-                return _isFlyoutOpen;
-            }
-
-            set
-            {
-                if (_isFlyoutOpen == value)
-                {
-                    return;
-                }
-
-                _isFlyoutOpen = value;
-                RaisePropertyChanged(IsFlyoutOpenPropertyName);
+                string text = File.ReadAllText("Data/currencies.json");
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(text);
+                Newtonsoft.Json.Linq.JToken testToken = root["currencies"];
+                return new ObservableCollection<Currency>(JsonConvert.DeserializeObject<IEnumerable<Currency>>(testToken.ToString()).OrderBy(p => p.CurrencyCode));
             }
         }
 

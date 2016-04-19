@@ -11,7 +11,7 @@ namespace Split_It.Converter.SettleUp
         {
             var debt = value as Debt;
 
-            if (debt.From == AppState.CurrenUserID)
+            if (debt.From == AppState.CurrentUser.id)
                 return "Pay";
             else
                 return "Receive";

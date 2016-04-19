@@ -1,9 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.Practices.ServiceLocation;
 using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
+using Split_It.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -64,7 +64,7 @@ namespace Split_It.ViewModel
             if (CurrentGroup == null)
                 return;
 
-            var user = ServiceLocator.Current.GetInstance<MainViewModel>().CurrentUser;
+            var user = AppState.CurrentUser;
             foreach (var member in CurrentGroup.Members)
             {
                 if (member.id == user.id)
