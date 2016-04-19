@@ -596,6 +596,17 @@ namespace Split_It.Model
             }
         }
 
+        public DateTime? ExpenseDate
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(Date))
+                    return null;
+
+                return Convert.ToDateTime(Date);
+            }
+        }
+
         #endregion
 
         // override object.Equals

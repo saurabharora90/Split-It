@@ -67,15 +67,17 @@
                 <TextBlock FontWeight="Bold" FontSize="18" Foreground="White">
                     <Run Text="{Binding SelectedExpense.CurrencyCode}"/><Run Text="{Binding SelectedExpense.Cost}"/>
                 </TextBlock>
+                <TextBlock Foreground="White" FontSize="11" Visibility="{Binding SelectedExpense.Date, Converter={StaticResource EmptyStringToVisibilityConverter}}"
+                           Text="{Binding SelectedExpense.ExpenseDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM, yyyy'}" Margin="0,0,0,5"/>
                 <TextBlock Foreground="White" FontSize="11">
                     <Run Text="Added by"/>
                     <Run Text="{Binding SelectedExpense.CreatedBy.FirstName}"/>
                     <Run Text="on"/>
-                    <Run Text="{Binding SelectedExpense.CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd/MM/yyyy'}"/>
+                    <Run Text="{Binding SelectedExpense.CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM, yyyy'}"/>
                 </TextBlock>
                 <TextBlock Foreground="White" FontSize="11" Visibility="{Binding SelectedExpense.UpdatedBy, Converter={StaticResource EmptyStringToVisibilityConverter}}">
                     <Run Text="Last updated on"/>
-                    <Run Text="{Binding SelectedExpense.UpdatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd/MM/yyyy'}"/>
+                    <Run Text="{Binding SelectedExpense.UpdatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM, yyyy'}"/>
                 </TextBlock>
             </StackPanel>
         </RelativePanel>
