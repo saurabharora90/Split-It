@@ -286,8 +286,6 @@ namespace Split_It.ViewModel
                         ObservableCollection<ExpenseUser> users = new ObservableCollection<ExpenseUser>();
                         foreach (var item in CurrentGroup.Members)
                         {
-                            if (item.id == AppState.CurrentUser.id)
-                                continue;
                             ExpenseUser userToAdd = new ExpenseUser() { User = item, UserId = item.id };
                             users.Add(userToAdd);
                         }

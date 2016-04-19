@@ -1,4 +1,6 @@
-﻿namespace Split_It.Model
+﻿using Split_It.Utils;
+
+namespace Split_It.Model
 {
     public class User : GalaSoft.MvvmLight.ObservableObject
     {
@@ -199,6 +201,8 @@
         {
             get
             {
+                if (AppState.CurrentUser!=null && id == AppState.CurrentUser.id)
+                    return "You";
                 if (LastName == null)
                     return FirstName;
                 else

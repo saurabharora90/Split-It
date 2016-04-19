@@ -124,12 +124,13 @@ namespace Split_It.ViewModel
 
                         ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
                         if (users == null)
+                        {
                             users = new ObservableCollection<ExpenseUser>();
+                            users.Add(new ExpenseUser() { User = AppState.CurrentUser, UserId = AppState.CurrentUser.id });
+                        }
 
                         foreach (var item in membersList)
                         {
-                            if (item.id == AppState.CurrentUser.id)
-                                continue;
                             ExpenseUser userToAdd = new ExpenseUser() { User = item, UserId = item.id };
                             if (users.Contains(userToAdd))
                                 continue;
