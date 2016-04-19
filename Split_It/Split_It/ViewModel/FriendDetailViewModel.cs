@@ -176,7 +176,7 @@ namespace Split_It.ViewModel
                     ?? (_addExpenseCommand = new RelayCommand(
                     () =>
                     {
-                        _navigationService.NavigateTo(ViewModelLocator.AddExpensePageKey);
+                        _navigationService.NavigateTo(ViewModelLocator.AddExpensePageKey, CurrentFriend);
                     }));
             }
         }

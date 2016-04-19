@@ -7,7 +7,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.DataContext>
+        <Binding Path="AddExpenseVM" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Background="{StaticResource splitwiseGreen}" Orientation="Horizontal">
+            <Button FontFamily="Segoe MDL2 Assets"
+					Foreground="White"
+					Content="&#xE72B;"
+					Width="50" Height="50" 
+                    Command="{Binding GoBackCommand}"
+					Background="Transparent" Style="{StaticResource NoBorderSelectButton}"/>
 
+            <TextBlock Text="Add Expense" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        </StackPanel>
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Command="{Binding RecordExpenseCommand}" Icon="Save" Label="save"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

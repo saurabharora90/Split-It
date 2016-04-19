@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using Split_It.Events;
 using Split_It.Model;
 using Split_It.Service;
 using System;
@@ -181,20 +182,38 @@ namespace Split_It.ViewModel
 
         #region Commands
 
-        private RelayCommand _recordExpense;
+        private RelayCommand _recordExpenseCommand;
 
         /// <summary>
-        /// Gets the RecordExpense.
+        /// Gets the RecordExpenseCommand.
         /// </summary>
-        public RelayCommand RecordExpense
+        public RelayCommand RecordExpenseCommand
         {
             get
             {
-                return _recordExpense
-                    ?? (_recordExpense = new RelayCommand(
+                return _recordExpenseCommand
+                    ?? (_recordExpenseCommand = new RelayCommand(
                     () =>
                     {
+                        //MessengerInstance.Send(new ExpenseAddedEvent(returnedExpense));
+                    }));
+            }
+        }
 
+        private RelayCommand _goBackCommand;
+
+        /// <summary>
+        /// Gets the GoBackCommand.
+        /// </summary>
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return _goBackCommand
+                    ?? (_goBackCommand = new RelayCommand(
+                    () =>
+                    {
+                        _navigationService.GoBack();
                     }));
             }
         }
