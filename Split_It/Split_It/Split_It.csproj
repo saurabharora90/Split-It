@@ -114,6 +114,8 @@
     </Compile>
     <Compile Include="Converter\AddExpense\AvailableDetailsToBackgroudColorConverter.cs" />
     <Compile Include="Converter\AddExpense\DateTimeToStringConverter.cs" />
+    <Compile Include="Converter\AddExpense\ListSelectionToMemberConverter.cs" />
+    <Compile Include="Converter\AddExpense\GroupSelectedToMembersConverter.cs" />
     <Compile Include="Converter\Balance\AmountConverter.cs" />
     <Compile Include="Converter\Balance\BaseConverter.cs" />
     <Compile Include="Converter\Comment\CommentTypeFontWeightConverter.cs" />

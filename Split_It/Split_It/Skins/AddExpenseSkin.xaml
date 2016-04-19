@@ -5,7 +5,7 @@
     <Style TargetType="DatePicker">
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="MinWidth" Value="186"/>
+        <Setter Property="MinWidth" Value="150"/>
         <Setter Property="MaxWidth" Value="456"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
@@ -110,11 +110,11 @@
                         <Button x:Name="FlyoutButton" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{TemplateBinding IsEnabled}" Style="{StaticResource DatePickerFlyoutButtonStyle}">
                             <Grid x:Name="FlyoutButtonContentGrid">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition x:Name="DayColumn" Width="78*"/>
+                                    <ColumnDefinition x:Name="DayColumn" Width="70*"/>
                                     <ColumnDefinition x:Name="FirstSpacerColumn" Width="Auto"/>
                                     <ColumnDefinition x:Name="MonthColumn" Width="78*"/>
                                     <ColumnDefinition x:Name="SecondSpacerColumn" Width="Auto"/>
-                                    <ColumnDefinition x:Name="YearColumn" Width="78*"/>
+                                    <ColumnDefinition x:Name="YearColumn" Width="90*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock x:Name="DayTextBlock" AutomationProperties.AccessibilityView="Raw" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Padding="0,3,0,5" TextAlignment="Center" Text="Day"/>
                                 <TextBlock x:Name="MonthTextBlock" AutomationProperties.AccessibilityView="Raw" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Padding="10,3,0,5" TextAlignment="Left" Text="Month"/>

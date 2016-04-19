@@ -282,7 +282,17 @@ namespace Split_It.ViewModel
                     ?? (_addExpenseCommand = new RelayCommand(
                     () =>
                     {
-                        _navigationService.NavigateTo(ViewModelLocator.AddExpensePageKey, CurrentGroup);
+                        var expense = new Expense() { CurrencyCode = AppState.CurrentUser.DefaultCurrency, GroupId = CurrentGroup.Id };
+                        ObservableCollection<ExpenseUser> users = new ObservableCollection<ExpenseUser>();
+                        foreach (var item in CurrentGroup.Members)
+                        {
+                            if (item.id == AppState.CurrentUser.id)
+                                continue;
+                            ExpenseUser userToAdd = new ExpenseUser() { User = item, UserId = item.id };
+                            users.Add(userToAdd);
+                        }
+                        expense.Users = users;
+                        _navigationService.NavigateTo(ViewModelLocator.AddExpensePageKey, expense);
                     }));
             }
         }

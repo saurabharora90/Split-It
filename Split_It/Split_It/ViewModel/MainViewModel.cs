@@ -21,8 +21,8 @@ namespace Split_It.ViewModel
         INavigationService _navigationService;
         IDialogService _dialogService;
 
-        ObservableCollection<Group> _allGroupsList;
-        ObservableCollection<Friend> _allFriendsList;
+        public ObservableCollection<Group> AllGroupsList { get; private set; }
+        public ObservableCollection<Friend> AllFriendsList { get; private set; }
         ObservableCollection<Friendship> _friendshipList;
 
         public ObservableCollection<GroupFilter> GroupsFiltersList { get; private set; }
@@ -146,12 +146,12 @@ namespace Split_It.ViewModel
         {
             get
             {
-                if(SelectedFriendFilter == FriendFilter.All || _allFriendsList == null)
-                    return _allFriendsList;
+                if(SelectedFriendFilter == FriendFilter.All || AllFriendsList == null)
+                    return AllFriendsList;
                 else
                 {
                     ObservableCollection<Friend> filteredFriends = new ObservableCollection<Friend>();
-                    foreach (var friend in _allFriendsList)
+                    foreach (var friend in AllFriendsList)
                     {
                         UserBalance defaultBalance = null;
                         foreach (var balance in friend.Balance)
@@ -232,38 +232,43 @@ namespace Split_It.ViewModel
         {
             get
             {
-                if (SelectedGroupFilter == GroupFilter.AllGroups)
-                    return _allGroupsList;
-                else
+                ObservableCollection<Group> filteredGroupsList = new ObservableCollection<Group>();
+                foreach (var group in AllGroupsList)
                 {
-                    ObservableCollection<Group> filteredGroupsList = new ObservableCollection<Group>();
-                    foreach (var group in _allGroupsList)
+                    if (group.Id == 0) //Don't display non-group expenses.
+                        continue;
+
+                    if (SelectedGroupFilter == GroupFilter.AllGroups)
                     {
-                        bool canAdd = false;
-                        Friend currentUser = null;
-                        foreach (var member in group.Members)
-                        {
-                            if(member.id == CurrentUser.id)
-                            {
-                                currentUser = member;
-                                break;
-                            }
-                        }
-
-                        foreach (var balance in currentUser.Balance)
-                        {
-                            if(Convert.ToDouble(balance.Amount)!=0)
-                            {
-                                canAdd = true;
-                                break;
-                            }
-                        }
-
-                        if (canAdd || DateTime.Now.Subtract(Convert.ToDateTime(group.UpdatedAt)).Days < 30)
-                            filteredGroupsList.Add(group);
+                        filteredGroupsList.Add(group);
+                        continue;
                     }
-                    return filteredGroupsList;
+
+                    bool canAdd = false;
+                    Friend currentUser = null;
+                    foreach (var member in group.Members)
+                    {
+                        if (member.id == CurrentUser.id)
+                        {
+                            currentUser = member;
+                            break;
+                        }
+                    }
+
+                    foreach (var balance in currentUser.Balance)
+                    {
+                        if (Convert.ToDouble(balance.Amount) != 0)
+                        {
+                            canAdd = true;
+                            break;
+                        }
+                    }
+
+                    if (canAdd || DateTime.Now.Subtract(Convert.ToDateTime(group.UpdatedAt)).Days < 30)
+                        filteredGroupsList.Add(group);
                 }
+                return filteredGroupsList;
+
             }
         }
 
@@ -355,8 +360,8 @@ namespace Split_It.ViewModel
 
                         CurrentUser = userTask.Result;
                         AppState.CurrentUser = CurrentUser;
-                        _allFriendsList = new ObservableCollection<Friend>(friendsTask.Result.OrderBy(p => p.FirstName));
-                        _allGroupsList = new ObservableCollection<Group>(groupsTask.Result.Where(p=>p.Id!=0).OrderBy(p => p.Name));
+                        AllFriendsList = new ObservableCollection<Friend>(friendsTask.Result.OrderBy(p => p.FirstName));
+                        AllGroupsList = new ObservableCollection<Group>(groupsTask.Result.OrderBy(p => p.Name));
                         _friendshipList = new ObservableCollection<Friendship>(friendshipTask.Result);
 
                         RaisePropertyChanged(FriendsListPropertyName);

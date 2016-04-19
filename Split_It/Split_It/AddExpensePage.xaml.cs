@@ -24,5 +24,14 @@ namespace Split_It
             if (e.Parameter is Expense)
                 dataContext.ExpenseToAdd = e.Parameter as Expense;
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                ((AddExpenseViewModel)(DataContext)).Cleanup();
+            }
+            base.OnNavigatedFrom(e);
+        }
     }
 }

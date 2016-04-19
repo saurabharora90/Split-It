@@ -36,7 +36,7 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string ExpenseToAddPropertyName = "ExpenseToAdd";
 
-        private Expense _expenseToAdd = new Expense() { CurrencyCode = AppState.CurrentUser.DefaultCurrency };
+        private Expense _expenseToAdd = new Expense() { CurrencyCode = AppState.CurrentUser.DefaultCurrency , GroupId = 0};
 
         /// <summary>
         /// Sets and gets the ExpenseToAdd property.
@@ -58,66 +58,6 @@ namespace Split_It.ViewModel
 
                 _expenseToAdd = value;
                 RaisePropertyChanged(ExpenseToAddPropertyName);
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="SelectedGroup" /> property's name.
-        /// </summary>
-        public const string SelectedGroupPropertyName = "SelectedGroup";
-
-        private Group _selectedGroup = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedGroup property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public Group SelectedGroup
-        {
-            get
-            {
-                return _selectedGroup;
-            }
-
-            set
-            {
-                if (_selectedGroup == value)
-                {
-                    return;
-                }
-
-                _selectedGroup = value;
-                RaisePropertyChanged(SelectedGroupPropertyName);
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="SelectedFriendsList" /> property's name.
-        /// </summary>
-        public const string SelectedFriendsListPropertyName = "SelectedFriendsList";
-
-        private ObservableCollection<Friend> _selectedFriendsList = null;
-
-        /// <summary>
-        /// Sets and gets the SelectedFriendsList property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<Friend> SelectedFriendsList
-        {
-            get
-            {
-                return _selectedFriendsList;
-            }
-
-            set
-            {
-                if (_selectedFriendsList == value)
-                {
-                    return;
-                }
-
-                _selectedFriendsList = value;
-                RaisePropertyChanged(SelectedFriendsListPropertyName);
             }
         }
 
@@ -166,6 +106,63 @@ namespace Split_It.ViewModel
 
         #region Commands
 
+        private RelayCommand<IEnumerable<Friend>> _groupSelectedCommand;
+
+        /// <summary>
+        /// Gets the GroupSelectedCommand.
+        /// </summary>
+        public RelayCommand<IEnumerable<Friend>> GroupSelectedCommand
+        {
+            get
+            {
+                return _groupSelectedCommand
+                    ?? (_groupSelectedCommand = new RelayCommand<IEnumerable<Friend>>(
+                    membersList =>
+                    {
+                        if (membersList == null)
+                            return;
+
+                        ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
+                        if (users == null)
+                            users = new ObservableCollection<ExpenseUser>();
+
+                        foreach (var item in membersList)
+                        {
+                            if (item.id == AppState.CurrentUser.id)
+                                continue;
+                            ExpenseUser userToAdd = new ExpenseUser() { User = item, UserId = item.id };
+                            if (users.Contains(userToAdd))
+                                continue;
+                            users.Add(userToAdd);
+                        }
+                        ExpenseToAdd.Users = users;
+                    }));
+            }
+        }
+
+        private RelayCommand<ExpenseUser> _removeUserCommand;
+
+        /// <summary>
+        /// Gets the RemoveUserCommand.
+        /// </summary>
+        public RelayCommand<ExpenseUser> RemoveUserCommand
+        {
+            get
+            {
+                return _removeUserCommand
+                    ?? (_removeUserCommand = new RelayCommand<ExpenseUser>(
+                    user =>
+                    {
+                        if (user == null)
+                            return;
+
+                        ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
+                        users.Remove(user);
+                        ExpenseToAdd.Users = users;
+                    }));
+            }
+        }
+
         private RelayCommand _recordExpenseCommand;
 
         /// <summary>
@@ -207,11 +204,8 @@ namespace Split_It.ViewModel
 
         public override void Cleanup()
         {
-            if (SelectedFriendsList != null)
-                SelectedFriendsList.Clear();
-            SelectedFriendsList = null;
-            SelectedGroup = null;
             ExpenseToAdd = null;
+            ExpenseToAdd = new Expense() { CurrencyCode = AppState.CurrentUser.DefaultCurrency, GroupId = 0 };
             base.Cleanup();
         }
     }
