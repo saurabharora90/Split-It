@@ -93,18 +93,7 @@ namespace Split_It.Service
                 Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
                 Newtonsoft.Json.Linq.JToken testToken = root["groups"];
 
-                var groups = JsonConvert.DeserializeObject<List<Group>>(testToken.ToString(), _jsonSettings);
-
-                for (int i = 0; i < groups.Count(); i++)
-                {
-                    if (groups[i].Id == 0 || groups[i].GroupId == 0) //remove non-group expenses.
-                    {
-                        groups.RemoveAt(i);
-                        break;
-                    }
-                }
-                client.Dispose();
-                return groups as IEnumerable<Group>;
+                return JsonConvert.DeserializeObject<IEnumerable<Group>>(testToken.ToString(), _jsonSettings);
             }
             else
             {

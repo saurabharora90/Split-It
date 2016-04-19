@@ -101,7 +101,9 @@
 
                     <DatePicker MonthFormat="{}{month.abbreviated}" 
                                 Date="{Binding ExpenseToAdd.Date, Mode=TwoWay, Converter={StaticResource DateTimeToStringConverter}}" />
-                    <ComboBox Grid.Column="1" VerticalAlignment="Center" Margin="15,0"/>
+                    <ComboBox Grid.Column="1" VerticalAlignment="Center" Margin="15,0"
+                              ItemsSource="{Binding MainVM.GroupsList, Source={StaticResource Locator}}"
+                              DisplayMemberPath="Name"/>
                     <Button Grid.Column="2" Content="&#xE8BD;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                             Background="Transparent" Style="{StaticResource NoBorderSelectButton}"
                             Foreground="{Binding ExpenseToAdd.Details, Converter={StaticResource AvailableDetailsToBackgroudColorConverter}}">
