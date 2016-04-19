@@ -124,10 +124,7 @@ namespace Split_It.ViewModel
 
                         ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
                         if (users == null)
-                        {
                             users = new ObservableCollection<ExpenseUser>();
-                            users.Add(new ExpenseUser() { User = AppState.CurrentUser, UserId = AppState.CurrentUser.id });
-                        }
 
                         foreach (var item in membersList)
                         {
@@ -159,6 +156,34 @@ namespace Split_It.ViewModel
 
                         ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
                         users.Remove(user);
+                        ExpenseToAdd.Users = users;
+                    }));
+            }
+        }
+
+        private RelayCommand<ExpenseUser> _addUserCommand;
+
+        /// <summary>
+        /// Gets the AddUserCommand.
+        /// </summary>
+        public RelayCommand<ExpenseUser> AddUserCommand
+        {
+            get
+            {
+                return _addUserCommand
+                    ?? (_addUserCommand = new RelayCommand<ExpenseUser>(
+                    user =>
+                    {
+                        if (user == null)
+                            return;
+
+                        ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
+                        if (users == null)
+                        {
+                            users = new ObservableCollection<ExpenseUser>();
+                            users.Add(new ExpenseUser() { User = AppState.CurrentUser, UserId = AppState.CurrentUser.id });
+                        }
+                        users.Add(user);
                         ExpenseToAdd.Users = users;
                     }));
             }
