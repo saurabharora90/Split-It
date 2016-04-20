@@ -6,6 +6,7 @@ namespace Split_It.Service
     public interface IContentDialogService
     {
         Task showWhoPaidDialog(Expense expense);
+        Task showIOUDialog(Expense expense);
         Task showSplitDialog(Expense expense);
     }
 }

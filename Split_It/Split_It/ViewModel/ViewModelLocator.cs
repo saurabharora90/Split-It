@@ -49,6 +49,7 @@ namespace Split_It.ViewModel
             SimpleIoc.Default.Register<AddExpenseViewModel>();
 
             SimpleIoc.Default.Register<WhoPaidDialogViewModel>();
+            SimpleIoc.Default.Register<IOUDialogViewModel>();
         }
 
         /// <summary>
@@ -146,6 +147,19 @@ namespace Split_It.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<WhoPaidDialogViewModel>();
+            }
+        }
+        /// <summary>
+        /// Gets the IOUDialogVM property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public IOUDialogViewModel IOUDialogVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IOUDialogViewModel>();
             }
         }
     }

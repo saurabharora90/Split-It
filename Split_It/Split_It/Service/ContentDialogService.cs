@@ -7,6 +7,12 @@ namespace Split_It.Service
 {
     public class ContentDialogService : IContentDialogService
     {
+        public async Task showIOUDialog(Expense expense)
+        {
+            IOUDialog dialog = new IOUDialog(expense);
+            await dialog.ShowAsync();
+        }
+
         public Task showSplitDialog(Expense expense)
         {
             throw new NotImplementedException();

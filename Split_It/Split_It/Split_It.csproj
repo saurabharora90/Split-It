@@ -144,6 +144,9 @@
     <Compile Include="Converter\Summary\GroupSummaryUserTextConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
+    <Compile Include="Dialog\IOUDialog.xaml.cs">
+      <DependentUpon>IOUDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialog\WhoPaidDialog.xaml.cs">
       <DependentUpon>WhoPaidDialog.xaml</DependentUpon>
     </Compile>
@@ -203,6 +206,7 @@
     <Compile Include="ViewModel\ExpenseDetailViewModel.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\GroupDetailViewModel.cs" />
+    <Compile Include="ViewModel\IOUDialogViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -231,6 +235,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AddExpensePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\IOUDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

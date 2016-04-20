@@ -269,7 +269,11 @@ namespace Split_It.ViewModel
                     ?? (_splitCommand = new RelayCommand(
                     async () =>
                     {
-                        await _contentDialogService.showSplitDialog(ExpenseToAdd);
+                        if (ExpenseToAdd.Users.Count() == 2)
+                            await _contentDialogService.showIOUDialog(ExpenseToAdd);
+                        else
+                            await _contentDialogService.showSplitDialog(ExpenseToAdd);
+
                         RaisePropertyChanged(ExpenseToAddPropertyName);
                         _hasSetSplit = true;
                     }));
@@ -335,7 +339,7 @@ namespace Split_It.ViewModel
 
         private void setupExpenseSplit()
         {
-            if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2)
+            if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2 || ExpenseToAdd.Id == 0)
                 SplitType = ExpenseSplit.EQUALLY;
             else
             {
@@ -361,7 +365,7 @@ namespace Split_It.ViewModel
                     }
                 }
 
-
+                SplitType = ExpenseSplit.UNEQUALLY; //To edit expense with more than 2 users, we just default to unequal. Makes life easier
             }
         }
 
