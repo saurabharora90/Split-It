@@ -339,6 +339,28 @@ namespace Split_It.ViewModel
                 SplitType = ExpenseSplit.EQUALLY;
             else
             {
+                if(ExpenseToAdd.Users.Count() == 2)
+                {
+                    //Here we check if it is ExpenseSplit.THEY_OWE or ExpenseSplit.YOU_OWE
+                    var enumarator = ExpenseToAdd.Users.GetEnumerator();
+                    enumarator.MoveNext();
+                    var user = enumarator.Current;
+                    enumarator.Dispose();
+                    if (System.Convert.ToDouble(user.OwedShare) == 0)
+                    {
+                        if(user.UserId == AppState.CurrentUser.id)
+                        {
+                            SplitType = ExpenseSplit.THEY_OWE;
+                            return;
+                        }
+                        else
+                        {
+                            SplitType = ExpenseSplit.YOU_OWE;
+                            return;
+                        }
+                    }
+                }
+
 
             }
         }

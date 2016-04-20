@@ -53,7 +53,7 @@
 				Command="{Binding GoBackCommand}"
 				Background="Transparent" Style="{StaticResource NoBorderSelectButton}"/>
 
-            <TextBlock Text="Add Expense" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBlock Text="Add Expense" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0" x:Name="Title"/>
         </StackPanel>
 
         <Grid Grid.Row="1" Padding='20,15'>

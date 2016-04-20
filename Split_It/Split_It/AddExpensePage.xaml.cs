@@ -27,7 +27,11 @@ namespace Split_It
             base.OnNavigatedTo(e);
             var dataContext = ((AddExpenseViewModel)(DataContext));
             if (e.Parameter is Expense)
+            {
                 dataContext.ExpenseToAdd = e.Parameter as Expense;
+                if (dataContext.ExpenseToAdd.Id != 0)
+                    Title.Text = "Edit Expense";
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
