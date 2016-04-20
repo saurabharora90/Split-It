@@ -65,41 +65,43 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Vertical">
-                <TextBlock VerticalAlignment="Center">
-					<Run Text="With"/>
-					<Run Text="you" FontWeight="Bold"/>
-					<Run Text="and:"/>
-                </TextBlock>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="50"/>
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
 
-                    <TextBlock Text="Friends:" VerticalAlignment="Center"/>
-                    <AutoSuggestBox Grid.Column="1" VerticalAlignment="Center" PlaceholderText="Select friends"
-						            DisplayMemberPath="Name" TextMemberPath="Name" x:Name="friendsBox" 
-                                    TextChanged="friendsBox_TextChanged" SuggestionChosen="friendsBox_SuggestionChosen"
-                                    ItemsSource="{Binding MainVM.AllFriendsList, Source={StaticResource Locator}}"/>
+                <TextBlock Text="Friends:" VerticalAlignment="Center"/>
+                <AutoSuggestBox Grid.Column="1" VerticalAlignment="Center" PlaceholderText="Select friends"
+						        TextMemberPath="Name" x:Name="friendsBox" 
+                                TextChanged="friendsBox_TextChanged" SuggestionChosen="friendsBox_SuggestionChosen"
+                                ItemsSource="{Binding MainVM.AllFriendsList, Source={StaticResource Locator}}">
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Height="40">
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"
+                                           Padding="{ThemeResource TextControlThemePadding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+                </AutoSuggestBox>
 
-                    <TextBlock Text="Group" VerticalAlignment="Center" Grid.Row="1"/>
-                    <ComboBox Grid.Column="1" VerticalAlignment="Center" Grid.Row="1" Width="{Binding ActualWidth, ElementName=friendsBox}"
+                <TextBlock Text="Group" VerticalAlignment="Center" Grid.Row="1"/>
+                <ComboBox Grid.Column="1" VerticalAlignment="Center" Grid.Row="1" Width="{Binding ActualWidth, ElementName=friendsBox}"
 						      ItemsSource="{Binding MainVM.AllGroupsList, Source={StaticResource Locator}}"
 						      SelectedValue="{Binding ExpenseToAdd.GroupId, Mode=TwoWay}" SelectedValuePath="Id"
 						      DisplayMemberPath="Name">
-                        <Interactivity:Interaction.Behaviors>
-                            <Core:EventTriggerBehavior EventName="SelectionChanged">
-                                <Core:InvokeCommandAction Command="{Binding GroupSelectedCommand, Mode=OneWay}" InputConverter="{StaticResource SelectionToMemberConverter}"/>
-                            </Core:EventTriggerBehavior>
-                        </Interactivity:Interaction.Behaviors>
-                    </ComboBox>
-                </Grid>
-            </StackPanel>
+                    <Interactivity:Interaction.Behaviors>
+                        <Core:EventTriggerBehavior EventName="SelectionChanged">
+                            <Core:InvokeCommandAction Command="{Binding GroupSelectedCommand, Mode=OneWay}" InputConverter="{StaticResource SelectionToMemberConverter}"/>
+                        </Core:EventTriggerBehavior>
+                    </Interactivity:Interaction.Behaviors>
+                </ComboBox>
+            </Grid>
 
             <Grid Grid.Row="1" Margin="0,20">
                 <Grid.ColumnDefinitions>
@@ -132,7 +134,7 @@
             </Grid>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
-                        Visibility="{Binding ExpenseToAdd.Users, Converter={StaticResource EmptyStringToVisibilityConverter}}">
+                        Visibility="{Binding ExpenseToAdd.Users, Converter={StaticResource EmptyStringToVisibilityConverter}}" Margin="0,0,0,10">
                 <TextBlock Text="Paid by" VerticalAlignment="Center"/>
                 <Button Background="Transparent" Content="{Binding ExpenseToAdd.Users, Converter={StaticResource ExpenseWhoPaidConverter}}" 
                         Margin="5,0" Command="{Binding WhoPaidCommand}"

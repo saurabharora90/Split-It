@@ -293,13 +293,14 @@ namespace Split_It.Service
                 Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
                 Newtonsoft.Json.Linq.JToken testToken = root["expenses"];
 
-                return JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+                var expense = JsonConvert.DeserializeObject<IEnumerable<Expense>>(testToken.ToString(), _jsonSettings);
+                if (expense != null && expense.Count() != 0)
+                    return expense;
             }
-            else
-            {
-                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
-                return new List<Expense>();
-            }
+
+            Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+            return new List<Expense>();
+            
         }
 
         private class DeleteExpense
