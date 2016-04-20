@@ -230,6 +230,10 @@ namespace Split_It.ViewModel
                             users = new ObservableCollection<ExpenseUser>();
                             users.Add(new ExpenseUser() { User = AppState.CurrentUser, UserId = AppState.CurrentUser.id });
                         }
+
+                        if (users.Contains(user))
+                            return;
+
                         users.Add(user);
                         ExpenseToAdd.Users = users;
                     }));
@@ -314,10 +318,21 @@ namespace Split_It.ViewModel
 
                         if (!_hasSetSplit)
                         {
-                            decimal eachPersonAmount = System.Convert.ToDecimal(ExpenseToAdd.Cost) / ExpenseToAdd.Users.Count();
+                            decimal eachPersonAmount = Math.Round(Convert.ToDecimal(ExpenseToAdd.Cost) / ExpenseToAdd.Users.Count(), 2);
+                            decimal amountLeftOver = Convert.ToDecimal(ExpenseToAdd.Cost) - (eachPersonAmount * ExpenseToAdd.Users.Count());
                             foreach (var item in ExpenseToAdd.Users)
                             {
                                 item.OwedShare = eachPersonAmount.ToString();
+                            }
+                            //add the left over amount to the first person
+                            if(amountLeftOver != 0)
+                            {
+                                var enumerator = ExpenseToAdd.Users.GetEnumerator();
+                                enumerator.MoveNext();
+                                var user = enumerator.Current;
+                                decimal currentAmount = Convert.ToDecimal(user.OwedShare);
+                                decimal finalAmount = currentAmount + amountLeftOver;
+                                user.OwedShare = finalAmount.ToString();
                             }
                         }
 
