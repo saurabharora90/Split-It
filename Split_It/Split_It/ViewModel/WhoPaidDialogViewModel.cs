@@ -1,11 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Split_It.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Split_It.ViewModel
 {
@@ -75,6 +70,36 @@ namespace Split_It.ViewModel
 
                 _multiplePeopleSelected = value;
                 RaisePropertyChanged(MultiplePeopleSelectedPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CanExit" /> property's name.
+        /// </summary>
+        public const string CanExitPropertyName = "CanExit";
+
+        private bool _canExit = false;
+
+        /// <summary>
+        /// Sets and gets the CanExit property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool CanExit
+        {
+            get
+            {
+                return _canExit;
+            }
+
+            set
+            {
+                if (_canExit == value)
+                {
+                    return;
+                }
+
+                _canExit = value;
+                RaisePropertyChanged(CanExitPropertyName);
             }
         }
         

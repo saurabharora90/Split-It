@@ -18,12 +18,14 @@
             </ResourceDictionary.MergedDictionaries>
 
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            
+            <winux:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+
             <con_exp:AvailableDetailsToBackgroudColorConverter x:Key="AvailableDetailsToBackgroudColorConverter"/>
             <con_exp:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
             <con_exp:SelectionToMemberConverter x:Key="SelectionToMemberConverter"/>
             
             <converter:ExpenseWhoPaidConverter x:Key="ExpenseWhoPaidConverter"/>
+            <converter:EmptyStringToBooleanConverter x:Key="EmptyStringToBooleanConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -128,14 +130,17 @@
                 </Grid>
             </Grid>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
+                        Visibility="{Binding ExpenseToAdd.Users, Converter={StaticResource EmptyStringToVisibilityConverter}}">
                 <TextBlock Text="Paid by" VerticalAlignment="Center"/>
                 <Button Background="Transparent" Content="{Binding ExpenseToAdd.Users, Converter={StaticResource ExpenseWhoPaidConverter}}" 
                         Margin="5,0" Command="{Binding WhoPaidCommand}"
+                        IsEnabled="{Binding ExpenseToAdd.Cost, Converter={StaticResource EmptyStringToBooleanConverter}}"
                         BorderBrush="{StaticResource settled}" BorderThickness="1"/>
                 <TextBlock Text="and split" VerticalAlignment="Center"/>
                 <Button Background="Transparent" Content="EQUALLY" 
-                        Margin="5,0"
+                        Margin="5,0" Command="{Binding SplitCommand}"
+                        IsEnabled="{Binding ExpenseToAdd.Cost, Converter={StaticResource EmptyStringToBooleanConverter}}"
                         BorderBrush="{StaticResource settled}" BorderThickness="1"/>
             </StackPanel>
 

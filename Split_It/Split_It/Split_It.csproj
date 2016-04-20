@@ -120,6 +120,7 @@
     <Compile Include="Converter\Comment\CommentTypeFontWeightConverter.cs" />
     <Compile Include="Converter\Comment\CommentTypeColorConverter.cs" />
     <Compile Include="Converter\Comment\CommentTypeVisibilityConverter.cs" />
+    <Compile Include="Converter\EmptyStringToBooleanConverter.cs" />
     <Compile Include="Converter\EnumToStringConverter.cs" />
     <Compile Include="Converter\ExpenseDescriptionConverter.cs" />
     <Compile Include="Converter\ExpenseDetailPaidSectionConverter.cs" />

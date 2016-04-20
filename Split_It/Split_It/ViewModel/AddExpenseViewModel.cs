@@ -21,6 +21,8 @@ namespace Split_It.ViewModel
         IDialogService _dialogService;
         IContentDialogService _contentDialogService;
 
+        bool _hasSetPaid, _hasSetSplit;
+
         public AddExpenseViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService, IContentDialogService contentDialogService)
         {
             _dataService = dataService;
@@ -58,6 +60,19 @@ namespace Split_It.ViewModel
 
                 _expenseToAdd = value;
                 RaisePropertyChanged(ExpenseToAddPropertyName);
+                if (ExpenseToAdd == null)
+                    return;
+
+                if(ExpenseToAdd.Id == 0)
+                {
+                    _hasSetPaid = false;
+                    _hasSetSplit = false;
+                }
+                else
+                {
+                    _hasSetPaid = true;
+                    _hasSetSplit = true;
+                }
             }
         }
 
@@ -204,6 +219,27 @@ namespace Split_It.ViewModel
                     {
                         await _contentDialogService.showWhoPaidDialog(ExpenseToAdd);
                         RaisePropertyChanged(ExpenseToAddPropertyName);
+                        _hasSetPaid = true;
+                    }));
+            }
+        }
+
+        private RelayCommand _splitCommand;
+
+        /// <summary>
+        /// Gets the SplitCommand.
+        /// </summary>
+        public RelayCommand SplitCommand
+        {
+            get
+            {
+                return _splitCommand
+                    ?? (_splitCommand = new RelayCommand(
+                    async () =>
+                    {
+                        await _contentDialogService.showSplitDialog(ExpenseToAdd);
+                        RaisePropertyChanged(ExpenseToAddPropertyName);
+                        _hasSetSplit = true;
                     }));
             }
         }

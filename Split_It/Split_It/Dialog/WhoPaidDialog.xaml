@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:utils="using:Split_It.Utils"
-    IsPrimaryButtonEnabled="{Binding MultiplePeopleSelected}"
+    IsPrimaryButtonEnabled="{Binding CanExit}"
     PrimaryButtonText="Ok">
 
     <ContentDialog.TitleTemplate>
