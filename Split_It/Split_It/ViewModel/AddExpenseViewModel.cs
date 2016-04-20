@@ -257,8 +257,25 @@ namespace Split_It.ViewModel
                     ?? (_recordExpenseCommand = new RelayCommand(
                     () =>
                     {
-                        string details = ExpenseToAdd.Details;
+                        if(ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2 || String.IsNullOrEmpty(ExpenseToAdd.Description) || String.IsNullOrEmpty(ExpenseToAdd.Cost))
+                        {
+                            _dialogService.ShowMessage("Please enter all the details", "Oops");
+                            return;
+                        }
+                        IsBusy = true;
+                        if(!_hasSetPaid)
+                        {
+                            foreach (var user in ExpenseToAdd.Users)
+                            {
+                                if(user.UserId == AppState.CurrentUser.id)
+                                {
+                                    user.PaidShare = ExpenseToAdd.Cost;
+                                    break;
+                                }
+                            }
+                        }
                         //MessengerInstance.Send(new ExpenseAddedEvent(returnedExpense));
+                        IsBusy = false;
                     }));
             }
         }
