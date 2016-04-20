@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:con_exp="using:Split_It.Converter.AddExpense"
+    xmlns:winux="using:WinUX.Xaml.Converters"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="Split_It.AddExpensePage"
     mc:Ignorable="d">
@@ -15,6 +16,7 @@
                 <ResourceDictionary Source="Skins/AddExpenseSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <con_exp:AvailableDetailsToBackgroudColorConverter x:Key="AvailableDetailsToBackgroudColorConverter"/>
             <con_exp:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
             <con_exp:SelectionToMemberConverter x:Key="SelectionToMemberConverter"/>
@@ -168,6 +170,11 @@
                 </Button>
             </Grid>
         </Grid>
+
+        <Canvas Background="DarkGray" Opacity="0.5" 
+					Grid.RowSpan="2"
+					Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressRing IsActive="{Binding IsBusy}" Grid.Row="1"/>
     </Grid>
 
 </Page>

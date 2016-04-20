@@ -77,7 +77,7 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string IsBusyPropertyName = "IsBusy";
 
-        private bool _isBusy = true;
+        private bool _isBusy = false;
 
         /// <summary>
         /// Sets and gets the IsBusy property.
