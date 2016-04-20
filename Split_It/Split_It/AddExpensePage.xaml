@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:con_exp="using:Split_It.Converter.AddExpense"
+    xmlns:converter="using:Split_It.Converter"
     xmlns:winux="using:WinUX.Xaml.Converters"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="Split_It.AddExpensePage"
@@ -17,9 +18,12 @@
             </ResourceDictionary.MergedDictionaries>
 
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            
             <con_exp:AvailableDetailsToBackgroudColorConverter x:Key="AvailableDetailsToBackgroudColorConverter"/>
             <con_exp:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
             <con_exp:SelectionToMemberConverter x:Key="SelectionToMemberConverter"/>
+            
+            <converter:ExpenseWhoPaidConverter x:Key="ExpenseWhoPaidConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -126,8 +130,8 @@
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Paid by" VerticalAlignment="Center"/>
-                <Button Background="Transparent" Content="YOU" 
-                        Margin="5,0"
+                <Button Background="Transparent" Content="{Binding ExpenseToAdd.Users, Converter={StaticResource ExpenseWhoPaidConverter}}" 
+                        Margin="5,0" Command="{Binding WhoPaidCommand}"
                         BorderBrush="{StaticResource settled}" BorderThickness="1"/>
                 <TextBlock Text="and split" VerticalAlignment="Center"/>
                 <Button Background="Transparent" Content="EQUALLY" 

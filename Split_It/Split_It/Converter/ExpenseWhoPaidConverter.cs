@@ -10,6 +10,9 @@ namespace Split_It.Converter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            if (value == null) //This is for AddExpensePage
+                return "You";
+
             var expenseUser = value as IEnumerable<ExpenseUser>;
             int numberOfPeoplePaid = 0;
             User paidUser = null;
@@ -21,7 +24,10 @@ namespace Split_It.Converter
                     numberOfPeoplePaid++;
                 }
             }
-            if (numberOfPeoplePaid > 1)
+            if (paidUser == null) //Also for AddExpensePage
+                return "You";
+
+            else if (numberOfPeoplePaid > 1)
                 return numberOfPeoplePaid.ToString() + " people";
             else
             {

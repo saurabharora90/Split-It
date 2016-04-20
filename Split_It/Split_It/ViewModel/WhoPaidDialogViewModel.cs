@@ -37,6 +37,7 @@ namespace Split_It.ViewModel
 
             set
             {
+                MultiplePeopleSelected = false;
                 if (_currentExpense == value)
                 {
                     return;
@@ -74,6 +75,17 @@ namespace Split_It.ViewModel
 
                 _multiplePeopleSelected = value;
                 RaisePropertyChanged(MultiplePeopleSelectedPropertyName);
+            }
+        }
+        
+        public ExpenseUser SelectedUser
+        {
+            set
+            {
+                foreach (var item in CurrentExpense.Users)
+                    item.PaidShare = "0.0";
+                
+                value.PaidShare = CurrentExpense.Cost;
             }
         }
 

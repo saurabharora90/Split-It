@@ -15,8 +15,9 @@ namespace Split_It.Dialog
             dataContext.CurrentExpense = expense;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Hide();
         }
     }
 }

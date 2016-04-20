@@ -151,7 +151,7 @@ namespace Split_It.ViewModel
                     ?? (_removeUserCommand = new RelayCommand<ExpenseUser>(
                     user =>
                     {
-                        if (user == null)
+                        if (user == null || user.UserId == AppState.CurrentUser.id) //Cannot remove self
                             return;
 
                         ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
@@ -185,6 +185,25 @@ namespace Split_It.ViewModel
                         }
                         users.Add(user);
                         ExpenseToAdd.Users = users;
+                    }));
+            }
+        }
+
+        private RelayCommand _whoPaidCommand;
+
+        /// <summary>
+        /// Gets the WhoPaidCommand.
+        /// </summary>
+        public RelayCommand WhoPaidCommand
+        {
+            get
+            {
+                return _whoPaidCommand
+                    ?? (_whoPaidCommand = new RelayCommand(
+                    async () =>
+                    {
+                        await _contentDialogService.showWhoPaidDialog(ExpenseToAdd);
+                        RaisePropertyChanged(ExpenseToAddPropertyName);
                     }));
             }
         }

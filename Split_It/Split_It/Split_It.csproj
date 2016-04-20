@@ -194,6 +194,7 @@
     <Compile Include="Utils\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
     <Compile Include="Utils\DisplayAttribute.cs" />
     <Compile Include="Utils\FlyoutHelpers.cs" />
+    <Compile Include="Utils\SelectAllTextBoxBehavior.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="ViewModel\AddExpenseViewModel.cs" />
     <Compile Include="ViewModel\BaseEntityDetailViewModel.cs" />

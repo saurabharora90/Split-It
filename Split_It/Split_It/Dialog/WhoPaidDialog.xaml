@@ -7,12 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winux="using:WinUX.Xaml.Converters"
     mc:Ignorable="d"
-    PrimaryButtonText="Ok"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:utils="using:Split_It.Utils"
+    IsPrimaryButtonEnabled="{Binding MultiplePeopleSelected}"
+    PrimaryButtonText="Ok">
 
     <ContentDialog.TitleTemplate>
         <DataTemplate>
-            <TextBlock Text="Choose Payer" FontWeight="Bold" FontSize="18"/>
+            <TextBlock Text="Choose Payer" FontWeight="Bold" FontSize="16"/>
         </DataTemplate>
     </ContentDialog.TitleTemplate>
 
@@ -29,21 +31,23 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Button Height="40" Style="{StaticResource NoBorderSelectButton}" 
+        <Button Height="50" Style="{StaticResource NoBorderSelectButton}" 
                 Visibility="{Binding MultiplePeopleSelected, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                 Command="{Binding MultiplePeopleSelectedCommand}"
                 Content="Multiple People" Grid.Row="1" Background="Transparent"/>
 
-        <ListView ItemsSource="{Binding CurrentExpense.Users}" >
+        <ListView ItemsSource="{Binding CurrentExpense.Users}" SelectedValue="{Binding SelectedUser, Mode=TwoWay}" 
+                  SelectionChanged="ListView_SelectionChanged"
+                  Visibility="{Binding MultiplePeopleSelected, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="40">
+                    <Grid Height="50">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Ellipse Style="{StaticResource RoundImage}">
                             <Ellipse.Fill>
@@ -55,5 +59,35 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <ListView ItemsSource="{Binding CurrentExpense.Users}" 
+                  Visibility="{Binding MultiplePeopleSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Style="{StaticResource RoundImage}">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" Grid.Column="1" Margin="10,0,0,0"/>
+                        <TextBox Text="{Binding PaidShare, Mode=TwoWay}" VerticalAlignment="Center" Grid.Column="2" 
+                                 PlaceholderText="0.00" InputScope="CurrencyAmount">
+                            <Interactivity:Interaction.Behaviors>
+                                <utils:SelectAllTextBoxBehavior />
+                            </Interactivity:Interaction.Behaviors>
+                        </TextBox>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        
+        
     </Grid>
 </ContentDialog>
