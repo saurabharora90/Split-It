@@ -10,7 +10,7 @@
 
     <ContentDialog.TitleTemplate>
         <DataTemplate>
-            <TextBlock Text="Split Detsil" FontSize="16" FontWeight="Bold"/>
+            <TextBlock Text="Split Detail" FontSize="16" FontWeight="Bold"/>
         </DataTemplate>
     </ContentDialog.TitleTemplate>
 

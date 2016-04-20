@@ -50,6 +50,7 @@ namespace Split_It.ViewModel
 
             SimpleIoc.Default.Register<WhoPaidDialogViewModel>();
             SimpleIoc.Default.Register<IOUDialogViewModel>();
+            SimpleIoc.Default.Register<SplitDialogViewModel>();
         }
 
         /// <summary>
@@ -160,6 +161,20 @@ namespace Split_It.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<IOUDialogViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the SplitDialogVM property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public SplitDialogViewModel SplitDialogVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SplitDialogViewModel>();
             }
         }
     }

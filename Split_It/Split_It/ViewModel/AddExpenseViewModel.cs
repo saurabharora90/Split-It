@@ -285,8 +285,8 @@ namespace Split_It.ViewModel
                             await _contentDialogService.showSplitDialog(ExpenseToAdd);
 
                         RaisePropertyChanged(ExpenseToAddPropertyName);
-                        setupExpenseSplit();
                         _hasSetSplit = true;
+                        setupExpenseSplit();
                     }));
             }
         }

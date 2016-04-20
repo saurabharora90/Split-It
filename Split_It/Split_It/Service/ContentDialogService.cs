@@ -13,9 +13,10 @@ namespace Split_It.Service
             await dialog.ShowAsync();
         }
 
-        public Task showSplitDialog(Expense expense)
+        public async Task showSplitDialog(Expense expense)
         {
-            throw new NotImplementedException();
+            SplitDialog dialog = new SplitDialog(expense);
+            await dialog.ShowAsync();
         }
 
         public async Task showWhoPaidDialog(Expense expense)

@@ -1,0 +1,73 @@
+﻿<ContentDialog
+    x:Class="Split_It.Dialog.SplitDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Split_It.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:Split_It.Converter"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:utils="using:Split_It.Utils"
+    mc:Ignorable="d"
+    PrimaryButtonText="OKAY">
+
+    <ContentDialog.TitleTemplate>
+        <DataTemplate>
+            <TextBlock Text="Split Detail" FontSize="16" FontWeight="Bold"/>
+        </DataTemplate>
+    </ContentDialog.TitleTemplate>
+
+    <ContentDialog.DataContext>
+        <Binding Path="SplitDialogVM" Source="{StaticResource Locator}"/>
+    </ContentDialog.DataContext>
+
+    <ContentDialog.Resources>
+        <converter:EnumToStringConverter x:Key="EnumToStringConverter"/>
+    </ContentDialog.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ComboBox ItemsSource="{Binding SplitOptions}" HorizontalAlignment="Center" Width="150"
+                  Margin="0,10" SelectedIndex="0"
+                  SelectedItem="{Binding SelectedSplitOption, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Height="30">
+                        <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}" 
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ListView ItemsSource="{Binding CurrentExpense.Users}" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Style="{StaticResource RoundImage}">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" Grid.Column="1" Margin="10,0,0,0"/>
+                        <TextBox Text="{Binding OwedShare, Mode=TwoWay}" VerticalAlignment="Center" Grid.Column="2" 
+                                 PlaceholderText="0.00" InputScope="CurrencyAmount">
+                            <Interactivity:Interaction.Behaviors>
+                                <utils:SelectAllTextBoxBehavior />
+                            </Interactivity:Interaction.Behaviors>
+                        </TextBox>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentDialog>
