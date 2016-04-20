@@ -279,6 +279,7 @@ namespace Split_It.ViewModel
                             await _contentDialogService.showSplitDialog(ExpenseToAdd);
 
                         RaisePropertyChanged(ExpenseToAddPropertyName);
+                        setupExpenseSplit();
                         _hasSetSplit = true;
                     }));
             }
@@ -376,29 +377,32 @@ namespace Split_It.ViewModel
 
         private void setupExpenseSplit()
         {
-            if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2 || ExpenseToAdd.Id == 0)
+            if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2)
                 SplitType = ExpenseSplit.EQUALLY;
             else
             {
-                if(ExpenseToAdd.Users.Count() == 2)
+                if (ExpenseToAdd.Users.Count() == 2)
                 {
                     //Here we check if it is ExpenseSplit.THEY_OWE or ExpenseSplit.YOU_OWE
-                    var enumarator = ExpenseToAdd.Users.GetEnumerator();
-                    enumarator.MoveNext();
-                    var user = enumarator.Current;
-                    enumarator.Dispose();
+                    ExpenseUser user = null;
+                    foreach (var item in ExpenseToAdd.Users)
+                    {
+                        if (item.UserId == AppState.CurrentUser.id)
+                        {
+                            user = item;
+                            break;
+                        }
+                    }
+
                     if (System.Convert.ToDouble(user.OwedShare) == 0)
                     {
-                        if(user.UserId == AppState.CurrentUser.id)
-                        {
-                            SplitType = ExpenseSplit.THEY_OWE;
-                            return;
-                        }
-                        else
-                        {
-                            SplitType = ExpenseSplit.YOU_OWE;
-                            return;
-                        }
+                        SplitType = ExpenseSplit.THEY_OWE;
+                        return;
+                    }
+                    else
+                    {
+                        SplitType = ExpenseSplit.YOU_OWE;
+                        return;
                     }
                 }
 

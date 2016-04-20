@@ -65,10 +65,21 @@ namespace Split_It.ViewModel
                 switch (value)
                 {
                     case ExpenseSplit.EQUALLY:
-                        decimal eachPersonAmount = System.Convert.ToDecimal(CurrentExpense.Cost) / 2;
+                        decimal eachPersonAmount = Math.Round(Convert.ToDecimal(CurrentExpense.Cost) / CurrentExpense.Users.Count(), 2);
+                        decimal amountLeftOver = Convert.ToDecimal(CurrentExpense.Cost) - (eachPersonAmount * CurrentExpense.Users.Count());
                         foreach (var item in CurrentExpense.Users)
                         {
                             item.OwedShare = eachPersonAmount.ToString();
+                        }
+                        //add the left over amount to the first person
+                        if (amountLeftOver != 0)
+                        {
+                            var enumerator = CurrentExpense.Users.GetEnumerator();
+                            enumerator.MoveNext();
+                            var user = enumerator.Current;
+                            decimal currentAmount = Convert.ToDecimal(user.OwedShare);
+                            decimal finalAmount = currentAmount + amountLeftOver;
+                            user.OwedShare = finalAmount.ToString();
                         }
                         break;
                     case ExpenseSplit.UNEQUALLY:

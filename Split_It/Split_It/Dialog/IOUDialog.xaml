@@ -6,12 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="using:Split_It.Converter"
-    mc:Ignorable="d"
-    Title="TITLE">
+    mc:Ignorable="d">
 
     <ContentDialog.TitleTemplate>
         <DataTemplate>
-            <TextBlock Text="Select Expense Type" FontSize="16" FontWeight="Bold"/>
+            <TextBlock Text="Split Detsil" FontSize="16" FontWeight="Bold"/>
         </DataTemplate>
     </ContentDialog.TitleTemplate>
 
@@ -27,7 +26,7 @@
         SelectionChanged="ListView_SelectionChanged">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal" Height="50">
+                <StackPanel Orientation="Horizontal" Height="30">
                     <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}" 
                                VerticalAlignment="Center"/>
                 </StackPanel>
