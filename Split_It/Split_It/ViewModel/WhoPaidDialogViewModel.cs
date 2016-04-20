@@ -33,13 +33,15 @@ namespace Split_It.ViewModel
             set
             {
                 MultiplePeopleSelected = false;
-                if (_currentExpense == value)
-                {
-                    return;
-                }
+                TotalInputCost = 0;
 
                 _currentExpense = value;
                 RaisePropertyChanged(CurrentExpensePropertyName);
+                if (CurrentExpense != null)
+                {
+                    subscribeToProperyChange(true);
+                    User_PropertyChanged(null, null);
+                }
             }
         }
 
@@ -70,6 +72,36 @@ namespace Split_It.ViewModel
 
                 _multiplePeopleSelected = value;
                 RaisePropertyChanged(MultiplePeopleSelectedPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="TotalInputCost" /> property's name.
+        /// </summary>
+        public const string TotalInputCostPropertyName = "TotalInputCost";
+
+        private double _totalInputCost = 0;
+
+        /// <summary>
+        /// Sets and gets the TotalInputCost property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public double TotalInputCost
+        {
+            get
+            {
+                return _totalInputCost;
+            }
+
+            set
+            {
+                if (_totalInputCost == value)
+                {
+                    return;
+                }
+
+                _totalInputCost = value;
+                RaisePropertyChanged(TotalInputCostPropertyName);
             }
         }
 
@@ -107,6 +139,7 @@ namespace Split_It.ViewModel
         {
             set
             {
+                subscribeToProperyChange(false);
                 foreach (var item in CurrentExpense.Users)
                     item.PaidShare = "0.0";
                 
@@ -134,6 +167,51 @@ namespace Split_It.ViewModel
                     }));
             }
         }
+
+        private RelayCommand _primaryCommand;
+
+        /// <summary>
+        /// Gets the PrimaryCommand.
+        /// </summary>
+        public RelayCommand PrimaryCommand
+        {
+            get
+            {
+                return _primaryCommand
+                    ?? (_primaryCommand = new RelayCommand(
+                    () =>
+                    {
+                        subscribeToProperyChange(false);
+                    }));
+            }
+        }
         #endregion
+
+        private void subscribeToProperyChange(bool register)
+        {
+            if (CurrentExpense == null)
+                return;
+
+            foreach (var user in CurrentExpense.Users)
+            {
+                if (register)
+                    user.PropertyChanged += User_PropertyChanged;
+                else
+                    user.PropertyChanged -= User_PropertyChanged;
+            }
+        }
+
+        private void User_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            TotalInputCost = 0;
+            foreach (var user in CurrentExpense.Users)
+            {
+                TotalInputCost += System.Convert.ToDouble(user.PaidShare);
+            }
+            if (TotalInputCost == System.Convert.ToDouble(CurrentExpense.Cost))
+                CanExit = true;
+            else
+                CanExit = false;
+        }
     }
 }

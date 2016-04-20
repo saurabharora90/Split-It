@@ -10,6 +10,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:utils="using:Split_It.Utils"
     IsPrimaryButtonEnabled="{Binding CanExit}"
+    PrimaryButtonCommand="{Binding PrimaryCommand}"
     PrimaryButtonText="Ok">
 
     <ContentDialog.TitleTemplate>
@@ -86,8 +87,17 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
-        
-        
+
+
+        <TextBlock HorizontalAlignment="Center" Grid.Row="2" Margin="0,15,0,0" 
+                   Visibility="{Binding MultiplePeopleSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Run Text="Total:"/>
+            <Run Text="{Binding CurrentExpense.CurrencyCode}"/>
+            <Run Text="{Binding TotalInputCost}"/>
+            <Run Text="of"/>
+            <Run Text="{Binding CurrentExpense.CurrencyCode}"/>
+            <Run Text="{Binding CurrentExpense.Cost}"/>
+        </TextBlock>
+
     </Grid>
 </ContentDialog>
