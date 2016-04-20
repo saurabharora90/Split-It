@@ -62,6 +62,7 @@ namespace Split_It.ViewModel
         {
             set
             {
+                CurrentExpense.CreationMethod = String.Empty;
                 switch (value)
                 {
                     case ExpenseSplit.EQUALLY:
@@ -81,6 +82,7 @@ namespace Split_It.ViewModel
                             decimal finalAmount = currentAmount + amountLeftOver;
                             user.OwedShare = finalAmount.ToString();
                         }
+                        CurrentExpense.CreationMethod = "equally";
                         break;
                     case ExpenseSplit.UNEQUALLY:
                         _contentDialogService.showSplitDialog(CurrentExpense);

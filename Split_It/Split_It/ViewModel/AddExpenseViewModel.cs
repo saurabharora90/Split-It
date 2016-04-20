@@ -181,6 +181,8 @@ namespace Split_It.ViewModel
                             users.Add(userToAdd);
                         }
                         ExpenseToAdd.Users = users;
+                        _hasSetSplit = false;
+                        setupExpenseSplit();
                     }));
             }
         }
@@ -204,6 +206,8 @@ namespace Split_It.ViewModel
                         ObservableCollection<ExpenseUser> users = ExpenseToAdd.Users as ObservableCollection<ExpenseUser>;
                         users.Remove(user);
                         ExpenseToAdd.Users = users;
+                        _hasSetSplit = false;
+                        setupExpenseSplit();
                     }));
             }
         }
@@ -236,6 +240,8 @@ namespace Split_It.ViewModel
 
                         users.Add(user);
                         ExpenseToAdd.Users = users;
+                        _hasSetSplit = false;
+                        setupExpenseSplit();
                     }));
             }
         }
@@ -377,7 +383,9 @@ namespace Split_It.ViewModel
 
         private void setupExpenseSplit()
         {
-            if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2)
+            if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 
+                || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2
+                || ExpenseToAdd.CreationMethod.Equals("equally") || !_hasSetSplit)
                 SplitType = ExpenseSplit.EQUALLY;
             else
             {
