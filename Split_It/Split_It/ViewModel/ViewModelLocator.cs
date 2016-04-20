@@ -39,6 +39,7 @@ namespace Split_It.ViewModel
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<ILoginService, LoginService>();
             SimpleIoc.Default.Register<IWebviewService, WebviewService>();
+            SimpleIoc.Default.Register<IContentDialogService, ContentDialogService>();
 
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
@@ -46,6 +47,8 @@ namespace Split_It.ViewModel
             SimpleIoc.Default.Register<GroupDetailViewModel>();
             SimpleIoc.Default.Register<ExpenseDetailViewModel>();
             SimpleIoc.Default.Register<AddExpenseViewModel>();
+
+            SimpleIoc.Default.Register<WhoPaidDialogViewModel>();
         }
 
         /// <summary>
@@ -129,6 +132,20 @@ namespace Split_It.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<AddExpenseViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the WhoPaidDialogVM property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public WhoPaidDialogViewModel WhoPaidDialogVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<WhoPaidDialogViewModel>();
             }
         }
     }

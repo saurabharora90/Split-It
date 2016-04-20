@@ -124,6 +124,17 @@
                 </Grid>
             </Grid>
 
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Paid by" VerticalAlignment="Center"/>
+                <Button Background="Transparent" Content="YOU" 
+                        Margin="5,0"
+                        BorderBrush="{StaticResource settled}" BorderThickness="1"/>
+                <TextBlock Text="and split" VerticalAlignment="Center"/>
+                <Button Background="Transparent" Content="EQUALLY" 
+                        Margin="5,0"
+                        BorderBrush="{StaticResource settled}" BorderThickness="1"/>
+            </StackPanel>
+
             <ListView Grid.Row="3" ItemsSource="{Binding ExpenseToAdd.Users}">
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="SelectionChanged">

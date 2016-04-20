@@ -11,8 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Split_It.ViewModel
 {
@@ -21,12 +19,14 @@ namespace Split_It.ViewModel
         IDataService _dataService;
         INavigationService _navigationService;
         IDialogService _dialogService;
+        IContentDialogService _contentDialogService;
 
-        public AddExpenseViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService)
+        public AddExpenseViewModel(IDataService dataService, INavigationService navigationService, IDialogService dialogService, IContentDialogService contentDialogService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _contentDialogService = contentDialogService;
         }
 
         #region Properties
