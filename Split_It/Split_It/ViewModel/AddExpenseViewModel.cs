@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Views;
 using Newtonsoft.Json;
 using Split_It.Events;
 using Split_It.Model;
+using Split_It.Model.Enum;
 using Split_It.Service;
 using Split_It.Utils;
 using System;
@@ -63,6 +64,7 @@ namespace Split_It.ViewModel
                 if (ExpenseToAdd == null)
                     return;
 
+                setupExpenseSplit();
                 if(ExpenseToAdd.Id == 0)
                 {
                     _hasSetPaid = false;
@@ -84,6 +86,36 @@ namespace Split_It.ViewModel
                 Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(text);
                 Newtonsoft.Json.Linq.JToken testToken = root["currencies"];
                 return new ObservableCollection<Currency>(JsonConvert.DeserializeObject<IEnumerable<Currency>>(testToken.ToString()).OrderBy(p => p.CurrencyCode));
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="SplitType" /> property's name.
+        /// </summary>
+        public const string SplitTypePropertyName = "SplitType";
+
+        private ExpenseSplit _splitType = ExpenseSplit.EQUALLY;
+
+        /// <summary>
+        /// Sets and gets the SplitType property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ExpenseSplit SplitType
+        {
+            get
+            {
+                return _splitType;
+            }
+
+            set
+            {
+                if (_splitType == value)
+                {
+                    return;
+                }
+
+                _splitType = value;
+                RaisePropertyChanged(SplitTypePropertyName);
             }
         }
 
@@ -262,6 +294,7 @@ namespace Split_It.ViewModel
                             _dialogService.ShowMessage("Please enter all the details", "Oops");
                             return;
                         }
+
                         IsBusy = true;
                         if(!_hasSetPaid)
                         {
@@ -300,10 +333,20 @@ namespace Split_It.ViewModel
 
         #endregion
 
+        private void setupExpenseSplit()
+        {
+            if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2)
+                SplitType = ExpenseSplit.EQUALLY;
+            else
+            {
+
+            }
+        }
+
         public override void Cleanup()
         {
             ExpenseToAdd = null;
-            ExpenseToAdd = new Expense() { CurrencyCode = AppState.CurrentUser.DefaultCurrency, GroupId = 0 };
+            ExpenseToAdd = new Expense() { CurrencyCode = AppState.CurrentUser.DefaultCurrency, GroupId = 0 };        
             base.Cleanup();
         }
     }

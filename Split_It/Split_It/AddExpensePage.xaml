@@ -26,6 +26,7 @@
             
             <converter:ExpenseWhoPaidConverter x:Key="ExpenseWhoPaidConverter"/>
             <converter:EmptyStringToBooleanConverter x:Key="EmptyStringToBooleanConverter"/>
+            <converter:EnumToStringConverter x:Key="EnumToStringConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -138,7 +139,7 @@
                         IsEnabled="{Binding ExpenseToAdd.Cost, Converter={StaticResource EmptyStringToBooleanConverter}}"
                         BorderBrush="{StaticResource settled}" BorderThickness="1"/>
                 <TextBlock Text="and split" VerticalAlignment="Center"/>
-                <Button Background="Transparent" Content="EQUALLY" 
+                <Button Background="Transparent" Content="{Binding SplitType, Converter={StaticResource EnumToStringConverter}}" 
                         Margin="5,0" Command="{Binding SplitCommand}"
                         IsEnabled="{Binding ExpenseToAdd.Cost, Converter={StaticResource EmptyStringToBooleanConverter}}"
                         BorderBrush="{StaticResource settled}" BorderThickness="1"/>

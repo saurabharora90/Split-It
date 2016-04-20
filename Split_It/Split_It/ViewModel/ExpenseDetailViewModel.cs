@@ -239,7 +239,7 @@ namespace Split_It.ViewModel
                     ?? (_editCommand = new RelayCommand(
                     () =>
                     {
-
+                        _navigationService.NavigateTo(ViewModelLocator.AddExpensePageKey, SelectedExpense);
                     }));
             }
         }

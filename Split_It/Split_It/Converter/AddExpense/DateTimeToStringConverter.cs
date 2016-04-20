@@ -9,7 +9,7 @@ namespace Split_It.Converter.AddExpense
         {
             if (value != null)
             {
-                DateTime date = (DateTime)value;
+                DateTime date = System.Convert.ToDateTime(value);
                 return new DateTimeOffset(date);
             }
             else
