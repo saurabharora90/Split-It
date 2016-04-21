@@ -352,6 +352,15 @@ namespace Split_It.ViewModel
                         }
                         else if (!isAdd && returnedExpense != null)
                         {
+                            ExpenseToAdd.Cost = returnedExpense.Cost;
+                            ExpenseToAdd.CurrencyCode = returnedExpense.CurrencyCode;
+                            ExpenseToAdd.Description = returnedExpense.Description;
+                            ExpenseToAdd.Details = returnedExpense.Details;
+                            ExpenseToAdd.Repayments = returnedExpense.Repayments;
+                            ExpenseToAdd.UpdatedAt = returnedExpense.UpdatedAt;
+                            ExpenseToAdd.UpdatedBy = returnedExpense.UpdatedBy;
+                            ExpenseToAdd.Users = returnedExpense.Users;
+
                             MessengerInstance.Send(new ExpenseEditedEvent(returnedExpense));
                             _navigationService.GoBack();
                         }

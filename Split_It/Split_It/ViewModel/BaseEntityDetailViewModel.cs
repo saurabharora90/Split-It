@@ -203,7 +203,7 @@ namespace Split_It.ViewModel
                     {
                         MessengerInstance.Register<ExpenseDeletedEvent>(this, ExpenseDeletedEventReceived);
                         MessengerInstance.Register<ExpenseAddedEvent>(this, ExpenseAddedEventReceived);
-                        //MessengerInstance.Register<ExpenseEditedEvent>(this, ExpenseAddedEventReceived);
+                        MessengerInstance.Register<ExpenseEditedEvent>(this, ExpenseEditedEventReceived);
                     }));
             }
         }
@@ -226,6 +226,11 @@ namespace Split_It.ViewModel
         private void ExpenseAddedEventReceived(ExpenseAddedEvent expenseEvent)
         {
             ExpensesList.Insert(0, expenseEvent.ExpenseChanged);
+            refreshAfterExpenseOperation();
+        }
+
+        private void ExpenseEditedEventReceived(ExpenseEditedEvent expenseEvent)
+        {
             refreshAfterExpenseOperation();
         }
 

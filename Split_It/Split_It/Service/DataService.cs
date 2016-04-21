@@ -241,7 +241,14 @@ namespace Split_It.Service
 
         public async Task<IEnumerable<Expense>> createExpense(Expense paymentExpense)
         {
-            var request = new RestRequest("create_expense", Method.POST);
+            RestRequest request = null;
+            if(paymentExpense.Id == 0)
+                request = new RestRequest("create_expense", Method.POST);
+            else
+            {
+                request = new RestRequest("update_expense/{id}", Method.POST);
+                request.AddUrlSegment("id", paymentExpense.Id.ToString());
+            }
 
             if (paymentExpense.Payment)
                 request.AddParameter("payment", "true", ParameterType.GetOrPost);
