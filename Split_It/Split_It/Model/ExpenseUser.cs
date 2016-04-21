@@ -159,6 +159,39 @@ namespace Split_It.Model
             }
         }
 
+        #region Helper Properties
+        /// <summary>
+        /// The <see cref="Share" /> property's name.
+        /// </summary>
+        public const string SharePropertyName = "Share";
+
+        private string _share;
+
+        /// <summary>
+        /// Sets and gets the Share property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Share
+        {
+            get
+            {
+                return _share;
+            }
+
+            set
+            {
+                if (_share == value)
+                {
+                    return;
+                }
+
+                _share = value;
+                RaisePropertyChanged(SharePropertyName);
+            }
+        }
+
+        #endregion
+
         // override object.Equals
         public override bool Equals(object obj)
         {

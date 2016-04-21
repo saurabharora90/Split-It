@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Split_It.Model;
 using Split_It.Model.Enum;
 using System;
@@ -25,7 +26,7 @@ namespace Split_It.ViewModel
         /// </summary>
         public const string CurrentExpensePropertyName = "CurrentExpense";
 
-        private Expense _cuurentExpense = null;
+        private Expense _curentExpense = null;
 
         /// <summary>
         /// Sets and gets the CurrentExpense property.
@@ -35,17 +36,17 @@ namespace Split_It.ViewModel
         {
             get
             {
-                return _cuurentExpense;
+                return _curentExpense;
             }
 
             set
             {
-                if (_cuurentExpense == value)
+                if (_curentExpense == value)
                 {
                     return;
                 }
 
-                _cuurentExpense = value;
+                _curentExpense = value;
                 RaisePropertyChanged(CurrentExpensePropertyName);
                 SelectedSplitOption = ExpenseSplit.UNEQUALLY;
             }
@@ -77,39 +78,79 @@ namespace Split_It.ViewModel
                 }
 
                 _selectedSplitOption = value;
-                RaisePropertyChanged(SelectedSplitOptionPropertyName);
-
-                CurrentExpense.CreationMethod = String.Empty;
-                switch (value)
-                {
-                    case ExpenseSplit.EQUALLY:
-                        decimal eachPersonAmount = Math.Round(Convert.ToDecimal(CurrentExpense.Cost) / CurrentExpense.Users.Count(), 2);
-                        decimal amountLeftOver = Convert.ToDecimal(CurrentExpense.Cost) - (eachPersonAmount * CurrentExpense.Users.Count());
-                        foreach (var item in CurrentExpense.Users)
-                        {
-                            item.OwedShare = eachPersonAmount.ToString();
-                        }
-                        //add the left over amount to the first person
-                        if (amountLeftOver != 0)
-                        {
-                            var enumerator = CurrentExpense.Users.GetEnumerator();
-                            enumerator.MoveNext();
-                            var user = enumerator.Current;
-                            decimal currentAmount = Convert.ToDecimal(user.OwedShare);
-                            decimal finalAmount = currentAmount + amountLeftOver;
-                            user.OwedShare = finalAmount.ToString();
-                        }
-                        CurrentExpense.CreationMethod = "equally";
-                        break;
-                    case ExpenseSplit.UNEQUALLY:
-                        break;
-                    case ExpenseSplit.SHARES:
-                        break;
-                    default:
-                        break;
-                }
+                RaisePropertyChanged(SelectedSplitOptionPropertyName);                
             }
         }
         #endregion
+
+        private RelayCommand _primaryButtonCommand;
+
+        /// <summary>
+        /// Gets the PrimaryButtonCommand.
+        /// </summary>
+        public RelayCommand PrimaryButtonCommand
+        {
+            get
+            {
+                return _primaryButtonCommand
+                    ?? (_primaryButtonCommand = new RelayCommand(
+                    () =>
+                    {
+                        CurrentExpense.CreationMethod = String.Empty;
+                        switch (SelectedSplitOption)
+                        {
+                            case ExpenseSplit.EQUALLY:
+                                decimal eachPersonAmount = Math.Round(Convert.ToDecimal(CurrentExpense.Cost) / CurrentExpense.Users.Count(), 2);
+                                decimal amountLeftOver = Convert.ToDecimal(CurrentExpense.Cost) - (eachPersonAmount * CurrentExpense.Users.Count());
+                                foreach (var item in CurrentExpense.Users)
+                                {
+                                    item.OwedShare = eachPersonAmount.ToString();
+                                }
+                                //add the left over amount to the first person
+                                if (amountLeftOver != 0)
+                                {
+                                    var enumerator = CurrentExpense.Users.GetEnumerator();
+                                    enumerator.MoveNext();
+                                    var user = enumerator.Current;
+                                    decimal currentAmount = Convert.ToDecimal(user.OwedShare);
+                                    decimal finalAmount = currentAmount + amountLeftOver;
+                                    user.OwedShare = finalAmount.ToString();
+                                }
+                                CurrentExpense.CreationMethod = "equally";
+                                break;
+                            case ExpenseSplit.UNEQUALLY:
+                                //Binding will handle this
+                                break;
+                            case ExpenseSplit.SHARES:
+                                decimal totalShares = 0;
+                                foreach (var item in CurrentExpense.Users)
+                                {
+                                    totalShares += Convert.ToDecimal(item.Share);
+                                }
+                                decimal expenseCost = Convert.ToDecimal(CurrentExpense.Cost);
+                                decimal perShareCost = expenseCost / totalShares;
+                                decimal totalSplit = 0;
+                                foreach (var item in CurrentExpense.Users)
+                                {
+                                    item.OwedShare = Math.Round((perShareCost * Convert.ToDecimal(item.Share)), 2).ToString();
+                                    totalSplit += Convert.ToDecimal(item.OwedShare);
+                                }
+                                decimal leftOver = expenseCost - totalSplit;
+                                if(leftOver != 0)
+                                {
+                                    var enumerator = CurrentExpense.Users.GetEnumerator();
+                                    enumerator.MoveNext();
+                                    var user = enumerator.Current;
+                                    decimal currentAmount = Convert.ToDecimal(user.OwedShare);
+                                    decimal finalAmount = currentAmount + leftOver;
+                                    user.OwedShare = finalAmount.ToString();
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }));
+            }
+        }
     }
 }

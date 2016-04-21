@@ -10,6 +10,7 @@
     xmlns:utils="using:Split_It.Utils"
     xmlns:winux="using:WinUX.Xaml.Converters"
     mc:Ignorable="d"
+    PrimaryButtonCommand="{Binding PrimaryButtonCommand}"
     PrimaryButtonText="OKAY">
 
     <ContentDialog.TitleTemplate>
@@ -69,8 +70,14 @@
                                 <utils:SelectAllTextBoxBehavior />
                             </Interactivity:Interaction.Behaviors>
                         </TextBox>
-
-
+                        
+                        <TextBox Text="{Binding Share, Mode=TwoWay}" VerticalAlignment="Center" Grid.Column="2" 
+                                 PlaceholderText="0" InputScope="CurrencyAmount" 
+                                 Visibility="{Binding DataContext.SelectedSplitOption, ConverterParameter=SHARES, Converter={StaticResource EnumToVisibilityConverter}, ElementName=grid}">
+                            <Interactivity:Interaction.Behaviors>
+                                <utils:SelectAllTextBoxBehavior />
+                            </Interactivity:Interaction.Behaviors>
+                        </TextBox>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
