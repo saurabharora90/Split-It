@@ -49,26 +49,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Ellipse Style="{StaticResource RoundImage}">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" Grid.Column="1" Margin="10,0,0,0"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ListView ItemsSource="{Binding CurrentExpense.Users}" 
-                  Visibility="{Binding MultiplePeopleSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Ellipse Style="{StaticResource RoundImage}">
@@ -78,7 +58,8 @@
                         </Ellipse>
                         <TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" Grid.Column="1" Margin="10,0,0,0"/>
                         <TextBox Text="{Binding PaidShare, Mode=TwoWay}" VerticalAlignment="Center" Grid.Column="2" 
-                                 PlaceholderText="0.00" InputScope="CurrencyAmount">
+                                 PlaceholderText="0.00" InputScope="CurrencyAmount" 
+                                 Visibility="{Binding DataContext.MultiplePeopleSelected, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=textBlock}">
                             <Interactivity:Interaction.Behaviors>
                                 <utils:SelectAllTextBoxBehavior />
                             </Interactivity:Interaction.Behaviors>
@@ -88,8 +69,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-
-        <TextBlock HorizontalAlignment="Center" Grid.Row="2" Margin="0,15,0,0" 
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Grid.Row="2" Margin="0,15,0,0" 
                    Visibility="{Binding MultiplePeopleSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Run Text="Total:"/>
             <Run Text="{Binding CurrentExpense.CurrencyCode}"/>

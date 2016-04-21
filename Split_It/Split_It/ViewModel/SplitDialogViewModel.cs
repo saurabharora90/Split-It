@@ -47,13 +47,38 @@ namespace Split_It.ViewModel
 
                 _cuurentExpense = value;
                 RaisePropertyChanged(CurrentExpensePropertyName);
+                SelectedSplitOption = ExpenseSplit.UNEQUALLY;
             }
         }
 
+        /// <summary>
+        /// The <see cref="SelectedSplitOption" /> property's name.
+        /// </summary>
+        public const string SelectedSplitOptionPropertyName = "SelectedSplitOption";
+
+        private ExpenseSplit _selectedSplitOption = ExpenseSplit.UNEQUALLY;
+
+        /// <summary>
+        /// Sets and gets the SelectedSplitOption property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
         public ExpenseSplit SelectedSplitOption
         {
+            get
+            {
+                return _selectedSplitOption;
+            }
+
             set
             {
+                if (_selectedSplitOption == value)
+                {
+                    return;
+                }
+
+                _selectedSplitOption = value;
+                RaisePropertyChanged(SelectedSplitOptionPropertyName);
+
                 CurrentExpense.CreationMethod = String.Empty;
                 switch (value)
                 {
