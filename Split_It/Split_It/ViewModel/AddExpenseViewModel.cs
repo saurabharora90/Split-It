@@ -385,7 +385,8 @@ namespace Split_It.ViewModel
         {
             if (ExpenseToAdd == null || System.Convert.ToDouble(ExpenseToAdd.Cost) == 0 
                 || ExpenseToAdd.Users == null || ExpenseToAdd.Users.Count() < 2
-                || ExpenseToAdd.CreationMethod.Equals("equally") || !_hasSetSplit)
+                || (ExpenseToAdd.CreationMethod!=null && ExpenseToAdd.CreationMethod.Equals("equally")) 
+                || !_hasSetSplit)
                 SplitType = ExpenseSplit.EQUALLY;
             else
             {

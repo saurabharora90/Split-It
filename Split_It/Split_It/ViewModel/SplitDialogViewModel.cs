@@ -49,6 +49,11 @@ namespace Split_It.ViewModel
                 _curentExpense = value;
                 RaisePropertyChanged(CurrentExpensePropertyName);
                 SelectedSplitOption = ExpenseSplit.UNEQUALLY;
+                if (CurrentExpense != null)
+                {
+                    subscribeToProperyChange(true);
+                    User_PropertyChanged(null, null);
+                }
             }
         }
 
@@ -78,7 +83,72 @@ namespace Split_It.ViewModel
                 }
 
                 _selectedSplitOption = value;
-                RaisePropertyChanged(SelectedSplitOptionPropertyName);                
+                RaisePropertyChanged(SelectedSplitOptionPropertyName);
+
+                if (SelectedSplitOption == ExpenseSplit.EQUALLY || SelectedSplitOption == ExpenseSplit.SHARES)
+                    CanExit = true;
+                else
+                    CanExit = false;            
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="TotalInputCost" /> property's name.
+        /// </summary>
+        public const string TotalInputCostPropertyName = "TotalInputCost";
+
+        private double _totalInputCost = 0;
+
+        /// <summary>
+        /// Sets and gets the TotalInputCost property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public double TotalInputCost
+        {
+            get
+            {
+                return _totalInputCost;
+            }
+
+            set
+            {
+                if (_totalInputCost == value)
+                {
+                    return;
+                }
+
+                _totalInputCost = value;
+                RaisePropertyChanged(TotalInputCostPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CanExit" /> property's name.
+        /// </summary>
+        public const string CanExitPropertyName = "CanExit";
+
+        private bool _canExit = false;
+
+        /// <summary>
+        /// Sets and gets the CanExit property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool CanExit
+        {
+            get
+            {
+                return _canExit;
+            }
+
+            set
+            {
+                if (_canExit == value)
+                {
+                    return;
+                }
+
+                _canExit = value;
+                RaisePropertyChanged(CanExitPropertyName);
             }
         }
         #endregion
@@ -96,6 +166,7 @@ namespace Split_It.ViewModel
                     ?? (_primaryButtonCommand = new RelayCommand(
                     () =>
                     {
+                        subscribeToProperyChange(false);
                         CurrentExpense.CreationMethod = String.Empty;
                         switch (SelectedSplitOption)
                         {
@@ -151,6 +222,33 @@ namespace Split_It.ViewModel
                         }
                     }));
             }
+        }
+
+        private void subscribeToProperyChange(bool register)
+        {
+            if (CurrentExpense == null)
+                return;
+
+            foreach (var user in CurrentExpense.Users)
+            {
+                if (register)
+                    user.PropertyChanged += User_PropertyChanged;
+                else
+                    user.PropertyChanged -= User_PropertyChanged;
+            }
+        }
+
+        private void User_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            TotalInputCost = 0;
+            foreach (var user in CurrentExpense.Users)
+            {
+                TotalInputCost += System.Convert.ToDouble(user.OwedShare);
+            }
+            if (TotalInputCost == System.Convert.ToDouble(CurrentExpense.Cost))
+                CanExit = true;
+            else
+                CanExit = false;
         }
     }
 }

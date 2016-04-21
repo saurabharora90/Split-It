@@ -10,6 +10,7 @@
     xmlns:utils="using:Split_It.Utils"
     xmlns:winux="using:WinUX.Xaml.Converters"
     mc:Ignorable="d"
+    IsPrimaryButtonEnabled="{Binding CanExit}"
     PrimaryButtonCommand="{Binding PrimaryButtonCommand}"
     PrimaryButtonText="OKAY">
 
@@ -30,6 +31,7 @@
 
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -82,5 +84,15 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Grid.Row="2" Margin="0,15,0,0"
+                   Visibility="{Binding SelectedSplitOption, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='UNEQUALLY'}">
+            <Run Text="Total:"/>
+            <Run Text="{Binding CurrentExpense.CurrencyCode}"/>
+            <Run Text="{Binding TotalInputCost}"/>
+            <Run Text="of"/>
+            <Run Text="{Binding CurrentExpense.CurrencyCode}"/>
+            <Run Text="{Binding CurrentExpense.Cost}"/>
+        </TextBlock>
     </Grid>
 </ContentDialog>
