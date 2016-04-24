@@ -134,9 +134,9 @@
                     <my:AdMediatorControl x:Name="AdMediator_61D8F6" 
                                           AdMediatorError="AdMediator_61D8F6_AdMediatorError"
                                           AdSdkError="AdMediator_61D8F6_AdSdkError"
-                                          RelativePanel.RightOf="Hamburger" Height="50"
+                                          RelativePanel.RightOf="Hamburger" Height="90"
                                           Id="AdMediator-Id-07E69E76-4CF5-4BA8-8E94-FCDC58B6ED22"
-                                          Width="300"/>
+                                          Width="728"/>
                 </RelativePanel>
 
                 <Pivot Grid.Row="1" Style="{StaticResource TabsStylePivotStyle}" x:Name="Tabs">
