@@ -88,7 +88,7 @@
                     <!--Show Ad-->
                 </RelativePanel>
 
-                <Pivot Grid.Row="1" Style="{StaticResource TabsStylePivotStyle}">
+                <Pivot Grid.Row="1" Style="{StaticResource TabsStylePivotStyle}" x:Name="Tabs">
                     <PivotItem Header="Friends">
                         <Grid>
                             <Grid.RowDefinitions>
