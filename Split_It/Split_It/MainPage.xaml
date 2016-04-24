@@ -302,9 +302,10 @@
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="{Binding Content}"/>
-                                                <TextBlock Foreground="{StaticResource settled}" FontSize="12" Grid.Column="1"
-                                                           Text="{Binding CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM'}"/>
+                                                <TextBlock Text="{Binding Content}" TextWrapping="Wrap"/>
+                                                <TextBlock Foreground="{StaticResource settled}" FontSize="12" Grid.Row="1"
+                                                           Text="{Binding CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM'}" 
+                                                           Margin="0,5,0,0"/>
                                             </Grid>
                                         </Grid>
                                     </DataTemplate>
