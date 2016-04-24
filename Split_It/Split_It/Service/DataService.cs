@@ -78,7 +78,6 @@ namespace Split_It.Service
             }
             else
             {
-                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
                 return new List<Friend>();
             }
         }
@@ -97,7 +96,6 @@ namespace Split_It.Service
             }
             else
             {
-                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
                 return new List<Group>();
             }
         }
@@ -116,8 +114,25 @@ namespace Split_It.Service
             }
             else
             {
-                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
                 return new List<Friendship>();
+            }
+        }
+
+        public async Task<IEnumerable<Notification>> getNotifications()
+        {
+            RestClient client = getRestClient();
+            var request = new RestRequest("get_notifications");
+            var response = await client.Execute(request);
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["notifications"];
+                client.Dispose();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Notification>>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                return new List<Notification>();
             }
         }
 

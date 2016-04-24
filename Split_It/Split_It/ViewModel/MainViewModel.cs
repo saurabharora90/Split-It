@@ -355,8 +355,9 @@ namespace Split_It.ViewModel
                         Task<IEnumerable<Friend>> friendsTask = _dataService.getFriendsList();
                         Task<IEnumerable<Group>> groupsTask = _dataService.getGroupsList();
                         Task<IEnumerable<Friendship>> friendshipTask = _dataService.getFriendShip();
+                        Task<IEnumerable<Notification>> recentActivityTask = _dataService.getNotifications();
                         //TODO: recent activity
-                        await Task.WhenAll(userTask, friendsTask, groupsTask, friendshipTask);
+                        await Task.WhenAll(userTask, friendsTask, groupsTask, friendshipTask, recentActivityTask);
 
                         CurrentUser = userTask.Result;
                         AppState.CurrentUser = CurrentUser;

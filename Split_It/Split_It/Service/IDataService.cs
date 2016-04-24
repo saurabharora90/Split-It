@@ -20,5 +20,7 @@ namespace Split_It.Service
 
         Task<Comment> postCommentOnExpense(int expenseId, string comment);
         Task<IEnumerable<Expense>> createExpense(Expense expense);
+
+        Task<IEnumerable<Notification>> getNotifications();
     }
 }

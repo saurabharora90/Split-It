@@ -183,6 +183,7 @@
     <Compile Include="Model\Friendship.cs" />
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Debt.cs" />
+    <Compile Include="Model\Notification.cs" />
     <Compile Include="Model\UserBalance.cs" />
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\Friend.cs" />

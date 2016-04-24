@@ -103,5 +103,10 @@ namespace Split_It.Design
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Notification>> getNotifications()
+        {
+            return Task.FromResult(new List<Notification>() as IEnumerable<Notification>);
+        }
     }
 }

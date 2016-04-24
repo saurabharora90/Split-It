@@ -65,7 +65,7 @@
                 <StackPanel Orientation="Vertical" Grid.Row="3" DataContext="{Binding Source={StaticResource Locator}, Path=SideMenuVM}">
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
-                            HorizontalAlignment="Left">
+                            HorizontalAlignment="Left" Visibility="Collapsed">
                         <StackPanel Style="{StaticResource MenuStack}">
                             <SymbolIcon Symbol="Contact"/>
                             <TextBlock Text="Profile" Style="{StaticResource MenuTextView}"/>
@@ -73,7 +73,7 @@
                     </Button>
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
-                            HorizontalAlignment="Left">
+                            HorizontalAlignment="Left" Visibility="Collapsed">
                         <StackPanel Style="{StaticResource MenuStack}">
                             <SymbolIcon Symbol="AddFriend"/>
                             <TextBlock Text="Add friends" Style="{StaticResource MenuTextView}"/>
@@ -81,7 +81,7 @@
                     </Button>
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
-                            HorizontalAlignment="Left">
+                            HorizontalAlignment="Left" Visibility="Collapsed">
                         <StackPanel Style="{StaticResource MenuStack}">
                             <SymbolIcon Symbol="People"/>
                             <TextBlock Text="Create Group" Style="{StaticResource MenuTextView}"/>
