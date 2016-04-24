@@ -136,6 +136,8 @@
                                           AdSdkError="AdMediator_61D8F6_AdSdkError"
                                           RelativePanel.RightOf="Hamburger" Height="90"
                                           Id="AdMediator-Id-07E69E76-4CF5-4BA8-8E94-FCDC58B6ED22"
+                                          DataContext="{Binding Source={StaticResource Locator}, Path=SideMenuVM}"
+                                          Visibility="{Binding IsAdsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                                           Width="728"/>
                 </RelativePanel>
 
