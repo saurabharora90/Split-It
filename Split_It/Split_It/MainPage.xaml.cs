@@ -38,5 +38,15 @@ namespace Split_It
                 _selectedTabIndex = Tabs.SelectedIndex;
             base.OnNavigatingFrom(e);
         }
+
+        private void AdMediator_61D8F6_AdMediatorError(object sender, Microsoft.AdMediator.Core.Events.AdMediatorFailedEventArgs e)
+        {
+
+        }
+
+        private void AdMediator_61D8F6_AdSdkError(object sender, Microsoft.AdMediator.Core.Events.AdFailedEventArgs e)
+        {
+
+        }
     }
 }
