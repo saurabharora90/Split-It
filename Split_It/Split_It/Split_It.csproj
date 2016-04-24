@@ -213,6 +213,7 @@
     <Compile Include="ViewModel\Dialog\IOUDialogViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\SideMenuViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\Dialog\WhoPaidDialogViewModel.cs" />
   </ItemGroup>

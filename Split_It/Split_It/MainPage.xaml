@@ -62,8 +62,8 @@
                 <TextBlock Text="{Binding CurrentUser.Name}" Foreground="Black" 
                            Margin="15" Grid.Row="2" HorizontalAlignment="Center"/>
 
-                <StackPanel Orientation="Vertical" Grid.Row="3">
-                    
+                <StackPanel Orientation="Vertical" Grid.Row="3" DataContext="{Binding Source={StaticResource Locator}, Path=SideMenuVM}">
+
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
                             HorizontalAlignment="Left">
                         <StackPanel Style="{StaticResource MenuStack}">
@@ -89,10 +89,19 @@
                     </Button>
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
-                            HorizontalAlignment="Left">
+                            HorizontalAlignment="Left" Command="{Binding RateAppCommand, Mode=OneWay}">
                         <StackPanel Style="{StaticResource MenuStack}">
                             <SymbolIcon Symbol="OutlineStar"/>
                             <TextBlock Text="Rate and Review" Style="{StaticResource MenuTextView}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
+                            Visibility="{Binding IsAdsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            HorizontalAlignment="Left" Command="{Binding RemoveAdsCommand, Mode=OneWay}">
+                        <StackPanel Style="{StaticResource MenuStack}">
+                            <SymbolIcon Symbol="OutlineStar"/>
+                            <TextBlock Text="Remove Ads" Style="{StaticResource MenuTextView}"/>
                         </StackPanel>
                     </Button>
 
@@ -236,7 +245,7 @@
                                                          Foreground="{StaticResource settled}" FontSize="13"/>
                                                     </TextBlock>
                                                 </Grid>
-                                                
+
                                                 <Grid Grid.Column="2">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto"/>
