@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="ff4e6f17-814f-491d-b4c0-fd4b0d0fa759" Publisher="CN=saurabh" Version="1.0.0.0" />
+  <Identity Name="53627SaurabhArora.SplitIt" Publisher="CN=74702996-57D6-46AB-A891-F336E8903573" Version="2.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="ff4e6f17-814f-491d-b4c0-fd4b0d0fa759" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Split_It</DisplayName>
-    <PublisherDisplayName>saurabh</PublisherDisplayName>
+    <DisplayName>Split It</DisplayName>
+    <PublisherDisplayName>Saurabh Arora</PublisherDisplayName>
     <Logo>Assets\NewStoreLogo.png</Logo>
   </Properties>
   <Dependencies>
