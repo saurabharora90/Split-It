@@ -86,7 +86,7 @@
                         <ImageBrush ImageSource="{Binding CurrentUser.Picture.Medium}"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock Text="{Binding CurrentUser.Name}" Foreground="Black" 
+                <TextBlock Text="{Binding CurrentUser.FirstName}" Foreground="Black" 
                            Margin="15" Grid.Row="2" HorizontalAlignment="Center"/>
 
                 <StackPanel Orientation="Vertical" Grid.Row="3" DataContext="{Binding Source={StaticResource Locator}, Path=SideMenuVM}">

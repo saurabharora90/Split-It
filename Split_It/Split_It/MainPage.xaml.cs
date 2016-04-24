@@ -25,6 +25,7 @@ namespace Split_It
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            this.Frame.BackStack.Clear(); //if we are coming from login page, we would need to clear the back stack
             base.OnNavigatedTo(e);
             if (_selectedTabIndex.HasValue)
                 Tabs.SelectedIndex = _selectedTabIndex.Value;
