@@ -104,7 +104,7 @@ namespace Split_It.Model
         /// </summary>
         public const string ContentPropertyName = "Content";
 
-        private string _content = null;
+        private string _content = String.Empty;
 
         /// <summary>
         /// Sets and gets the Content property.

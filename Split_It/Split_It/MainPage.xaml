@@ -9,6 +9,7 @@
     xmlns:conveter="using:Split_It.Converter"
     xmlns:con_bal="using:Split_It.Converter.Balance"
     xmlns:con_summ="using:Split_It.Converter.Summary"
+    xmlns:common="using:Split_It.Utils"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="Split_It.MainPage"
     mc:Ignorable="d">
@@ -274,49 +275,31 @@
                     </PivotItem>
 
                     <PivotItem Header="Recent">
-                        <pr:PullToRefreshBox>
-                            <pr:PullToRefreshBox.TopIndicatorTemplate>
+
+                        <ListView ItemsSource="{Binding RecentNotifications}">
+                            <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <pr:PullRefreshProgressControl
-										    PullToRefreshText="Pull to Refresh"
-										    ReleaseToRefreshText="Release To Refresh"/>
-                                </DataTemplate>
-                            </pr:PullToRefreshBox.TopIndicatorTemplate>
+                                    <Grid Margin="0,15">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Height="35" Width="35" Source="{Binding ImageUrl}" VerticalAlignment="Top"/>
 
-                            <ListView ItemsSource="{Binding RecentNotifications}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0,15">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse Style="{StaticResource RoundImage}" VerticalAlignment="Top">
-                                                <Ellipse.Fill>
-                                                    <ImageBrush ImageSource="{Binding ImageUrl}"/>
-                                                </Ellipse.Fill>
-                                            </Ellipse>
-
-                                            <Grid Grid.Column="1" Margin="15,0,0,0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                <RichTextBlock TextWrapping="Wrap"/>
-                                                <TextBlock Foreground="{StaticResource settled}" FontSize="12" Grid.Row="1"
-                                                           Text="{Binding CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='h:mm tt dd MMMM'}" 
+                                        <Grid Grid.Column="1" Margin="15,0,0,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <RichTextBlock TextWrapping="Wrap" common:Properties.Html="{Binding Content}"/>
+                                            <TextBlock Foreground="{StaticResource settled}" FontSize="12" Grid.Row="1"
+                                                           Text="{Binding CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='h:mm tt, dd MMMM'}" 
                                                            Margin="0,5,0,0"/>
-                                            </Grid>
                                         </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <Interactivity:Interaction.Behaviors>
-                                <Core:EventTriggerBehavior EventName="RefreshInvoked">
-                                    <Core:InvokeCommandAction Command="{Binding RefreshDataCommand, Mode=OneWay}"/>
-                                </Core:EventTriggerBehavior>
-                            </Interactivity:Interaction.Behaviors>
-                        </pr:PullToRefreshBox>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </PivotItem>
                 </Pivot>
 
