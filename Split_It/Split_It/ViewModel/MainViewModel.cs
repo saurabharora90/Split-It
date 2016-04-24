@@ -131,6 +131,36 @@ namespace Split_It.ViewModel
             }
         }
 
+        /// <summary>
+        /// The <see cref="RecentNotifications" /> property's name.
+        /// </summary>
+        public const string RecentNotificationsPropertyName = "RecentNotifications";
+
+        private ObservableCollection<Notification> _recentNotifications = null;
+
+        /// <summary>
+        /// Sets and gets the RecentNotifications property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ObservableCollection<Notification> RecentNotifications
+        {
+            get
+            {
+                return _recentNotifications;
+            }
+
+            set
+            {
+                if (_recentNotifications == value)
+                {
+                    return;
+                }
+
+                _recentNotifications = value;
+                RaisePropertyChanged(RecentNotificationsPropertyName);
+            }
+        }
+
         #region Friends
 
         /// <summary>
@@ -364,6 +394,7 @@ namespace Split_It.ViewModel
                         AllFriendsList = new ObservableCollection<Friend>(friendsTask.Result.OrderBy(p => p.FirstName));
                         AllGroupsList = new ObservableCollection<Group>(groupsTask.Result.OrderBy(p => p.Name));
                         _friendshipList = new ObservableCollection<Friendship>(friendshipTask.Result);
+                        RecentNotifications = new ObservableCollection<Notification>(recentActivityTask.Result);
 
                         RaisePropertyChanged(FriendsListPropertyName);
                         RaisePropertyChanged(GroupsListPropertyName);

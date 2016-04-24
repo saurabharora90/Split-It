@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="Skins/MainViewSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <winux:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <winux:DateTimeFormatConverter x:Key="DateTimeFormatConverter"/>
             <conveter:EnumToStringConverter x:Key="EnumToStringConverter"/>
 
             <con_bal:TextConverter x:Key="BalanceTextConverter"/>
@@ -273,7 +274,48 @@
                     </PivotItem>
 
                     <PivotItem Header="Recent">
-                        <Grid/>
+                        <pr:PullToRefreshBox>
+                            <pr:PullToRefreshBox.TopIndicatorTemplate>
+                                <DataTemplate>
+                                    <pr:PullRefreshProgressControl
+										    PullToRefreshText="Pull to Refresh"
+										    ReleaseToRefreshText="Release To Refresh"/>
+                                </DataTemplate>
+                            </pr:PullToRefreshBox.TopIndicatorTemplate>
+
+                            <ListView ItemsSource="{Binding RecentNotifications}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,15">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Style="{StaticResource RoundImage}" VerticalAlignment="Top">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="{Binding ImageUrl}"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+
+                                            <Grid Grid.Column="1" Margin="15,0,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{Binding Content}"/>
+                                                <TextBlock Foreground="{StaticResource settled}" FontSize="12" Grid.Column="1"
+                                                           Text="{Binding CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM'}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <Interactivity:Interaction.Behaviors>
+                                <Core:EventTriggerBehavior EventName="RefreshInvoked">
+                                    <Core:InvokeCommandAction Command="{Binding RefreshDataCommand, Mode=OneWay}"/>
+                                </Core:EventTriggerBehavior>
+                            </Interactivity:Interaction.Behaviors>
+                        </pr:PullToRefreshBox>
                     </PivotItem>
                 </Pivot>
 
