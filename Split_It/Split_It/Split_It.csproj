@@ -209,12 +209,12 @@
     <Compile Include="ViewModel\ExpenseDetailViewModel.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\GroupDetailViewModel.cs" />
-    <Compile Include="ViewModel\SplitDialogViewModel.cs" />
-    <Compile Include="ViewModel\IOUDialogViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\SplitDialogViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\IOUDialogViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\WhoPaidDialogViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\WhoPaidDialogViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
