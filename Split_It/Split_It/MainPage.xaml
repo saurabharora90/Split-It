@@ -43,7 +43,7 @@
     </Page.DataContext>
 
     <SplitView x:Name="MySplitView" DisplayMode="Overlay" IsPaneOpen="False" 
-		Background="{StaticResource ApplicationPageBackgroundThemeBrush}" OpenPaneLength="150">
+		Background="{StaticResource ApplicationPageBackgroundThemeBrush}" OpenPaneLength="175">
         <SplitView.Pane>
             <Grid Background="{StaticResource splitwiseGreyBG}">
                 <Grid.RowDefinitions>
@@ -51,6 +51,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Ellipse Width="60" Height="60" Grid.Row="1">
@@ -62,13 +63,44 @@
                            Margin="15" Grid.Row="2" HorizontalAlignment="Center"/>
 
                 <StackPanel Orientation="Vertical" Grid.Row="3">
-                    <SymbolIcon Symbol="Home"/>
-                    <SymbolIcon Symbol="AddFriend"/>
-                    <SymbolIcon Symbol="People"/>
-                    <SymbolIcon Symbol="OutlineStar"/>
-                    <SymbolIcon Symbol="Account"/>
-                    <SymbolIcon Symbol="ZoomOut"/>
+                    
+                    <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
+                            HorizontalAlignment="Left">
+                        <StackPanel Style="{StaticResource MenuStack}">
+                            <SymbolIcon Symbol="Contact"/>
+                            <TextBlock Text="Profile" Style="{StaticResource MenuTextView}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
+                            HorizontalAlignment="Left">
+                        <StackPanel Style="{StaticResource MenuStack}">
+                            <SymbolIcon Symbol="AddFriend"/>
+                            <TextBlock Text="Add friends" Style="{StaticResource MenuTextView}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
+                            HorizontalAlignment="Left">
+                        <StackPanel Style="{StaticResource MenuStack}">
+                            <SymbolIcon Symbol="People"/>
+                            <TextBlock Text="Create Group" Style="{StaticResource MenuTextView}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
+                            HorizontalAlignment="Left">
+                        <StackPanel Style="{StaticResource MenuStack}">
+                            <SymbolIcon Symbol="OutlineStar"/>
+                            <TextBlock Text="Rate and Review" Style="{StaticResource MenuTextView}"/>
+                        </StackPanel>
+                    </Button>
+
                 </StackPanel>
+
+                <TextBlock Text="Designed and developed by Saurabh Arora. This app is not affiliated to Splitwise."
+                           FontSize="10" VerticalAlignment="Bottom" Margin="8"
+                           Grid.Row="4" TextWrapping="Wrap"/>
             </Grid>
         </SplitView.Pane>
         <SplitView.Content>
