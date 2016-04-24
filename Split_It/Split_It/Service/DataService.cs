@@ -122,7 +122,7 @@ namespace Split_It.Service
         {
             RestClient client = getRestClient();
             var request = new RestRequest("get_notifications");
-            //request.AddParameter("updated_after", 0, ParameterType.GetOrPost);
+            request.AddParameter("limit", 20, ParameterType.GetOrPost);
             var response = await client.Execute(request);
             if (response.IsSuccess)
             {
