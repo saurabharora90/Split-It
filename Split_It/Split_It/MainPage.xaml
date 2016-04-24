@@ -293,8 +293,8 @@
                                             </Grid.RowDefinitions>
                                             <RichTextBlock TextWrapping="Wrap" common:Properties.Html="{Binding Content}"/>
                                             <TextBlock Foreground="{StaticResource settled}" FontSize="12" Grid.Row="1"
-                                                           Text="{Binding CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='h:mm tt, dd MMMM'}" 
-                                                           Margin="0,5,0,0"/>
+                                                       Text="{Binding CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='h:mm tt, dd MMMM'}" 
+                                                       Margin="0,5,0,0"/>
                                         </Grid>
                                     </Grid>
                                 </DataTemplate>

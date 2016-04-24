@@ -156,6 +156,8 @@ namespace Split_It.Utils
                     if (!string.IsNullOrWhiteSpace(node.InnerText))
                         return new Run() { Text = CleanText(node.InnerText) };
                     break;
+                case "strike":
+                    return GenerateStrike(node);
                 case "font":
                     return GenerateFont(node);
                 default:
@@ -219,6 +221,13 @@ namespace Split_It.Utils
             Run r = new Run() { Text = " " };
             i.Inlines.Add(r);
             return i;
+        }
+
+        private static Inline GenerateStrike(HtmlNode node)
+        {
+            Italic s = new Italic();
+            AddChildren(s, node);
+            return s;
         }
 
         /// <summary> 
