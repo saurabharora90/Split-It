@@ -100,7 +100,7 @@
                             Visibility="{Binding IsAdsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                             HorizontalAlignment="Left" Command="{Binding RemoveAdsCommand, Mode=OneWay}">
                         <StackPanel Style="{StaticResource MenuStack}">
-                            <SymbolIcon Symbol="OutlineStar"/>
+                            <SymbolIcon Symbol="Document"/>
                             <TextBlock Text="Remove Ads" Style="{StaticResource MenuTextView}"/>
                         </StackPanel>
                     </Button>

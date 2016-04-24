@@ -56,9 +56,9 @@ namespace Split_It.ViewModel
             {
                 return _rateAppCommand
                     ?? (_rateAppCommand = new RelayCommand(
-                    () =>
+                    async () =>
                     {
-
+                        await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store:REVIEW?PFN={0}", Windows.ApplicationModel.Package.Current.Id.FamilyName)));
                     }));
             }
         }
