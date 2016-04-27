@@ -210,3 +210,9 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/Split_It/Split_It/BundleArtifacts
+/Split_It/Split_It/_scale-400.appx
+/Split_It/Split_It/_scale-150.appx
+/Split_It/Split_It/_scale-125.appx
+/Split_It/Split_It/_scale-100.appx
+/Split_It/Split_It/_pkginfo.txt

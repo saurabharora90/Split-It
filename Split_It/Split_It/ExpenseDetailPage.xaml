@@ -1,0 +1,179 @@
+﻿<Page
+    x:Class="Split_It.ExpenseDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Split_It"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wxup="using:WinUX.Xaml.Converters"
+    xmlns:converter="using:Split_It.Converter"
+    xmlns:con_comm="using:Split_It.Converter.Comment"
+    xmlns:utils="using:Split_It.Utils"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <Binding Path="ExpenseDetailVM" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <wxup:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+        <wxup:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <wxup:DateTimeFormatConverter x:Key="DateTimeFormatConverter"/>
+        <converter:ExpenseDetailPaidSectionConverter x:Key="ExpenseDetailPaidSectionConverter" CurrencyCode="{Binding SelectedExpense.CurrencyCode}"/>
+
+        <con_comm:CommentTypeColorConverter x:Key="CommentTypeColorConverter"/>
+        <con_comm:CommentTypeFontWeightConverter x:Key="CommentTypeFontWeightConverter"/>
+        <con_comm:CommentTypeVisibilityConverter x:Key="CommentTypeVisibilityConverter"/>
+
+        <DataTemplate x:Key="CommentTemplate">
+            <RelativePanel Margin="0,0,0,8" >
+                <Ellipse Height="20" Width="20" x:Name="commentImage" Margin="12.5,0,12.5,0">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock RelativePanel.RightOf="commentImage" FontSize="12" FontWeight="SemiBold"
+                           Visibility="{Binding CommentType, Converter={StaticResource CommentTypeVisibilityConverter}}"
+                           Text="{Binding User.Name}" x:Name="name"/>
+                <TextBlock RelativePanel.AlignLeftWith="name" RelativePanel.Below="name" FontSize="11"
+                           FontWeight="{Binding CommentType, Converter={StaticResource CommentTypeFontWeightConverter}}"
+                           Foreground="{Binding CommentType, Converter={StaticResource CommentTypeColorConverter}}"
+                           TextWrapping="Wrap" Text="{Binding Content}"/>
+            </RelativePanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <RelativePanel Background="{StaticResource splitwiseGreen}" Padding="0,0,0,10">
+            <Button FontFamily="Segoe MDL2 Assets" 
+                    x:Name="BackButton"
+					Foreground="White"
+					Content="&#xE72B;"
+					Width="50" Height="50" 
+                    Command="{Binding GoBackCommand}"
+					Background="Transparent" Style="{StaticResource NoBorderSelectButton}"/>
+
+            <TextBlock RelativePanel.RightOf="BackButton" Text="{Binding SelectedExpense.Description}" TextWrapping="Wrap"
+                       Foreground="White"
+                       RelativePanel.AlignVerticalCenterWith="BackButton" Margin="10,0,0,0"/>
+            <Image RelativePanel.Below="BackButton" Source="Assets/Images/expense_general.png" 
+                   x:Name="expenseImage"
+                   Width="30" Stretch="Uniform" Margin="20,0,10,0" />
+            <StackPanel Orientation="Vertical" RelativePanel.RightOf="expenseImage" RelativePanel.AlignTopWith="expenseImage">
+                <TextBlock FontWeight="Bold" FontSize="18" Foreground="White">
+                    <Run Text="{Binding SelectedExpense.CurrencyCode}"/><Run Text="{Binding SelectedExpense.Cost}"/>
+                </TextBlock>
+                <TextBlock Foreground="White" FontSize="11" Visibility="{Binding SelectedExpense.Date, Converter={StaticResource EmptyStringToVisibilityConverter}}"
+                           Text="{Binding SelectedExpense.ExpenseDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM, yyyy'}" Margin="0,0,0,5"/>
+                <TextBlock Foreground="White" FontSize="11">
+                    <Run Text="Added by"/>
+                    <Run Text="{Binding SelectedExpense.CreatedBy.FirstName}"/>
+                    <Run Text="on"/>
+                    <Run Text="{Binding SelectedExpense.CreatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM, yyyy'}"/>
+                </TextBlock>
+                <TextBlock Foreground="White" FontSize="11" Visibility="{Binding SelectedExpense.UpdatedBy, Converter={StaticResource EmptyStringToVisibilityConverter}}">
+                    <Run Text="Last updated on"/>
+                    <Run Text="{Binding SelectedExpense.UpdatedDate, Converter={StaticResource DateTimeFormatConverter}, ConverterParameter='dd MMMM, yyyy'}"/>
+                </TextBlock>
+            </StackPanel>
+        </RelativePanel>
+
+        <ListView ItemsSource="{Binding SelectedExpense.Users}" Grid.Row="1" Padding="20,20,20,0">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <RelativePanel Visibility="{Binding SelectedExpense.Details, Converter={StaticResource EmptyStringToVisibilityConverter}}" Margin="0,0,0,10">
+                            <SymbolIcon Symbol="Message" Width="30" Margin="0,0,10,0" x:Name="noteIcon"/>
+                            <TextBlock RelativePanel.RightOf="noteIcon" RelativePanel.AlignTopWith="noteIcon" x:Name="noteTitle"
+                                       Text="NOTES" FontWeight="Bold" FontSize="11" Foreground="{StaticResource settled}"/>
+                            <TextBlock Text="{Binding SelectedExpense.Details}" FontSize="11" TextWrapping="Wrap"
+                                       RelativePanel.Below="noteTitle" RelativePanel.AlignLeftWith="noteTitle"/>
+                        </RelativePanel>
+                        <TextBlock Text="SPLIT DETAILS" FontWeight="Bold" Foreground="{StaticResource settled}" FontSize="11"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <RelativePanel Height="50">
+                        <Ellipse Style="{StaticResource RoundImage}" x:Name="image" 
+                                 RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,10,0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding User.Picture.Medium}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock RelativePanel.RightOf="image" RelativePanel.AlignVerticalCenterWith="image"
+                                   TextWrapping="Wrap"
+                                   Text="{Binding Converter={StaticResource ExpenseDetailPaidSectionConverter}}"/>
+                        <!--
+                            <VariableSizedWrapGrid Orientation="Horizontal" 
+                                                   RelativePanel.RightOf="image" RelativePanel.AlignVerticalCenterWith="image">
+                                <TextBlock Text="{Binding User.Name}" FontWeight="SemiBold"/>
+                                <TextBlock Visibility="{Binding PaidShare, Converter={StaticResource ExpenseDetailPaidSectionConverter}}">
+                                    <Run Text=""/>
+                                    <Run Text="paid"/>
+                                    <Run Text="{Binding DataContext.SelectedExpense.CurrencyCode, ElementName=expenseImage}" FontWeight="SemiBold"/><Run Text="{Binding PaidShare}" FontWeight="SemiBold"/>
+                                    <Run Text="and"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text=""/>
+                                    <Run Text="owes"/>
+                                    <Run Text="{Binding DataContext.SelectedExpense.CurrencyCode, ElementName=expenseImage}" FontWeight="SemiBold"/><Run Text="{Binding OwedShare}" FontWeight="SemiBold"/>
+                                </TextBlock>
+                            </VariableSizedWrapGrid>
+                            -->
+                    </RelativePanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.FooterTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="COMMENTS" FontWeight="Bold" 
+                                   Foreground="{StaticResource settled}" FontSize="11"/>
+                        <ListView ItemTemplate="{StaticResource CommentTemplate}" 
+                                  Grid.Row="1"
+                                  ItemsSource="{Binding CommentsList}" Margin="0,8,0,0"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.FooterTemplate>
+        </ListView>
+
+        <Canvas Background="DarkGray" Opacity="0.5" 
+					Grid.RowSpan="2"
+					Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressRing IsActive="{Binding IsBusy}" Grid.RowSpan="2"/>
+    </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Command="{Binding DeleteCommand}" Icon="Delete" Label="delete"/>
+            <AppBarButton Command="{Binding EditCommand}" Icon="Edit" Label="edit"/>
+            <AppBarButton Icon="Comment" Label="comment" x:Name="commentAppBar">
+                <AppBarButton.Flyout>
+                    <Flyout utils:FlyoutHelpers.IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}"
+                            utils:FlyoutHelpers.Parent="{Binding ElementName=commentAppBar}">
+                        <Grid Width="300">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox TextWrapping="Wrap" Grid.Column="0" x:Name="commentBox" 
+                                     AcceptsReturn="True" PlaceholderText="Enter comment" InputScope="Text" />
+                            <Button Command="{Binding AddCommentCommand}" Content="Send" 
+                                    Grid.Column="1" Margin="10,0,0,0" 
+                                    CommandParameter="{Binding Text, ElementName=commentBox}"/>
+                        </Grid>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

@@ -1,0 +1,36 @@
+﻿<ContentDialog
+    x:Class="Split_It.Dialog.IOUDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Split_It.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:Split_It.Converter"
+    mc:Ignorable="d">
+
+    <ContentDialog.TitleTemplate>
+        <DataTemplate>
+            <TextBlock Text="Split Detail" FontSize="16" FontWeight="Bold"/>
+        </DataTemplate>
+    </ContentDialog.TitleTemplate>
+
+    <ContentDialog.DataContext>
+        <Binding Path="IOUDialogVM" Source="{StaticResource Locator}"/>
+    </ContentDialog.DataContext>
+
+    <ContentDialog.Resources>
+        <converter:EnumToStringConverter x:Key="EnumToStringConverter"/>
+    </ContentDialog.Resources>
+
+    <ListView ItemsSource="{Binding SplitOptions}" SelectedItem="{Binding SelectedSplitOption, Mode=TwoWay}" 
+        SelectionChanged="ListView_SelectionChanged">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal" Height="30">
+                    <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}" 
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentDialog>

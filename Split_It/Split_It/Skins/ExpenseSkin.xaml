@@ -1,0 +1,78 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con_repay ="using:Split_It.Converter.Repayment"
+    xmlns:converter="using:Split_It.Converter"
+    xmlns:winux="using:WinUX.Xaml.Converters"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core">
+
+    <con_repay:RepaymentBorrowLentConverter x:Key="RepaymentBorrowLentConverter" OtherUserId="{Binding CurrentFriend.id}"/>
+    <con_repay:RepaymentColorConverter x:Key="RepaymentColorConverter" OtherUserId="{Binding CurrentFriend.id}"/>
+    <con_repay:RepaymentAmountConverter x:Key="RepaymentAmountConverter" OtherUserId="{Binding CurrentFriend.id}"/>
+
+    <winux:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+    <converter:ExpenseWhoPaidConverter x:Key="ExpenseWhoPaidConverter"/>
+    <converter:ExpenseImageConveter x:Key="ExpenseImageConveter"/>
+    <converter:ExpenseDescriptionConverter x:Key="ExpenseDescriptionConverter"/>
+
+    <DataTemplate x:Key="ExpenseTemplate">
+        <RelativePanel Margin="15,10">
+            <Image Source="{Binding Payment, Converter={StaticResource ExpenseImageConveter}}" x:Name="image" Stretch="Uniform" Width="25">
+                <Interactivity:Interaction.Behaviors>
+                    <Core:IncrementalUpdateBehavior Phase="3"/>
+                </Interactivity:Interaction.Behaviors>
+            </Image>
+            <Grid RelativePanel.AlignRightWithPanel="True" x:Name="AmountGrid"
+                                  Visibility="{Binding Payment, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                  RelativePanel.AlignVerticalCenterWith="image">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Foreground="{Binding Repayments, Converter={StaticResource RepaymentColorConverter}}"
+                                           HorizontalAlignment="Right"
+                                           Text="{Binding Repayments, Converter={StaticResource RepaymentBorrowLentConverter}}" FontSize="13"/>
+                <TextBlock Foreground="{Binding Repayments, Converter={StaticResource RepaymentColorConverter}}"
+                                           Grid.Row="1" HorizontalAlignment="Right">
+                                    <Run Text="{Binding CurrencyCode}"/><Run Text="{Binding Repayments, Converter={StaticResource RepaymentAmountConverter}}" FontSize="16"/>
+                </TextBlock>
+                <Interactivity:Interaction.Behaviors>
+                    <Core:IncrementalUpdateBehavior Phase="1"/>
+                </Interactivity:Interaction.Behaviors>
+            </Grid>
+
+            <Grid RelativePanel.AlignVerticalCenterWith="image"
+                                  Margin="15,0"
+                                  RelativePanel.RightOf="image" RelativePanel.LeftOf="AmountGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Converter={StaticResource ExpenseDescriptionConverter}}" TextTrimming="CharacterEllipsis"/>
+                <TextBlock Foreground="{StaticResource settled}"
+                                           Visibility="{Binding Payment, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                           FontSize="13" Grid.Row="1">
+                                    <Run Text="{Binding Users, Converter={StaticResource ExpenseWhoPaidConverter}}"/>
+                                    <Run Text="paid"/>
+                                    <Run Text="{Binding CurrencyCode}"/><Run Text="{Binding Cost}"/>
+                </TextBlock>
+                <Interactivity:Interaction.Behaviors>
+                    <Core:IncrementalUpdateBehavior Phase="2"/>
+                </Interactivity:Interaction.Behaviors>
+            </Grid>
+        </RelativePanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FooterTemplate">
+        <Grid>
+            <Button Content="Load older expenses" Foreground="{StaticResource settled}" 
+                    Background="Transparent"
+                    Command="{Binding LoadMoreCommand}"
+                    Visibility="{Binding IsLoadingNewPage, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                    Style="{StaticResource NoBorderSelectButton}" 
+                    HorizontalAlignment="Center" Height="30"/>
+            <ProgressRing IsActive="{Binding IsLoadingNewPage}"/>
+        </Grid>
+    </DataTemplate>
+    
+</ResourceDictionary>

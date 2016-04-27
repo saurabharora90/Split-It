@@ -1,0 +1,506 @@
+﻿{
+  "expenses": [
+    {
+      "id": 34460108,
+      "group_id": null,
+      "friendship_id": 920934,
+      "expense_bundle_id": null,
+      "description": "Payment",
+      "repeats": false,
+      "repeat_interval": "never",
+      "email_reminder": false,
+      "email_reminder_in_advance": -1,
+      "next_repeat": null,
+      "details": null,
+      "comments_count": 0,
+      "payment": true,
+      "creation_method": "payment",
+      "transaction_method": "offline",
+      "transaction_confirmed": false,
+      "cost": "20.0",
+      "currency_code": "SGD",
+      "repayments": [
+        {
+          "from": 494985,
+          "to": 185909,
+          "amount": "20.0"
+        }
+      ],
+      "date": "2015-03-22T08:43:52Z",
+      "created_at": "2015-03-22T08:43:52Z",
+      "created_by": {
+        "id": 494985,
+        "first_name": "Saurabh",
+        "last_name": null,
+        "picture": {
+          "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+        }
+      },
+      "updated_at": "2015-03-22T08:43:52Z",
+      "updated_by": null,
+      "deleted_at": null,
+      "deleted_by": null,
+      "category": {
+        "id": 18,
+        "name": "General"
+      },
+      "receipt": {
+        "large": null,
+        "original": null
+      },
+      "users": [
+        {
+          "user": {
+            "id": 185909,
+            "first_name": "Isurujith",
+            "last_name": "Herath",
+            "picture": {
+              "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+            }
+          },
+          "user_id": 185909,
+          "paid_share": "20.0",
+          "owed_share": "0.0",
+          "net_balance": "20.0"
+        },
+        {
+          "user": {
+            "id": 494985,
+            "first_name": "Saurabh",
+            "last_name": null,
+            "picture": {
+              "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+            }
+          },
+          "user_id": 494985,
+          "paid_share": "0.0",
+          "owed_share": "20.0",
+          "net_balance": "-20.0"
+        }
+      ]
+    },
+    {
+      "id": 34459408,
+      "group_id": null,
+      "friendship_id": 920934,
+      "expense_bundle_id": null,
+      "description": "Payment",
+      "repeats": false,
+      "repeat_interval": "never",
+      "email_reminder": false,
+      "email_reminder_in_advance": -1,
+      "next_repeat": null,
+      "details": null,
+      "comments_count": 0,
+      "payment": true,
+      "creation_method": "payment",
+      "transaction_method": "offline",
+      "transaction_confirmed": false,
+      "cost": "20.0",
+      "currency_code": "SGD",
+      "repayments": [
+        {
+          "from": 185909,
+          "to": 494985,
+          "amount": "20.0"
+        }
+      ],
+      "date": "2015-03-22T08:29:55Z",
+      "created_at": "2015-03-22T08:29:55Z",
+      "created_by": {
+        "id": 185909,
+        "first_name": "Isurujith",
+        "last_name": "Herath",
+        "picture": {
+          "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+        }
+      },
+      "updated_at": "2015-03-22T08:43:28Z",
+      "updated_by": null,
+      "deleted_at": "2015-03-22T08:43:28Z",
+      "deleted_by": {
+        "id": 494985,
+        "first_name": "Saurabh",
+        "last_name": null,
+        "picture": {
+          "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+        }
+      },
+      "category": {
+        "id": 18,
+        "name": "General"
+      },
+      "receipt": {
+        "large": null,
+        "original": null
+      },
+      "users": [
+        {
+          "user": {
+            "id": 494985,
+            "first_name": "Saurabh",
+            "last_name": null,
+            "picture": {
+              "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+            }
+          },
+          "user_id": 494985,
+          "paid_share": "20.0",
+          "owed_share": "0.0",
+          "net_balance": "20.0"
+        },
+        {
+          "user": {
+            "id": 185909,
+            "first_name": "Isurujith",
+            "last_name": "Herath",
+            "picture": {
+              "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+            }
+          },
+          "user_id": 185909,
+          "paid_share": "0.0",
+          "owed_share": "20.0",
+          "net_balance": "-20.0"
+        }
+      ]
+    },
+    {
+      "id": 34459313,
+      "group_id": null,
+      "friendship_id": 920934,
+      "expense_bundle_id": null,
+      "description": "Payment",
+      "repeats": false,
+      "repeat_interval": "never",
+      "email_reminder": false,
+      "email_reminder_in_advance": -1,
+      "next_repeat": null,
+      "details": null,
+      "comments_count": 0,
+      "payment": true,
+      "creation_method": "payment",
+      "transaction_method": "offline",
+      "transaction_confirmed": false,
+      "cost": "2680.0",
+      "currency_code": "SGD",
+      "repayments": [
+        {
+          "from": 185909,
+          "to": 494985,
+          "amount": "2680.0"
+        }
+      ],
+      "date": "2015-03-22T08:27:57Z",
+      "created_at": "2015-03-22T08:27:57Z",
+      "created_by": {
+        "id": 185909,
+        "first_name": "Isurujith",
+        "last_name": "Herath",
+        "picture": {
+          "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+        }
+      },
+      "updated_at": "2015-03-22T08:43:39Z",
+      "updated_by": null,
+      "deleted_at": "2015-03-22T08:43:39Z",
+      "deleted_by": {
+        "id": 494985,
+        "first_name": "Saurabh",
+        "last_name": null,
+        "picture": {
+          "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+        }
+      },
+      "category": {
+        "id": 18,
+        "name": "General"
+      },
+      "receipt": {
+        "large": null,
+        "original": null
+      },
+      "users": [
+        {
+          "user": {
+            "id": 494985,
+            "first_name": "Saurabh",
+            "last_name": null,
+            "picture": {
+              "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+            }
+          },
+          "user_id": 494985,
+          "paid_share": "2680.0",
+          "owed_share": "0.0",
+          "net_balance": "2680.0"
+        },
+        {
+          "user": {
+            "id": 185909,
+            "first_name": "Isurujith",
+            "last_name": "Herath",
+            "picture": {
+              "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+            }
+          },
+          "user_id": 185909,
+          "paid_share": "0.0",
+          "owed_share": "2680.0",
+          "net_balance": "-2680.0"
+        }
+      ]
+    },
+    {
+      "id": 34459266,
+      "group_id": null,
+      "friendship_id": 920934,
+      "expense_bundle_id": null,
+      "description": "Payment",
+      "repeats": false,
+      "repeat_interval": "never",
+      "email_reminder": false,
+      "email_reminder_in_advance": -1,
+      "next_repeat": null,
+      "details": null,
+      "comments_count": 0,
+      "payment": true,
+      "creation_method": "payment",
+      "transaction_method": "offline",
+      "transaction_confirmed": false,
+      "cost": "2700.0",
+      "currency_code": "SGD",
+      "repayments": [
+        {
+          "from": 494985,
+          "to": 185909,
+          "amount": "2700.0"
+        }
+      ],
+      "date": "2015-03-22T08:27:19Z",
+      "created_at": "2015-03-22T08:27:19Z",
+      "created_by": {
+        "id": 185909,
+        "first_name": "Isurujith",
+        "last_name": "Herath",
+        "picture": {
+          "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+        }
+      },
+      "updated_at": "2015-03-22T08:27:19Z",
+      "updated_by": null,
+      "deleted_at": null,
+      "deleted_by": null,
+      "category": {
+        "id": 18,
+        "name": "General"
+      },
+      "receipt": {
+        "large": null,
+        "original": null
+      },
+      "users": [
+        {
+          "user": {
+            "id": 185909,
+            "first_name": "Isurujith",
+            "last_name": "Herath",
+            "picture": {
+              "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+            }
+          },
+          "user_id": 185909,
+          "paid_share": "2700.0",
+          "owed_share": "0.0",
+          "net_balance": "2700.0"
+        },
+        {
+          "user": {
+            "id": 494985,
+            "first_name": "Saurabh",
+            "last_name": null,
+            "picture": {
+              "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+            }
+          },
+          "user_id": 494985,
+          "paid_share": "0.0",
+          "owed_share": "2700.0",
+          "net_balance": "-2700.0"
+        }
+      ]
+    },
+    {
+      "id": 25245033,
+      "group_id": null,
+      "friendship_id": 920934,
+      "expense_bundle_id": null,
+      "description": "Aankita's bday",
+      "repeats": false,
+      "repeat_interval": "never",
+      "email_reminder": false,
+      "email_reminder_in_advance": -1,
+      "next_repeat": null,
+      "details": null,
+      "comments_count": 0,
+      "payment": false,
+      "creation_method": "equal",
+      "transaction_method": "offline",
+      "transaction_confirmed": false,
+      "cost": "20.0",
+      "currency_code": "SGD",
+      "repayments": [
+        {
+          "from": 185909,
+          "to": 494985,
+          "amount": "20.0"
+        }
+      ],
+      "date": "2014-11-17T16:47:34Z",
+      "created_at": "2014-11-17T16:47:47Z",
+      "created_by": {
+        "id": 494985,
+        "first_name": "Saurabh",
+        "last_name": null,
+        "picture": {
+          "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+        }
+      },
+      "updated_at": "2015-03-22T08:42:51Z",
+      "updated_by": {
+        "id": 494985,
+        "first_name": "Saurabh",
+        "last_name": null,
+        "picture": {
+          "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+        }
+      },
+      "deleted_at": null,
+      "deleted_by": null,
+      "category": {
+        "id": 18,
+        "name": "General"
+      },
+      "receipt": {
+        "large": null,
+        "original": null
+      },
+      "users": [
+        {
+          "user": {
+            "id": 494985,
+            "first_name": "Saurabh",
+            "last_name": null,
+            "picture": {
+              "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+            }
+          },
+          "user_id": 494985,
+          "paid_share": "20.0",
+          "owed_share": "0.0",
+          "net_balance": "20.0"
+        },
+        {
+          "user": {
+            "id": 185909,
+            "first_name": "Isurujith",
+            "last_name": "Herath",
+            "picture": {
+              "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+            }
+          },
+          "user_id": 185909,
+          "paid_share": "0.0",
+          "owed_share": "20.0",
+          "net_balance": "-20.0"
+        }
+      ]
+    },
+    {
+      "id": 19000268,
+      "group_id": null,
+      "friendship_id": 920934,
+      "expense_bundle_id": null,
+      "description": "Loan",
+      "repeats": false,
+      "repeat_interval": "never",
+      "email_reminder": false,
+      "email_reminder_in_advance": -1,
+      "next_repeat": null,
+      "details": null,
+      "comments_count": 1,
+      "payment": false,
+      "creation_method": null,
+      "transaction_method": "offline",
+      "transaction_confirmed": false,
+      "cost": "2700.0",
+      "currency_code": "SGD",
+      "repayments": [
+        {
+          "from": 185909,
+          "to": 494985,
+          "amount": "2700.0"
+        }
+      ],
+      "date": "2014-08-05T09:20:03Z",
+      "created_at": "2014-08-05T09:20:03Z",
+      "created_by": {
+        "id": 185909,
+        "first_name": "Isurujith",
+        "last_name": "Herath",
+        "picture": {
+          "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+        }
+      },
+      "updated_at": "2015-03-22T08:42:53Z",
+      "updated_by": {
+        "id": 494985,
+        "first_name": "Saurabh",
+        "last_name": null,
+        "picture": {
+          "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+        }
+      },
+      "deleted_at": null,
+      "deleted_by": null,
+      "category": {
+        "id": 18,
+        "name": "General"
+      },
+      "receipt": {
+        "large": null,
+        "original": null
+      },
+      "users": [
+        {
+          "user": {
+            "id": 185909,
+            "first_name": "Isurujith",
+            "last_name": "Herath",
+            "picture": {
+              "medium": "https://dx0qysuen8cbs.cloudfront.net/assets/fat_rabbit/avatars/100-4c516cdaad9fa42b890727b03e49634a199eaba880df708835105dfa42fac74b.png"
+            }
+          },
+          "user_id": 185909,
+          "paid_share": "0.0",
+          "owed_share": "2700.0",
+          "net_balance": "-2700.0"
+        },
+        {
+          "user": {
+            "id": 494985,
+            "first_name": "Saurabh",
+            "last_name": null,
+            "picture": {
+              "medium": "https://graph.facebook.com/598294269/picture?type=normal"
+            }
+          },
+          "user_id": 494985,
+          "paid_share": "2700.0",
+          "owed_share": "0.0",
+          "net_balance": "2700.0"
+        }
+      ]
+    }
+  ]
+}

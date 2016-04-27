@@ -16,7 +16,11 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Split_It_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Split_It_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>37443AF11ADB4552DBA2EFFA6FDDB4CABA921DFF</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -89,46 +93,263 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\final.svg" />
+    <Content Include="Assets\icon.png" />
+    <Content Include="Assets\NewStoreLogo.scale-100.png" />
+    <Content Include="Assets\NewStoreLogo.scale-125.png" />
+    <Content Include="Assets\NewStoreLogo.scale-150.png" />
+    <Content Include="Assets\NewStoreLogo.scale-200.png" />
+    <Content Include="Assets\NewStoreLogo.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square310x310Logo.scale-100.png" />
+    <Content Include="Assets\Square310x310Logo.scale-125.png" />
+    <Content Include="Assets\Square310x310Logo.scale-150.png" />
+    <Content Include="Assets\Square310x310Logo.scale-200.png" />
+    <Content Include="Assets\Square310x310Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\Square71x71Logo.scale-100.png" />
+    <Content Include="Assets\Square71x71Logo.scale-125.png" />
+    <Content Include="Assets\Square71x71Logo.scale-150.png" />
+    <Content Include="Assets\Square71x71Logo.scale-200.png" />
+    <Content Include="Assets\Square71x71Logo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Data\categories.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\currencies.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\expense_general.png" />
+    <Content Include="Assets\Images\expense_payment.png" />
+    <Content Include="Data\sample_group.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\sample_expenses.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AdMediator.config" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddExpensePage.xaml.cs">
+      <DependentUpon>AddExpensePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converter\AddExpense\AvailableDetailsToBackgroudColorConverter.cs" />
+    <Compile Include="Converter\AddExpense\DateTimeToStringConverter.cs" />
+    <Compile Include="Converter\AddExpense\SelectionToMemberConverter.cs" />
+    <Compile Include="Converter\Balance\AmountConverter.cs" />
+    <Compile Include="Converter\Balance\BaseConverter.cs" />
+    <Compile Include="Converter\Comment\CommentTypeFontWeightConverter.cs" />
+    <Compile Include="Converter\Comment\CommentTypeColorConverter.cs" />
+    <Compile Include="Converter\Comment\CommentTypeVisibilityConverter.cs" />
+    <Compile Include="Converter\EmptyStringToBooleanConverter.cs" />
+    <Compile Include="Converter\EnumToStringConverter.cs" />
+    <Compile Include="Converter\ExpenseDescriptionConverter.cs" />
+    <Compile Include="Converter\ExpenseDetailPaidSectionConverter.cs" />
+    <Compile Include="Converter\ExpenseImageConveter.cs" />
+    <Compile Include="Converter\ExpenseWhoPaidConverter.cs" />
+    <Compile Include="Converter\Repayment\BaseRepaymentConverter.cs" />
+    <Compile Include="Converter\Repayment\RepaymentAmountConverter.cs" />
+    <Compile Include="Converter\Repayment\RepaymentColorConverter.cs" />
+    <Compile Include="Converter\Repayment\RepaymentBorrowLentConverter.cs" />
+    <Compile Include="Converter\SettleUp\GroupMemberNameConverter.cs" />
+    <Compile Include="Converter\SettleUp\GroupReceivePayConverter.cs" />
+    <Compile Include="Converter\SettleUp\PositiveAmountConverter.cs" />
+    <Compile Include="Converter\SettleUp\AmountToInfoConverter.cs" />
+    <Compile Include="Converter\Summary\BaseGroupSummaryConverter.cs" />
+    <Compile Include="Converter\Balance\TextConverter.cs" />
+    <Compile Include="Converter\Balance\TextColorConverter.cs" />
+    <Compile Include="Converter\Balance\VisibilityConverter.cs" />
+    <Compile Include="Converter\Summary\GroupSummaryVisibilityConverter.cs" />
+    <Compile Include="Converter\Summary\GroupSummaryAmountConverter.cs" />
+    <Compile Include="Converter\Summary\GroupSummaryTextColorConverter.cs" />
+    <Compile Include="Converter\Summary\GroupSummaryUserTextConverter.cs" />
+    <Compile Include="Converter\WebviewNavigationConverter.cs" />
+    <Compile Include="Design\DesignDataService.cs" />
+    <Compile Include="Dialog\IOUDialog.xaml.cs">
+      <DependentUpon>IOUDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\SplitDialog.xaml.cs">
+      <DependentUpon>SplitDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\WhoPaidDialog.xaml.cs">
+      <DependentUpon>WhoPaidDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ApiErrorEvent.cs" />
+    <Compile Include="Events\BaseExpenseChangeEvent.cs" />
+    <Compile Include="Events\ExpenseAddedEvent.cs" />
+    <Compile Include="Events\ExpenseDeletedEvent.cs" />
+    <Compile Include="Events\ExpenseEditedEvent.cs" />
+    <Compile Include="ExpenseDetailPage.xaml.cs">
+      <DependentUpon>ExpenseDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FriendDetailPage.xaml.cs">
+      <DependentUpon>FriendDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GroupDetailPage.xaml.cs">
+      <DependentUpon>GroupDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Comment.cs" />
+    <Compile Include="Model\Enum\ExpenseSplit.cs" />
+    <Compile Include="Model\Enum\FriendFilter.cs" />
+    <Compile Include="Model\Enum\GroupFilter.cs" />
+    <Compile Include="Model\Expense.cs" />
+    <Compile Include="Model\ExpenseUser.cs" />
+    <Compile Include="Model\Friendship.cs" />
+    <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\Debt.cs" />
+    <Compile Include="Model\Notification.cs" />
+    <Compile Include="Model\UserBalance.cs" />
+    <Compile Include="Model\Currency.cs" />
+    <Compile Include="Model\Friend.cs" />
+    <Compile Include="Model\Photo.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ContentDialogService.cs" />
+    <Compile Include="Service\DataService.cs" />
+    <Compile Include="Service\IContentDialogService.cs" />
+    <Compile Include="Service\IDataService.cs" />
+    <Compile Include="Service\ILoginService.cs" />
+    <Compile Include="Service\IWebviewService.cs" />
+    <Compile Include="Service\LoginService.cs" />
+    <Compile Include="Service\WebviewService.cs" />
+    <Compile Include="Utils\AppState.cs" />
+    <Compile Include="Utils\Constants.cs" />
+    <Compile Include="Utils\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
+    <Compile Include="Utils\DisplayAttribute.cs" />
+    <Compile Include="Utils\FlyoutHelpers.cs" />
+    <Compile Include="Utils\RichTextBlockProperties.cs" />
+    <Compile Include="Utils\SelectAllTextBoxBehavior.cs" />
+    <Compile Include="Utils\Util.cs" />
+    <Compile Include="ViewModel\AddExpenseViewModel.cs" />
+    <Compile Include="ViewModel\BaseEntityDetailViewModel.cs" />
+    <Compile Include="ViewModel\ExpenseDetailViewModel.cs" />
+    <Compile Include="ViewModel\FriendDetailViewModel.cs" />
+    <Compile Include="ViewModel\GroupDetailViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\SplitDialogViewModel.cs" />
+    <Compile Include="ViewModel\Dialog\IOUDialogViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\SideMenuViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModel\Dialog\WhoPaidDialogViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Split_It_StoreKey.pfx" />
     <None Include="Split_It_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\groupIcon.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AddExpensePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\IOUDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\SplitDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\WhoPaidDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExpenseDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FriendDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GroupDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Skins\AddExpenseSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Skins\ExpenseSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Skins\MainViewSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="Microsoft.AdMediator.Universal, Version=1.0">
+      <Name>Microsoft.AdMediator.Universal</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
+      <Name>Microsoft Advertising SDK for XAML</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
     <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
@@ -136,13 +357,18 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Data\currencies.json</ApplicationManifest>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Data_4sample_3group_1json__JSONSchema="http://json.schemastore.org/bower" />
+    </VisualStudio>
+  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
