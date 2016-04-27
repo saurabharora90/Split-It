@@ -57,6 +57,8 @@
                         <Setter Target="MySplitView.DisplayMode" Value="Overlay"/>
                         <Setter Target="MySplitView.IsPaneOpen" Value="False"/>
                         <Setter Target="MySplitView.OpenPaneLength" Value="175"/>
+                        <Setter Target="AdMediator_61D8F6.Height" Value="50"/>
+                        <Setter Target="AdMediator_61D8F6.Width" Value="320"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateTablet">
@@ -67,6 +69,8 @@
                         <Setter Target="MySplitView.DisplayMode" Value="Inline"/>
                         <Setter Target="MySplitView.IsPaneOpen" Value="True"/>
                         <Setter Target="MySplitView.OpenPaneLength" Value="250"/>
+                        <Setter Target="AdMediator_61D8F6.Height" Value="90"/>
+                        <Setter Target="AdMediator_61D8F6.Width" Value="728"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -158,11 +162,10 @@
                     <my:AdMediatorControl x:Name="AdMediator_61D8F6" 
                                           AdMediatorError="AdMediator_61D8F6_AdMediatorError"
                                           AdSdkError="AdMediator_61D8F6_AdSdkError"
-                                          RelativePanel.RightOf="Hamburger" Height="90"
+                                          RelativePanel.RightOf="Hamburger"
                                           Id="AdMediator-Id-07E69E76-4CF5-4BA8-8E94-FCDC58B6ED22"
                                           DataContext="{Binding Source={StaticResource Locator}, Path=SideMenuVM}"
-                                          Visibility="{Binding IsAdsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                          Width="728"/>
+                                          Visibility="{Binding IsAdsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </RelativePanel>
 
                 <Pivot Grid.Row="1" Style="{StaticResource TabsStylePivotStyle}" x:Name="Tabs">
