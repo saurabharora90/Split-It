@@ -35,7 +35,7 @@
     </Page.DataContext>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
+        <CommandBar ClosedDisplayMode="Compact">
             <AppBarButton Command="{Binding RecordExpenseCommand}" Icon="Save" Label="save"/>
         </CommandBar>
     </Page.BottomAppBar>
