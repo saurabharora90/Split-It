@@ -326,6 +326,39 @@ namespace Split_It.Service
             
         }
 
+        public async Task<User> updateCurrentUser(User updatedUser)
+        {
+            var request = new RestRequest("update_user/{id}", Method.POST);
+            request.AddUrlSegment("id", updatedUser.id.ToString());
+
+            request.AddParameter("first_name", updatedUser.FirstName, ParameterType.GetOrPost);
+
+            if (!String.IsNullOrEmpty(updatedUser.LastName))
+                request.AddParameter("last_name", updatedUser.LastName, ParameterType.GetOrPost);
+
+            request.AddParameter("email", updatedUser.Email, ParameterType.GetOrPost);
+
+            if (!String.IsNullOrEmpty(updatedUser.DefaultCurrency))
+                request.AddParameter("default_currency", updatedUser.DefaultCurrency, ParameterType.GetOrPost);
+
+            var response = await _splitwiseClient.Execute(request);
+            if (response.IsSuccess)
+            {
+                Newtonsoft.Json.Linq.JToken root = Newtonsoft.Json.Linq.JObject.Parse(getStringFromResponse(response));
+                Newtonsoft.Json.Linq.JToken testToken = root["user"];
+
+                return JsonConvert.DeserializeObject<User>(testToken.ToString(), _jsonSettings);
+            }
+            else
+            {
+                Messenger.Default.Send(new ApiErrorEvent(response.StatusCode));
+                User user = new User();
+                user.FirstName = "";
+                user.id = -1;
+                return user;
+            }
+        }
+
         private class DeleteExpense
         {
             public Boolean success { get; set; }

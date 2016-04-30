@@ -108,5 +108,10 @@ namespace Split_It.Design
         {
             return Task.FromResult(new List<Notification>() as IEnumerable<Notification>);
         }
+
+        public Task<User> updateCurrentUser(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -96,11 +96,16 @@
                 <StackPanel Orientation="Vertical" Grid.Row="3" DataContext="{Binding Source={StaticResource Locator}, Path=SideMenuVM}">
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
-                            HorizontalAlignment="Left" Visibility="Collapsed">
+                            HorizontalAlignment="Left">
                         <StackPanel Style="{StaticResource MenuStack}">
                             <SymbolIcon Symbol="Contact"/>
                             <TextBlock Text="Profile" Style="{StaticResource MenuTextView}"/>
                         </StackPanel>
+                        <Interactivity:Interaction.Behaviors>
+                            <Core:EventTriggerBehavior EventName="Click">
+                                <Core:NavigateToPageAction TargetPage="Split_It.UserAccountPage"/>
+                            </Core:EventTriggerBehavior>
+                        </Interactivity:Interaction.Behaviors>
                     </Button>
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
@@ -117,6 +122,19 @@
                             <SymbolIcon Symbol="People"/>
                             <TextBlock Text="Create Group" Style="{StaticResource MenuTextView}"/>
                         </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
+                            HorizontalAlignment="Left">
+                        <StackPanel Style="{StaticResource MenuStack}">
+                            <SymbolIcon Symbol="Sort"/>
+                            <TextBlock Text="Debt Simplification" Style="{StaticResource MenuTextView}"/>
+                        </StackPanel>
+                        <Interactivity:Interaction.Behaviors>
+                            <Core:EventTriggerBehavior EventName="Click">
+                                <Core:NavigateToPageAction TargetPage="Split_It.DebtSimplificationPage"/>
+                            </Core:EventTriggerBehavior>
+                        </Interactivity:Interaction.Behaviors>
                     </Button>
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
@@ -169,7 +187,7 @@
                 </RelativePanel>
 
                 <Pivot Grid.Row="1" Style="{StaticResource TabsStylePivotStyle}" x:Name="Tabs">
-                    <PivotItem Header="Friends">
+                    <PivotItem Header="Friends" Margin="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -189,7 +207,7 @@
                                 <ListView ItemsSource="{Binding FriendsList}" SelectedItem="{Binding SelectedItem,Mode=TwoWay}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <RelativePanel Height="70">
+                                            <RelativePanel Height="70" Margin="15,0">
                                                 <Ellipse Style="{StaticResource RoundImage}" x:Name="image"
                                                      RelativePanel.AlignVerticalCenterWithPanel="True">
                                                     <Ellipse.Fill>
@@ -226,7 +244,7 @@
                         </Grid>
                     </PivotItem>
 
-                    <PivotItem Header="Groups">
+                    <PivotItem Header="Groups" Margin="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -246,7 +264,7 @@
                                 <ListView ItemsSource="{Binding GroupsList}" SelectedItem="{Binding SelectedItem,Mode=TwoWay}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid Margin="0,15">
+                                            <Grid Margin="15">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
@@ -311,12 +329,11 @@
                         </Grid>
                     </PivotItem>
 
-                    <PivotItem Header="Recent">
-
+                    <PivotItem Header="Recent" Margin="0">
                         <ListView ItemsSource="{Binding RecentNotifications}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="0,15">
+                                    <Grid Margin="15">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>

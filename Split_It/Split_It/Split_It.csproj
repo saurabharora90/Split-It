@@ -195,6 +195,9 @@
     <Compile Include="Converter\Summary\GroupSummaryTextColorConverter.cs" />
     <Compile Include="Converter\Summary\GroupSummaryUserTextConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
+    <Compile Include="DebtSimplificationPage.xaml.cs">
+      <DependentUpon>DebtSimplificationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Dialog\IOUDialog.xaml.cs">
       <DependentUpon>IOUDialog.xaml</DependentUpon>
@@ -250,6 +253,9 @@
     <Compile Include="Service\IWebviewService.cs" />
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\WebviewService.cs" />
+    <Compile Include="UserAccountPage.xaml.cs">
+      <DependentUpon>UserAccountPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\AppState.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
@@ -268,6 +274,8 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
+    <Compile Include="ViewModel\DebtSimplificationViewModel.cs" />
+    <Compile Include="ViewModel\UserAccountViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\Dialog\WhoPaidDialogViewModel.cs" />
   </ItemGroup>
@@ -289,6 +297,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AddExpensePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DebtSimplificationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -338,6 +350,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="UserAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

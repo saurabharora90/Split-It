@@ -22,5 +22,6 @@ namespace Split_It.Service
         Task<IEnumerable<Expense>> createExpense(Expense expense);
 
         Task<IEnumerable<Notification>> getNotifications();
+        Task<User> updateCurrentUser(User user);
     }
 }
