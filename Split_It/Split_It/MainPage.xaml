@@ -125,6 +125,19 @@
                     </Button>
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
+                            HorizontalAlignment="Left">
+                        <StackPanel Style="{StaticResource MenuStack}">
+                            <SymbolIcon Symbol="Sort"/>
+                            <TextBlock Text="Debt Simplification" Style="{StaticResource MenuTextView}"/>
+                        </StackPanel>
+                        <Interactivity:Interaction.Behaviors>
+                            <Core:EventTriggerBehavior EventName="Click">
+                                <Core:NavigateToPageAction TargetPage="Split_It.DebtSimplificationPage"/>
+                            </Core:EventTriggerBehavior>
+                        </Interactivity:Interaction.Behaviors>
+                    </Button>
+
+                    <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
                             HorizontalAlignment="Left" Command="{Binding RateAppCommand, Mode=OneWay}">
                         <StackPanel Style="{StaticResource MenuStack}">
                             <SymbolIcon Symbol="OutlineStar"/>

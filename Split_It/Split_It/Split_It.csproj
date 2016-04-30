@@ -195,6 +195,9 @@
     <Compile Include="Converter\Summary\GroupSummaryTextColorConverter.cs" />
     <Compile Include="Converter\Summary\GroupSummaryUserTextConverter.cs" />
     <Compile Include="Converter\WebviewNavigationConverter.cs" />
+    <Compile Include="DebtSimplificationPage.xaml.cs">
+      <DependentUpon>DebtSimplificationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Dialog\IOUDialog.xaml.cs">
       <DependentUpon>IOUDialog.xaml</DependentUpon>
@@ -271,6 +274,7 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
+    <Compile Include="ViewModel\DebtSimplificationViewModel.cs" />
     <Compile Include="ViewModel\UserAccountViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\Dialog\WhoPaidDialogViewModel.cs" />
@@ -293,6 +297,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AddExpensePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DebtSimplificationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
