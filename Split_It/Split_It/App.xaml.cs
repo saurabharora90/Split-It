@@ -1,4 +1,5 @@
 ﻿using Bezysoftware.Navigation.BackButton;
+using CrittercismSDK;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using Split_It.Service;
@@ -27,6 +28,10 @@ namespace Split_It
             this.Suspending += OnSuspending;
         }
 
+#pragma warning disable 67
+        public new event UnhandledExceptionEventHandler UnhandledException;
+#pragma warning restore
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -40,6 +45,8 @@ namespace Split_It
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
+#else
+            Crittercism.Init("5360ad740729df4d95000002");
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
