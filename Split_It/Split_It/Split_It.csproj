@@ -250,6 +250,9 @@
     <Compile Include="Service\IWebviewService.cs" />
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\WebviewService.cs" />
+    <Compile Include="UserAccountPage.xaml.cs">
+      <DependentUpon>UserAccountPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\AppState.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\DeliminatorSeparatedPropertyNamesContractResolver.cs" />
@@ -268,6 +271,7 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
+    <Compile Include="ViewModel\UserAccountViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\Dialog\WhoPaidDialogViewModel.cs" />
   </ItemGroup>
@@ -338,6 +342,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="UserAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

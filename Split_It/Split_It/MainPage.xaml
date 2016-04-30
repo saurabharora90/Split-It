@@ -96,11 +96,16 @@
                 <StackPanel Orientation="Vertical" Grid.Row="3" DataContext="{Binding Source={StaticResource Locator}, Path=SideMenuVM}">
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
-                            HorizontalAlignment="Left" Visibility="Collapsed">
+                            HorizontalAlignment="Left">
                         <StackPanel Style="{StaticResource MenuStack}">
                             <SymbolIcon Symbol="Contact"/>
                             <TextBlock Text="Profile" Style="{StaticResource MenuTextView}"/>
                         </StackPanel>
+                        <Interactivity:Interaction.Behaviors>
+                            <Core:EventTriggerBehavior EventName="Click">
+                                <Core:NavigateToPageAction TargetPage="Split_It.UserAccountPage"/>
+                            </Core:EventTriggerBehavior>
+                        </Interactivity:Interaction.Behaviors>
                     </Button>
 
                     <Button Style="{StaticResource NoBorderSelectButton}" Background="Transparent" 
